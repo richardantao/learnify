@@ -1,0 +1,80 @@
+.dashboard-header a {
+	position: absolute;
+		left: 5%;
+}
+
+#dashboard-columns {
+	height: 600px;
+	position: relative;
+}
+
+#dashboard-columns :nth-child(-n+2) {
+	border-right: #E5E5E5 1px solid;
+}
+
+#dashboard-columns svg {
+	position: absolute; /* empty column is minizimies so svgs are not positioned properly */
+		left: 50%;
+    	top: 50%;  
+	transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+}
+
+.class-record h5 {
+
+}
+
+.class-record h6 {
+	
+}
+
+.class-record p {
+	
+}
+
+.task-record h5 {
+	
+}
+
+.task-record h6 {
+	
+}
+
+.task-record p {
+	
+}
+
+.eval-record h5 {
+	
+}
+
+.eval-record h5 {
+	
+}
+
+.eval-record h5 {
+	
+}
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+	.dashboard-header a {
+		left: 5%;
+	}
+	
+	#dashboard-columns {
+		height: 600px;
+	}
+}

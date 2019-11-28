@@ -1,0 +1,59 @@
+.settings-body {
+	border-bottom: #E5E5E5 1px solid;
+	height: 400px;
+}
+
+.settings-body a {	
+	font-size: 1.5em;
+	padding: 1em;
+	position: relative;
+		left: 2.5%;
+		top: 10%;
+}
+
+.settings-nav {
+	background: #00BBFF;
+	display: grid;
+		grid-template-columns: 20% 20% 20% 20% 20%;
+		grid-template-rows: 100%;
+	padding: 0;
+}
+
+.settings-nav a.btn {
+	border-radius: 0;
+	display: inline-block;
+	font-size: 1.5em;
+	margin: 0;
+}
+
+.settings-nav a:hover {
+	background: #76DAFF;
+	border: #76DAFF 1px solid;
+}
+
+.social {
+	border-radius: 50%;
+	margin: 2% 0 0 2%;
+}
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+	.body {
+		height: 500px;
+	}
+
+	.social {
+		margin: 2% 0 0 2%;
+	}
+}

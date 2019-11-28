@@ -1,0 +1,28 @@
+h4 {
+    font-size: 12px;
+}
+
+@media (min-width: 576px) {
+    h4 {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 768px) {
+    h4 {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 992px) {
+    h4 {
+        font-size: 18px;
+    }
+}
+
+@media (min-width: 1200px) {
+    h4 {
+        font-size: 20px;
+    }
+}
+

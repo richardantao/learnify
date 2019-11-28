@@ -1,0 +1,62 @@
+nav  {
+    clear: left;
+    float: left;
+    height: 620px;
+    text-align: center;
+    width: 100px;
+}
+
+nav .btn {
+    display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 5% 5% 5% 5% 5%;
+    font-size: 2em;
+    height: 40px;
+    margin: 28px;
+	width: 40px;
+}
+
+nav a {
+	position: relative; 
+}
+
+nav svg {
+	align-content: center;
+	color: #00BBFF;
+	position: absolute;
+		left: 50%;
+    	top: 50%; 
+	transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+}
+
+nav svg:hover {
+	color: white;
+} 
+
+.active-nav {
+	background-color: #0083B3;
+}
+
+.secondary-nav-button {
+    position: relative;
+    	top: 60px;
+}
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
+}
+

@@ -1,0 +1,81 @@
+main {
+    background: #FAFAFA;
+    border-bottom: #E1E1E1 1px solid;
+    border-top: #E1E1E1 1px solid;
+}
+
+main h1, main div {
+    margin: 0 2%;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+#pitch {
+    font-size: 1em;
+    font-weight: 400;
+    margin-bottom: 2.5%;
+    width: 95%;
+}
+
+#posts {
+    display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 400px 400px 400px;
+}
+
+.blog-thumbnail {
+    height: 250px;
+    object-fit: cover;
+    width: 100%;
+}
+
+.card {
+    margin-bottom: 5%;
+    min-height: 400px;
+    width: 100%;
+}
+
+@media (min-width:576px) {
+    #posts {
+        grid-template-columns: 50% 50%;
+            grid-template-rows: 475px 475px;
+    }
+}
+
+@media (min-width:768px) {
+    #pitch {
+        font-size: 1.25em;
+    }
+
+    h1 {
+        font-size: 2.5em;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+}
+
+@media (min-width:992px) {
+    #pitch {
+        width: 58%;
+    }
+    #posts {
+        display: grid;
+            grid-template-columns: 33% 33% 33%;
+            grid-template-rows: 475px 475px 475px;
+            grid-gap: 5px;
+    }
+
+    h2 {
+        font-size: 28px;
+    }
+}
+
+@media (min-width:1200px) {
+    #posts {
+        height: 1450px;
+    }   
+}

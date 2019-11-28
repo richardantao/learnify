@@ -1,0 +1,67 @@
+/* Colour Palette - 
+	#0083B3 - 
+	#FFC400 - 
+	#00A6FF - 
+*/
+
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+
+html {
+    box-sizing: border-box;
+    background: white;
+    font-family: Georgia, "Times New Roman", Times, serif;
+    overflow: hidden;
+} 
+
+*, *:before, *:after {
+	box-sizing: inherit;
+} 
+
+body {
+	margin: 0;
+}
+
+.body {
+	background: #F7F9FA;	
+}
+
+.header {
+	border-bottom: #E5E5E5 1px solid;
+	height: 101px;
+}
+
+.footer {
+	background: #F7F9FA;
+}
+
+.btn {
+	background-color: $primary-color;
+	border-color: $primary-color;
+}
+
+nav .btn {
+	background-color: transparent;
+	border-color: transparent;
+}
+
+nav .btn:hover {
+	background-color: $primary-color;
+	border-color: transparent;
+}
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
+}
