@@ -288,6 +288,7 @@ controller.updateTask = (req, res) => {
             }   
         }
     })
+    .save()
     .then(revisedTask => {
         if(!revisedTask) {
             return res.status(404).json({
@@ -441,6 +442,7 @@ controller.updateAssessment = (req, res) => {
             }
         }
     })
+    .save()
     .then(revisedAssessment => {
         if(!revisedAssessment) {
             return res.status(404).json({

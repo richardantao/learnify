@@ -499,6 +499,7 @@ controller.updateClass = (req, res) => {
             }
         }
     })
+    .save()
     .then(revisedClass => {
         if(!revisedClass) {
             return res.status(404).json({

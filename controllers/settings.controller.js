@@ -60,6 +60,7 @@ controller.updateProfile = (req, res) => {
 			}
 		}
 	})
+	.save()
 	.then(revisedUser => {
 		if(!revisedUser) {
 			return res.status(404).json({
@@ -141,6 +142,7 @@ controller.updatePassword = (req, res) => {
 			password			
 		}
 	})
+	.save()
 	.then(updatedPassword => {
 		if(!updatedPassword) {
 			return res.status(404).json({
@@ -208,6 +210,7 @@ controller.updatePreferences = (req, res) => {
 			}
 		}
 	})
+	.save()
 	.then(revisedPreferences => {
 		if(!revisedPreferences) {
 			return res.status(404).json({
@@ -308,6 +311,7 @@ controller.updateIntegration = (req, res) => {
 			}
 		}
 	})
+	.save()
 	.then(revisedIntegration => {
 		return res.status(200).json(revisedIntegration);
 	})

@@ -176,6 +176,7 @@ controller.updateYear = (req, res) => {
 			}
 		}
 	})
+	.save()
 	.then(revisedYear => {
 		if(!revisedYear) {
 			return res.status(404).json({
@@ -324,6 +325,7 @@ controller.updateTerm = (req, res) => {
 			}	
 		}
 	})
+	.save()
 	.then(revisedTerm => {
 		if(!revisedTerm) {
 			return res.status(404).json({
@@ -472,6 +474,7 @@ controller.updateCourse = (req, res) => {
 			}
 		}
 	})
+	.save()
 	.then(revisedCourse => {
 		if(!revisedCourse) {
 			return res.status(404).json({
