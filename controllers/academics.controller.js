@@ -34,6 +34,7 @@ controller.index = (req, res) => {
 		terms: (callback) => {
 			User.find({ _id })
 			.select("-meta")
+			.populate({ path: "term.year", select: "title" })
 			.sort({ "term.date.start": -1 })
 			.then(terms => {
 				if(!terms) {
@@ -60,6 +61,7 @@ controller.index = (req, res) => {
 				"course.credit": 1, 
 				"course.instructor": 1
 			})
+			.populate({ path: "course.term", select: "title" })
 			.sort({ "course.meta.updatedAt": -1 })
 			.then(courses => {
 				if(!courses) {
@@ -281,6 +283,7 @@ controller.editTerm = (req, res) => {
 
 	User.find({ "term._id": termId })
 	.select("-meta")
+	.populate({ path: "term.year", select: "title" })
 	.limit(1)
 	.then(term => {
 		if(!term) {
@@ -428,6 +431,7 @@ controller.editCourse = (req, res) => {
 	const { courseId } = req.params;
 	User.find({ "course._id": courseId })
 	.select("-meta")
+	.populate({ path: "course.term", select: "title" })
 	.limit(1)
 	.then(course => {
 		if(!course) {

@@ -25,6 +25,7 @@ controller.index = (req, res) => {
 				"class.date": 1,
 				"class.location": 1,
 			})
+			.populate({ path: "class.course", select: "title" })
 			.sort({ "class.date.start": 1 })
 			.then(classes => {
 				if(!classes) {
@@ -57,6 +58,7 @@ controller.index = (req, res) => {
 				"task.deadline": 1,
 				"task.completion": 1
 			})
+			.populate({ path: "task.course", select: "title" })
 			.sort({ "task.deadline": 1 })
 			.then(tasks => {
 				if(!tasks) {
@@ -89,6 +91,7 @@ controller.index = (req, res) => {
 				"assessment.date": 1,
 				"assessment.location": 1
 			})
+			.populate({ path: "assessment.course", select: "title" })
 			.sort({ "assessment.date": 1 })
 			.then(assessments => {
 				if(!assessments) {
@@ -121,6 +124,7 @@ controller.editClass = (req, res) => {
 
 	User.find({ "class._id": classId })
 	.select("-meta")
+	.populate({ path: "class.course", select: "title" })
 	.limit(1)
 	.then(classes => {
 		if(!classes) {
@@ -281,6 +285,7 @@ controller.editTask = (req, res) => {
 
 	User.find({ "task._id": taskId })
 	.select("-meta")
+	.populate({ path: "task.course", select: "title" })
 	.limit(1)
 	.then(task => {
 		if(!task) {
@@ -387,6 +392,7 @@ controller.editAssessment = (req, res) => {
 
 	User.find({ "assessment._id": assessmentId })
 	.select("-meta")
+	.populate({ path: "assessment.course", select: "title" })
 	.limit(1)
 	.then(assessment => {
 		if(!assessment) {

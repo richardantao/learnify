@@ -15,7 +15,7 @@ controller.index = (req, res) => {
                 "task.deadline": {
                     $gte: moment().startOf("date").format("YYYY MMMM DD")
                 }
-            },{
+            }, {
                 "task._id": 1,
                 "task.course": 1,
                 "task.title": 1,
@@ -23,6 +23,7 @@ controller.index = (req, res) => {
                 "task.deadline": 1,
                 "task.completion": 1
             })
+            .populate({ path: "task.course", select: "title" })
             .sort({ "task.deadline": 1 })
             .then(tasks => {
                 if(!tasks) {
@@ -61,6 +62,7 @@ controller.index = (req, res) => {
                 "assessment.time": 1,
                 "assessment.location": 1  
             })
+            .populate({ path: "assessment.course", select: "title" })
             .sort({ "assessment.date.start": 1 })
             .then(assessments => {
                 if(!assessments) {
@@ -113,6 +115,7 @@ controller.past = (req, res) => {
                 "task.deadline": 1,
                 "task.completion": 1
             })
+            .populate({ path: "task.course", select: "title" })
             .sort({ "task.deadline": 1 })
             .then(tasks => {
                 if(!tasks) {
@@ -151,6 +154,7 @@ controller.past = (req, res) => {
                 "assessment.time": 1,
                 "assessment.location": 1 
             })
+            .populate({ path: "assessment.course", select: "title" })
             .sort({ "assessment.date.start": 1 })
             .then(assessments => {
                 if(!assessments) {
@@ -243,7 +247,8 @@ controller.editTask = (req, res) => {
     const { taskId } = req.params;
     
     User.find({ "task._id": taskId })
-	.select("-meta")
+    .select("-meta")
+    .limit(1)
 	.then(task => {
 		if(!task) {
 			return res.status(404).json({
@@ -340,7 +345,7 @@ controller.deleteTask = (req, res) => {
 controller.newAssessment = (req, res) => {
     const { _id } = req.user;
     
-    Uses.find({ _id }, {
+    User.find({ _id }, {
         "course._id": 1,
         "course.title": 1
     })
@@ -362,7 +367,7 @@ controller.newAssessment = (req, res) => {
 };
 
 controller.createAssessment = (req, res) => {
-    const { course, title, type, location, dateStart, dateEnd, timeStart, timeEnd, weight, score } = req.body;
+    const { course, title, type, location, start, end, weight, score } = req.body;
 
     const Assessment = new Assessment({
         _id: ObjectId(),
@@ -370,12 +375,8 @@ controller.createAssessment = (req, res) => {
         title, 
         type,  
         date: {
-            start: dateStart,
-            end: dateEnd
-        },
-        time: {
-            start: timeStart, 
-            end: timeEnd
+            start,
+            end
         },
         location,
         grade: {
@@ -400,6 +401,7 @@ controller.editAssessment = (req, res) => {
 
     User.find({ "assessment._id": assessmentId })
     .select("-meta")
+    .limit(1)
     .then(assessment => {
         if(!assessment) {
             return res.status(404).json({
@@ -427,7 +429,7 @@ controller.updateAssessment = (req, res) => {
             type,
             date: {
                 start,
-                end: end
+                end
             },
             location,
             grade: {

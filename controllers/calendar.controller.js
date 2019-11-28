@@ -25,6 +25,7 @@ controller.month = (req, res) => {
                 "class.interval": 1,
                 "class.location": 1
             })
+            .populate({ path: "class.course", select: "title" })
             .sort({ "class.date.start": 1 })
             .then(classes => {
                 if(!classes) {
@@ -50,6 +51,7 @@ controller.month = (req, res) => {
                 "task.type": 1,
                 "task.deadline": 1
             })
+            .populate({ path: "task.course", select: "title"})
             .sort({ "task.deadline": 1 })
             .then(tasks => {
                 if(!tasks) {
@@ -76,6 +78,7 @@ controller.month = (req, res) => {
                 "assessment.date": 1,
                 "assessment.location": 1
             })
+            .populate({ path: "assessment.course", select: "title"})
             .sort({ "assessment.date.start": 1 })
             .then(assessments => {
                 if(!assessments) {
@@ -118,6 +121,7 @@ controller.week = (req, res) => {
                 "class.interval": 1,
                 "class.location": 1
             })
+            .populate({ path: "class.course", select: "title" })
             .sort({ "class.date.start": 1 })
             .then(classes => {
                 if(!classes) {
@@ -143,6 +147,7 @@ controller.week = (req, res) => {
                 "task.type": 1,
                 "task.deadline": 1
             })
+            .populate({ path: "task.course", select: "title" })
             .sort({ "task.deadline": 1 })
             .then(tasks => {
                 if(!tasks) {
@@ -169,6 +174,7 @@ controller.week = (req, res) => {
                 "assessment.date": 1,
                 "assessment.location": 1
             })
+            .populate({ path: "assessment.course", select: "title" })
             .sort({ "assessment.date.start": 1 })
             .then(assessments => {
                 if(!assessments) {
@@ -211,6 +217,7 @@ controller.day = (req, res) => {
                 "class.interval": 1,
                 "class.location": 1
             })
+            .populate({ path: "class.course", select: "title" })
             .sort({ "class.date.start": 1 })
             .then(classes => {
                 if(!classes) {
@@ -236,6 +243,7 @@ controller.day = (req, res) => {
                 "task.type": 1,
                 "task.deadline": 1
             })
+            .populate({ path: "task.course", select: "title" })
             .sort({ "task.deadline": 1 })
             .then(tasks => {
                 if(!tasks) {
@@ -262,6 +270,7 @@ controller.day = (req, res) => {
                 "assessment.date": 1,
                 "assessment.location": 1
             })
+            .populate({ path: "assessment.course", select: "title" })
             .sort({ "assessment.date.start": 1 })
             .then(assessments => {
                 if(!assessments) {
@@ -304,6 +313,7 @@ controller.agenda = (req, res) => {
                 "class.interval": 1,
                 "class.location": 1
             })
+            .populate({ path: "class.course", select: "title" })
             .sort({ "class.date.start": 1 })
             .then(classes => {
                 if(!classes) {
@@ -329,6 +339,7 @@ controller.agenda = (req, res) => {
                 "task.type": 1,
                 "task.deadline": 1
             })
+            .populate({ path: "task.course", select: "title" })
             .sort({ "task.deadline": 1 })
             .then(tasks => {
                 if(!tasks) {
@@ -355,6 +366,7 @@ controller.agenda = (req, res) => {
                 "assessment.date": 1,
                 "assessment.location": 1
             })
+            .populate({ path: "assessment.course", select: "title" })
             .sort({ "assessment.date.start": 1 })
             .then(assessments => {
                 if(!assessments) {
@@ -441,6 +453,7 @@ controller.editClass = (req, res) => {
 
     User.find({ "class._id": classId })
     .select("-meta")
+    .populate({ path: "class.course", select: "title" })
     .limit(1)
     .then(classes => {
         if(!classes) {
