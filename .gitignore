@@ -1,3 +1,19 @@
+# packages
 node_modules
-.env
 package-lock.json
+
+# environment variables
+.env
+
+# documentation
+docs/
+
+# 
+*.yaml
+
+# GCP
+.gcloudignore
+
+# Docker
+.dockerignore
+Dockerfile
