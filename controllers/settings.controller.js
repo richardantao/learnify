@@ -20,6 +20,7 @@ controller.editProfile = (req, res) => {
 		"email.address": 1,
 		"location": 1
 	})
+	.limit(1)
 	.then(profile => {
 		if(!profile) {
 			return res.status(404).json({
@@ -40,7 +41,7 @@ controller.updateProfile = (req, res) => {
 	const { _id } = req.user;
 	const { first, last, email, country, region, institution, school } = req.body; 
 
-	User.update({ _id }, {
+	User.updateOne({ _id }, {
 		$set: {
 			name: {
 				first,
@@ -60,7 +61,6 @@ controller.updateProfile = (req, res) => {
 			}
 		}
 	})
-	.save()
 	.then(revisedUser => {
 		if(!revisedUser) {
 			return res.status(404).json({
@@ -116,6 +116,7 @@ controller.editPassword = (req, res) => {
 	User.find({ _id }, {
 		password: 1
 	})
+	.limit(1)
 	.then(password => {
 		if(!password) {
 			return res.status(404).json({
@@ -137,12 +138,11 @@ controller.updatePassword = (req, res) => {
 	const { _id } = req.user;
 	const { password } = req.body;
 
-	User.update({ _id }, {
+	User.updateOne({ _id }, {
 		$set: {
 			password			
 		}
 	})
-	.save()
 	.then(updatedPassword => {
 		if(!updatedPassword) {
 			return res.status(404).json({
@@ -172,6 +172,7 @@ controller.editPreferences = (req, res) => {
 	User.find({ _id }, {
 		preferences: 1
 	})
+	.limit(1)
 	.then(preferences => {
 		if(!preferences) {
 			return res.status(404).json({
@@ -199,7 +200,7 @@ controller.updatePreferences = (req, res) => {
 	const { _id } = req.user;
 	const { startDay, startTime, defaultDuration, defaultCalendar, onEmailList } = req.body;
 
-	User.update({ _id }, {
+	User.updateOne({ _id }, {
 		$set: {
 			preferences: {
 				startDay,
@@ -210,7 +211,6 @@ controller.updatePreferences = (req, res) => {
 			}
 		}
 	})
-	.save()
 	.then(revisedPreferences => {
 		if(!revisedPreferences) {
 			return res.status(404).json({

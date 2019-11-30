@@ -3,6 +3,7 @@ const moment = require("moment");
 
 // import model
 const User = require("../models/User.model");
+// const Year = require("../models/Years.model");
 
 // instantiate controller
 const controller = [];
@@ -12,8 +13,10 @@ controller.index = (req, res) => {
 
 	async.parallel({
 		years: (callback) => {
-			User.find({ _id })
-			.select("-meta")
+			User.find({ _id }, {
+				"year.title": 1,
+				"year.date": 1
+			})
 			.sort({ "year.date.start": -1 })
 			.then(years => {
 				if(!years) {
@@ -32,8 +35,11 @@ controller.index = (req, res) => {
 			});
 		},
 		terms: (callback) => {
-			User.find({ _id })
-			.select("-meta")
+			User.find({ _id }, {
+				"term.title": 1,
+				"term.year": 1,
+				"term.date": 1
+			})
 			.populate({ path: "term.year", select: "title" })
 			.sort({ "term.date.start": -1 })
 			.then(terms => {
@@ -108,19 +114,22 @@ controller.newYear = (req, res) => {
 };
 
 controller.createYear = (req, res) => {
+	const _id = req.user;
 	const { title, start, end } = req.body;
 
-	const Year = new Year({
-		_id: ObjectId(),
-		title,
-		date: {
-			start,
-			end
+	User.updateOne({ _id }, {
+		$push: {
+			year: {
+				title,
+				date: {
+					start,
+					end
+				}
+			}
 		}
-	});
-
-	Year.save()
+	})
 	.then(newYear => {
+		console.log(newYear);
 		return res.status(201).json(newYear);
 	})
 	.catch(err => {
@@ -134,8 +143,10 @@ controller.createYear = (req, res) => {
 controller.editYear = (req, res) => {
 	const { yearId } = req.params;
 
-	User.find({ "year._id": yearId })
-	.select("-meta")
+	User.find({ "year._id": yearId }, {
+		"year.title": 1,
+		"year.date": 1
+	})
 	.limit(1)
 	.then(year => {
 		if(!year) {
@@ -164,7 +175,7 @@ controller.updateYear = (req, res) => {
 	const { yearId } = req.params;
 	const { title, start, end } = req.body;
 	
-	User.update({ "year._id": yearId }, {
+	User.updateOne({ "year._id": yearId }, {
 		$set: {
 			title,
 			date: {
@@ -176,7 +187,6 @@ controller.updateYear = (req, res) => {
 			}
 		}
 	})
-	.save()
 	.then(revisedYear => {
 		if(!revisedYear) {
 			return res.status(404).json({
@@ -202,7 +212,7 @@ controller.updateYear = (req, res) => {
 controller.deleteYear = (req, res) => {
 	const { yearId } = req.params;
 
-	User.update({ "year._id": yearId },{
+	User.updateOne({ "year._id": yearId },{
 		$pull: {
 			year: {
 				_id: yearId
@@ -256,19 +266,21 @@ controller.newTerm = (req, res) => {
 };	
 	
 controller.createTerm = (req, res) => {
+	const { _id } = req.user;
 	const { year, title, start, end } = req.body;
 	
-	const Term = new Term({
-		_id: ObjectId(),
-		year,
-		title,
-		date: {
-		  start,
-		  end
+	User.updateOne({ _id }, {
+		$push: {
+			term: {
+				year,
+				title,
+				date: {
+					start,
+					end
+				}
+			}
 		}
-	});
-
-	Term.save()
+	})
 	.then(newTerm => {
 		return res.status(201).json(newTerm);
 	})
@@ -282,8 +294,11 @@ controller.createTerm = (req, res) => {
 controller.editTerm = (req, res) => {
 	const { termId } = req.params;
 
-	User.find({ "term._id": termId })
-	.select("-meta")
+	User.find({ "term._id": termId }, {
+		"term.year": 1,
+		"term.title": 1,
+		"term.date": 1
+	})
 	.populate({ path: "term.year", select: "title" })
 	.limit(1)
 	.then(term => {
@@ -312,7 +327,7 @@ controller.updateTerm = (req, res) => {
 	const { termId } = req.params;
 	const { year, title, start, end } = req.body;
 	
-	User.update({ "term._id": termId }, {
+	User.updateOne({ "term._id": termId }, {
 		$set: {
 			year,
 			title,
@@ -325,7 +340,6 @@ controller.updateTerm = (req, res) => {
 			}	
 		}
 	})
-	.save()
 	.then(revisedTerm => {
 		if(!revisedTerm) {
 			return res.status(404).json({
@@ -351,7 +365,7 @@ controller.updateTerm = (req, res) => {
 controller.deleteTerm = (req, res) => {
 	const { termId } = req.params;
 	
-	User.update({ "term._id": termId }, {
+	User.updateOne({ "term._id": termId }, {
 		$pull: {
 			term: {
 				_id: termId
@@ -406,19 +420,21 @@ controller.newCourse = (req, res) => {
 };
 	
 controller.createCourse = (req, res) => {
+	const { _id } = req.user;
 	const { term, code, title, instructor, credit, theme } = req.body;
 	
-	const Course = new Course({
-		_id: ObjectId(),
-		term,
-		code,
-		title,
-		credit,
-		instructor,
-		theme
-	});
-
-	Course.save()
+	User.updateOne({ _id }, {
+		$push: {
+			course: {
+				term,
+				code,
+				title,
+				instructor,
+				credit,
+				theme
+			}
+		}
+	})
 	.then(newCourse => {
 		return res.status(201).json(newCourse);
 	})
@@ -431,8 +447,14 @@ controller.createCourse = (req, res) => {
 
 controller.editCourse = (req, res) => {
 	const { courseId } = req.params;
-	User.find({ "course._id": courseId })
-	.select("-meta")
+	User.find({ "course._id": courseId }, {
+		"course.term": 1,
+		"course.code": 1,
+		"course.title": 1,
+		"course.instructor": 1,
+		"course.credit": 1,
+		"course.theme": 1
+	})
 	.populate({ path: "course.term", select: "title" })
 	.limit(1)
 	.then(course => {
@@ -459,9 +481,9 @@ controller.editCourse = (req, res) => {
 
 controller.updateCourse = (req, res) => {
 	const { courseId } = req.params;
-	const { term, code, title, credit, theme } = req.body;
+	const { term, code, title, credit, instructor, theme } = req.body;
 	
-	User.update({ "course._id": courseId }, {
+	User.updateOne({ "course._id": courseId }, {
 		$set: {
 			term,
 			code,
@@ -474,7 +496,6 @@ controller.updateCourse = (req, res) => {
 			}
 		}
 	})
-	.save()
 	.then(revisedCourse => {
 		if(!revisedCourse) {
 			return res.status(404).json({
@@ -500,7 +521,7 @@ controller.updateCourse = (req, res) => {
 controller.deleteCourse = (req, res) => {
 	const { courseId } = req.params;
 	
-	User.update({ "course._id": courseId }, {
+	User.updateOne({ "course._id": courseId }, {
 		$pull: {
 			course: {
 				_id: courseId

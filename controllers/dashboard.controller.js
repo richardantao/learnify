@@ -114,6 +114,7 @@ controller.index = (req, res) => {
 			throw err;
 		} else {
 			console.log("All the columns have been populated: " + results);
+			return res.status(200).json(results);
 		};
 	});
 };
@@ -122,8 +123,9 @@ controller.index = (req, res) => {
 controller.editClass = (req, res) => {
 	const { classId } = req.params;
 
-	User.find({ "class._id": classId })
-	.select("-meta")
+	User.find({ "class._id": classId }, {
+		"class.course": 1 // finish projection
+	})
 	.populate({ path: "class.course", select: "title" })
 	.limit(1)
 	.then(classes => {
@@ -152,7 +154,7 @@ controller.updateClass = (req, res) => {
 	const { classId } = req.params; 
     const { course, title, start, end, frequency, by, interval, location, description } = req.body;
 
-	User.update({ "class._id": classId }, {	
+	User.updateOne({ "class._id": classId }, {	
 		$set: {
 			course,
 			title,
@@ -170,7 +172,6 @@ controller.updateClass = (req, res) => {
 			}				
 		}
 	})
-	.save()
 	.then(revisedClass => {
 		if(!revisedClass) {
 			return res.staus(404).json({
@@ -197,7 +198,7 @@ controller.updateClass = (req, res) => {
 controller.deleteClass = (req, res) => {
 	const { classId } = req.params;
 
-	User.update({ "class._id": classId }, {
+	User.updateOne({ "class._id": classId }, {
 		$pull: {
 			class: {
 				_id: classId
@@ -258,19 +259,17 @@ controller.newTask = (req, res) => {
 
 //
 controller.createTask = (req, res) => {
+	const { _id } = req.user;
 	const { course, title, type, deadline, completion, description } = req.body;
 	
-	const Task = new Task({
-		_id: ObjectId(),
+	User.updateOne({ _id }, {
 		course,
 		title,
 		type,
 		deadline,
 		completion,
 		description
-	});
-
-	Task.save()
+	})
 	.then(newTask => {
 		return res.status(201).json(newTask);
 	})
@@ -284,8 +283,14 @@ controller.createTask = (req, res) => {
 controller.editTask = (req, res) => {
 	const { taskId } = req.params;
 
-	User.find({ "task._id": taskId })
-	.select("-meta")
+	User.find({ "task._id": taskId }, {
+		"task.course": 1,
+		"task.title": 1,
+		"task.type": 1,
+		"task.deadline": 1,
+		"task.completion": 1,
+		"task.description": 1
+	})
 	.populate({ path: "task.course", select: "title" })
 	.limit(1)
 	.then(task => {
@@ -315,7 +320,7 @@ controller.updateTask = (req, res) => {
 	const { taskId } = req.params;
 	const { course, title, type, deadline, completion, description } = req.body;
 
-	User.update({ "task._id": taskId }, {
+	User.updateOne({ "task._id": taskId }, {
 		$set: {
 			course,
 			title,
@@ -328,7 +333,6 @@ controller.updateTask = (req, res) => {
 			}
 		}
 	})
-	.save()
 	.then(revisedTask => {
 		if(!revisedTask) {
 			return res.status(404).json({
@@ -354,7 +358,7 @@ controller.updateTask = (req, res) => {
 controller.deleteTask = (req, res) => {
 	const { taskId } = req.params; 
 
-	User.update({ "task._id": taskId }, {
+	User.updateOne({ "task._id": taskId }, {
 		$pull: {
 			task: {
 				"task._id": taskId
@@ -422,7 +426,7 @@ controller.updateAssessment = (req, res) => {
 	const { assessmentId } = req.params;
 	const { course, title, type, start, end, location } = req.body;
 
-	User.update({ "assessment._id": assessmentId }, {
+	User.updateOne({ "assessment._id": assessmentId }, {
 		$set: {
 			assessment: {
 				course,
@@ -439,7 +443,6 @@ controller.updateAssessment = (req, res) => {
 			}
 		}
 	})
-	.save()
 	.then(revisedAssessment => {
 		if(!revisedAssessment) {
 			return res.status(404).json({
@@ -465,7 +468,7 @@ controller.updateAssessment = (req, res) => {
 controller.deleteAssessment = (req, res) => {
 	const { assessmentId } = req.params;
 
-	User.update({ "assessment._id": assessmentId }, {
+	User.updateOne({ "assessment._id": assessmentId }, {
 		$pull: {
 			assessment: {
 				_id: assessmentId

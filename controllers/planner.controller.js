@@ -220,19 +220,21 @@ controller.newTask = (req, res) => {
 };
 
 controller.createTask = (req, res) => {
+    const { _id } = req.user;
     const { course, title, type, deadline, completion, description } = req.body;
 
-    const Task = new Tasks({
-        _id: ObjectId(),
-        course,
-        title,
-        type,
-        deadline,
-        completion,
-        description
-    });
-
-    Task.save()
+    User.updateOne({ _id }, {
+        $push: {
+            task: {
+                course,
+                title,
+                type,
+                deadline,
+                completion,
+                description
+            }
+        }
+    })
     .then(newTask => {
         return res.status(201).json(newTask);
     })
@@ -246,8 +248,15 @@ controller.createTask = (req, res) => {
 controller.editTask = (req, res) => {
     const { taskId } = req.params;
     
-    User.find({ "task._id": taskId })
-    .select("-meta")
+    User.find({ "task._id": taskId }, {
+        "task.course": 1,
+        "task.title": 1,
+        "task.type": 1,
+        "task.deadline": 1,
+        "task.completion": 1,
+        "task.description": 1
+    })
+    .populate({ path: "task.course", select: "title"})
     .limit(1)
 	.then(task => {
 		if(!task) {
@@ -275,7 +284,7 @@ controller.updateTask = (req, res) => {
     const { taskId } = req.params;
     const { course, title, type, deadline, completion, description } = req.body;
 
-    User.update({ "task._id": taskId }, {
+    User.updateOne({ "task._id": taskId }, {
         $set: {
             course,
             title, 
@@ -288,7 +297,6 @@ controller.updateTask = (req, res) => {
             }   
         }
     })
-    .save()
     .then(revisedTask => {
         if(!revisedTask) {
             return res.status(404).json({
@@ -314,7 +322,7 @@ controller.updateTask = (req, res) => {
 controller.deleteTask = (req, res) => {
     const { taskId } = req.params;
 
-    User.update({ "task._id": taskId }, {
+    User.updateOne({ "task._id": taskId }, {
         $pull: {
             task: {
                 "task._id": taskId
@@ -368,25 +376,27 @@ controller.newAssessment = (req, res) => {
 };
 
 controller.createAssessment = (req, res) => {
+    const { _id } = req.user;
     const { course, title, type, location, start, end, weight, score } = req.body;
 
-    const Assessment = new Assessment({
-        _id: ObjectId(),
-        course, 
-        title, 
-        type,  
-        date: {
-            start,
-            end
-        },
-        location,
-        grade: {
-            weight, 
-            score
+    User.updateOne({ _id }, {
+        $push: {
+            assessment: {
+                course, 
+                title, 
+                type,  
+                date: {
+                    start,
+                    end
+                },
+                location,
+                grade: {
+                    weight, 
+                    score
+                }
+            }
         }
-    });
-
-    Assessment.save()
+    })
     .then(newAssessment => {
         return res.status(201).json(newAssessment);
     })
@@ -400,8 +410,15 @@ controller.createAssessment = (req, res) => {
 controller.editAssessment = (req, res) => {
     const { assessmentId } = req.params;
 
-    User.find({ "assessment._id": assessmentId })
-    .select("-meta")
+    User.find({ "assessment._id": assessmentId }, {
+        "assessment.course": 1,
+        "assessment.title": 1,
+        "assessment.type": 1,
+        "assessment.date": 1,
+        "assessment.location": 1,
+        "assessment.grade": 1
+    })
+    .populate({ path: "assessment.course", select: "title" })
     .limit(1)
     .then(assessment => {
         if(!assessment) {
@@ -423,7 +440,7 @@ controller.updateAssessment = (req, res) => {
     const { assessmentId } = req.params;
     const { course, title, type, location, start, end, weighting, score } = req.body;
 
-    User.update({ "assessment._id": assessmentId }, {
+    User.updateOne({ "assessment._id": assessmentId }, {
         $set: {
             course,
             title,
@@ -442,7 +459,6 @@ controller.updateAssessment = (req, res) => {
             }
         }
     })
-    .save()
     .then(revisedAssessment => {
         if(!revisedAssessment) {
             return res.status(404).json({
@@ -468,7 +484,7 @@ controller.updateAssessment = (req, res) => {
 controller.deleteAssessment = (req, res) => {
     const { assessmentId } = req.params;
 
-    User.update({ "assessment._id": assessmentId }, {
+    User.updateOne({ "assessment._id": assessmentId }, {
         $pull: {
             assessment: {
                 "assessment._id": assessmentId

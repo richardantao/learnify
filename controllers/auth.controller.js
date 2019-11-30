@@ -9,7 +9,6 @@ const jwt = require("jsonwebtoken");
 const { google } = require("googleapis");
 const nodemailer = require("nodemailer");
 const OAuth2 = google.auth.OAuth2;
-const path = require("path");
 
 // import env variables
 const user = process.env.EMAIL_AUTH_EMAIL;
@@ -34,17 +33,23 @@ oauth2Client.setCredentials({
     refresh_token: refreshToken
 });
 
-// const accessToken = oauth2Client.getAccessToken();
+const accessToken = oauth2Client.getAccessToken();
 
 // import model
-const User = require("../models/User.model").Model;
+const User = require("../models/User.model");
 
 // instantiate controller
 const controller = [];
 
 controller.user = (req, res) => {
-    User.findById(req.user.id)
-    .select("-password")
+    const { _id } = req.user;
+
+    User.find({ _id }, {
+        _id: 1,
+        name: 1,
+        "email.address": 1
+    })
+    .limit(1)
     .then(user => {
         res.status(200).json(user);
     })
@@ -55,143 +60,28 @@ controller.user = (req, res) => {
     });
 };
 
-controller.application = (req, res) => {
-     const transporter = nodemailer.createTransport({
-         host: "Gmail",
-         port: 587,
-         auth: {
-             type: "OAuth2",
-             user, 
-             clientId,
-             clientSecret,
-             refreshToken//,
-             // accessToken: accessToken
-         }
-     });
-            
-    const mailOptions = {
-        from: req.body.fname + " " + req.body.lname + " <" + req.body.email +">",
-        to: authEmail,
-        attachments: [
-            {
-                path: ABSPATH + ""
-            }
-        ]
-    };
-            
-    transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-            throw err;
-        } else {
-            console.log("Email sent: " + info.response);
-        };
-    })
-    .then(info => {
-        return res.status(200).json(info);
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message || "The server experienced an erorr while processing your request"
-        });
-    });
-};
-
-controller.contact = (req, res) => {
-    const transporter = nodemailer.createTransport({
-        host: "Gmail",
-        port: 587,
-        auth: {
-            type: "OAuth2",
-            user, 
-            clientId,
-            clientSecret,
-            refreshToken,
-            accessToken
-        }
-    });
-            
-    const mailOptions = {
-        from: "<" + req.body.email + ">",
-        to: user,
-        subject: req.body.name + " has sent you a message!",
-        text: req.body.message
-    };
-            
-    transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-            throw err;
-        } else {
-            console.log("Email sent: " + info.response);
-        };
-        transporter.close();
-    })
-    .then(info => {
-        return res.status(200).json(info);
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message || "The server experienced an erorr while processing your request"
-        });
-    });
-};
-
-controller.invite = (req, res) => {
-    const transporter = nodemailer.createTransport({
-        host: "Gmail",
-        port: 587,
-        auth: {
-            type: "OAuth2",
-            user, 
-            clientId,
-            clientSecret,
-            refreshToken,
-            accessToken
-        }
-    });
-            
-    const mailOptions = {
-        from: "<" + req.body.email + ">",
-        to: user,
-        subject: req.body.fname + " " + req.body.lname + " has requested an invite to Tutee's beta test!",
-        text: "Your database should be populated with this user's information." 
-    };
-            
-    transporter.sendMail(mailOptions, (err, info) => {
-        if (err) {
-            throw err;
-        } else {
-            console.log("Email sent: " + info.response);
-        };
-        transporter.close();
-    })
-    .then(info => {
-        return res.status(200).json(info);
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message || "The server experienced an erorr while processing your request"
-        });
-    });
-};
-
 controller.register = (req, res) => {
-    const { fname, lname, email, password } = req.body;
+    var { first, last, email, password } = req.body;
 
     // grab user data from registration form body    
     const validateEmail = (callback) => {
-        User.findOne({ "email.address": email})
+        User.find({ "email.address": email }, {
+            "email.address": 1
+        })
+        .limit(1)
         .then(user => {
-            if(user !== null) {
+            if(user.length > 0) {
                 return res.status(400).json({
-                    error: "This is email is already associated with a registered account"
+                    message: "This email is already associated with a registered account"
                 });
             } else {
+                console.log(email + " does not exist in the database")
                 callback(null, email);
             };
         })
         .catch(err => {
             return res.status(500).json({
-                errors: err.message || "The server experienced an error while validating this email"
+                message: err.message || "The server experienced an error while validating your email"
             });
         });
     };
@@ -207,7 +97,7 @@ controller.register = (req, res) => {
                     });
                 } else {
                     password = hash;
-
+                    console.log("The user's password is " + hash);
                     callback(null, email, hash);
                 };
             });
@@ -215,21 +105,18 @@ controller.register = (req, res) => {
     };
 
     const registerUser = (email, hash, callback) => {
-        // create user instance from form data and hashed password
-        const newUser = new User({    
+        User.create({
             name: {
-                first: fname,
-                last: lname
+                first,
+                last
             },
             email: { 
                 address: email
             },
             password: hash
-        });
-
-        // save user to database collection and pass user info to next function
-        newUser.save()
+        })
         .then(registeredUser => {
+            console.log("Results of the registerUser: " + registeredUser)
             callback(null, registeredUser);
         })
         .catch(err => {
@@ -244,8 +131,9 @@ controller.register = (req, res) => {
 
     const sendVerificationEmail = (registeredUser, callback) => {
         const transporter = nodemailer.createTransport({
-            host: "Gmail",
-            port: 587,
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
             auth: {
                 type: "OAuth2",
                 user, 
@@ -257,28 +145,33 @@ controller.register = (req, res) => {
         });
 
         const mailOptions = {
-            from: "",
+            from: user,
             to: registeredUser.email.address,
-            subject: "Welcome to Tutee!",
-            html: ""
+            subject: "Welcome to Learnify!",
+            html: "<h3>This is a test email for an app I am developing.</h3> <p>If you are receiving this email you are a friend I figured wouldn't mind me bugging with a test email. Thanks for your time, have a great day.</p>",
+            amp: `<!DOCTYPE HTML>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8">
+                </head>
+                <body>
+                    <h1>Welcome to Learnify</h1>
+                </body>
+            </html>
+            `
         };
 
         transporter.sendMail(mailOptions, (err, info) => {
             if(err) {
+                console.log(err);
                 return res.status(500).json({
                     message: "The server was unable to send an email verification"
                 });
             } else {
-                console.log(info);
+                console.log(mailOptions, info);
+                transporter.close();
+                callback(null, emailConfirmation);
             };
-        })
-        .then(emailConfirmation => {
-            callback(null, emailConfirmation);
-        })
-        .catch(err => {
-            return res.status(500).json({
-                message: err.message || "The server experienced an error while processing your request"
-            });
         });
     };
 
@@ -301,9 +194,12 @@ controller.register = (req, res) => {
 };
 
 controller.signin = (req, res) => {
-    const { email, password } = req.body;
+    var { email, password } = req.body;
 
-    User.findOne({ "email.address": email })
+    User.find({ "email.address": email }, {
+        "email.address": 1
+    })
+    .limit(1)
     .then(user => {
         if(!user) {
             return res.status(404).json({
@@ -338,6 +234,52 @@ controller.signin = (req, res) => {
         return res.status(500).json({
             message: err.message || "An error occurred while processing your request"
         });
+    });
+};
+
+// resets user's password
+controller.forgot = (req, res) => {
+    const transporter = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            type: "OAuth2",
+            user, 
+            clientId,
+            clientSecret,
+            refreshToken,
+            accessToken
+        }
+    });
+
+    const mailOptions = {
+        from: user,
+        to: registeredUser.email.address,
+        subject: "",
+        //html: "<h3>This is a test email for an app I am developing.</h3> <p>If you are receiving this email you are a friend I figured wouldn't mind me bugging with a test email. Thanks for your time, have a great day.</p>",
+        amp: `<!DOCTYPE HTML>
+        <html lang="en">
+            <head>
+                <meta charset="utf-8">
+            </head>
+            <body>
+
+            </body>
+        </html>
+        `
+    };
+
+    transporter.sendMail(mailOptions, (err, info) => {
+        if(err) {
+            console.log(err);
+            return res.status(500).json({
+                message: "The server was unable to send a reset link"
+            });
+        } else {
+            console.log(mailOptions, info);
+            transporter.close();
+        };
     });
 };
 
