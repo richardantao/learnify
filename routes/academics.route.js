@@ -22,7 +22,7 @@ router.get("/years/new", auth, controller.newYear);
 // @route /courses/years/create
 // @desc create new year
 // @access PRIVATE
-router.put("/years/create", auth, validateYear, controller.createYear);
+router.put("/years/create",/* auth, validateYear,*/ controller.createYear);
 
 // @route /courses/years/edit/:yearId
 // @desc edit year instance
