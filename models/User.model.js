@@ -46,8 +46,7 @@ const UserSchema = new Schema({
         sessions: {type: Number, default: 0, min: 0},
         lastActiveAt: {type: Date, default: null},
         createdAt: {type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")},
-        updatedAt: {type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")},
-        deletedAt: {type: Date, default: null}
+        updatedAt: {type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")}
 	}
 });
 
