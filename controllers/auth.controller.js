@@ -11,7 +11,7 @@ const nodemailer = require("nodemailer");
 const OAuth2 = google.auth.OAuth2;
 
 // import env variables
-const user = process.env.EMAIL_AUTH_EMAIL;
+const user = process.env.AUTH_EMAIL;
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const redirectToken = process.env.REDIRECT_URL;
@@ -97,7 +97,7 @@ controller.register = (req, res) => {
                     });
                 } else {
                     password = hash;
-                    console.log("The user's password is " + hash);
+                    console.log("The user's hashed password is " + hash);
                     callback(null, email, hash);
                 };
             });
@@ -116,7 +116,7 @@ controller.register = (req, res) => {
             password: hash
         })
         .then(registeredUser => {
-            console.log("Results of the registerUser: " + registeredUser)
+            console.log("New registered user: " + registeredUser)
             callback(null, registeredUser);
         })
         .catch(err => {
@@ -148,14 +148,34 @@ controller.register = (req, res) => {
             from: user,
             to: registeredUser.email.address,
             subject: "Welcome to Learnify!",
-            html: "<h3>This is a test email for an app I am developing.</h3> <p>If you are receiving this email you are a friend I figured wouldn't mind me bugging with a test email. Thanks for your time, have a great day.</p>",
-            amp: `<!DOCTYPE HTML>
+            html: `<!DOCTYPE HTML>
             <html lang="en">
                 <head>
                     <meta charset="utf-8">
+                    <style>
+                        h3 {
+                            font-size: 2em;
+                        }
+
+                        p {
+                            font-size: 1.5em;
+                        }
+                    </style>
                 </head>
                 <body>
-                    <h1>Welcome to Learnify</h1>
+                    <h3>This is a test email for an app I am developing.</h3> 
+                    <p>
+                        If you are receiving this email you are a friend I figured wouldn't mind being bugged by this.
+                    </p>
+                    <p>
+                        This is what will become an email verification for users when they register an account with the application. Thanks for your time, have a great day.
+                    </p>
+                    <p>
+                        Regards,
+                    </p>
+                    <p>
+                        Rich <br> Founder <br> Learnify <br> <a href="https://learnify.ca">learnify.ca</a>
+                    </p>
                 </body>
             </html>
             `
@@ -170,7 +190,7 @@ controller.register = (req, res) => {
             } else {
                 console.log(mailOptions, info);
                 transporter.close();
-                callback(null, emailConfirmation);
+                callback(null, { message: "Email verification sent to " + mailOptions.to });
             };
         });
     };
@@ -197,37 +217,40 @@ controller.signin = (req, res) => {
     var { email, password } = req.body;
 
     User.find({ "email.address": email }, {
-        "email.address": 1
+        email: 1,
+        password: 1
     })
     .limit(1)
     .then(user => {
-        if(!user) {
+        if(user.length === 0) { // if the email isn't found in the database
             return res.status(404).json({
                 auth: false,
                 message: "This email is not associated with a registered account"
             })
-        } else {
-            const passwordIsValid = bcrypt.compareSync(password, user.password);
-            if (!passwordIsValid) return res.status(401).send({ auth: false, token: null });
-
-            const token = jwt.sign(
-                { id: user._id }, 
-                secret, 
-                { expiresIn: 259200 } // expires in 72 hours
-            );
-
-            console.log({
-                auth: true,
-                token,
-                user
+        } else if (user.length > 1 && user.email.address !== true) { // if the email is registered but hasn't been verified, send error message below
+            return res.status(400).json({
+                message: "This account hasn't been verified. Please check your email to verify the account before signing in"
             });
-            // res.status(200).json({
-            //     auth: true, 
-            //     token,
-            //     user
-            // });
+        } else { // compare password to the synced password of the email
+            const passwordIsValid = bcrypt.compareSync(password, user.password);
+            if (!passwordIsValid) {
+                return res.status(401).send({ auth: false, token: null });
+            } else {
+                const token = jwt.sign(
+                    { id: user._id }, 
+                    secret, 
+                    { expiresIn: 259200 } // expires in 72 hours
+                );
 
-            return res.redirect("301", "/dashboard");
+                console.log({ auth: true, token, user });
+                // res.status(200).json({
+                //     auth: true, 
+                //     token,
+                //     user
+                // });
+
+                return res.redirect("301", "/dashboard");
+            }
         };
     })
     .catch(err => {
@@ -239,48 +262,60 @@ controller.signin = (req, res) => {
 
 // resets user's password
 controller.forgot = (req, res) => {
-    const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            type: "OAuth2",
-            user, 
-            clientId,
-            clientSecret,
-            refreshToken,
-            accessToken
-        }
-    });
+    const { email } = req.body;
 
-    const mailOptions = {
-        from: user,
-        to: registeredUser.email.address,
-        subject: "",
-        //html: "<h3>This is a test email for an app I am developing.</h3> <p>If you are receiving this email you are a friend I figured wouldn't mind me bugging with a test email. Thanks for your time, have a great day.</p>",
-        amp: `<!DOCTYPE HTML>
-        <html lang="en">
-            <head>
-                <meta charset="utf-8">
-            </head>
-            <body>
-
-            </body>
-        </html>
-        `
-    };
-
-    transporter.sendMail(mailOptions, (err, info) => {
-        if(err) {
-            console.log(err);
-            return res.status(500).json({
-                message: "The server was unable to send a reset link"
-            });
-        } else {
-            console.log(mailOptions, info);
-            transporter.close();
+    User.find({ "email.address": email }, {
+        "email.address": 1
+    })
+    .limit(1)
+    .then(email => {
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                type: "OAuth2",
+                user, 
+                clientId,
+                clientSecret,
+                refreshToken,
+                accessToken
+            }
+        });
+    
+        const mailOptions = {
+            from: user,
+            to: email,
+            subject: "Reset Learnify password",
+            html: `<!DOCTYPE HTML>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8">
+                </head>
+                <body>
+    
+                </body>
+            </html>
+            `
         };
-    });
+    
+        transporter.sendMail(mailOptions, (err, info) => {
+            if(err) {
+                console.log(err);
+                return res.status(500).json({
+                    message: "The server was unable to send a reset link"
+                });
+            } else {
+                console.log(mailOptions, info);
+                transporter.close();
+            };
+        });
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message || ""
+        });
+    }); 
 };
 
 controller.signout = (req, res, next) => {
