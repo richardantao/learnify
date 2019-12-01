@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 const OAuth2 = google.auth.OAuth2;
 
 // import env variables
-const user = process.env.EMAIL_AUTH_EMAIL;
+const user = process.env.AUTH_EMAIL;
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
 const redirectToken = process.env.REDIRECT_URL;
