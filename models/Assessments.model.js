@@ -3,7 +3,7 @@ const Schema = require("mongoose").Schema;
 const moment = require("moment");
 
 const AssessmentSchema = new Schema({
-	id: Schema.Types.ObjectId,
+	_id: Schema.Types.ObjectId,
 	course: {type: Schema.Types.ObjectId, required: true, ref: "courses"},
 	title: {type: String, required: true},
   	type: {type: String, required: true},
