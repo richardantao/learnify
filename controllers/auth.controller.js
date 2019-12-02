@@ -19,7 +19,6 @@ const refreshToken = process.env.REFRESH_TOKEN;
 const secret = process.env.AUTH_SECRET;
 
 // middleware
-const auth = require("../middleware/auth.middleware");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -190,7 +189,7 @@ controller.register = (req, res) => {
             } else {
                 console.log(mailOptions, info);
                 transporter.close();
-                callback(null, { message: "Email verification sent to " + mailOptions.to });
+                callback(null, { message: "Account registered. Email verification sent to " + mailOptions.to + "."});
             };
         });
     };
