@@ -16,9 +16,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 // Routes
-app.use("/", require("./routes/auth.route"));
 app.use("/", require("./routes/public.route"));
-app.use("/users", require("./routes/users.route"));
+app.use("/", require("./routes/auth.route"));
+app.use("/cron", require("./routes/cron.route"));
 app.use("/dashboard", require("./routes/dashboard.route"));
 app.use("/calendar", require("./routes/calendar.route"));
 app.use("/academics", require("./routes/academics.route"));
