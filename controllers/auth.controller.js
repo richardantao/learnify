@@ -46,7 +46,8 @@ controller.user = (req, res) => {
     User.find({ _id }, {
         _id: 1,
         name: 1,
-        "email.address": 1
+        "email.address": 1,
+        "meta.membership": 1
     })
     .limit(1)
     .then(user => {
