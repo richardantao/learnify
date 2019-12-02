@@ -53,6 +53,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.3.0",
     "googleapis": "^45.0.0",
+    "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
     "migrate": "^1.6.2",
     "moment": "^2.24.0",
