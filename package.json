@@ -34,7 +34,7 @@
     "client": "cd client && npm start",
     "coverage": "nyc npm run test",
     "debug": "node debug server.js",
-    "deploy": "concurrently \"gcloud app deploy\" \"cd client && npm deploy\"",
+    "deploy": "gcloud app deploy",
     "dev": "concurrently \"nodemon server.js\" \"cd client && npm start\"",
     "start": "concurrently \"node server.js\" \"cd client && npm start\"",
     "server": "nodemon server.js",
