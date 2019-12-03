@@ -7,7 +7,7 @@ const sgMail = require('@sendgrid/mail');
 // import env variables
 const user = process.env.AUTH_EMAIL;
 const sendGridKey = process.env.SENDGRID_API_KEY;
-const secret = process.env.AUTH_SECRET;
+const secret = process.env.JWT_SECRET;
 
 // import model
 const User = require("../models/User.model");
@@ -168,6 +168,7 @@ controller.register = (req, res) => {
 };
 
 controller.signin = (req, res) => {
+    // deconstruct submission from login form
     var { email, password } = req.body;
 
     User.find({ "email.address": email }, {
@@ -178,33 +179,31 @@ controller.signin = (req, res) => {
     .then(user => {
         if(user.length === 0) { // if the email isn't found in the database
             return res.status(404).json({
-                auth: false,
                 message: "This email is not associated with a registered account"
-            })
-        } else if (user.length > 1 && user.email.address !== true) { // if the email is registered but hasn't been verified, send error message below
+            }); // this function will get caught by the else if below until email verification is implemented
+        } else if (user.length > 0 && user[0].email.verified !== true) { // if the email is registered but hasn't been verified
             return res.status(400).json({
                 message: "This account hasn't been verified. Please check your email to verify the account before signing in"
             });
         } else { // compare password to the synced password of the email
-            const passwordIsValid = bcrypt.compareSync(password, user.password);
+            const passwordIsValid = bcrypt.compareSync(password, user[0].password); // diagnose compareSync error
             if (!passwordIsValid) {
-                return res.status(401).send({ auth: false, token: null });
+                return res.status(401).json({ 
+                    message: "Wrong password. Try again or click Forgot Password to reset it."
+                });
             } else {
                 const token = jwt.sign(
-                    { id: user._id }, 
+                    { id: user[0]._id }, 
                     secret, 
                     { expiresIn: 259200 } // expires in 72 hours
                 );
 
-                console.log({ auth: true, token, user });
-                // res.status(200).json({
-                //     auth: true, 
-                //     token,
-                //     user
-                // });
-
-                return res.redirect("301", "/dashboard");
-            }
+                console.log({ token, user });
+                return res.status(200).json({
+                    token,
+                    user
+                });
+            };
         };
     })
     .catch(err => {
@@ -239,7 +238,7 @@ controller.signout = (req, res, next) => {
         token: null
     });  
 
-    // return res.redirect(301, "/");
+    // return res.redirect(301, "https://learnify.ca");
 };
 
 module.exports = controller;

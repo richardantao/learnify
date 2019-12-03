@@ -24,7 +24,7 @@ const options = {
 
 mongoose.connect(mongoDB, options)
 .then(() =>  {
-  console.log("Sucessfully connected to Mongo Atlas!");
+  console.log("Successfully connected to Mongo Atlas!");
 })
 .catch(err => {
   console.error(err);
