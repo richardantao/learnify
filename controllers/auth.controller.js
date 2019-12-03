@@ -1,38 +1,13 @@
-// import dependencies
-const express = require("express");
-const app = express();
-
 const async = require("async");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const { google } = require("googleapis");
-const nodemailer = require("nodemailer");
-const OAuth2 = google.auth.OAuth2;
+const sgMail = require('@sendgrid/mail');
 
 // import env variables
 const user = process.env.AUTH_EMAIL;
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-const redirectToken = process.env.REDIRECT_URL;
-const refreshToken = process.env.REFRESH_TOKEN;
+const sendGridKey = process.env.SENDGRID_API_KEY;
 const secret = process.env.AUTH_SECRET;
-
-// middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-const oauth2Client = new OAuth2(
-    clientId, 
-    clientSecret,
-    redirectToken
-);
-
-oauth2Client.setCredentials({
-    refresh_token: refreshToken
-});
-
-const accessToken = oauth2Client.getAccessToken();
 
 // import model
 const User = require("../models/User.model");
@@ -130,20 +105,8 @@ controller.register = (req, res) => {
     };
 
     const sendVerificationEmail = (registeredUser, callback) => {
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                type: "OAuth2",
-                user, 
-                clientId,
-                clientSecret,
-                refreshToken,
-                accessToken
-            }
-        });
-
+        sgMail.setApiKey(sendGridKey);
+        
         const mailOptions = {
             from: user,
             to: registeredUser.email.address,
@@ -181,18 +144,9 @@ controller.register = (req, res) => {
             `
         };
 
-        transporter.sendMail(mailOptions, (err, info) => {
-            if(err) {
-                console.log(err);
-                return res.status(500).json({
-                    message: "The server was unable to send an email verification"
-                });
-            } else {
-                console.log(mailOptions, info);
-                transporter.close();
-                callback(null, { message: "Account registered. Email verification sent to " + mailOptions.to + "."});
-            };
-        });
+        sgMail.send(mailOptions);
+
+        callback(null, { message: "Account registered. Email verification send to " + mailOptions.to + "." });
     };
 
     // run series of functions above
@@ -269,47 +223,7 @@ controller.forgot = (req, res) => {
     })
     .limit(1)
     .then(email => {
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                type: "OAuth2",
-                user, 
-                clientId,
-                clientSecret,
-                refreshToken,
-                accessToken
-            }
-        });
-    
-        const mailOptions = {
-            from: user,
-            to: email,
-            subject: "Reset Learnify password",
-            html: `<!DOCTYPE HTML>
-            <html lang="en">
-                <head>
-                    <meta charset="utf-8">
-                </head>
-                <body>
-    
-                </body>
-            </html>
-            `
-        };
-    
-        transporter.sendMail(mailOptions, (err, info) => {
-            if(err) {
-                console.log(err);
-                return res.status(500).json({
-                    message: "The server was unable to send a reset link"
-                });
-            } else {
-                console.log(mailOptions, info);
-                transporter.close();
-            };
-        });
+        
     })
     .catch(err => {
         return res.status(500).json({

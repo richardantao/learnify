@@ -1,160 +1,147 @@
 // import dependencies
-const express = require("express");
-const app = express();
-
 const dotenv = require("dotenv").config();
-const { google } = require("googleapis");
-const nodemailer = require("nodemailer");
-const OAuth2 = google.auth.OAuth2;
 
 // import env variables
 const user = process.env.AUTH_EMAIL;
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
-const redirectToken = process.env.REDIRECT_URL;
-const refreshToken = process.env.REFRESH_TOKEN;
-
-// middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// OAuth2
-const oauth2Client = new OAuth2(
-    clientId, 
-    clientSecret,
-    redirectToken
-);
-
-oauth2Client.setCredentials({
-    refresh_token: refreshToken
-});
-
-// get access token
-const accessToken = oauth2Client.getAccessToken();
+const sendGridKey = process.env.SENDGRID_API_KEY;
 
 // instantiate controller functions
 const controller = [];
 
 controller.application = (req, res) => {
-    const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            type: "OAuth2",
-            user, 
-            clientId,
-            clientSecret,
-            refreshToken,
-            accessToken
-        }
+    const { email } = req.body;
+
+    sgMail.setApiKey(sendGridKey);
+
+    const mailOptions = {
+        from: email,
+        to: user,
+        subject: "Welcome to Learnify!",
+        html: `<!DOCTYPE HTML>
+        <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <style>
+                    h3 {
+                        font-size: 2em;
+                    }
+
+                    p {
+                        font-size: 1.5em;
+                    }
+                </style>
+            </head>
+            <body>
+                
+            </body>
+        </html>
+        `
+    };
+
+    sgMail.send(mailOptions);
+
+    return res.status(200).json({
+        message: ""
     });
-           
-   const mailOptions = {
-       from: req.body.fname + " " + req.body.lname + " <" + req.body.email +">",
-       to: authEmail,
-       attachments: [
-           {
-               path: ABSPATH + ""
-           }
-       ]
-   };
-           
-   transporter.sendMail(mailOptions, (err, info) => {
-       if (err) {
-           throw err;
-       } else {
-           console.log("Email sent: " + info.response);
-       };
-   })
-   .then(info => {
-       return res.status(200).json(info);
-   })
-   .catch(err => {
-       return res.status(500).json({
-           message: err.message || "The server experienced an erorr while processing your request"
-       });
-   });
 };
 
 controller.contact = (req, res) => {
-   const transporter = nodemailer.createTransport({
-       host: "smtp.gmail.com",
-       port: 465,
-       secure: true,
-       auth: {
-           type: "OAuth2",
-           user, 
-           clientId,
-           clientSecret,
-           refreshToken,
-           accessToken
-       }
-   });
-           
-   const mailOptions = {
-       from: "<" + req.body.email + ">",
-       to: user,
-       subject: req.body.name + " has sent you a message!",
-       text: req.body.message
-   };
-           
-   transporter.sendMail(mailOptions, (err, info) => {
-       if (err) {
-           throw err;
-       } else {
-           console.log("Email sent: " + info.response);
-       };
-       transporter.close();
-   })
-   .then(info => {
-       return res.status(200).json(info);
-   })
-   .catch(err => {
-       return res.status(500).json({
-           message: err.message || "The server experienced an erorr while processing your request"
-       });
-   });
+    const { name, email, message } = req.body;
+    
+    sgMail.setApiKey(sendGridKey);
+
+    const mailOptions = {
+        from: email,
+        to: user,
+        subject: `${name} has sent you a message through Learnify's contact form`,
+        html: `<!DOCTYPE HTML>
+        <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <style>
+                    h3 {
+                        font-size: 2em;
+                    }
+
+                    p {
+                        font-size: 1.5em;
+                    }
+                </style>
+            </head>
+            <body>
+                ${message}
+            </body>
+        </html>
+        `
+    };
+
+    sgMail.send(mailOptions);
+
+    return res.status(200).json({
+        message: "Your message has been sent to the admin. You can expect a reply shortly"
+    });
 };
 
 controller.invite = (req, res) => {
-   const transporter = nodemailer.createTransport({
-       host: "smtp.gmail.com",
-       port: 465,
-       secure: true,
-       auth: {
-           type: "OAuth2",
-           user, 
-           clientId,
-           clientSecret,
-           refreshToken,
-           accessToken
-       }
-   });
-           
-   const mailOptions = {
-       from: "<" + req.body.email + ">",
-       to: user,
-       subject: req.body.fname + " " + req.body.lname + " has requested an invite to Learnify's beta test!",
-       text: "Your database should be populated with this user's information." 
-   };
-           
-   transporter.sendMail(mailOptions, (err, info) => {
-       if (err) {
-           throw err;
-       } else {
-           console.log("Email sent: " + info.response);
-       };
-       transporter.close();
-   })
-   .then(info => {
-       return res.status(200).json(info);
-   })
-   .catch(err => {
-       return res.status(500).json({
-           message: err.message || "The server experienced an erorr while processing your request"
-       });
-   });
+    const { email, name } = req.body;
+
+    sgMail.setApiKey(sendGridKey);
+
+    const adminMail = {
+        from: email,
+        to: user,
+        subject: `${name} has signed up for the beta program!`,
+        html: `<!DOCTYPE HTML>
+        <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <style>
+                    h3 {
+                        font-size: 2em;
+                    }
+
+                    p {
+                        font-size: 1.5em;
+                    }
+                </style>
+            </head>
+            <body>
+                
+            </body>
+        </html>
+        `
+    };
+
+    const betaMail = {
+        from: user,
+        to: email,
+        subject: "Welcome to Learnify's Beta Program!",
+        html: `<!DOCTYPE HTML>
+        <html lang="en">
+            <head>
+                <meta charset="utf-8">
+                <style>
+                    h3 {
+                        font-size: 2em;
+                    }
+
+                    p {
+                        font-size: 1.5em;
+                    }
+                </style>
+            </head>
+            <body>
+                
+            </body>
+        </html>
+        `
+    };
+
+    sgMail.send(adminMail, betaMail);
+
+    return res.status(200).json({
+        message: `An email confirmation of your invite has been sent to ${email}` 
+    });
 };
 
 module.exports = controller;
