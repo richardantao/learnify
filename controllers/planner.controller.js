@@ -6,7 +6,7 @@ const User = require("../models/User.model").Model;
 const controller = [];
 
 controller.index = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     async.parallel({
         tasks: (callback) => {
@@ -98,7 +98,7 @@ controller.index = (req, res) => {
 };
 
 controller.past = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     async.parallel({
         tasks: (callback) => {
@@ -190,7 +190,7 @@ controller.past = (req, res) => {
 };
 
 controller.newTask = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     User.find({ _id }, {
         "course._id": 1, 
@@ -220,7 +220,7 @@ controller.newTask = (req, res) => {
 };
 
 controller.createTask = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
     const { course, title, type, deadline, completion, description } = req.body;
 
     User.updateOne({ _id }, {
@@ -352,7 +352,7 @@ controller.deleteTask = (req, res) => {
 };
 
 controller.newAssessment = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
     
     User.find({ _id }, {
         "course._id": 1,
@@ -376,7 +376,7 @@ controller.newAssessment = (req, res) => {
 };
 
 controller.createAssessment = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
     const { course, title, type, location, start, end, weight, score } = req.body;
 
     User.updateOne({ _id }, {

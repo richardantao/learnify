@@ -9,7 +9,7 @@ const User = require("../models/User.model");
 const controller = [];
 
 controller.index = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 
 	async.parallel({
 		years: (callback) => {
@@ -98,7 +98,7 @@ controller.index = (req, res) => {
 
 // no data transfer - TENTATIVELY DEPRECATED
 controller.newYear = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	
 	User.find({ _id }, {
 
@@ -114,7 +114,7 @@ controller.newYear = (req, res) => {
 };
 
 controller.createYear = (req, res) => {
-	const _id = req.user;
+	const _id = req.user[0];
 	const { title, start, end } = req.body;
 
 	User.updateOne({ _id }, {
@@ -242,7 +242,7 @@ controller.deleteYear = (req, res) => {
 };
 
 controller.newTerm = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	
 	User.find({ _id }, {
 		"year._id": 1,
@@ -266,7 +266,7 @@ controller.newTerm = (req, res) => {
 };	
 	
 controller.createTerm = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	const { year, title, start, end } = req.body;
 	
 	User.updateOne({ _id }, {
@@ -396,7 +396,7 @@ controller.deleteTerm = (req, res) => {
 
 // Course controllers
 controller.newCourse = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	
 	User.find({ _id }, {
 		"term._id": 1,
@@ -420,7 +420,7 @@ controller.newCourse = (req, res) => {
 };
 	
 controller.createCourse = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	const { term, code, title, instructor, credit, theme } = req.body;
 	
 	User.updateOne({ _id }, {

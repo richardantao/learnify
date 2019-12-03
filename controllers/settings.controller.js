@@ -13,7 +13,7 @@ controller.index = (req, res) => {
 };
 
 controller.editProfile = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 
 	User.find({ _id }, {
 		"name": 1,
@@ -38,7 +38,7 @@ controller.editProfile = (req, res) => {
 };
 
 controller.updateProfile = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	const { first, last, email, country, region, institution, school } = req.body; 
 
 	User.updateOne({ _id }, {
@@ -84,7 +84,7 @@ controller.updateProfile = (req, res) => {
 };
 
 controller.deleteProfile = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 
 	User.findByIdAndDelete({ _id })
 	.then(deletedUser => {
@@ -111,7 +111,7 @@ controller.deleteProfile = (req, res) => {
 
 // GET request to retrieve user's password in settings page
 controller.editPassword = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 
 	User.find({ _id }, {
 		password: 1
@@ -135,7 +135,7 @@ controller.editPassword = (req, res) => {
 
 // PUT request to update database with user's new password
 controller.updatePassword = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	const { password } = req.body;
 
 	User.updateOne({ _id }, {
@@ -167,7 +167,7 @@ controller.updatePassword = (req, res) => {
 
 // GET request to retrieve user's preferences 
 controller.editPreferences = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 
 	User.find({ _id }, {
 		preferences: 1
@@ -197,7 +197,7 @@ controller.editPreferences = (req, res) => {
 
 // POST request to update user's personal app preferences
 controller.updatePreferences = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	const { startDay, startTime, defaultDuration, defaultCalendar, onEmailList } = req.body;
 
 	User.updateOne({ _id }, {
@@ -237,7 +237,7 @@ controller.updatePreferences = (req, res) => {
 
 // GET request to retrieve user's third party integrations
 controller.newIntegration = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 
 	User.find({ _id }, {
 		"": 1	
@@ -260,6 +260,7 @@ controller.newIntegration = (req, res) => {
 
 // POST request to create third party integration connections
 controller.createIntegration = (req, res) => {
+	const { _id } = req.user[0];
 	const { } = req.body;
 
 	const Integration = new Integration({
@@ -278,9 +279,9 @@ controller.createIntegration = (req, res) => {
 };
 
 controller.editIntegration = (req, res) => {
-	const { _id } = req.user;
+	const { integrationId } = req.params;
 
-	User.find({ _id }, {
+	User.find({ integrationId }, {
 		"": 1
 	})
 	.then(integration => {
@@ -301,10 +302,10 @@ controller.editIntegration = (req, res) => {
 
 // PUT request to update user's third party integrations
 controller.updateIntegration = (req, res) => {
-	const { _id } = req.user;
+	const { integrationId } = req.params;
 	const { } = req.body;
 
-	User.update({ _id },{	
+	User.update({ integrationId },{	
 		$push: {
 			integration: {
 

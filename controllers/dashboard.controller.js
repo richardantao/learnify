@@ -9,7 +9,7 @@ const controller = [];
 
 // GET dashboard data
 controller.index = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 
 	async.parallel({
 		classes: (callback) => {
@@ -229,7 +229,7 @@ controller.deleteClass = (req, res) => {
 
 
 controller.newTask = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	
 	User.find({ _id }, {
 		"course.id": 1,
@@ -259,7 +259,7 @@ controller.newTask = (req, res) => {
 
 //
 controller.createTask = (req, res) => {
-	const { _id } = req.user;
+	const { _id } = req.user[0];
 	const { course, title, type, deadline, completion, description } = req.body;
 	
 	User.updateOne({ _id }, {

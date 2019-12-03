@@ -12,7 +12,7 @@ controller.index = (req, res) => {
 }
 
 controller.month = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     async.parallel({
         classes: (callback) => {
@@ -108,7 +108,7 @@ controller.month = (req, res) => {
 };
 
 controller.week = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     async.parallel({
         classes: (callback) => {
@@ -204,7 +204,7 @@ controller.week = (req, res) => {
 };
 
 controller.day = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     async.parallel({
         classes: (callback) => {
@@ -300,7 +300,7 @@ controller.day = (req, res) => {
 };
 
 controller.agenda = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     async.parallel({
         classes: (callback) => {
@@ -396,7 +396,7 @@ controller.agenda = (req, res) => {
 };
 
 controller.newClass = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     User.find({ _id }, {
         "course._id": 1,
@@ -420,24 +420,27 @@ controller.newClass = (req, res) => {
 }
 
 controller.createClass = (req, res) => {
+    const { _id } = req.user[0];
     const { course, title, start, end, frequency, by, interval, location, description } = req.body;
-    
-    const Class = new Class({
-        _id: ObjectId(),
-        course,
-        title,
-        date: {
-            start,
-            end
-        },
-        frequency,
-        by,
-        interval,
-        location,
-        description
-    });
 
-	Class.save()
+	User.updateOne({ _id }, {
+        $push: {
+            class: {
+                _id: ObjectId(),
+                course,
+                title,
+                date: {
+                    start,
+                    end
+                },
+                frequency,
+                by,
+                interval,
+                location,
+                description
+            }
+        }
+    })
 	.then(createdClass => {
 		return res.status(200).json(createdClass);
 	})

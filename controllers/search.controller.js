@@ -1,12 +1,9 @@
-const async = require("async");
-const moment = require("moment");
-
-const User = require("../models/User.model").Model;
+const User = require("../models/User.model");
 
 const controller = [];
 
 controller.index = (req, res) => {
 
-}
+};
 
 module.exports = controller;
