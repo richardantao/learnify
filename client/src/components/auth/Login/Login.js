@@ -74,7 +74,7 @@ class Login extends Component {
        return(
            <Fragment>
                <Helmet>
-                   <title>My Tutee | Sign In</title>
+                   <title>My Learnify | Sign In</title>
                </Helmet>
                 <Container>
                     <div id="login">

@@ -82,7 +82,7 @@ class Register extends Component {
         return(
             <Fragment>
                 <Helmet>
-                    <title>My Tutee | Register</title>
+                    <title>My Learnify | Register</title>
                 </Helmet>
                 <Container>
                     <div id="register">
