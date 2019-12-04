@@ -53,7 +53,7 @@ class Calendar extends Component {
 		return (
 			<Fragment>
 				<Helmet>
-					<title>My Tutee | Calendar</title>
+					<title>My Learnify | Calendar</title>
 				</Helmet>
 				<Nav />
 				<div id="calendar">

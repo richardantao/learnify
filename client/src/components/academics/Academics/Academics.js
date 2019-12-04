@@ -61,7 +61,7 @@ class Academics extends Component {
         return (
             <Fragment>
 				<Helmet>
-					<title>My Tutee | Academics</title>
+					<title>My Learnify | Academics</title>
 				</Helmet>
 				<Nav/>
 				<div id="academics">

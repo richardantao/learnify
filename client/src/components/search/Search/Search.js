@@ -44,7 +44,7 @@ class Search extends Component {
 		return (
 			<Fragment>
 				<Helmet>
-					<title>My Tutee | Search</title>
+					<title>My Learnify | Search</title>
 				</Helmet>
 				<Nav />
 				<div id="search">

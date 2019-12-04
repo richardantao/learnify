@@ -71,7 +71,7 @@ class Settings extends Component {
 		return (
 			<Fragment>
 				<Helmet>
-					<title> My Tutee | Settings</title>
+					<title> My Learnify | Settings</title>
 				</Helmet>
 				<Nav/>
 				<div id="settings">
@@ -112,13 +112,13 @@ class Settings extends Component {
 					<Row className="footer settings-footer">
 						<Col>
 							<Button href="https://facebook.com" target="_blank" className="social"><FontAwesomeIcon icon={faFacebookSquare}/></Button>
-							<Button href="https://www.linkedin.com/company/tutee" target="_blank" className="social"><FontAwesomeIcon icon={faLinkedin}/></Button>
-							<Button href="https://www.instagram.com/tutee" target="_blank" className="social"><FontAwesomeIcon icon={faInstagram}/></Button>
-							<Button href="https://twitter.com/tutee" target="_blank" className="social"><FontAwesomeIcon icon={faTwitterSquare}/></Button>
+							<Button href="https://www.linkedin.com/company/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faLinkedin}/></Button>
+							<Button href="https://www.instagram.com/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faInstagram}/></Button>
+							<Button href="https://twitter.com/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faTwitterSquare}/></Button>
 						</Col>
 						<Col>
-							<p>Copyright {year} Tutee. All rights reserved. </p>
-							<a href="https://tutee.ca/changelog" target="_blank">{version}</a>
+							<p>Copyright {year} Learnify. All rights reserved. </p>
+							<a href="https://docs.learnify.ca/changelog" target="_blank">{version}</a>
 						</Col>
 					</Row>
 				</div>
