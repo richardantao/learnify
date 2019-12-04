@@ -20,10 +20,30 @@ router.post("/register", validate.register, controller.register);
 // @access PUBLIC
 router.post("/signin", validate.signin, controller.signin);
 
-// @route /forget
-// @desc Resets password for user
+// @route /verifyEmail
+// @desc Verifies registered email and grants app access to user
+// @access PUBLIC 
+router.put("/verifyEmail/:token", controller.verifyEmail);
+
+// @route /resendEmailVerification
+// @desc
 // @access PUBLIC
-router.post("/forgot", controller.forgot);
+router.put("/resendEmailVerification", controller.resendEmailVerification);
+
+// @route /forgetPassword
+// @desc Sends token to user's email 
+// @access PUBLIC
+router.post("/forgotPassword", controller.forgotPassword);
+
+// @route /
+// @desc verify token after user click's link to change password
+// @access PUBLIC
+router.get("/changePassword/:token", controller.changePassword);
+
+// @route /resetPassword
+// @desc submit submission of new password
+// @access PUBLIC
+router.put("/resetPassword", controller.resetPassword);
 
 // @route /signout
 // @desc kills user's application session
