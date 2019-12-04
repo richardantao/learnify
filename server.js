@@ -1,8 +1,9 @@
+
+require("dotenv").config();
 const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const path = require("path");
-const dotenv = require("dotenv").config();
 
 // Configurations
 const app = express();
