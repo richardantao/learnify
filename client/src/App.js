@@ -7,6 +7,9 @@ import { loadUser } from "./actions/auth/auth.action";
 
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import VerifyEmail from "./components/auth/VerifyEmail";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import ResetPassword from "./components/auth/ResetPassword";
 import Dashboard from "./components/dashboard/Dashboard";
 import Calendar from "./components/calendar/Calendar";
 import Academics from "./components/academics/Academics";
@@ -32,6 +35,9 @@ export default class App extends Component {
 				<Switch>
 					<Route name="register" path="/register" component={Register}/>
 					<Route name="login" path="/signin" component={Login}/>
+					<Route name="verifyEmail" path="/verifyEmail" component={VerifyEmail}/>
+					<Route name="forgotPassword" path="/forgotPassword" component={ForgotPassword}/>
+					<Route name="resetPassword" path="/resetPassword" component={ResetPassword}/>
 					<Route name="dashboard" path="/dashboard" component={Dashboard}/>
 					<Route name="calendar" path="/calendar" component={Calendar}/>
 					<Route name="academics" path="/academics" component={Academics}/>
