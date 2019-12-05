@@ -259,7 +259,7 @@ controller.newIntegration = (req, res) => {
 };
 
 // POST request to create third party integration connections
-controller.createIntegration = (req, res) => {
+controller.create = (req, res) => {
 	const { _id } = req.user[0];
 	const { } = req.body;
 
@@ -278,7 +278,11 @@ controller.createIntegration = (req, res) => {
 	});
 };
 
-controller.editIntegration = (req, res) => {
+controller.read = (req, res) => {
+
+};
+
+controller.edit = (req, res) => {
 	const { integrationId } = req.params;
 
 	User.find({ integrationId }, {
@@ -301,7 +305,7 @@ controller.editIntegration = (req, res) => {
 };
 
 // PUT request to update user's third party integrations
-controller.updateIntegration = (req, res) => {
+controller.update = (req, res) => {
 	const { integrationId } = req.params;
 	const { } = req.body;
 
@@ -324,7 +328,7 @@ controller.updateIntegration = (req, res) => {
 };
 
 // PUT request to delete user's third party integrations
-controller.deleteIntegration = (req, res) => {
+controller.delete = (req, res) => {
 	const { integrationId } = req.params;
 
 	User.update({ "integration._id": integrationId }, {	

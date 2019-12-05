@@ -3,41 +3,16 @@ const controller = require("../controllers/tasks.controller");
 
 // middleware
 const auth = require("../middleware/auth.middleware");
-const validate = require("../middleware/validation/tasks.validation");
+const validation = require("../middleware/validation/tasks.validation");
 
-// @route /tasks/
-// @desc render all current tasks
-// @access PRIVATE
-router.get("/", auth, controller.index);
+router.post("/", auth, validation, controller.create);
 
-// @route /tasks/past
-// @desc render all past tasks
-// @access PRIVATE
-router.get("/past", auth, controller.past); // handle logic on frontend?
+router.get("/", auth, controller.read);
 
-// @route /tasks/edit/:taskId
-// @desc edit task instance
-// @access PRIVATE
-router.get("/edit/:taskId", auth, controller.edit);
+router.get("/:taskId", auth, controller.edit);
 
-// @route /tasks/new
-// @desc get form to add new form
-// @access PRIVATE
-router.get("/new", auth, controller.new); 
+router.put("/:taskId", auth, validation, controller.delete);
 
-// @route /tasks/create
-// @desc add new task
-// @access PRIVATE
-router.post("/create", auth, validate.create, controller.create);
-
-// @route /tasks/update/:taskId
-// @desc render all current tasks
-// @access PRIVATE
-router.put("/update/:taskId", auth, validate.update, controller.update);
-
-// @route /tasks/delete/:taskId
-// @desc render all current tasks
-// @access PRIVATE
-router.delete("/delete/:taskId", auth, validate.delete, controller.delete);
+router.delete("/:taskId", auth, controller.delete);
 
 module.exports = router;

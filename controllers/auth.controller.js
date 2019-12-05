@@ -1,6 +1,7 @@
+require("dotenv").config();
 const async = require("async");
 const bcrypt = require("bcryptjs");
-const dotenv = require("dotenv").config();
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const sgMail = require('@sendgrid/mail');
 
@@ -16,7 +17,7 @@ const User = require("../models/User.model");
 const controller = [];
 
 controller.user = (req, res) => {
-    const { _id } = req.user;
+    const { _id } = req.user[0];
 
     User.find({ _id }, {
         _id: 1,
@@ -30,7 +31,7 @@ controller.user = (req, res) => {
     })
     .catch(err => {
         return res.status(500).json({
-            message: err.message || "An error occured on the server while loading your user credentials"
+            message: err.message
         });
     });
 };
@@ -56,7 +57,7 @@ controller.register = (req, res) => {
         })
         .catch(err => {
             return res.status(500).json({
-                message: err.message || "The server experienced an error while validating your email"
+                message: err.message
             });
         });
     };
@@ -88,7 +89,9 @@ controller.register = (req, res) => {
             email: { 
                 address: email
             },
-            password: hash
+            password: {
+                hash
+            }
         })
         .then(registeredUser => {
             console.log("New registered user: " + registeredUser)
@@ -99,7 +102,7 @@ controller.register = (req, res) => {
 
             return res.status(500).json({
                 success: false,
-                message: err.messsage || "An error occured while registering your new account"
+                message: err.messsage
             });
         });
     };
@@ -126,19 +129,7 @@ controller.register = (req, res) => {
                     </style>
                 </head>
                 <body>
-                    <h3>This is a test email for an app I am developing.</h3> 
-                    <p>
-                        If you are receiving this email you are a friend I figured wouldn't mind being bugged by this.
-                    </p>
-                    <p>
-                        This is what will become an email verification for users when they register an account with the application. Thanks for your time, have a great day.
-                    </p>
-                    <p>
-                        Regards,
-                    </p>
-                    <p>
-                        Rich <br> Founder <br> Learnify <br> <a href="https://learnify.ca">learnify.ca</a>
-                    </p>
+                        <a href="https://app.learnify.ca/verifyEmail/${registeredUser.email.token}">Verify Email</a>
                 </body>
             </html>
             `
@@ -158,8 +149,7 @@ controller.register = (req, res) => {
     ], (err, results) => {
         if (err) {
             return res.status(500).json({
-                message: "The server was unable to complete your request",
-                errors: err
+                message: err.message
             });
         } else {
             return res.status(201).json(results);
@@ -186,7 +176,7 @@ controller.signin = (req, res) => {
                 message: "This account hasn't been verified. Please check your email to verify the account before signing in"
             });
         } else { // compare password to the synced password of the email
-            const passwordIsValid = bcrypt.compareSync(password, user[0].password); // diagnose compareSync error
+            const passwordIsValid = bcrypt.compareSync(password, user[0].password.hash); // diagnose compareSync error
             if (!passwordIsValid) {
                 return res.status(401).json({ 
                     message: "Wrong password. Try again or click Forgot Password to reset it."
@@ -208,32 +198,246 @@ controller.signin = (req, res) => {
     })
     .catch(err => {
         return res.status(500).json({
-            message: err.message || "An error occurred while processing your request"
+            message: err.message
         });
     });
 };
 
+// Set user's account to email verified
+controller.verifyEmail = (req, res) => {
+    const checkToken = (callback) => {
+        const { token } = req.params;
+
+        User.find({ "email.token": token }, {
+            "email.token": 1
+        })
+        .limit(1)
+        .then(matchedToken => {
+            if(matchedToken.length === 0) {
+                return res.status(404).json({
+                    message: "We were unable to find a valid token. Your token my have expired."
+                });
+            } else {
+                callback(null, matchedToken);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            });
+        });
+    };
+
+    const setToVerified = (matchedToken, callback) => {
+        User.updateOne({ "email.token": matchedToken }, {
+            $set: {
+                email: {
+                    verified: true
+                }
+            }
+        })
+        .then(() => {
+            callback(null, { message: "Your account has been verified. Please login." })
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            });
+        });
+    };
+
+    async.waterfall([
+        checkToken,
+        setToVerified
+    ], (err, message) => {
+        if(err) {
+            return res.status(500).json({
+                message: err.message
+            });
+        } else {
+            return res.status(200).json(message);
+        };
+    });
+};
+
+controller.resendEmailVerification = (req, res) => {
+    // grab email from form 
+    const { email } = req.body;
+
+    // generate new token
+    const newToken = crypto.randomBytes(16).toString("hex");
+
+    // set the new token for the user with the requested email
+    User.updateOne({ "email.address": email }, {
+        $set: {
+            email: {
+                token: newToken
+            }
+        }
+    })
+    .then(updatedUser => { 
+        if(updatedUser.length === 0) { // if no user is found
+            return res.status(404).json({
+                message: "Email not found. Please input the email that requires the new token."
+            }); 
+        } else {
+            const mailOptions = {
+                from: user,
+                to: updatedUser.email.address,
+                subject: "Verify your account",
+                html: `<!DOCTYPE HTML>
+                <html lang="en">
+                    <head>
+                        <meta charset="utf-8">
+                        <style>
+                            h3 {
+                                font-size: 2em;
+                            }
+    
+                            p {
+                                font-size: 1.5em;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <a href="https://app.learnify.ca/verifyEmail/${newToken}">Verify Email</a>
+                    </body>
+                </html>
+                `
+            };
+    
+            sgMail.send(mailOptions);
+    
+            return res.status(200).json({
+                message: "A new token for email verification has been sent to " + mailOptions.to + "."
+            });
+        };
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message
+        });
+    }); 
+};
+
 // resets user's password
-controller.forgot = (req, res) => {
+controller.forgotPassword = (req, res) => {
     const { email } = req.body;
 
     User.find({ "email.address": email }, {
         "email.address": 1
     })
     .limit(1)
-    .then(email => {
-        
+    .then(emailRecipient => {
+        if(emailRecipient.length === 0) {
+            return res.status(404).json({
+                message: "Email not found. Please try again."
+            });
+        } else {
+            const token = crypto.randomBytes(16).toString("hex");
+
+            const mailOptions = {
+                from: user,
+                to: emailRecipient[0].email.address,
+                subject: "Reset your Learnify Password",
+                html: `<!DOCTYPE HTML>
+                <html lang="en">
+                    <head>
+                        <meta charset="utf-8">
+                        <style>
+                            p {
+                                font-size: 1.5em;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                            You are receiving this email because you requested to reset the password for your account.\n
+                            Please click on this link to reset your password: <a href="https://app.learnify.ca/resetPassword/${token}">Reset Password</a>\n
+                            If you did not request to reset your password, please ignore this email and your password will remain unchanged.
+                    </body>
+                </html>
+                `
+            };
+            
+            sgMail.send(mailOptions);
+
+            return res.status(200).json({
+                message: "A link to reset your password has been sent to " + mailOptions.to + "."
+            });
+        };
     })
     .catch(err => {
         return res.status(500).json({
-            message: err.message || ""
+            message: err.message
         });
     }); 
 };
 
-controller.signout = (req, res, next) => {
+controller.changePassword = (req, res) => {
+    const { token } = req.params;
+
+    User.find({ "password.token": token }, {
+        "password.token": 1
+    })
+    .limit(1)
+    .then(matchedToken => {
+        if(matchedToken.length === 0) { // no token match
+            return res.status(404).json({
+                message: "Token not found. Please reset password again."
+            });
+        } else {
+            return res.status(200).json({
+                message: "Token successfully activated. Please set your new password."
+            });
+        };
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message
+        })
+    })
+};
+
+controller.resetPassword = (req, res) => {
+    const { password, confirm, token } = req.body; 
+
+    if(password !== confirm) {
+        return res.status(400).json({
+            message: "The password fields do not match. Please try again."
+        });
+    } else {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash("", salt, (err, hash) => {
+                if(err) {
+                    return res.status(500).json({
+                        message: err.message
+                    });
+                } else {
+                    User.updateOne({ "password.token": token }, {
+                        $set: {
+                            password: {
+                                hash
+                            }
+                        }
+                    })
+                    .then(() => {
+                        return res.status(200).json({
+                            message: "Your password has been successfully updated. Please login."
+                        });
+                    })
+                    .catch(err => {
+                        return res.status(500).json({
+                            message: err.message
+                        });
+                    });
+                };
+            });
+        });
+    };
+};
+
+controller.signout = (req, res) => {
     return res.status(200).json({
-        auth: false,
         message: "You have successfully logged out",
         token: null
     });  

@@ -20,12 +20,17 @@ app.use(cors());
 app.use("/", require("./routes/public.route"));
 app.use("/", require("./routes/auth.route"));
 app.use("/cron", require("./routes/cron.route"));
-app.use("/dashboard", require("./routes/dashboard.route"));
-app.use("/calendar", require("./routes/calendar.route"));
-app.use("/academics", require("./routes/academics.route"));
-app.use("/planner", require("./routes/planner.route"));
+app.use("/", require("./routes/users.route"));
+
+app.use("/years", require("./routes/years.route"));
+app.use("/terms", require("./routes/terms.route"));
+app.use("/courses", require("./routes/courses.route"));
+app.use("/classes", require("./routes/classes.route"));
+app.use("/assessments", require("./routes/assessments.route"));
+app.use("/tasks", require("./routes/tasks.route"));
+
 app.use("/search", require("./routes/search.route"));
-app.use("/settings", require("./routes/settings.route"));
+app.use("/integrations", require("./routes/integrations.route"));
 
 // Conditional environment routing
 if(env === "production") {
