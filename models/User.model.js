@@ -1,6 +1,7 @@
 const Schema = require("mongoose").Schema;
 const model = require("mongoose").model;
 
+const crypto = require("crypto");
 const moment = require("moment");
 
 const YearSchema = require("./Years.model");
@@ -18,9 +19,13 @@ const UserSchema = new Schema({
     },
     email: {
         address: {type: String, required: true, unique: true},
+        token: {type: String, default: crypto.randomBytes(16).toString("hex")},
         verified: {type: Boolean, default: false}
     },
-    password: {type: String, required: true, minlength: 6},
+    password: {
+        hash: {type: String, required: true, minlength: 6},
+        token: {type: String, default: crypto.randomBytes(16).toString("hex")}
+    },
     year: [YearSchema],
     term: [TermSchema],
     course: [CourseSchema],
