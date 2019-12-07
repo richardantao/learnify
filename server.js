@@ -22,12 +22,12 @@ app.use("/", require("./routes/auth.route"));
 app.use("/cron", require("./routes/cron.route"));
 app.use("/", require("./routes/users.route"));
 
-app.use("/years", require("./routes/years.route"));
-app.use("/terms", require("./routes/terms.route"));
-app.use("/courses", require("./routes/courses.route"));
-app.use("/classes", require("./routes/classes.route"));
-app.use("/assessments", require("./routes/assessments.route"));
-app.use("/tasks", require("./routes/tasks.route"));
+app.use("/", require("./routes/years.route"));
+app.use("/", require("./routes/terms.route"));
+app.use("/", require("./routes/courses.route"));
+app.use("/", require("./routes/classes.route"));
+app.use("/", require("./routes/assessments.route"));
+app.use("/", require("./routes/tasks.route"));
 
 app.use("/search", require("./routes/search.route"));
 app.use("/integrations", require("./routes/integrations.route"));
