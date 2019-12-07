@@ -4,14 +4,16 @@ const controller = require("../controllers/terms.controller");
 const auth = require("../middleware/auth.middleware");
 const validation = require("../middleware/validation/terms.validation");
 
-router.post("/", auth, validation, controller.create);
+router.post("/terms", auth, validation, controller.create);
 
-router.get("/", auth, controller.read);
+router.get("/terms", auth, controller.read);
 
-router.get("/:termId", auth, controller.edit);
+router.get("/years/:yearId/terms", auth, controller.filter);
 
-router.put("/:termId", auth, validation, controller.update);
+router.get("/terms/:termId", auth, controller.edit);
 
-router.delete("/:termId", auth, controller.delete);
+router.put("/terms/:termId", auth, validation, controller.update);
+
+router.delete("/terms/:termId", auth, controller.delete);
 
 module.exports = router;

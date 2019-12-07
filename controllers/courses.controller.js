@@ -1,79 +1,111 @@
 const moment = require("moment");
+const ObjectId = require("mongodb").ObjectId;
 
-const User = require("../models/User.model");
+// model
+const Course = require("../models/Courses.model");
 
+// initialize controller
 const controller = [];
-
-// controller.newCourse = (req, res) => {
-// 	const { _id } = req.user[0];
-	
-// 	User.find({ _id }, {
-// 		"term._id": 1,
-// 		"term.title": 1
-// 	})
-// 	.sort({ "term.date.start": -1 })
-// 	.then(props => {
-// 		if(!props) {
-// 			return res.status(404).json({
-// 				message: "The server was unable to find the resources required to fulfill your request"
-// 			});
-// 		} else {
-// 			return res.status(200).json(props);
-// 		};
-// 	})
-// 	.catch(err => {
-// 		return res.status(500).json({
-// 			message: err.message || "An error occurred on the server while processing your request"
-// 		});
-// 	});
-// };
 	
 controller.create = (req, res) => {
-	const { _id } = req.user[0];
+	// const { _id } = req.user;
 	const { term, code, title, instructor, credit, theme } = req.body;
 	
-	User.updateOne({ _id }, {
-		$push: {
-			course: {
-				term,
-				code,
-				title,
-				instructor,
-				credit,
-				theme
-			}
-		}
+	Course.create({
+		_id: ObjectId(),
+		user: ObjectId("5deb33a40039c4286179c4f1"),
+		term,
+		code,
+		title,
+		instructor,
+		credit,
+		theme
 	})
 	.then(newCourse => {
-		return res.status(201).json(newCourse);
+		return res.status(201).json({
+			message: "New course created",
+			newCourse 
+		});
 	})
 	.catch(err => {
 		return res.status(500).json({
-			message: err.message || "An error occurred on the server while creating your new Course"
+			message: err.message
 		});
 	});
 };
 
 controller.read = (req, res) => {
+	// const { _id } = req.user;
 
+	Course.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
+		term: 1,
+		code: 1,
+		title: 1,
+		instructor: 1,
+		credit: 1,
+	})
+	.populate("term", [ "title" ])
+	.sort({})
+	.then(courses => {
+		if(courses.length === 0) {
+			return res.status(404).json({
+				message: "No courses were found"
+			});
+		} else {
+			return res.status(200).json(courses);
+		};
+	})
+	.catch(err => {
+		return res.status(500).json({
+			message: err.message
+		});
+	});
+};
+
+controller.filter = (req, res) => {
+	const { termId } = req.params;
+
+	Course.find({ term: termId}, {
+		term: 1,
+		code: 1,
+		title: 1,
+		instructor: 1,
+		credit: 1,
+	})
+	.sort({ code: 1 })
+	.then(courses => {
+		if(courses.length === 0) {
+			return res.status(404).json({
+				message: "No courses were found"
+			});
+		} else {
+			return res.status(200).json(courses);
+		};
+	})
+	.catch(err => {
+		return res.status(500).json({
+			message: err.message
+		});
+	});
 };
 
 controller.edit = (req, res) => {
 	const { courseId } = req.params;
-	User.find({ "course._id": courseId }, {
-		"course.term": 1,
-		"course.code": 1,
-		"course.title": 1,
-		"course.instructor": 1,
-		"course.credit": 1,
-		"course.theme": 1
+	
+	Course.find({ _id: courseId }, {
+		term: 1,
+		code: 1,
+		title: 1,
+		instructor: 1,
+		credit: 1,
+		meta: 1
 	})
-	.populate({ path: "course.term", select: "title" })
+	.populate("term", [ "title" ])
 	.limit(1)
 	.then(course => {
-		if(!course) {
+		if(course.length === 0) {
 			return res.status(404).json({
-				message: "The server was unable to find the selected course" 
+				message: "No course found" 
 			});
 		} else {
 			return res.status(200).json(course);
@@ -82,11 +114,11 @@ controller.edit = (req, res) => {
 	.catch(err => {
 		if(err.kind === "ObjectId") {
 			return res.status(404).json({
-				message: "The server was unable to find the selected Course" 
+				message: "No course found" 
 			});
 		} else {
 			return res.status(500).json({
-				message: err.message || "An error occured on the server while retrieving the selected Course" 
+				message: err.message 
 			});
 		};
 	});
@@ -94,38 +126,44 @@ controller.edit = (req, res) => {
 
 controller.update = (req, res) => {
 	const { courseId } = req.params;
-	const { term, code, title, credit, instructor, theme } = req.body;
+	const { term, code, title, credit, instructor, theme, createdAt } = req.body;
 	
-	User.updateOne({ "course._id": courseId }, {
-		$set: {
-			term,
-			code,
-			title,
-			credit,
-			instructor,
-			theme, 
-			meta: {
-				updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-			}
+	const update = {
+		term,
+		code,
+		title,
+		credit,
+		instructor,
+		theme, 
+		meta: {
+			createdAt,
+			updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
 		}
+	}
+
+	Course.updateOne({ _id: courseId }, {
+		$set: update
 	})
 	.then(revisedCourse => {
 		if(!revisedCourse) {
 			return res.status(404).json({
-				message: "The server was unable to find the recently updated Course"
+				message: "No course found"
 			});
 		} else {
-			return res.status(200).json(revisedCourse);
+			return res.status(200).json({
+				message: "Your course has been updated",
+				update
+			});
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId") {
 			return res.status(404).json({
-				message: "The server was unable to find the selected Course"
+				message: "No course found"
 			});
 		} else {
 			return res.status(500).json({
-				message: err.message || "An error occurred on the server while updating this Course"
+				message: err.message
 			});
 		};
 	});
@@ -134,30 +172,26 @@ controller.update = (req, res) => {
 controller.delete = (req, res) => {
 	const { courseId } = req.params;
 	
-	User.updateOne({ "course._id": courseId }, {
-		$pull: {
-			course: {
-				_id: courseId
-			}
-		}
-	})
+	Course.deleteOne({ _id: courseId})
 	.then(deletedCourse => {
 		if(!deletedCourse) {
 			return res.status(404).json({
-				message: "The server was unable to find the selected Course"
+				message: "No course found"
 			});
 		} else {
-			return res.status(200).json(deletedCourse);
+			return res.status(200).json({
+				message: "Your course has been deleted"
+			});
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId" || err.name === "NotFound") {
 			return res.status(404).json({
-				message: "The server was unable to find the selected Course"
+				message: "No course found"
 			});
 		} else {
 			return res.status(500).json({
-				message: err.message || "An error occurred on the server while deleting this Course"
+				message: err.message
 			});
 		};
 	});
