@@ -11,8 +11,6 @@
     "@fortawesome/react-fontawesome": "^0.1.8",
     "@trainline/react-skeletor": "^1.0.2",
     "axios": "^0.19.0",
-    "bootstrap": "^4.4.0",
-    "jquery": "^3.4.1",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
