@@ -1,44 +1,24 @@
 const moment = require("moment");
 
-const User = require("../models/User.model");
+const Year = require("../models/Years.model");
+const ObjectId = require("mongodb").ObjectId;
 
 const controller = [];
 
-// controller.newYear = (req, res) => {
-// 	const { _id } = req.user[0];
-	
-// 	User.find({ _id }, {
-
-// 	})
-// 	.then(() => {
-		
-// 	})
-// 	.catch(err => {
-// 		return res.status(500).json({
-// 			message: err.message || "An error occurred on the server while processing your request" 
-// 		});
-// 	});
-// };
-
 controller.create = (req, res) => {
-	// const { _id } = req.user[0];
+	// const { _id } = req.user;
 	const { title, start, end } = req.body;
 
-	const newYear = {
+	Year.create({
 		_id: ObjectId(),
+		user: ObjectId("5deb33a40039c4286179c4f1"),
 		title,
 		date: {
 			start,
 			end
 		}
-	};
-
-	User.updateOne({ "_id" : ObjectId("5de6b622081d499ca25d8759") }, {
-		$push: {
-			year: newYear
-		}
 	})
-	.then(() => {
+	.then(newYear => {
 		return res.status(201).json({
 			message: "New year created", 
 			newYear
@@ -52,14 +32,22 @@ controller.create = (req, res) => {
 };
 
 controller.read = (req, res) => {
-	const { _id } = req.user[0];
+	// const { _id } = req.user;
 
-	User.find({ }, {
-		"": 1,
-		"": 1
+	Year.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
+		title: 1,
+		date: 1
 	})
-	.sort()
-	.then()
+	.sort({ "date.start": -1 })
+	.then(years => {
+		if(years.length === 0) {
+			return res.status(404).json({
+				message: "No years were found"
+			});
+		} else {
+			return res.status(200).json(years);
+		};
+	})
 	.catch(err => {
 		return res.status(500).json({
 			message: err.message
@@ -70,10 +58,14 @@ controller.read = (req, res) => {
 controller.edit = (req, res) => {
 	const { yearId } = req.params;
 
-	User.find({ year: { _id: ObjectId(yearId) } })
+	Year.find({ _id: yearId }, {
+		title: 1,
+		date: 1,
+		meta: 1
+	})
 	.limit(1)
 	.then(year => {
-		if(!year) {
+		if(year.length === 0) {
 			return res.status(404).json({
 				message: "The server was unable to find the selected academic year"
 			});
@@ -96,7 +88,7 @@ controller.edit = (req, res) => {
 
 controller.update = (req, res) => {
 	const { yearId } = req.params;
-	const { title, start, end } = req.body;
+	const { title, start, end, createdAt } = req.body;
 
 	const update = {
 		title,
@@ -105,29 +97,14 @@ controller.update = (req, res) => {
 			end
 		},
 		meta: {
+			createdAt,
 			updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
 		}
 	}
 
-	User.findOne({ "year._id": yearId })
-	.then(something => {
-		console.log(something);
-		
-		thisYear = something.year.findIndex(elem => elem._id = yearId);
-		something.year[thisYear] = {
-			...something.year[thisYear],
-			update
-		}
-
-		console.log(something.year);
-		something.save()
-		.then(yes => {
-			console.log(yes);
-		})
+	Year.updateOne({ _id: yearId }, {
+		$set: update
 	})
-	
-
-	User.updateOne({ "year._id": yearId }, update)
 	.then(revisedYear => {
 		if(!revisedYear.length === 0) {
 			return res.status(404).json({
@@ -135,7 +112,7 @@ controller.update = (req, res) => {
 			});
 		} else {
 			return res.status(200).json({
-				message: "Year has been updated",
+				message: "Your year has been updated",
 				update
 			});
 		};
@@ -147,7 +124,7 @@ controller.update = (req, res) => {
 			});
 		} else {
 			return res.status(500).json({
-				message: err.message || "An error occurred on the server while updating the academic year"
+				message: err.message
 			});
 		};
 	});
@@ -156,20 +133,16 @@ controller.update = (req, res) => {
 controller.delete = (req, res) => {
 	const { yearId } = req.params;
 
-	User.updateOne({ "year._id": yearId },{
-		$pull: {
-			year: {
-				_id: yearId
-			}
-		}
-	})
+	Year.deleteOne({ _id: yearId })
 	.then(deletedYear => {
 		if(!deletedYear) {
 			return res.status(404).json({
 				message: "The server was unable to find the selected academic year"
 			});
 		} else {
-			return res.status(200).json(deletedYear);
+			return res.status(200).json({
+				message: "Your year has been deleted"
+			});
 		};
 	})
 	.catch(err => {
@@ -179,7 +152,7 @@ controller.delete = (req, res) => {
 			});
 		} else {
 			return res.status(500).json({
-				message: err.message || "An error occurred on the server while deleting this academic year"
+				message: err.message
 			});
 		};
 	});
