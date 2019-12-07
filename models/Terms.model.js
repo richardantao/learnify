@@ -5,8 +5,8 @@ const moment = require("moment");
 
 const TermSchema = new Schema({
 	_id: Schema.Types.ObjectId,
-	user: { $ref: "users", $id: Schema.Types.ObjectId, required: true },
-	year: { $ref: "years", $id: Schema.Types.ObjectId, required: true },
+	user: { type: Schema.Types.ObjectId, required: true },
+	year: { $type: Schema.Types.ObjectId, required: true },
 	title: { type: String, required: true },
   	date: {
 		start: { type: Date, required: true },
