@@ -1,75 +1,100 @@
 const moment = require("moment");
+const ObjectId = require("mongodb").ObjectId;
 
-const User = require("../models/User.model");
+// model
+const Term = require("../models/Terms.model");
 
+// initialize controller
 const controller = [];
-
-// controller.newTerm = (req, res) => {
-// 	const { _id } = req.user[0];
-	
-// 	User.find({ _id }, {
-// 		"year._id": 1,
-// 		"year.title": 1,		
-// 	})
-// 	.sort({ "year.date.start": -1 })
-// 	.then(props => {
-// 		if(!props) {
-// 			return res.status(404).json({
-// 				message: "The server was unable to find the resources needed to process this request"
-// 			});
-// 		} else {
-// 			return res.status(200).json(props);
-// 		};
-// 	})
-// 	.catch(err => {
-// 		return res.status(500).json({
-// 			message: err.message || "An error occured on the server while processing your request"
-// 		});
-// 	});
-// };	
 	
 controller.create = (req, res) => {
-	const { _id } = req.user[0];
+	// const { _id } = req.user;
 	const { year, title, start, end } = req.body;
 	
-	User.updateOne({ _id }, {
-		$push: {
-			term: {
-				year,
-				title,
-				date: {
-					start,
-					end
-				}
-			}
+	Term.create({
+		_id: ObjectId(),
+		user: ObjectId("5deb33a40039c4286179c4f1"),
+		year: ObjectId(year),
+		title,
+		date: {
+			start,
+			end
 		}
 	})
 	.then(newTerm => {
-		return res.status(201).json(newTerm);
+		return res.status(201).json({
+			message: "New term created",
+			newTerm
+		});
 	})
 	.catch(err => {
 		return res.status(500).json({
-			message: err.message || "An error occured on the server while creating your new Term"
+			message: err.message
 		});
 	});
 };
 
 controller.read = (req, res) => {
-    
+	// const { _id } = req.user;
+	
+	Term.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
+		title: 1,
+		date: 1
+	})
+	.sort({ "date.start": -1})
+	.then(terms => {
+		if(terms.length === 0) {
+			return res.status(404).json({
+				message: "No terms were found"
+			});
+		} else {
+			return res.status(200).json(terms);
+		};
+	})
+	.catch(err => {
+		return res.status(500).json({
+			message: err.message
+		});
+	});
+};
+
+controller.filter = (req, res) => {
+	const { yearId } = req.params;
+
+	Term.find({ year: yearId }, {
+		title: 1,
+		date: 1
+	})
+	.sort({ "date.start": -1})
+	.then(terms => {
+		if(terms.length === 0) {
+			return res.status(404).json({
+				message: "No terms were found"
+			});
+		} else {
+			return res.status(200).json(terms);
+		};
+	})
+	.catch(err => {
+		return res.status(500).json({
+			message: err.message
+		});
+	});
 };
 
 controller.edit = (req, res) => {
 	const { termId } = req.params;
 
-	User.find({ "term._id": termId }, {
-		"term.year": 1,
-		"term.title": 1,
-		"term.date": 1
+	Term.find({ _id: termId }, {
+		year: 1,
+		title: 1,
+		date: 1,
+		meta: 1
 	})
-	.populate({ path: "term.year", select: "title" })
+	.populate("year", [ "title" ])
 	.limit(1)
 	.then(term => {
-		if(!term) {
+		if(term.length === 0) {
 			return res.status(404).json({
 				message: "The server was unable to find the selected Term" 
 			});
@@ -84,7 +109,7 @@ controller.edit = (req, res) => {
 			});
 		} else {
 			return res.status(500).json({
-				message: err.message || "An error occurred on the server while retrieving the selected Term" 
+				message: err.message
 			});
 		};
 	});
@@ -92,28 +117,34 @@ controller.edit = (req, res) => {
 
 controller.update = (req, res) => {
 	const { termId } = req.params;
-	const { year, title, start, end } = req.body;
+	const { year, title, start, end, createdAt } = req.body;
 	
-	User.updateOne({ "term._id": termId }, {
-		$set: {
-			year,
-			title,
-			date: {
-				start,
-				end
-			},
-			meta: {
-				updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-			}	
-		}
+	const update = {
+		year,
+		title,
+		date: {
+			start,
+			end
+		},
+		meta: {
+			createdAt,
+			updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
+		}	
+	};
+
+	Term.updateOne({ _id: termId }, {
+		$set: update
 	})
 	.then(revisedTerm => {
-		if(!revisedTerm) {
+		if(revisedTerm.length === 0) {
 			return res.status(404).json({
 				message: "The server was unable to find the recently updated Term"
 			});
 		} else {
-			return res.status(200).json(revisedTerm);
+			return res.status(200).json({
+				message: "Your Term has been updated",
+				update
+			});
 		};
 	})
 	.catch(err => {
@@ -123,7 +154,7 @@ controller.update = (req, res) => {
 			});
 		} else {
 			return res.status(500).json({
-				message: err.message || "An error occurred on the server while updating this Term"
+				message: err.message
 			});
 		};
 	});
@@ -132,20 +163,16 @@ controller.update = (req, res) => {
 controller.delete = (req, res) => {
 	const { termId } = req.params;
 	
-	User.updateOne({ "term._id": termId }, {
-		$pull: {
-			term: {
-				_id: termId
-			}
-		}
-	})
+	Term.deleteOne({ _id: termId })
 	.then(deletedTerm => {
 		if(!deletedTerm) {
 			return res.status(404).json({
 				message: "The server was unable to find the selected Term"
 			});
 		} else {
-			return res.status(500).json(deletedTerm);
+			return res.status(500).json({
+				message: "Your Term has been deleted"
+			});
 		};
 	})
 	.catch(err => {
@@ -155,7 +182,7 @@ controller.delete = (req, res) => {
 			});
 		} else {
 			return res.status(500).json({
-				message: err.message || "An error occurred on the server while deleting this Term"
+				message: err.message
 			});
 		};
 	});
