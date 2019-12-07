@@ -13,8 +13,8 @@ const CourseSchema = new Schema({
 	instructor: String,
 	theme: { type: String, default: "#00A6FF" }, 
 	meta: {
-		createdAt: { type: Date, default: () => moment().startOf("minute").format("MMMM Do YYYY, HH:mm a") },
-		updatedAt: { type: Date, default: () => moment().startOf("minute").format("MMMM Do YYYY, HH:mm a") }
+		createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
+		createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
 	}
 });
 
