@@ -59,7 +59,7 @@
     "migrate": "^1.6.2",
     "moment": "^2.24.0",
     "mongodb": "^3.3.5",
-    "mongoose": "^5.7.13",
+    "mongoose": "^5.7.14",
     "morgan": "^1.9.1",
     "node-sass": "^4.13.0"
   },
