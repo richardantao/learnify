@@ -14,7 +14,7 @@ const CourseSchema = new Schema({
 	theme: { type: String, default: "#00A6FF" }, 
 	meta: {
 		createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
-		createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
+		updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
 	}
 });
 
