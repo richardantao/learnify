@@ -38,7 +38,7 @@ controller.read = (req, res) => {
 		title: 1,
 		date: 1
 	})
-	.sort({ "date.start": -1 })
+	.sort({ "date.start": 1 })
 	.then(years => {
 		if(years.length === 0) {
 			return res.status(404).json({
@@ -67,7 +67,7 @@ controller.edit = (req, res) => {
 	.then(year => {
 		if(year.length === 0) {
 			return res.status(404).json({
-				message: "The server was unable to find the selected academic year"
+				message: "Year not found"
 			});
 		} else {
 			return res.status(200).json(year);
@@ -76,7 +76,7 @@ controller.edit = (req, res) => {
 	.catch(err => {
 		if(err.kind === "ObjectId") {
 			return res.status(404).json({
-				message: "The server was unable to find the selected academic year"
+				message: "Year not found"
 			});
 		} else {
 			return res.status(500).json({
@@ -100,7 +100,7 @@ controller.update = (req, res) => {
 			createdAt,
 			updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
 		}
-	}
+	};
 
 	Year.updateOne({ _id: yearId }, {
 		$set: update
@@ -108,7 +108,7 @@ controller.update = (req, res) => {
 	.then(revisedYear => {
 		if(!revisedYear.length === 0) {
 			return res.status(404).json({
-				message: "The server was unable to find your recently updated year"
+				message: "Year not found"
 			});
 		} else {
 			return res.status(200).json({
@@ -120,7 +120,7 @@ controller.update = (req, res) => {
 	.catch(err => {
 		if(err.kind === "ObjectId") {
 			return res.status(404).json({
-				message: "The server was unable to find the academic year"
+				message: "Year not found"
 			});
 		} else {
 			return res.status(500).json({
@@ -137,7 +137,7 @@ controller.delete = (req, res) => {
 	.then(deletedYear => {
 		if(!deletedYear) {
 			return res.status(404).json({
-				message: "The server was unable to find the selected academic year"
+				message: "Year not found"
 			});
 		} else {
 			return res.status(200).json({

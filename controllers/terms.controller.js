@@ -1,8 +1,10 @@
+const async = require("async");
 const moment = require("moment");
 const ObjectId = require("mongodb").ObjectId;
 
 // model
 const Term = require("../models/Terms.model");
+const Year = require("../models/Years.model");
 
 // initialize controller
 const controller = [];
@@ -35,36 +37,13 @@ controller.create = (req, res) => {
 };
 
 controller.read = (req, res) => {
-	// const { _id } = req.user;
-	
-	Term.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
-		title: 1,
-		date: 1
-	})
-	.sort({ "date.start": -1})
-	.then(terms => {
-		if(terms.length === 0) {
-			return res.status(404).json({
-				message: "No terms were found"
-			});
-		} else {
-			return res.status(200).json(terms);
-		};
-	})
-	.catch(err => {
-		return res.status(500).json({
-			message: err.message
-		});
-	});
-};
-
-controller.filter = (req, res) => {
 	const { yearId } = req.params;
 
 	Term.find({ year: yearId }, {
 		title: 1,
 		date: 1
 	})
+	.populate("year", [ "title" ])
 	.sort({ "date.start": -1})
 	.then(terms => {
 		if(terms.length === 0) {
@@ -85,32 +64,69 @@ controller.filter = (req, res) => {
 controller.edit = (req, res) => {
 	const { termId } = req.params;
 
-	Term.find({ _id: termId }, {
-		year: 1,
-		title: 1,
-		date: 1,
-		meta: 1
-	})
-	.populate("year", [ "title" ])
-	.limit(1)
-	.then(term => {
-		if(term.length === 0) {
-			return res.status(404).json({
-				message: "The server was unable to find the selected Term" 
-			});
-		} else {
-			return res.status(200).json(term);
-		};
-	})
-	.catch(err => {
-		if(err.kind === "ObjectId") {
-			return res.status(404).json({
-				message: "The server was unable to find the selected Term" 
-			});
-		} else {
+	const getTerm = (callback) => {
+		Term.find({ _id: termId }, {
+			user: 1,
+			year: 1,
+			title: 1,
+			date: 1,
+			meta: 1
+		})
+		.populate("year", [ "title" ])
+		.limit(1)
+		.then(term => {
+			if(term.length === 0) {
+				return res.status(404).json({
+					message: "Term not found" 
+				});
+			} else {
+				callback(null, term);
+			};
+		})
+		.catch(err => {
+			if(err.kind === "ObjectId") {
+				return res.status(404).json({
+					message: "Term not found" 
+				});
+			} else {
+				return res.status(500).json({
+					message: err.message
+				});
+			};
+		});
+	};
+
+	const getYearOptions = (term, callback) => {
+		Year.find({ user: term[0].user }, {
+			title: 1
+		})
+		.sort({ "date.start": -1 })
+		.then(options => {
+			if(options.length === 0) {
+				return res.status(404).json({
+					message: "Could not find your years"
+				});
+			} else {
+				callback(null, { term, options });
+			};
+		})
+		.catch(err =>{
 			return res.status(500).json({
 				message: err.message
 			});
+		});
+	};
+
+	async.waterfall([
+		getTerm,
+		getYearOptions
+	], (err, results) => {
+		if(err) {
+			return res.status(500).json({
+				message: err.message
+			});
+		} else {
+			return res.status(200).json(results);
 		};
 	});
 };
@@ -138,7 +154,7 @@ controller.update = (req, res) => {
 	.then(revisedTerm => {
 		if(revisedTerm.length === 0) {
 			return res.status(404).json({
-				message: "The server was unable to find the recently updated Term"
+				message: "Term not found"
 			});
 		} else {
 			return res.status(200).json({
@@ -150,7 +166,7 @@ controller.update = (req, res) => {
 	.catch(err => {
 		if(err.kind === "ObjectId") {
 			return res.status(404).json({
-				message: "The server was unable to find the selected Term"
+				message: "Term not found"
 			});
 		} else {
 			return res.status(500).json({
@@ -167,7 +183,7 @@ controller.delete = (req, res) => {
 	.then(deletedTerm => {
 		if(!deletedTerm) {
 			return res.status(404).json({
-				message: "The server was unable to find the selected Term"
+				message: "Term not found"
 			});
 		} else {
 			return res.status(500).json({
@@ -178,7 +194,7 @@ controller.delete = (req, res) => {
 	.catch(err => {
 		if(err.kind === "ObjectId" || err.name === "NotFound") {
 			return res.status(404).json({
-				message: "The server was unable to find the selected Term"
+				message: "Term not found"
 			});
 		} else {
 			return res.status(500).json({
