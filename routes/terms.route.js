@@ -4,16 +4,19 @@ const controller = require("../controllers/terms.controller");
 const auth = require("../middleware/auth.middleware");
 const validation = require("../middleware/validation/terms.validation");
 
-router.post("/terms", auth, validation, controller.create);
+// create a new term
+router.post("/terms", /*auth,*/ validation, controller.create);
 
-router.get("/terms", auth, controller.read);
+// get all the terms for a specific year
+router.get("/years/:yearId/terms", /*auth,*/ controller.read);
 
-router.get("/years/:yearId/terms", auth, controller.filter);
+// get one term
+router.get("/terms/:termId", /*auth,*/ controller.edit);
 
-router.get("/terms/:termId", auth, controller.edit);
+// update a term
+router.put("/terms/:termId", /*auth,*/ validation, controller.update);
 
-router.put("/terms/:termId", auth, validation, controller.update);
-
-router.delete("/terms/:termId", auth, controller.delete);
+// delete a term
+router.delete("/terms/:termId", /*auth,*/ controller.delete);
 
 module.exports = router;

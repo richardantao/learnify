@@ -4,15 +4,20 @@ const controller = require("../controllers/years.controller");
 const auth = require("../middleware/auth.middleware");
 const validation = require("../middleware/validation/years.validation");
 
-router.post("/years", auth, validation, controller.create);
+// create year
+router.post("/years", /*auth,*/ validation, controller.create);
 
-router.get("/years", auth, controller.read);
+// get all users
+router.get("/years", /*auth,*/ controller.read);
 
-router.get("/years/:yearId", auth, controller.edit);
+// get one year
+router.get("/years/:yearId", /*auth,*/ controller.edit);
 
-router.put("/years/:yearId", auth, validation, controller.update);
+// update year
+router.put("/years/:yearId", /*auth,*/ validation, controller.update);
 
-router.delete("/years/:yearId", auth, controller.delete);
+// delete year
+router.delete("/years/:yearId", /*auth,*/ controller.delete);
 
 module.exports = router;
 

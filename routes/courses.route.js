@@ -4,16 +4,19 @@ const controller = require("../controllers/courses.controller");
 const auth = require("../middleware/auth.middleware");
 const validation = require("../middleware/validation/courses.validation");
 
+// create a course
 router.post("/courses", auth, validation, controller.create);
 
-router.get("/courses", auth, controller.read);
+// get all the courses for a specific term
+router.get("/terms/:termId/courses", auth, controller.read);
 
-router.get("/terms/:termId/courses", auth, controller.filter);
-
+// get one course
 router.get("/courses/:courseId", auth, controller.edit);
 
+// update a course
 router.put("/courses/:courseId", auth, validation, controller.update);
 
+// delete a course
 router.delete("/courses/:courseId", auth, controller.delete);
 
 module.exports = router;
