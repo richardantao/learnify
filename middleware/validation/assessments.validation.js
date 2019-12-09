@@ -1,48 +1,42 @@
 const { check, sanitize, validationResult } = require("express-validator");
 
-// import model to compare date of Assessment's date to the date range of the Term the Course is in
-const User = require("../../models/User.model");
+const Course = require("../../models/Courses.model");
 
-// VERIFY DATE CHAINING AND VALIDATION
 const validate = (req, res, next) => {
     const error = validationResult(req);
-    const { Id, Title, title, type, start, end, location, weight, score } = req.body;
+    const { course, title, type, start, end, location, weight, score } = req.body;
 
-    check(Id, "There was an error linking your Assessment to a Course")
-        .exists().withMessage("There was an error linking your Assessment to a Course")
-        .isMongoId().withMessage("There was an error linking your Assessment to a Course");
+    check(course, "There was an error linking your assessment to a course")
+        .exists().withMessage("There was an error linking your assessment to a course")
+        .isMongoId().withMessage("There was an error linking your assessment to a course");
     
-    check(Title, "Course had an invalid input")
-        .exists().withMessage("Course Title is a required field")
-        .isAlphanumeric().withMessage("Course Title can only contain letters and numbers");
-
     check(title, "Title had an invalid input")
-        .exists().withMessage("Assessment Title is a required field")
+        .exists().withMessage("Assessment title is a required field")
         .isAlphanumeric().withMessage("");
     
     check(type, "Type had an invalid input")
-        .exists().withMessage("Assessment Type is a required field")
-        .isAlphanumeric().withMessage("Assessment Type can only contain letters and numbers");
+        .exists().withMessage("Type is a required field")
+        .isAlphanumeric().withMessage("Type can only contain letters and numbers");
 
-    check(start, "Start Date")
-        .exists().withMessage("Start Date is a required field");
+    check(start, "Start date received an invalid date")
+        .exists().withMessage("Start date is a required field");
 
-    check(end, "End Date had an invalid input")
-        .exists().withMessage("End Date is a required field");
+    check(end, "End date had an invalid input")
+        .optional()
 
     check(location, "Location had an invalid input")
         .optional()
-        .isAlpha().withMessage("Location can only contain letters");
+        .isAlphanumeric().withMessage("Location can only contain letters and numbers");
 
-    check(weight, "Grade Weight had an invalid input")
+    check(weight, "Weight had an invalid input")
         .optional()
         .isNumeric().withMessage("Weight must be a numerical value");
 
-    check(score, "Grade Score had an invalid input")
+    check(score, "Score had an invalid input")
         .optional()
-        .isNumeric().withMessage("Grade Score must be a numerical value");
+        .isNumeric().withMessage("Score must be a numerical value");
 
-    sanitize(Title).escape().toString();
+    sanitize(course).escape().toString();
     sanitize(title).escape().toString();
     sanitize(type).escape().toString();
     sanitize(start).escape().toDate();
@@ -51,17 +45,15 @@ const validate = (req, res, next) => {
     sanitize(weight).escape().toFloat();
     sanitize(score).escape().toFloat();
 
-    // check ranges of weight and score
-
     if(weight > 100 || weight < 0) {
         return res.status(422).json({
-            message: "Weight must be a percentage value between 0 and 100"
+            message: "Weight must be a percentage between 0 and 100"
         });
     };
     
     if(score > 100 || score < 0) {
         return res.status(422).json({
-            message: "Score must a percentage value betwee 0 and 100 "
+            message: "Score must a percentage between 0 and 100 "
         });
     };
 
@@ -70,27 +62,23 @@ const validate = (req, res, next) => {
             message: error.message
         });
     } else {
-        User.find({ "course._id": Id }, {
-            "course.parent._id": 1
+        Course.find({ _id: course }, { 
+            term: 1
         })
-        .then(termId => {
-            User.find({ "term._id": termId }, {
-                "term.date": 1
-            })
-        })
+        .populate("term", [ "date" ])
+        .limit(1)
         .then(termRange => {
-            if(termRange.start > start || termRange.end < end) {
+            if(termRange[0].term.date.start > start || termRange[0].term.date.end < end) {
                 return res.status(422).json({
-                    message: "The Assessment date must be inside the date of the Term your Course is in"
+                    message: "The assessment date must be inside the date of the term your course is in"
                 });
             } else {
-                // if request makes it through validation, call controller function
                 next();
             };
         })
         .catch(err => {
             return res.status(500).json({
-                message: err.message || "An error occurred on the server while validating your submission" 
+                message: err.message
             });
         });
     };

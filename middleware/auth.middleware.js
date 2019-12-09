@@ -9,7 +9,6 @@ const auth = (req, res, next) => {
     // send missing token error message if there isn't a token
     if(!token) {
         return res.status(401).json({
-            success: false,
             message: "No token, authorization denied"
         });
     } else {

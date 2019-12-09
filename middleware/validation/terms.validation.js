@@ -1,11 +1,10 @@
 const { check, sanitize, validationResult } = require("express-validator"); 
 
-// import model to validate against Years array
-const User = require("../../models/User.model");
+const Term = require("../../models/Terms.model");
 
 const validate =  (req, res, next) => {
     const errors = validationResult(req);
-    const { Id, title, start, end } = req.body;
+    const { year, title, start, end } = req.body;
 
     check(title, "Title had an invalid input")
         .exists().withMessage("Title is a required field")
@@ -29,24 +28,23 @@ const validate =  (req, res, next) => {
         });
     } else {
         // check if terms dates are within the years date
-        User.find({ "year._id": Id }, {
-            "year.date": 1
+        Term.find({ year }, {
+            date: 1
         })
+        .limit(1)
         .then(yearRange => {
             // if the term start date is earlier that the year start date OR term end date is after the year end date 
-            /* VERIFY object grabbed for the promise */
-            if(yearRange.start > start || yearRange.end < end) {
+            if(yearRange[0].start > start || yearRange[0].end < end) {
                 return res.status(422).json({
                     message: "The start and end date must be inside the dates of the year you have selected"
                 });
             } else {
-                // call controller function if no errors
                 next();
             };
         })
         .catch(err => {
             return res.status(500).json({
-                message: err.message || "An error occurred on the server while validating your request"
+                message: err.message
             });
         });
     };    

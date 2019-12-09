@@ -63,13 +63,14 @@ validate.password = (req, res, next) => {
     };
 
     check(current, "Current password is invalid")
-    .exists().withMessage("Current password is a required field");
+        .exists().withMessage("Current password is a required field")
+        .isLength({ min: 8, max: 128 }).withMessage("Your password must be between 8 and 128 characters");
     
     check(req.body.new, "New password had an invalid input")
-    .exists().withMessage("New password is a required field");
+        .exists().withMessage("New password is a required field");
     
     check(confirm, "Confirm password had an invalid password")
-    .exists().withMessage("Confirm password is a required field");
+        .exists().withMessage("Confirm password is a required field");
 
     sanitize(current).escape();
     sanitize(req.body.new).escape();
@@ -89,16 +90,16 @@ validate.preferences = (req, res, next) => {
     const { startDay, startTime, defaultDuration, defaultCalendar } = req.body;
 
     check(startDay, "Start day had an invalid input")
-    .exists().withMessage("Start day is a required field");
+        .exists().withMessage("Start day is a required field");
     
     check(startTime, "Start time had an invalid input")
-    .exists().withMessage("Start time is a required field");
+        .exists().withMessage("Start time is a required field");
     
     check(defaultDuration, "Default duration had an invalid input")
-    .exists().withMessage("Default class time is a required field");
+        .exists().withMessage("Default class time is a required field");
 
     check(defaultCalendar, "Default calendar had an invalid input")
-    .exists().withMessage("Default calendar view is a required field");
+        .exists().withMessage("Default calendar view is a required field");
 
     sanitize(startDay).escape();
     sanitize(startTime).escape();

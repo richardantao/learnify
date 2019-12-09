@@ -1,38 +1,33 @@
 const { check, sanitize, validationResult } = require("express-validator");
 
-// validate assessment date against its parent term
-const User = require("../../models/User.model");
+const Course = require("../../models/Courses.model");
 
 const validate = (req, res, next) => {
     const error = validationResult(req);
-    const { Id, Title, title, type, deadline, completion, description } = req.body;
+    const { course, title, type, deadline, completion, description } = req.body;
 
-    check(Id, "There was an error linking the Task to a Course")
+    check(course, "There was an error linking the Task to a Course")
         .exists().withMessage("There was an error linking the Task to a Course")
         .isMongoId().withMessage("There was an error linking the Task to a Course");
     
-    check(Title, "Course Title had an invalid input")
-        .exists().withMessage("Course Title is a required field")
-        .isAlphanumeric().withMessage("Course Title can only contain letters and numbers");
+    check(title, "Title had an invalid input")
+        .exists().withMessage("Title is a required field")
+        .isAlphanumeric().withMessage("Title can only contain letters and numbers");
     
-    check(title, "Task Title had an invalid input")
-        .exists().withMessage("Task Title is a required field")
-        .isAlphanumeric().withMessage("Task Title can only contain letters and numbers");
-    
-    check(type, "Task Type had an invalid input")
-        .exists().withMessage("Task Type is a required field")
-        .isAlpha().withMessage("Task Type can only contain letters"); 
+    check(type, "Type had an invalid input")
+        .exists().withMessage("Type is a required field")
+        .isAlpha().withMessage("Type can only contain letters"); 
 
-    check(deadline, "Task Deadline had an invalid input")
-        .exists().withMessage("Task Deadline is a required field");
+    check(deadline, "Deadline had an invalid input")
+        .exists().withMessage("Deadline is a required field");
 
-    check(completion, "Task Completion had an invalid input")
+    check(completion, "Completion had an invalid input")
         .optional()
         .isNumeric().withMessage("");
 
-    check(description, "Task Description had an invalid input")
+    check(description, "Description had an invalid input")
         .optional()
-        .isAlphanumeric().withMessage("Task Description can only contain letters and numbers")
+        .isAlphanumeric().withMessage("Description can only contain letters and numbers")
 
     sanitize(Title).escape();
     sanitize(title).escape();
@@ -46,27 +41,23 @@ const validate = (req, res, next) => {
             message: error.message
         });
     } else {
-        User.find({ "course._id": Id }, {
-            "parent._id": 1
+        Course.find({ _id: course }, {
+            term: 1
         })
-        .then(termId => {
-            User.find({ "term._id": termId }, {
-                "term.date": 1
-            })
-        })
+        .populate("term", [ "date" ])
+        .limit(1)
         .then(termRange => {
-            if(termRange.start > start || termRange.end < end) {
+            if(termRange[0].term.date.start > start || termRange[0].term.date.end < end) {
                 return res.status(422).json({
-                    message: "Task deadline must lie inside the Term date range the course you selected is in"
+                    message: "Task deadline must be inside the date of the term your course is in"
                 });
             } else {
-                // if no errors from validation, call controller function
                 next();
             };
         })
         .catch(err => {
             return res.status(500).json({
-                message: err.message || "An error occurred on the server while validating your submission"
+                message: err.message
             });
         });
     };
