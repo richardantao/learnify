@@ -102,7 +102,12 @@ controller.edit = (req, res) => {
 	};
 
 	const getTermOptions = (course, callback) => {
-		Term.find({ year: course[0].term[0].year }, {
+		Term.find({ 
+			year: course[0].term[0].year,
+			title: {
+				$ne: course[0].term[0].title
+			}
+		}, {
 			title: 1
 		})
 		.sort({ "date.start": -1 })

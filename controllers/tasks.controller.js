@@ -1,110 +1,242 @@
+const async = require("async");
 const moment = require("moment");
+const ObjectId = require("mongodb").ObjectId;
 
-const User = require("../models/User.model");
+// models
+const Task = require("../models/Tasks.model");
+const Course = require("../models/Courses.model");
 
+// initialize controller
 const controller = [];
 
-// controller.newTask = (req, res) => {
-//     const { _id } = req.user[0];
-
-//     User.find({ _id }, {
-//         "course._id": 1, 
-// 		"course.title": 1
-//     })
-//     .sort({ "course.meta.updatedAt": -1 })
-// 	.then(courses => {
-// 		if(!courses) {
-// 			return res.status(404).json({
-// 				message: "The server was unable to find your courses"
-// 			});
-// 		} else {
-// 			return res.status(200).json(courses);
-// 		};
-// 	})
-// 	.catch(err => {
-// 		if(err.kind === "ObjectId") {
-// 			return res.status(404).json({
-// 				message: "The server was unable to find your courses"
-// 			});
-// 		} else {
-// 			return res.status(500).json({
-// 				message: err.message || "An error occurred on the server while retrieving your courses"
-// 			});
-// 		}
-// 	});
-// };
-
 controller.create = (req, res) => {
-    const { _id } = req.user[0];
     const { course, title, type, deadline, completion, description } = req.body;
 
-    User.updateOne({ _id }, {
-        $push: {
-            task: {
-                course,
-                title,
-                type,
-                deadline,
-                completion,
-                description
-            }
-        }
+    const matchTerm = (callback) => {
+        Course.find({ _id: course }, {
+            term: 1,
+            _id: 0
+        })
+        .limit(1)
+        .then(term => {
+            if(term.length === 0) {
+                return res.status(404).json({
+                    message: "Could not find term"
+                });
+            } else {
+                callback(null, term);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            });
+        });
+    };
+
+    const createTask = (term, callback) => {
+        Task.create({
+            _id: ObjectId(),
+            term: term[0].term,
+            course,
+            title,
+            type,
+            deadline,
+            completion,
+            description
+        })
+        .then(task => {
+            callback(null, { 
+                message: "New task created",
+                task 
+            });
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            });
+        });
+    };
+
+    async.waterfall([
+        matchTerm,
+        createTask
+    ], (err, results) => {
+        if(err) {
+            return res.status(500).json({
+                message: err.message
+            });
+        } else {
+            return res.status(201).json(results);
+        };
+    });     
+};
+
+controller.read = (req, res) => {
+    const { termId } = req.params;
+
+
+    Task.find({ term: termId }, {
+        course: 1,
+        title: 1,
+        type: 1,
+        deadline: 1,
+        completion: 1,
+        description: 1
     })
-    .then(newTask => {
-        return res.status(201).json(newTask);
+    .populate("course", [ "title" ])
+    .sort({ deadline: 1 })
+    .then(tasks => {
+        if(tasks.length === 0) {
+            return res.status(404).json({
+                message: "No tasks found"
+            });
+        } else {
+            return res.status(200).json(tasks);
+        };
     })
     .catch(err => {
         return res.status(500).json({
-            message: err.message || "An error occurred on the server while creating this task"
+            message: err.message
         });
     });
 };
 
-controller.read = (req, res) => {
+controller.filter = (req, res) => {
+    const { courseId } = req.params;
 
+    Task.find({ course: courseId }, {
+        course: 1,
+        title: 1,
+        type: 1,
+        deadline: 1,
+        completion: 1,
+        description: 1
+    })
+    .populate("course", [ "title" ])
+    .sort({ deadline: 1 })
+    .then(tasks => {
+        if(tasks.length === 0) {
+            return res.status(404).json({
+                message: "No tasks found"
+            });
+        } else {
+            return res.status(200).json(tasks);
+        };
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message
+        });
+    });
 };
 
 controller.edit = (req, res) => {
     const { taskId } = req.params;
     
-    User.find({ "task._id": taskId }, {
-        "task.course": 1,
-        "task.title": 1,
-        "task.type": 1,
-        "task.deadline": 1,
-        "task.completion": 1,
-        "task.description": 1
-    })
-    .populate({ path: "task.course", select: "title"})
-    .limit(1)
-	.then(task => {
-		if(!task) {
-			return res.status(404).json({
-				message: "The server was unable to find this task"
-			});
-		} else {
-			return res.status(200).json(task);
-		};
-	})
-	.catch(err => {
-		if(err.kind === "ObjectId") {
-			return res.status(404).json({
-				message: "the server was unable to find this task"
-			});
-		} else {
-			return res.status(500).json({
-				message: err.message || "An error occurred on the server while retrieving this task"
-			});
-		};
-	});
+    const getTask = (callback) => {
+        Task.find({ _id: taskId }, {
+            course: 1,
+            title: 1,
+            type: 1,
+            deadline: 1,
+            completion: 1,
+            description: 1,
+            meta: 1
+        })
+        .populate("course", [ "title", "term" ])
+        .limit(1)
+        .then(task => {
+            if(task.length === 0) {
+                return res.status(404).json({
+                    message: "Task not found"
+                });
+            } else {
+                return callback(null, task);
+            };
+        })
+        .catch(err => {
+            if(err.kind === "ObjectId") {
+                return res.status(404).json({
+                    message: "Task not found"
+                });
+            } else {
+                return res.status(500).json({
+                    message: err.message
+                });
+            };
+        });
+    };
+
+    const getCourseOptions = (task, callback) => {
+        Course.find({ 
+            term: task[0].course.term[0],
+            title: {
+                $ne: task[0].course.title
+            }
+        }, {
+            title: 1
+        })
+        .sort({ title: 1 })
+        .then(options => {
+            if(options.length === 0) {
+                return res.status(404).json({
+
+                });
+            } else {
+                callback(null, { task, options });
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            })
+        });
+    };
+
+    async.waterfall([
+        getTask,
+        getCourseOptions
+    ], (err, results) => {
+        if(err) {
+            return res.status(500).json({
+                message: err.message
+            });
+        } else {
+            return res.status(200).json(results);
+        };
+    });   
 };
 
 controller.update = (req, res) => {
     const { taskId } = req.params;
-    const { course, title, type, deadline, completion, description } = req.body;
+    const { course, title, type, deadline, completion, description, createdAt } = req.body;
 
-    User.updateOne({ "task._id": taskId }, {
-        $set: {
+    const matchTerm = (callback) => {
+        Course.find({ _id: course }, {
+            term: 1,
+            _id: 0
+        })
+        .limit(1)
+        .then(term => {
+            if(term.length === 0) {
+                return res.status(404).json({
+                    message: "Could not find term"
+                });
+            } else {
+                callback(null, term);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            });
+        });
+    };
+
+    const updateTask = (term, callback) => {
+        const task = {
+            term: term[0].term[0],
             course,
             title, 
             type, 
@@ -112,28 +244,49 @@ controller.update = (req, res) => {
             completion, 
             description,
             meta: {
+                createdAt,
                 updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
             }   
-        }
-    })
-    .then(revisedTask => {
-        if(!revisedTask) {
-            return res.status(404).json({
-                message: "The server was unable to find your recently updated task"
-            }); 
-        } else {
-            return res.status(201).json(revisedTask);
         };
-    })
-    .catch(err => {
-        if(err.kind === "ObjectId") {
-            return res.status(404).json({
-                message: "The server was unable to find this task"
-            }); 
-        } else {
+    
+        Task.updateOne({ _id: taskId }, {
+            $set: task
+        })
+        .then(revisedTask => {
+            if(!revisedTask) {
+                return res.status(404).json({
+                    message: "Task not found"
+                }); 
+            } else {
+                callback(null, {
+                    message: "Your task has been updated",
+                    task
+                });
+            };
+        })
+        .catch(err => {
+            if(err.kind === "ObjectId") {
+                return res.status(404).json({
+                    message: "Task not found"
+                }); 
+            } else {
+                return res.status(500).json({
+                    message: err.message
+                });
+            };
+        });
+    };
+
+    async.waterfall([
+        matchTerm,
+        updateTask
+    ], (err, results) => {
+        if(err) {
             return res.status(500).json({
-                message: err.message || "An error occurred on the server while processing your request"
+                message: err.message
             });
+        } else {
+            return res.status(200).json(results);
         };
     });
 };
@@ -141,30 +294,26 @@ controller.update = (req, res) => {
 controller.delete = (req, res) => {
     const { taskId } = req.params;
 
-    User.updateOne({ "task._id": taskId }, {
-        $pull: {
-            task: {
-                "task._id": taskId
-            }
-        }
-    })
+    Task.deleteOne({ _id: taskId })
     .then(deletedTask => {
         if(!deletedTask) {
             return res.status(404).json({
-                message: "The server was unable to find this task"
+                message: "Task not found"
             });
         } else {
-            return res.status(200).json(deletedTask);
+            return res.status(200).json({
+                message: "Your task has been deleted"
+            });
         };
     })
     .catch(err => {
         if(err.kind === "ObjectId" || err.name === "NotFound") {
             return res.status(404).json({
-                message: "The server was unable to find this task"
+                message: "Task not found"
             });
         } else {
             return res.status(500).json({
-                message: err.message || "An error occurred on the server while processing your request"
+                message: err.message
             });
         };
     });

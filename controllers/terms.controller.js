@@ -23,10 +23,10 @@ controller.create = (req, res) => {
 			end
 		}
 	})
-	.then(newTerm => {
+	.then(term => {
 		return res.status(201).json({
 			message: "New term created",
-			newTerm
+			term
 		});
 	})
 	.catch(err => {
@@ -97,7 +97,12 @@ controller.edit = (req, res) => {
 	};
 
 	const getYearOptions = (term, callback) => {
-		Year.find({ user: term[0].user }, {
+		Year.find({ 
+			user: term[0].user,
+			title: {
+				$ne: term[0].title
+			}
+		}, {
 			title: 1
 		})
 		.sort({ "date.start": -1 })

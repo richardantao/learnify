@@ -93,7 +93,7 @@ controller.read = (req, res) => {
     .then(assessments => {
         if(assessments.length === 0) {
             return res.status(404).json({
-                message: "Assessments not found"
+                message: "No assessments found"
             });
         } else {
             return res.status(200).json(assessments)
@@ -121,7 +121,7 @@ controller.filter = (req, res) => {
     .then(assessments => {
         if(assessments.length === 0) {
             return res.status(404).json({
-                message: "Assessments not found"
+                message: "No assessments found"
             });
         } else {
             return res.status(200).json(assessments);
@@ -135,7 +135,7 @@ controller.filter = (req, res) => {
 };
 
 controller.edit = (req, res) => {
-    const { assessmentId, termId } = req.params;
+    const { assessmentId } = req.params;
     
     getAssessment = (callback) => {
         Assessment.find({ _id: assessmentId }, {
