@@ -1,18 +1,25 @@
 const router = require("express").Router();
 const controller = require("../controllers/assessments.controller");
 
-// middleware
 const auth = require("../middleware/auth.middleware");
 const validation = require("../middleware/validation/assessments.validation");
 
+// create assessment
 router.post("/assessments", auth, validation, controller.create);
 
-router.get("/assessments", auth, controller.read);
+// get all the assessments in a term
+router.get("/terms/:termId/assessments", auth, controller.read);
 
+// get all the assessments for a course
+router.get("/courses/:courseId/assessments", auth, controller.filter);
+
+// get one assessment
 router.get("/assessments/:assessmentId", auth, controller.edit);
 
-router.put("/assessments/:assessmentId", auth, validation, controller.delete);
+// update an assessment
+router.put("/assessments/:assessmentId", auth, validation, controller.update);
 
+// delete an assessment
 router.delete("/assessments/:assessmentId", auth, controller.delete);
 
 module.exports = router;
