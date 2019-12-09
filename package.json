@@ -33,7 +33,7 @@
   "scripts": {
     "client": "cd client && npm start",
     "coverage": "nyc npm run test",
-    "debug": "node debug server.js",
+    "debug": "node inspect server.js",
     "deploy": "gcloud app deploy",
     "dev": "concurrently \"nodemon server.js\" \"cd client && npm start\"",
     "start": "concurrently \"node server.js\" \"cd client && npm start\"",
