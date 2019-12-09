@@ -5,7 +5,7 @@ const moment = require("moment");
 
 const CourseSchema = new Schema({
 	_id: Schema.Types.ObjectId,
-	user: { type: Schema.Types.ObjectId, ref: "users", required: true },
+	year: { type: Schema.Types.ObjectId, ref: "years", required: true },
 	term: [ { type: Schema.Types.ObjectId, ref: "terms", required: true } ],
 	code: { type: String, required: true },
 	title: { type: String, required: true },
