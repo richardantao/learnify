@@ -4,6 +4,8 @@ const model = require("mongoose").model;
 const crypto = require("crypto");
 const moment = require("moment");
 
+const Year = require("./Years.model");
+
 const UserSchema = new Schema({
     name: {
         first: { type: String, required: true },
@@ -39,6 +41,23 @@ const UserSchema = new Schema({
         updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
 	}
 });
+
+UserSchema.post("findByIdAndDelete", document => {
+    const id = document._id;
+    
+    Year.find({ user: id }, {
+        _id: 1
+    })
+    .then(years => {
+        years.map(year => {
+            Year.findOneAndDelete({ _id: year._id })
+        });
+    })
+    .catch(err => {
+
+    });
+});
+
 
 UserSchema.virtual("/dashboard/class/:id")
 .get(() => {
