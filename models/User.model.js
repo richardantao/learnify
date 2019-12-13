@@ -1,8 +1,14 @@
+require("dotenv").config();
+
 const Schema = require("mongoose").Schema;
 const model = require("mongoose").model;
 
 const crypto = require("crypto");
 const moment = require("moment");
+
+const sgMail = require('@sendgrid/mail');
+const user = process.env.AUTH_EMAIL;
+const sendGridKey = process.env.SENDGRID_API_KEY;
 
 const Year = require("./Years.model");
 
@@ -54,14 +60,33 @@ UserSchema.post("findByIdAndDelete", document => {
         });
     })
     .catch(err => {
-
+        sgMail.setApiKey(sendGridKey);
+        
+        const mailOptions = {
+            from: user,
+            to: user,
+            subject: "Cascade Error: Deleting User children",
+            html: `<!DOCTYPE HTML>
+            <html lang="en">
+                <head>
+                    <meta charset="utf-8">
+                    <style>
+                        p {
+                            font-size: 1.5em;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <p>	
+                        ${err.message}
+                    </p>
+                </body>
+            </html>
+            `
+        };
+        
+        sgMail.send(mailOptions);
     });
-});
-
-
-UserSchema.virtual("/dashboard/class/:id")
-.get(() => {
-    return '/dashboard/class/' + this._id;
 });
 
 module.exports = model("users", UserSchema);
