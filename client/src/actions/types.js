@@ -15,11 +15,6 @@ export const GET_ERRORS = "GET_ERRORS";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
 /* DATA */
-
-// dashboard 
-export const LOADING_DASHBOARD = "LOADING_DASHBOARD";
-export const FETCH_DASH_ITEMS = "FETCH_DASH_ITEMS";
-
 // years
 export const LOADING_YEARS = "LOADING_YEARS";
 export const FETCH_YEARS = "FETCH_YEARS";
@@ -46,15 +41,6 @@ export const NEW_COURSE = "NEW_COURSE";
 export const CREATE_COURSE = "CREATE_COURSE";
 export const UPDATE_COURSE = "UPDATE_COURSE";
 export const DELETE_COURSE = "DELETE_COURSE";
-
-// modules
-export const LOADING_MODULES = "LOADING_MODULES";
-export const FETCH_MODULES = "FETCH_MODULES";
-export const EDIT_MODULE = "EDIT_MODULE";
-export const NEW_MODULE = "NEW_MODULE";
-export const CREATE_MODULE = "CREATE_MODULE";
-export const UPDATE_MODULE = "UPDATE_MODULE";
-export const DELETE_MODULE = "DELETE_MODULE";
 
 // classes
 export const LOADING_CLASSES = "LOADING_CLASSES";
@@ -86,13 +72,13 @@ export const UPDATE_TASK = "UPDATE_TASK";
 export const DELETE_TASK = "DELETE_TASK";
 
 // settings
-export const FETCH_PROFILE = "GET_PROFILE";
+export const EDIT_PROFILE = "EDIT_PROFILE";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
 
-export const FETCH_PASSWORD = "GET_PASSWORD";
+export const EDIT_PASSWORD = "EDIT_PASSWORD";
 export const UPDATE_PASSWORD = "UPDATE_PASSWORD";
 
-export const FETCH_PREFERENCES = "GET_PREFERENCES";
+export const EDIT_PREFERENCES = "EDIT_PREFERENCES";
 export const UPDATE_PREFERENCES = "UPDATE_PREFERENCES";
 
 export const LOADING_INTEGRATIONS = "LOADING_INTEGRATIONS";
@@ -108,15 +94,14 @@ export const DELETE_INTEGRATION = "DELETE_INTEGRATION";
 // counter in dashboard
 export const COUNT_DATA = "COUNT_DATA";
 
-/* VIEWS */
+/* UI */
 
 // nav
 export const LOADING_VIEW = "LOADING_VIEW"
 export const RENDER_DASHBOARD = "RENDER_DASHBOARD";
 export const RENDER_CALENDAR = "RENDER_CALENDAR";
 export const RENDER_ACADEMICS = "RENDER_ACADEMICS";
-export const RENDER_TASKS = "RENDER_TASKS"; 
-export const RENDER_ASSESSMENTS = "RENDER_ASSESSMENTS";
+export const RENDER_PLANNER = "RENDER_PLANNER";
 export const RENDER_SEARCH = "RENDER_SEARCH";
 export const RENDER_SETTINGS = "RENDER_SETTINGS";
 export const RENDER_HELP = "RENDER_HELP";
