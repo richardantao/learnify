@@ -18,19 +18,19 @@ app.use(cors());
 
 // Routes
 app.use("/", require("./routes/public.route"));
-app.use("/", require("./routes/auth.route"));
-app.use("/cron", require("./routes/cron.route"));
-app.use("/", require("./routes/users.route"));
+app.use("/v1/", require("./routes/auth.route"));
+app.use("/v1/cron", require("./routes/cron.route"));
+app.use("/v1/", require("./routes/users.route"));
 
-app.use("/", require("./routes/years.route"));
-app.use("/", require("./routes/terms.route"));
-app.use("/", require("./routes/courses.route"));
-app.use("/", require("./routes/classes.route"));
-app.use("/", require("./routes/assessments.route"));
-app.use("/", require("./routes/tasks.route"));
+app.use("/v1/", require("./routes/years.route"));
+app.use("/v1/", require("./routes/terms.route"));
+app.use("/v1/", require("./routes/courses.route"));
+app.use("/v1/", require("./routes/classes.route"));
+app.use("/v1/", require("./routes/assessments.route"));
+app.use("/v1/", require("./routes/tasks.route"));
 
-app.use("/search", require("./routes/search.route"));
-app.use("/integrations", require("./routes/integrations.route"));
+app.use("/v1/", require("./routes/search.route"));
+app.use("/v1/", require("./routes/integrations.route"));
 
 // Conditional environment routing
 if(env === "production") {
