@@ -15,36 +15,10 @@ export const setLoading = () => {
     };
 };
 
-export const fetchAssessments = () => dispatch => {
-    dispatch(setLoading());
-    
-    axios.get("/planner")
-    .then(res => dispatch({
-        type: FETCH_ASSESSMENTS,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.data, err.status)
-    ));
-};
-
-export const fetchPastAssessments = () => dispatch => {
+export const newAssessment = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get("/planner/past")
-    .then(res => dispatch({
-        type: FETCH_PAST_ASSESSMENTS,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.data, err.status)
-    ));
-};
-
-export const newAssessment = courses => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get("/planner/assessments/new", courses, tokenConfig(getState))
+    axios.get(`http://localhost:3000/v1/terms/${termId}/courses`, tokenConfig(getState))
     .then(res => dispatch({
         type: NEW_ASSESSMENT,
         payload: res.data
@@ -57,9 +31,62 @@ export const newAssessment = courses => (dispatch, getState) => {
 export const createAssessment = newAssessment => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("/planner/assessments/create", newAssessment, tokenConfig(getState))
+    axios.post("http://localhost:3000/v1/assessments", newAssessment, tokenConfig(getState))
     .then(res => dispatch({
         type: CREATE_ASSESSMENT,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.data, err.status)
+    ));
+};
+
+export const fetchAssessmentsByTerm = () => dispatch => {
+    dispatch(setLoading());
+    
+    axios.get(`http://localhost:3000/v1/terms/${termId}/assessments`, tokenConfig(getState))
+    .then(res => dispatch({
+        type: FETCH_ASSESSMENTS,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.data, err.status)
+    ));
+};
+
+export const fetchPastAssessmentsByTerm = termId => dispatch => {
+    dispatch(setLoading());
+
+    axios.get(`http://localhost:3000/v1/terms/${termId}/assessments`, tokenConfig(getState))
+    .then(res => dispatch({
+        type: FETCH_PAST_ASSESSMENTS,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.data, err.status)
+    ));
+};
+
+export const fetchAssessmentsByCourse = courseId => dispatch => {
+    dispatch(setLoading());
+
+    axios.get(`http://localhost:3000/v1/terms/${courseId}/assessments`, tokenConfig(getState))
+    .then(res => dispatch({
+        type: FETCH_ASSESSMENTS,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.data, err.status)
+    ));
+};
+
+// add query to filter assessments
+export const fetchPastAssessmentsByCourse = courseId => dispatch => {
+    dispatch(setLoading());
+
+    axios.get(`http://localhost:3000/v1/terms/${courseId}/assessments`, tokenConfig(getState))
+    .then(res => dispatch({
+        type: FETCH_ASSESSMENTS,
         payload: res.data
     }))
     .catch(err => dispatch(
@@ -70,7 +97,7 @@ export const createAssessment = newAssessment => (dispatch, getState) => {
 export const editAssessment = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/planner/assessments/edit/:${_id}`, tokenConfig(getState))
+    axios.get(`http://localhost:3000/v1/assessments/${_id}`, tokenConfig(getState))
     .then(res => dispatch({
         type: EDIT_ASSESSMENT,
         _id,
@@ -81,10 +108,10 @@ export const editAssessment = _id => (dispatch, getState) => {
     ));
 };
 
-export const updateAssessment = _id => (dispatch, getState) => {
+export const updateAssessment = (_id, assessment) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`/planner/assessments/update/:${_id}`, tokenConfig(getState))
+    axios.put(`http://localhost:3000/v1/assessments/${_id}`, assessment, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_ASSESSMENT,
         _id,
@@ -98,7 +125,7 @@ export const updateAssessment = _id => (dispatch, getState) => {
 export const deleteAssessment = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`/planner/assessments/delete/:${_id}`, tokenConfig(getState))
+    axios.delete(`http://localhost:3000/v1/assessments/${_id}`, tokenConfig(getState))
     .then(res => dispatch({
         type: DELETE_ASSESSMENT,
         payload: _id

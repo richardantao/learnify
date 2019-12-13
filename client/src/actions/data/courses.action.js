@@ -13,23 +13,10 @@ export const setLoading = () => {
     };
 };
 
-export const fetchCourses = () => dispatch => {
-    dispatch(setLoading());
-    
-    axios.get("/academics")
-    .then(res => dispatch({
-        type: FETCH_COURSES,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.data, err.status)
-    ));
-};
-
-export const newCourse = terms => (dispatch, getState) => {
+export const newCourse = yearId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get("/academics/courses/new", terms, tokenConfig(getState))
+    axios.get(`http://localhost:3000/v1/years/${yearId}/terms`, tokenConfig(getState))
     .then(res => dispatch({
         type: NEW_COURSE,
         payload: res.data
@@ -42,9 +29,22 @@ export const newCourse = terms => (dispatch, getState) => {
 export const createCourse = course => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("/academics/courses/create", course, tokenConfig(getState))
+    axios.post("http://localhost:3000/v1/courses", course, tokenConfig(getState))
     .then(res => dispatch({
         type: CREATE_COURSE,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.data, err.status)
+    ));
+};
+
+export const fetchCourses = termId => dispatch => {
+    dispatch(setLoading());
+    
+    axios.get(`http://localhost:3000/v1/terms/${termId}/courses`, tokenConfig(getState))
+    .then(res => dispatch({
+        type: FETCH_COURSES,
         payload: res.data
     }))
     .catch(err => dispatch(
@@ -55,10 +55,9 @@ export const createCourse = course => (dispatch, getState) => {
 export const editCourse = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/academics/courses/edit/:${_id}`, tokenConfig(getState))
+    axios.get(`http://localhost:3000/v1/courses/${_id}`, tokenConfig(getState))
     .then(res => dispatch({
         type: EDIT_COURSE,
-        _id,
         payload: res.data
     }))
     .catch(err => dispatch(
@@ -66,13 +65,12 @@ export const editCourse = _id => (dispatch, getState) => {
     ));
 };
 
-export const updateCourse = _id => (dispatch, getState) => {
+export const updateCourse = (_id, course) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`/academics/courses/update/:${_id}`, tokenConfig(getState))
+    axios.put(`http://localhost:3000/v1/courses/${_id}`, course, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_COURSE,
-        _id,
         payload: res.data
     }))
     .catch(err => dispatch(
@@ -83,7 +81,7 @@ export const updateCourse = _id => (dispatch, getState) => {
 export const deleteCourse = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`/academics/courses/delete/:${_id}`, tokenConfig(getState))
+    axios.delete(`http://localhost:3000/v1/courses/${_id}`, tokenConfig(getState))
     .then(res => dispatch({
         type: DELETE_COURSE,
         payload: _id
