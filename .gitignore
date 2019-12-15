@@ -6,14 +6,15 @@ package-lock.json
 .env
 
 # documentation
+.gitignore
 documentation
 
-# 
-*.yaml
-
 # GCP
+*.yaml
 .gcloudignore
 
 # Docker
 .dockerignore
 Dockerfile
+
+*.icloud
