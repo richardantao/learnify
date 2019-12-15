@@ -4,7 +4,22 @@
   "description": "Learnify's server npm",
   "main": "server.js",
   "directories": {
-    "client": {},
+    "client": {
+      "public": {
+        "assets": {
+          "icons": {},
+          "images": {},
+          "scripts": {},
+          "stylesheets": {}
+        }
+      },
+      "src": {
+        "actions": {},
+        "components": {},
+        "reducers": {},
+        "App": "App.js"
+      }
+    },
     "config": {
       "db": "db.js"
     },
@@ -14,15 +29,6 @@
       "validation": {}
     },
     "models": {},
-    "public": {
-      "assets": {
-        "icons": {},
-        "images": {},
-        "scripts": {},
-        "stylesheets": {}
-      },
-      "index.html": "index.html"
-    },
     "routes": {},
     "test": "test",
     "app.yaml": "app.yaml",
@@ -59,6 +65,7 @@
     "helmet": "^3.21.2",
     "immutable": "^4.0.0-rc.12",
     "jsonwebtoken": "^8.5.1",
+    "learnify-client": "file:client",
     "migrate": "^1.6.2",
     "moment": "^2.24.0",
     "mongodb": "^3.4.0",
