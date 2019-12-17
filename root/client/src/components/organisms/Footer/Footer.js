@@ -6,7 +6,7 @@ export default class Footer extends Component {
     render() {
         return (
             <footer class="container-fluid" role="contentinfo">
-            <div id="footer-internal">
+            <div className="footer-internal">
                 <div>
                     <h3>Learnify</h3>
                     <p>Building the Foundations for Student Success.</p>
@@ -35,8 +35,8 @@ export default class Footer extends Component {
                     <a href="https://docs.learnify.ca/status">System Status</a>
                 </div>
             </div>
-            <div id="footer-public">
-                <div id="copyright">
+            <div className="footer-public">
+                <div className="copyright">
                     <p>Copyright <i className='far fa-copyright'></i> {year} Learnify. All rights reserved.</p>
                 </div>
                 <div>
