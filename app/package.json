@@ -4,7 +4,14 @@
   "description": "Learnify's official server node package manager",
   "main": "server.js",
   "scripts": {
-    "test": "mocha --timeout 5000"
+    "client": "cd client && npm start",
+    "coverage": "nyc npm run test",
+    "debug": "node inspect server.js",
+    "deploy": "gcloud app deploy",
+    "dev": "concurrently \"nodemon server.js\" \"cd client && npm start\"",
+    "start": "concurrently \"node server.js\" \"cd client && npm start\"",
+    "server": "nodemon server.js",
+    "test": "NODE_ENV=test mocha --timeout 5000"
   },
   "author": "Richard Antao",
   "license": "UNLICENSED",
