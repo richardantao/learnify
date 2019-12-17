@@ -3,9 +3,10 @@ import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
 import { postContact } from "../../../actions/contact";
+import { clearErrors } from "../../../actions/errors";
 import PropTypes from "prop-types";
 
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { Alert, Button, Form, FormGroup, Label, Input } from "reactstrap";
 
 import Header from "../../organisms/Header";
 import Footer from "../../organisms/Footer";
@@ -22,7 +23,8 @@ class Contact extends Component {
     static propTypes = {
         contact: PropTypes.object.isRequired,
         error: PropTypes.object.isRequired,
-        postContact: PropTypes.func.isRequired
+        postContact: PropTypes.func.isRequired,
+        clearErrors: PropTypes.func.isRequired
     };
 
     handleChange = e => {
@@ -34,6 +36,7 @@ class Contact extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
+        // grab fields from state
         const { name, email, message } = this.state;
 
         const contact = {
@@ -44,10 +47,20 @@ class Contact extends Component {
 
         console.log(contact);
 
+        // pass data to API
         this.props.postContact(contact);
+
+        // reset form fields
+        this.setState({
+            name: "",
+            email: "",
+            message: ""
+        });
     };
     
     render() {
+        const { name, email, message } = this.state;
+
         return (
             <Fragment>
                 <Helmet>
@@ -60,18 +73,19 @@ class Contact extends Component {
                     <title>Learnify | Contact Us</title>
                 </Helmet>
                 <Header/>
-                <main role="main">
-                    <img src="assets/images/contact-min.jpg" id="background"/>
-                    <div id="pitch">
+                <main role="contact-main">
+                    <img src="assets/images/contact-min.jpg" className="contact-background" alt=""/>
+                    <div className="contact-pitch">
                         <h3>Have a question? Send us a message.</h3>
                     </div>
-                    <Form onSubmit={this.handleSubmit} class="contact-form">
+                    <Form onSubmit={this.handleSubmit} className="contact-form">
                         <FormGroup>
                             <Label for="name">Name</Label>
                             <Input 
                                 name="name" 
                                 type="text" 
-                                placeholder="John Doe" 
+                                placeholder="John Doe"
+                                value={name}
                                 required
                                 onChange={this.handleChange}
                             />
@@ -82,6 +96,7 @@ class Contact extends Component {
                                 name="email"
                                 type="email" 
                                 placeholder="johndoe@example.com" 
+                                value={email}
                                 required
                                 onChange={this.handleChange}
                             />
@@ -91,13 +106,14 @@ class Contact extends Component {
                             <Input
                                 name="message" 
                                 type="textarea"
+                                value={message}
                                 placeholder="Type your message here.." 
                                 required
                             />
                         </FormGroup>
                         <FormGroup>
-                            <Button class="form-reset" type="reset">Reset Form</Button>
-                            <Button class="form-submit" type="submit">Submit Message</Button>
+                            <Button className="form-reset" type="reset">Reset Form</Button>
+                            <Button className="form-submit" type="submit">Submit Message</Button>
                         </FormGroup>
                     </Form>
                 </main>
@@ -112,7 +128,7 @@ const mapStateToProps = state => ({
     error: state.error
 });
 
-const mapDispatchToProps = { postContact };
+const mapDispatchToProps = { postContact, clearErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Contact);
 

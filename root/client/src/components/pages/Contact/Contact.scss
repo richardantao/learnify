@@ -1,4 +1,4 @@
-#background {
+.contact-background {
     height: 500px;
     object-fit: cover;
     opacity: 0.8;
@@ -8,17 +8,17 @@
 }
 
 textarea {
-    margin-bottom: 10%;
+    margin-bottom: 2%;
 }
 
-#pitch {
+.contact-pitch {
     position: absolute;
         left: 10%;
         top: 15%;
     width: 95%;
 }
 
-#pitch h3 {
+.contact-pitch h3 {
     font-size: 1.5em;
 }
 
@@ -40,13 +40,13 @@ textarea {
 }
 
 @media (min-width:576px) {
-    #background {
+    .contact-background {
         height: auto; 
         object-fit: contain;
         width: 100%;
     }
 
-    #pitch {
+    .contact-pitch {
         font-size: 2em;    
         left: 10%;
         top: 22%;
@@ -69,7 +69,7 @@ textarea {
 }
 
 @media (min-width:768px) {
-    #pitch {
+    .contact-pitch {
         left: 10%;
         top: 40%;
         width: 35%;
@@ -83,7 +83,7 @@ textarea {
 }
 
 @media (min-width:992px) {
-    #pitch {    
+    .contact-pitch {    
         left: 15%;
         top: 40%;
         width: 28%;
@@ -91,13 +91,13 @@ textarea {
 }
 
 @media (min-width:1200px) {
-    #pitch {
+    .contact-pitch {
         left: 20%;
         top: 40%;
         width: 22%;
     }
     
-    #pitch h3 {
+    .contact-pitch h3 {
         font-size: 2em;
     }
 }

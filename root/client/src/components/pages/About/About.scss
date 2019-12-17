@@ -1,4 +1,4 @@
-main {
+.about-main {
     background: #FAFAFA;
     border-bottom: #E1E1E1 1px solid;
     border-top: #E1E1E1 1px solid;
@@ -8,11 +8,11 @@ main h1, main div {
     margin: 0 2%;
 }
 
-#about p {
+.mission p, .values p {
     margin: 0;
 }
 
-#team {
+.team {
     display: grid;
         grid-template-columns: 100%;
         grid-template-rows: 50px 575px 575px 575px;
@@ -33,23 +33,23 @@ main h1, main div {
 }
 
 @media (min-width:768px) {
-    #team {
+    .team {
         grid-template-columns: 50% 50%;
         grid-template-rows: 50px 520px 520px;
     }
 
-    #team h2 {
+    .team h2 {
         grid-column-end: span 2;
     }
 }
 
 @media (min-width:992px) {
-    #team {
+    .team {
         grid-template-columns: 33% 33% 33%;
         grid-template-rows: 50px 532px;
     }
 
-    #team h2 {
+    .team h2 {
         grid-column-end: span 3;
     }
 }

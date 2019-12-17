@@ -1,9 +1,9 @@
 /* This stylesheet uses mobile-first design */
-main {
+.home-main {
     position: relative;
 }
 
-#background {
+.home-background {
     height: 500px;
     object-fit: cover;
     opacity: 0.8;
@@ -12,18 +12,18 @@ main {
     z-index: 0;
 }
 
-#pitch {
+.home-pitch {
     position: absolute;
     left: 5%;
-    top: 9.5%;
+    top: 10%;
     width: 90%;
 }
 
-#pitch h3 {
+.home-pitch h3 {
     font-size: 1.25em;
 }
 
-#pitch p {
+.home-pitch p {
     font-size: 0.89em;
 }
 
@@ -45,42 +45,41 @@ main {
     display: block;
 }
 
-
 /* MEDIA QUERIES */
 
 /* Landscape phones */
 @media (min-width: 576px) {
-    #pitch {
+    .home-pitch {
         left: 5%;
         top: 9.5%;
         width: 90%;
     }
 
-    #pitch p {
+    .home-pitch p {
         font-size: 1em;
     }
 }
 
 /* Tablets */
 @media (min-width: 768px) {
-    #background {
+    .home-background {
         height: auto;
         object-fit: contain;
         width: 100%;
     }
-    #pitch {
+    .home-pitch {
         left: 15%;
-        top: 25%;
+        top: 50%;
         width: 30%;
     }
     
     small {
-        font-size: 1.25vw;
+        font-size: 1.2vw;
     }
 
     .beta-form {
         left: 50%;
-        top: 25%;
+        top: 42%;
         width: 40%;
     }
 
@@ -95,21 +94,21 @@ main {
 
 /* Desktops */
 @media (min-width: 992px) {
-    #pitch h3 {
+    .home-pitch h3 {
         font-size: 1.75em;
     }
 
-    #pitch p {
+    .home-pitch p {
         font-size: 1.2em;
     }
 }
 
 @media (min-width: 1200px) {
-    #pitch h3 {
+    .home-pitch h3 {
         font-size: 2em;
     }
 
-    #pitch p {
+    .home-pitch p {
         font-size: 1.5em;
     }
 }

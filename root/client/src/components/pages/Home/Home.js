@@ -3,19 +3,21 @@ import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
 import { postInvite } from "../../../actions/beta";
+import { clearErrors } from "../../../actions/errors";
 import PropTypes from "prop-types";
 
 import Header from "../../organisms/Header";
 import Footer from "../../organisms/Footer";
 
-import { Button, Form, FormGroup, Input, Label } from "reactstrap";
+import { Alert, Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 import "./Home.scss";
 
 class Home extends Component {
     state = {
         name: "",
-        email: ""
+        email: "",
+        message: null
     };
 
     static propTypes = {
@@ -30,6 +32,13 @@ class Home extends Component {
         });
     };
 
+    handleReset = e => {
+        e.preventDefault();
+
+        // clear errors
+        this.props.clearErrors();
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -40,10 +49,19 @@ class Home extends Component {
             email
         };
 
+        // pass data to API
         this.props.postInvite(beta);
+
+        // reset form fields
+        this.setState({
+            name: "",
+            email: ""
+        });
     };
 
     render() {
+        const { name, email, message } = this.state;
+        
         return (
             <Fragment>
                 <Helmet>    
@@ -56,22 +74,28 @@ class Home extends Component {
                     <title>Learnify</title>
                 </Helmet>
                 <Header/>
-                <main role="main">
-                    <img src="assets/images/home-min.jpg" id="background" alt=""/>
-                    <div id="pitch">
+                <main role="home-main">
+                    <img src="assets/images/home-min.jpg" className="home-background" alt=""/>
+                    <div className="home-pitch">
                         <h3>Building the Foundations for Student Sucess</h3>
-                        {/* <p>
+                        <p>
                             Sign up for the beta program to have a successful school year right at your finger tips. 
                             Academic excellence has never been this simple.
-                        </p> */}
+                        </p>
                     </div>
-                    <Form onSubmit={this.handleSubmit} class="beta-form" role="form">
+                    <Form onSubmit={this.handleSubmit} className="beta-form" role="form">
+                        { message ? (
+                            <Alert color="danger">{message}</Alert>
+                        ) : message === `An email confirmation of your invite has been sent to ${email}` ? (
+                            <Alert color="success">{message}</Alert>  
+                        ) : null }
                         <FormGroup>
                             <Label for="name">Name</Label>
                             <Input 
                                 name="name" 
                                 type="text" 
                                 placeholder="Jane Doe" 
+                                value={name}
                                 required
                                 onChange={this.handleChange}
                                 />
@@ -82,14 +106,16 @@ class Home extends Component {
                                 name="email" 
                                 type="email" 
                                 placeholder="janedoe@example.com" 
+                                value={email}
                                 required
                                 onChange={this.handleChange}
                             />
-                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else. By requesting an invite you agree to our <a href="https://docs.learnify.ca/terms" target="_blank">Terms of Service</a> and <a href="https://docs.learnify.ca/privacy" target="_blank">Privacy Policy</a>.</small>
+                            <small className="emailHelp form-text text-muted">We'll never share your email with anyone else. 
+                            By requesting an invite you agree to our <a href="https://docs.learnify.ca/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="https://docs.learnify.ca/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</small>
                         </FormGroup>
                         <FormGroup>
-                            <Button class="form-reset" type="reset">Reset Form</Button>
-                            <Button class="form-submit" type="submit">Request Beta Invite</Button>
+                            <Button className="form-reset" type="reset" onClick={this.handleReset}>Reset Form</Button>
+                            <Button className="form-submit" type="submit">Request Beta Invite</Button>
                         </FormGroup>
                     </Form>
                 </main>
@@ -104,6 +130,6 @@ const mapStateToProps = state => ({
     error: state.error
 });
 
-const mapDispatchToProps = { postInvite };
+const mapDispatchToProps = { postInvite, clearErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
