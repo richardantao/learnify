@@ -1,5 +1,5 @@
-import { PROCESSING_FORM, POST_CONTACT } from "./types";
-import { returnErrors } from "../auth/errors.action";
+import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "./types";
+import { returnErrors } from "./errors";
 import axios from "axios";
 
 export const setLoading = () => {
@@ -8,7 +8,7 @@ export const setLoading = () => {
     };
 };
 
-export const postInvite = contact => dispatch => {
+export const postContact = contact => dispatch => {
     dispatch(setLoading());
 
     axios.post("http://localhost:3001/contact", contact)
@@ -16,7 +16,12 @@ export const postInvite = contact => dispatch => {
         type: POST_CONTACT,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.data, err.status)
-    ));
+    .catch(err => {
+        dispatch(
+            returnErrors(err.res.data, err.res.status, "CONTACT_ERROR")
+        );
+        dispatch({
+          type: CONTACT_ERROR
+        });
+    });
 };

@@ -1,4 +1,4 @@
-import { PROCESSING_FORM, POST_INVITE } from "./types";
+import { PROCESSING_FORM, POST_INVITE, INVITE_ERROR } from "./types";
 import { returnErrors } from "./errors";
 import axios from "axios";
 
@@ -16,8 +16,13 @@ export const postInvite = beta => dispatch => {
         type: POST_INVITE,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.data, err.status)
-    ));
+    .catch(err => {
+        dispatch(
+            returnErrors(err.res.data, err.res.status, "INVITE_ERROR")
+        );
+        dispatch({
+          type: INVITE_ERROR
+        });
+    });
 };
 
