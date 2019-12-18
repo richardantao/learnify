@@ -1,11 +1,16 @@
 /* This stylesheet uses mobile first design */
 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$form-background: #F1F1F1;
+$border-line: #E1E1E1;
+
 body {
     overflow-x: hidden;
 }
 
 a {
-    color: #00BBFF;
+    color: $primary-color;
 }
 
 nav {
@@ -24,11 +29,17 @@ nav {
 }
 
 #side-nav {
-    border-right: #E1E1E1 1px solid;
+    border-right: $border-line 1px solid;
     float: left;
     height: 720px;
     margin-right: 2%;
     width: 20%;
+}
+
+#side-nav div {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
 }
 
 #side-nav h3 {
@@ -51,34 +62,17 @@ nav {
     width: 40px;
 }
 
+#changelog {
+    z-index: -2;
+}
+
+hr {
+    width: 30%;
+}
+
 form {
-    background-color: #F1F1F1;
+    background-color: $form-background;
     z-index: 1;
-}
-
-.active-page {
-    border-bottom: #00BBFF solid 5px;
-}
-
-.form-reset {
-    background-color: red;
-    color: white;
-    display: none;
-    font-size: 0.75em;
-    margin: 2% 4%;
-    position: absolute;
-        bottom: 1%;
-        right: 37%;
-}
-
-.form-submit {
-    background-color: #00BBFF;
-    color: white;
-    font-size: 0.75em;
-    margin: 2% 4%;
-    position: absolute;
-        bottom: 1%;
-        right: 1%;
 }
 
 footer {
