@@ -1,0 +1,234 @@
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background-color: #FAFAFA;
+$border-line: #E1E1E1;
+
+
+body {
+  overflow-x: hidden;
+}
+
+main {
+  background: $background-color;
+  border-bottom: $border-line 1px solid;
+  border-top: $border-line 1px solid;
+}
+
+main h1, main div {
+  margin: 0 2%;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+#pitch {
+  font-size: 1em;
+  font-weight: 400;
+  margin-bottom: 2.5%;
+  width: 95%;
+}
+
+#posts {
+  display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: 400px 400px 400px;
+}
+
+.blog-thumbnail {
+  height: 250px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.card {
+  margin-bottom: 5%;
+  min-height: 400px;
+  width: 100%;
+}
+
+a {
+  color: #00BBFF;
+}
+
+nav {
+  font-size: 1.25em;
+  position: relative;
+}
+
+#nav a {
+  float: right;
+  margin: 0;
+  padding: 18px;
+}
+
+#nav a:hover {
+  text-decoration: none;
+}
+
+#logo {
+  height: 40px;
+  margin: 0.5%;
+  width: 40px;
+}
+
+footer {
+  margin: 2%;
+  min-height: 130px;
+}
+
+footer a {
+  display: block;
+}
+
+#footer-internal {
+  display: grid;
+      grid-template-columns: 50% 50%;
+      grid-template-rows: 25% 42% 33%;
+}
+
+#footer-internal div:first-child {
+  grid-column-end: span 3;
+}
+
+#footer-internal div:nth-child(4) {
+  grid-column-start: 1;
+}
+
+#footer-public {
+  display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: 50% 50%;
+}
+
+#copyright {
+  font-size: 0.75em;
+  position: relative;
+      top: 8px;
+}
+
+.social {
+  display: inline-block;
+  font-size: 1.5em;
+  margin-left: 5%;
+}
+
+/* Landscape phones */
+@media (min-width: 576px) {
+  nav {
+      font-size: 1.75em;
+  }
+
+  #logo {
+      height: 60px;
+      width: 60px;
+  }
+
+  #posts {
+    grid-template-columns: 50% 50%;
+        grid-template-rows: 475px 475px;
+  }
+
+  footer h3 {
+      font-size: 2em;
+  }
+
+  footer h5 {
+      font-size: 1.25em;
+  }
+
+  #footer-internal {
+      font-size: 1.5vw;
+      grid-template-columns: 48% 11% 15% 13% 13%;
+      grid-template-rows: 100%;
+  }
+
+  #footer-internal div:first-child {
+      grid-column-end: span 1;
+  }
+  
+  #footer-internal div:nth-child(4) {
+      grid-column-start: 4;
+  }
+  
+  #footer-public {
+      grid-column-start: 2;
+      grid-template-columns: 0 70% 30%;
+      grid-template-rows: 100%;
+      font-size: 1.5vw;
+  }
+  
+  #copyright {
+      grid-column-start: 2;
+      font-size: 1em;
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+  #pitch {
+    font-size: 1.25em;
+  }
+
+  h1 {
+      font-size: 2.5em;
+  }
+
+  h2 {
+      font-size: 28px;
+  }
+
+  #footer-internal div:nth-child(n+4):nth-child(-n+5) {
+      margin-top: 0;
+  }
+
+  #footer-public {
+      grid-template-columns: 26% 40% 33%;
+  }    
+}
+
+/* Desktops */
+@media (min-width: 992px) {
+  #pitch {
+    width: 58%;
+  }
+  #posts {
+      display: grid;
+          grid-template-columns: 33% 33% 33%;
+          grid-template-rows: 475px 475px 475px;
+          grid-gap: 5px;
+  }
+
+  h2 {
+      font-size: 28px;
+  }
+
+  nav {
+      font-size: 2em;
+  }
+
+  #logo {
+      height: 75px;
+      width: 75px;
+  }
+
+  #footer-public {
+      grid-template-columns: 26% 40% 33%;
+  }
+}
+
+@media (min-width:1200px) {
+  #posts {
+    height: 1450px;
+  }   
+  
+  #footer-internal {
+      grid-template-columns: 52% 10% 14% 12% 12%;
+      grid-template-rows: 100%;
+  }
+  
+  #footer-public {
+      grid-column-start: 2;
+      grid-template-columns: 25% 42% 33%;
+  }
+}
