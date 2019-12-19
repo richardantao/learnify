@@ -22,10 +22,10 @@ From `/`
 `npm run dev` - runs the react app and node server concurrently, using a proxy between ports 3000 and 3001, respectively.
 
 ## Website Structure
-This section details the breakdown of the subdomains, and how the entire website is organized.
+The top-level folders contain each domain, which is segregated by service.
 
 ### learnify.ca
-The root domain is held in `client/public/`, and contains all the static pages that are accessible to all users.
+The root domain contains the home page and contact page, which have a beta invite form and contact form, respectively.
 
 ### app.learnify.ca
 This subdomain hosts the application, and is only accessible to registered/authenticated users.
@@ -35,9 +35,6 @@ This subdomain is the beta version of the application. This service is to always
 
 ### blog.learnify.ca
 This subdomain is accessed through `blog.html` on the root domain. This subdomain is accessible to everyone, and holds all of Learnify's blog posts.
-
-### careers.learnify.ca
-The careers portal for interested applicants to apply for open positions. This subdomain is to be amalgamated with `team.learnify.ca` in a later version.
 
 ### docs.learnify.ca
 This subdomain hosts all supporting documents for Learnify, including but not limited to Terms of Service, What is Learnify, and the Changelog.
