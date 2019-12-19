@@ -1,7 +1,7 @@
 .contact-background {
     height: 500px;
     object-fit: cover;
-    opacity: 0.8;
+    opacity: 0.65;
     position: relative;
     width: auto;
     z-index: 0;
@@ -31,14 +31,6 @@ textarea {
     width: 80%;
 }
 
-.form-control {
-    display: none;
-}
-
-.form-control-sm {
-    display: block;
-}
-
 @media (min-width:576px) {
     .contact-background {
         height: auto; 
@@ -57,14 +49,6 @@ textarea {
         left: 50%;
         top: 22%;
         width: 40%;
-    }
-
-    .form-control {
-        display: block;
-    }
-    
-    .form-control-sm {
-        display: none;
     }
 }
 

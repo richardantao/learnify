@@ -49,8 +49,8 @@ export default class Start extends Component {
                     <div id="what">
                         <h1>What is Learnify?</h1>
                         <p>
-                            Learnify helps you organize everything related to school: classes, homework, assignments, meetings, exams, 
-                            and more.
+                            Learnify is your all-in-one study tool, helping you stay on top of your classes, 
+                            homework, assignments, meetings, exams, and more.
                         </p>
                     </div>
                     <div id="why">
@@ -59,7 +59,7 @@ export default class Start extends Component {
                             <li>Organize all of your school material in a centralized location</li>
                             <li>Automate repetitive planning</li>
                             <li>Spend less time thinking and more time doing</li>
-                            <li>Have your school planner with you wherever you go</li>
+                            <li>Have your paperless school planner with you wherever you go</li>
                             <li>Share resources and insight with your local academic community</li>
                             <li>Gain insight into courses you consider taking in the future</li>
                         </ul>
@@ -70,7 +70,7 @@ export default class Start extends Component {
                             <h5>Dashboard</h5>
                             <p>
                                 Stay on top of all important items with the Dashboard; See all the upcoming classes for the day, 
-                                as well as tasks and evaluations due within the week. 
+                                as well as tasks and assessments due within the week. 
                             </p>
                         </div>
                         <div>
@@ -80,18 +80,18 @@ export default class Start extends Component {
                             </p>
                         </div>
                         <div>
-                            <h5>Tasks and Evaluations</h5>
+                            <h5>Academics</h5>
                             <p>
-                                Tasks and Evaluations allow you to keep concise tabs on your upcoming homework, assignments, and exams.
-                                Set a deadline/date and Learnify will automatically organize your upcoming items in highest priority, to help you 
-                                keep your work load focused and spaced.
+                                The Academics feature is your all-in-one course manager, allowing you to keep track of all your courses - by semester, and year. Set up repeating
+                                classes that are displayed on the calendar, tabulate your courses, track your grades, and more. 
                             </p>
                         </div>
                         <div>
-                            <h5>Courses</h5>
+                            <h5>Planner</h5>
                             <p>
-                                The Courses feature allows you to keep track of all your courses - by semester, and year. Set up repeating
-                                classes that are displayed on the calendar, organize your assessments by modules, track your grades, and much more. 
+                                Planner allows you to keep concise tabs on your upcoming homework, assignments, and exams.
+                                Set a deadline/date and Learnify will automatically organize your upcoming tasks and assessments in highest priority, to help you 
+                                keep your work load focused and spaced.
                             </p>
                         </div>
                     </div>

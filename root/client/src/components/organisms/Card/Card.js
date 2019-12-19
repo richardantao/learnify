@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Row, Col, Container } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 import "./Card.scss";
 

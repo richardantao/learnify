@@ -14,12 +14,12 @@ export default class Footer extends Component {
                     <div>
                         <h5>Company</h5>
                         <a href="https://learnify.ca/about">About Us</a>
+                        <a href="https://team.learnify.ca/">Team</a>
                         <a href="https://blog.learnify.ca/">Blog</a>
                         <a href="https://learnify.ca/contact">Contact Us</a>
-                        <a href="https://careers.learnify.ca/">Join the Team</a>
                     </div>
                     <div>
-                        <h5>Documentation</h5>
+                        <h5>Explore</h5>
                         <a href="/">What is Learnify?</a>
                         <a href="/#why">Why use Learnify?</a>
                         <a href="/api">Developers</a>
@@ -29,6 +29,7 @@ export default class Footer extends Component {
                         <a href="/terms">Terms of Service</a>
                         <a href="/privacy">Privacy Policy</a>
                         <a href="/cookies">Cookie Policy</a>
+                        <a href="/sitemap">Sitemap</a>
                     </div>
                     <div>
                         <h5>System</h5>
@@ -41,10 +42,10 @@ export default class Footer extends Component {
                         <p>Copyright <i className="far fa-copyright"></i> {year} Learnify. All rights reserved.</p>
                     </div>
                     <div>
-                        <a href="https://facebook.com" class="social" target="_blank"><i class="fab fa-facebook"></i></a>
-                        <a href="https://www.linkedin.com/company/learnify" class="social" target="_blank"><i class="fab fa-linkedin"></i></a>
-                        <a href="https://www.instagram.com/learnify.ca" class="social" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="https://twitter.com/learnify_ca" class="social" target="_blank"><i class="fab fa-twitter-square"></i></a>
+                        <a href="https://facebook.com" class="social" target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook"></i></a>
+                        <a href="https://www.linkedin.com/company/learnify" className="social" target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/learnify.ca" className="social" target="_blank" rel="noopener noreferrer"><i className="fab fa-instagram"></i></a>
+                        <a href="https://twitter.com/learnify_ca" className="social" target="_blank" rel="noopener noreferrer"><i classNameName="fab fa-twitter-square"></i></a>
                     </div>
                 </div>
             </footer>

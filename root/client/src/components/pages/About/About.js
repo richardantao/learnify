@@ -29,11 +29,11 @@ export default class About extends Component {
                     <div className="about">
                         <h2>Mission</h2>
                         <p>
-                            At Learnify we believe in the transformational power of education. It is through accessible and engaging education that we can solve 
+                            At Learnify, we believe in the transformational power of education. It is through accessible and engaging education that we can solve 
                             the world's complex issues.
                         </p>
                         <p>
-                            Providing the tools and resources that facilitate a stimulating and meaningful environment for students is 
+                            We believe there are better ways to learn, and providing the tools and resources that facilitate a stimulating and meaningful environment for students is 
                             integral to making that happen.
                         </p>
                         <p>
@@ -49,7 +49,7 @@ export default class About extends Component {
                         </p>
                         <h4>Service</h4>                        
                         <p>
-                            Service to us means taking care of our people and our customers. Business and technology mean nothing if they don't help people.
+                            Service to us means taking care of our people and our customers. Business and technology have no meaning if they don't help people.
                         </p>
                         <h4>Continous Improvement</h4>
                         <p>
@@ -77,18 +77,10 @@ export default class About extends Component {
                             description="Richard is the founder of Learnify; 
                             he is currently responsible for marketing, finance, strategy, 
                             and software development. 
-                            Richard is building Learnify alongside his studies at 
-                            Western University, where he is a fourth year Integrated Engineering 
-                            student."
+                            He is in his final year of Integrated Engineering
+                            at Western University. Aside from school and Learnify, Richard enjoys 
+                            going to the gym, is an avid reader, and is crazy about cooking."
                         />
-                        <Card
-                            src=""
-                            alt=""
-                            person=""
-                            title=""
-                            description=""
-                        />
-                        
                     </div>
                 </main>
                 <Footer/>

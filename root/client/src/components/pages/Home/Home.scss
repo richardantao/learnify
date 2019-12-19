@@ -1,4 +1,4 @@
-/* This stylesheet uses mobile-first design */
+/* Mobile phones */
 .home-main {
     position: relative;
 }
@@ -37,16 +37,6 @@
     width: 85%;
 }
 
-.form-control {
-    display: none;
-}
-
-.form-control-sm {
-    display: block;
-}
-
-/* MEDIA QUERIES */
-
 /* Landscape phones */
 @media (min-width: 576px) {
     .home-pitch {
@@ -69,7 +59,7 @@
     }
     .home-pitch {
         left: 15%;
-        top: 50%;
+        top: 25%;
         width: 30%;
     }
     
@@ -79,16 +69,8 @@
 
     .beta-form {
         left: 50%;
-        top: 42%;
+        top: 20%;
         width: 40%;
-    }
-
-    .form-control {
-        display: block;
-    }
-
-    .form-control-sm {
-        display: none;
     }
 }
 

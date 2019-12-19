@@ -2,6 +2,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const sgMail = require("@sendgrid/mail");
 const async = require("async");
 const moment = require("moment");
@@ -41,6 +42,10 @@ app.listen(port, () => {
 });
 
 /* Routes */
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+
 app.post("/invite", (req, res) => {
     const { name, email } = req.body;
     const error = validationResult(req);
@@ -163,6 +168,7 @@ app.post("/invite", (req, res) => {
 
 app.post("/contact", (req, res) => {
     const { name, email, text } = req.body;
+    const error = validationResult(req);
     
     sgMail.setApiKey(sendGridKey);
 
@@ -173,12 +179,11 @@ app.post("/contact", (req, res) => {
     
     check(email, "Email received an invalid input")
         .exists().withMessage("Email is a required field")
-        .isLength({ min: 5 }).withMessage("Email must contain at least 5 characters")
         .isEmail().withMessage("Email must be a valid email address");
     
     check(text, "Message received an invalid message")
         .exists().withMessage("Message is a required field")
-        .isLength({ min: 10 }).withMessage("Message must contain at least 10 characters");
+        .isLength({ min: 15 }).withMessage("Message must contain at least 15 characters");
 
     sanitize(name).escape();
     sanitize(email).escape().normalizeEmail();
@@ -199,7 +204,7 @@ app.post("/contact", (req, res) => {
                     <meta charset="utf-8">
                     <style>
                         p {
-                            font-size: 3em;
+                            font-size: 2em;
                         }
                     </style>
                 </head>

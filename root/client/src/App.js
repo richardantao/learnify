@@ -17,9 +17,9 @@ export default class App extends Component {
         return (
             <Provider store={store}>
                 <Switch>
-                    <Route name="home" path="/home" component={Home}/>
-                    <Route name="about" path="/about" component={About} />
-                    <Route name="contact" path="/contact" component={Contact} />
+                    <Route name="about" path="/about" component={About}/>
+                    <Route name="contact" path="/contact" component={Contact}/>
+                    <Route name="home" path="/" component={Home}/>
                 </Switch>
             </Provider>
         );  

@@ -5,7 +5,7 @@ import "./Footer.scss";
 export default class Footer extends Component {
     render() {
         return (
-            <footer class="container-fluid" role="contentinfo">
+            <footer role="contentinfo">
             <div className="footer-internal">
                 <div>
                     <h3>Learnify</h3>
@@ -19,7 +19,7 @@ export default class Footer extends Component {
                     <a href="https://careers.learnify.ca">Join the Team</a>
                 </div>
                 <div>
-                    <h5>Documentation</h5>
+                    <h5>Explore</h5>
                     <a href="https://docs.learnify.ca/what">What is Learnify?</a>
                     <a href="https://docs.learnify.ca/what#why">Why use Learnify?</a>
                 </div>
@@ -39,12 +39,12 @@ export default class Footer extends Component {
                 <div className="copyright">
                     <p>Copyright <i className='far fa-copyright'></i> {year} Learnify. All rights reserved.</p>
                 </div>
-                <div>
+                {/* <div>
                     <a href="https://facebook.com" className="social" target="_blank" rel="noopener noreferrer"><i className="fab fa-facebook"></i></a>
                     <a href="https://www.linkedin.com/company/learnify" className="social" target="_blank" rel="noopener noreferrer"><i className="fab fa-linkedin"></i></a>
                     <a href="https://www.instagram.com/learnify.ca" className="social" target="_blank" rel="noopener noreferrer"><i className="fab fa-instagram"></i></a>
                     <a href="https://twitter.com/learnify_ca" className="social" target="_blank" rel="noopener noreferrer"><i className="fab fa-twitter-square"></i></a>
-                </div>
+                </div> */}
             </div>
         </footer>
         );

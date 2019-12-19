@@ -30,12 +30,31 @@ export default class Sitemap extends Component {
                                 <a href="https://learnify.ca/contact">Contact</a>
                             </li>
                             <li>
-                                <a href="https://careers.learnify.ca/">Team</a>
+                                <a href="https://careers.learnify.ca/">Careers</a>
                             </li>
                         </ul>
                     </div>
                     <div>
-                        <h2>Join the Team</h2>
+                        <h2>Beta</h2>
+                        <ul>
+                            <li>
+                                <a href="https://beta.learnify.ca/register">Register</a>
+                            </li>
+                            <li>
+                                <a href="https://beta.learnify.ca/signin">Signin</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2>Blog</h2>
+                        <ul>
+                            <li>
+                                <a href="https://blog.learnify.ca/mission">Our Mission</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h2>Careers</h2>
                         <ul>
                             <li>
                                 <a href="https://careers.learnify.ca/designer">Visual Designer</a>
@@ -72,17 +91,12 @@ export default class Sitemap extends Component {
                             <li>
                                 <a href="/cookies">Cookie Policy</a>
                             </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h2>System</h2>
-                        <ul>
                             <li>
                                 <a href="/changelog">Changelog</a>
                             </li>
-                            <li>
+                            {/* <li>
                                 <a href="/status">System Status</a>
-                            </li>
+                            </li> */}
                         </ul>
                     </div>
                 </main>

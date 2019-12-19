@@ -1,0 +1,8 @@
+{
+    "name": "Learnify",
+    "short_name": "",
+    "description": "Learn how to create and share something or other.",
+    "start_url": "/?homescreen=1",
+    "background_color": "#000000",
+    "theme_color": "#00A6FF"
+}

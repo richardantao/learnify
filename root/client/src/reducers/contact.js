@@ -1,4 +1,4 @@
-import { PROCESSING_FORM, POST_CONTACT } from "../actions/types";
+import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "../actions/types";
 
 const initialState = {
     loading: false,
@@ -17,6 +17,12 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 contact: action.payload
+            };
+        case CONTACT_ERROR: 
+            return {
+                ...state,
+                loading: false,
+                contact: {}
             };
         default:
             return state;

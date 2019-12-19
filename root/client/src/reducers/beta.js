@@ -1,8 +1,8 @@
-import { PROCESSING_FORM, POST_INVITE } from "../actions/types";
+import { PROCESSING_FORM, POST_INVITE, INVITE_ERROR } from "../actions/types";
 
 const initialState = {
     loading: false,
-    beta: {}
+    beta: null
 };
 
 export default (state = initialState, action) => {
@@ -17,6 +17,12 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 beta: action.payload
+            };
+        case INVITE_ERROR:
+            return {
+                ...state,
+                loading: null,
+                beta: {}
             };
         default:
             return state;
