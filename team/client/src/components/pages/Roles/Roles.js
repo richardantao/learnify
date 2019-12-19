@@ -7,6 +7,13 @@ import PropTypes from "prop-types";
 import Nav from "../../organisms/Nav";
 import Footer from "../../organisms/Footer";
 
+import Backend from "../Backend";
+import Creator from "../Creator";
+import Designer from "../Designer";
+import Frontend from "../Frontend";
+import Marketer from "../Marketer";
+// import Swift from "../Swift";
+
 import { Button, Collapse, Card, CardBody, ListGroup, ListGroupItem } from "reactstrap";
 
 import "./Roles.scss";
@@ -131,17 +138,15 @@ class Roles extends Component {
                                             <ul>
                                                 <li>Write reusable, testable, and efficient server&ndash;side code in Node.js using the Express framework</li>
                                                 <li>Integrate user&ndash;facing elements developed by frontend developers with server&ndash;side logic</li>
+                                                <li>Scale Learnify's API to match our services</li>
                                                 <li>Create, manage, and test database schemas</li>
                                                 <li>Implement security and data protection</li>
                                                 <li>Work with the product team to develop a cohesive product strategy and roadmap</li>
                                                 <li>Implement automated testing platforms and unit tests prior to shipping code to the staging and production 
                                                     environments
                                                 </li>
-                                                <li>
-                                                    Manage the app's hosting and architecture on Google Cloud Platform; responsibilities include managing
-                                                    configurations, scaling the backend, and deploying the latest application versions. 
-                                                </li>
                                                 <li>Manage version control and assist with deploying updates</li>
+                                                <li>Assist with the technical aspects of documentation</li>
                                             </ul>
                                         </div>
                                         <div>
@@ -173,7 +178,7 @@ class Roles extends Component {
                                             <h5>The kind of people we are looking for:</h5>
                                             <ul>
                                                 <li>
-                                                    Communication &mdash; you can effectively communicate your thoughts and ideas to technical and non&mdash;technical 
+                                                    Communication &mdash; you can effectively communicate your thoughts and ideas to technical and non&ndash;technical 
                                                     people alike
                                                 </li>
                                                 <li>Conscientious &mdash; you're able to organize and manage multiple domains of work on the go</li>
@@ -193,7 +198,7 @@ class Roles extends Component {
                                             </p>
                                         </div>
                                         <div>
-                                            <Button href="/roles/backend">Apply Now</Button>
+                                            <Backend/>
                                         </div>
                                     </CardBody>
                                 </Card>
@@ -255,7 +260,7 @@ class Roles extends Component {
                                             </p>
                                         </div>
                                         <div>
-                                            <Button href="/roles/creator">Apply Now</Button>
+                                            <Creator/>
                                         </div>
                                     </CardBody>
                                 </Card>
@@ -350,7 +355,7 @@ class Roles extends Component {
                                             </p>
                                         </div>
                                         <div>
-                                            <Button href="/roles/designer">Apply Now</Button>
+                                            <Designer/>
                                         </div>
                                     </CardBody>
                                 </Card>
@@ -391,7 +396,8 @@ class Roles extends Component {
                                                 <li>Build reusable components and frontend libraries for future use</li>
                                                 <li>Work with the visual designer to translate the designs and wireframes into high quality code</li>
                                                 <li>Optimize components for maximum performance across a vast variety of web&ndash;capable devices and browsers</li>
-                                                <li>Work with the backend developer to ensure that data is successfully called from the API</li>
+                                                <li>Work with the backend developer to ensure that our services integrate with our API</li>
+                                                <li>Assist with the technical aspects of documentation</li>
                                             </ul>
                                         </div>
                                         <div>
@@ -443,7 +449,7 @@ class Roles extends Component {
                                             </p>
                                         </div>
                                         <div>
-                                            <Button href="/roles/frontend">Apply Now</Button>
+                                            <Frontend/>
                                         </div>
                                     </CardBody>
                                 </Card>
@@ -530,7 +536,7 @@ class Roles extends Component {
                                                 rigorously and aren't afraid to challenge assumptions. Join us today.
                                             </div>
                                             <div>
-                                                <Button href="/roles/marketer">Apply Now</Button>
+                                                <Marketer/>
                                             </div>
                                         </div>
                                     </CardBody>
