@@ -12,7 +12,11 @@ import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Nav from "../../global/Nav";
 import Header from "../../global/Header";
 import Tasks from "../../tasks/Tasks";
+import TaskEditModal from "../../tasks/TaskEditModal";
+import TaskNewModal from "../../tasks/TaskNewModal";
 import Assessments from "../../assessments/Assessments";
+import AssessmentEditModal from "../../assessments";
+import AssessmentNewModal from "../../assessments";
 
 import Select from "react-select";
 
@@ -29,6 +33,8 @@ class Planner extends Component {
     };
     
     render() {
+
+        
         return (
             <Fragment>
                 <Helmet>
@@ -53,11 +59,11 @@ class Planner extends Component {
                     <Row className="body tasks-body"> 
                         <Col>
                             <h2>Tasks</h2>
-                            <Button onClick={this.newTaskModal}><FontAwesomeIcon icon={faPlus}/> New Task</Button>
+                            <TaskNewModal/>
                         </Col>
                         <Col>
                             <h2>Assessments</h2>
-                            <Button onClick={this.newTaskModal}><FontAwesomeIcon icon={faPlus}/> New Assessment</Button>
+                            <AssessmentNewModal/>
                         </Col>
                     </Row>
                     <Row>

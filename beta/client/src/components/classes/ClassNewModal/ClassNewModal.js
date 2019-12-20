@@ -1,17 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { newClass, createClass } from "../../../actions/data/classes.action";
 import { clearErrors } from "../../../actions/auth/errors.action";
 import PropTypes from "prop-types";
 
-import { Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { 
+    Modal, ModalHeader, ModalBody, ModalFooter, 
+    Form, FormGroup, Label, Input, Button 
+} from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import "./ClassNewModal.scss";
 
 class ClassNewModal extends Component {
     state = {
-        open: false
+        modal: false
     };
 
     static propTypes = {
@@ -23,33 +28,29 @@ class ClassNewModal extends Component {
     };
     
     componentDidMount() {
-        this.setState({
-            open: true
-        }); 
+        const { newClass } = this.props; 
 
-        this.props.newClass();
+
+        newClass();
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { error } = this.props;
 
-        if(error) {
-            this.setState({
+        if(error !== prevProps.error) {
 
-            });
-        } else {
-            this.setState({
-
-            });
         };
     };
 
     toggle = () => {
+        const { clearErrors } = this.props;
+        const { modal } = this.state;
+
         this.setState({
-            open: !this.state.open
+            modal: !modal
         }); 
 
-        this.props.clearErrors();
+        clearErrors();
     };
 
     handleChange = e => {
@@ -61,13 +62,14 @@ class ClassNewModal extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
+        const { createClass } = this.props;
         const { } = this.state;
 
-        const newClass = {
+        const classes = {
 
         };
 
-        this.props.createClass(newClass);
+        createClass(classes);
 
         this.toggle();
     };
@@ -81,28 +83,36 @@ class ClassNewModal extends Component {
     };
 
     render() {
-        const { open } = this.state;
+        const { modal } = this.state;
 
         return(
-            <Modal isOpen={open} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}>New Class</ModalHeader>
-                <ModalBody>
+            <Fragment>
+                <Button onClick={this.toggle}>
+                    <FontAwesomeIcon icon={faPlus} New Class/>
+                </Button>
+
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>New Class</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for=""></Label>
-                            <Input 
-                                type="text"
-                                name=""
-                                onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit">Save</Button>
-                        </FormGroup>
-                    </Form>  
-                </ModalBody>
-            </Modal>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for=""></Label>
+                                <Input 
+                                    type="text"
+                                    name=""
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
+                            <ModalFooter>
+                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                                <Button type="submit">Save</Button>
+                            </ModalFooter>
+                        </ModalBody>
+                    </Form> 
+                </Modal>
+            </Fragment>
+
+            
         );
     };
 };

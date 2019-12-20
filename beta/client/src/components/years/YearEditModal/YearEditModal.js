@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { editYear, updateYear, deleteYear } from "../../../actions/data/years.action";
@@ -6,17 +6,17 @@ import { clearErrors } from "../../../actions/auth/errors.action";
 import PropTypes from "prop-types";
 
 import { 
-    Col, Row, 
-    Modal, ModalHeader, ModalBody,
-    Form, FormGroup, Label, Input,
-    Button 
+    Modal, ModalHeader, ModalBody, ModalFooter, 
+    Form, FormGroup, Label, Input, Button 
 } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import "./YearEditModal.scss";
 
 class YearEditModal extends Component {
     state = {
-        open: false,
+        modal: false,
         title: "",
         start: "",
         end: ""
@@ -32,36 +32,29 @@ class YearEditModal extends Component {
     };
     
     componentDidMount() {
+        const { editYear } = this.props;
+
         // get data for year instance
-        this.props.editYear();
+        editYear();
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { error, isAuthenticated } = this.props;
 
-        if(error) {
-            if(!isAuthenticated) {
-                this.setState({
+        if(error !== prevProps.error) {
 
-                });
-            } else {
-                this.setState({
-
-                });
-            };
-        } else {
-            this.setState({
-
-            });
         };
     };
 
     toggle = () => {
+        const { clearErrors } = this.props;
+        const { modal } = this.state;
+
         this.setState({
-            open: !this.state.open
+            modal: !modal
         });
 
-        this.props.clearErrors();
+        clearErrors();
     };
 
     handleChange = e => {
@@ -73,52 +66,73 @@ class YearEditModal extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const { } = this.state;
+        const { updateYear } = this.props;
+        const { title, start, end } = this.state;
 
-        const revisedYear = {
-
+        const year = {
+            title,
+            date: {
+                start,
+                end
+            }
         };
 
-        this.props.updateYear(revisedYear);
+        updateYear(year);
+
+        this.toggle();
     };
 
     handleCancel = () => {
         // reset state
         this.setState({
-
+            title: "",
+            start: "",
+            end: ""
         });
 
         this.toggle();
     };
 
     handleDelete = id => {
-        
-        this.props.deleteYear(id);
+        const { deleteYear } = this.props;
+
+        deleteYear(id);
+
+        this.toggle();
     };
 
     render() {
-        const { open } = this.state;
+        const { modal, title, start, end } = this.state;
 
         return (
-            <Modal isOpen={open} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}>Edit Year</ModalHeader>
-                <ModalBody>
+            <Fragment>
+                <Button onClick={this.toggle}>
+                    <FontAwesomeIcon icon={faEdit}/>
+                </Button>
+
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>Edit Year</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for=""></Label>
-                            <Input
-                            name=""
-                            onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="button" onClick={this.handleDelete.bind(this)}>Delete Year</Button>
-                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit">Update Year</Button>
-                        </FormGroup>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for=""></Label>
+                                <Input
+                                    name=""
+                                    type=""
+                                    placeholder=""
+                                    value=""
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
+                            <ModalFooter>
+                                <Button type="button" onClick={this.handleDelete.bind(this)}>Delete Year</Button>
+                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                                <Button type="submit">Update Year</Button>
+                            </ModalFooter>
+                        </ModalBody>
                     </Form>
-                </ModalBody>
-            </Modal>
+                </Modal>
+            </Fragment>
         );
     };
 };

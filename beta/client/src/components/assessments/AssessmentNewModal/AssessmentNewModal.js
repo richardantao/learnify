@@ -1,40 +1,40 @@
 import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
-import { editCourse, updateCourse, deleteCourse } from "../../../actions/data/courses.action";
+import { newAssessment, createAssessment } from "../../../actions/data/assessments.action";
 import { clearErrors } from "../../../actions/auth/errors.action";
 import PropTypes from "prop-types";
 
 import { 
-    Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input, Button 
+    Modal, ModalHeader, ModalBody, 
+    Form, FormGroup, Label, Input, Button, ModalFooter 
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import "./CourseEditModal.scss";
+import "./AssessmentNewModal.scss";
 
-class CourseEditModal extends Component {
+class AssessmentNewModal extends Component {
     state = {
         modal: false
     };
     
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
+        // isAuthenticated: PropTypes.func,
         error: PropTypes.object.isRequired,
-        editCourse: PropTypes.func.isRequired,
-        updateCourse: PropTypes.func.isRequired,
-        deleteCourse: PropTypes.func.isRequired,
+        newAssessment: PropTypes.func.isRequired,
+        createAssessment: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
-    
-    componentDidMount() {
-        const { editCourse } = this.props;
 
-        editCourse();
+    componentDidMount() {
+        const { newAssessment } = this.props;
+
+
+        newAssessment();
     };
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate (prevProps) {
         const { error, isAuthenticated } = this.props;
 
         if(error !== prevProps.error) {
@@ -44,11 +44,13 @@ class CourseEditModal extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state
+        const { modal } = this.state;
 
         this.setState({
             modal: !modal
         });
+
+        clearErrors();
     };
 
     handleChange = e => {
@@ -56,22 +58,7 @@ class CourseEditModal extends Component {
             [e.target.name]: e.target.value
         });
     };
-
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const { updateCourse } = this.props;
-        const { } = this.state;
-        
-        const revisedCourse = {
-
-        };
-
-        updateCourse(revisedCourse);
-
-        this.toggle();
-    };
-
+    
     handleCancel = () => {
         this.setState({
 
@@ -80,13 +67,20 @@ class CourseEditModal extends Component {
         this.toggle();
     };
 
-    handleDelete = id => {
-        const { deleteCourse } = this.props;
+    handleSubmit = e => {
+        e.preventDefault();
 
-        deleteCourse(id);
+        const { createAssessment } = this.props;
+        const { } = this.state;
+
+        const assessment = {
+
+        };
+
+        createAssessment(assessment);
 
         this.toggle();
-    };
+    };  
 
     render() {
         const { modal } = this.state;
@@ -94,30 +88,29 @@ class CourseEditModal extends Component {
         return (
             <Fragment>
                 <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faEdit}/>
+                    <FontAwesomeIcon icon={faPlus}/> New Assessment
                 </Button>
 
                 <Modal isOpen={modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Edit Course</ModalHeader>
-                    <Form onSubmit={this.handleSubmit} className="">
-                        <ModalBody>  
-                            <FormGroup className="form-data">
+                    <ModalHeader toggle={this.toggle}>New Assessment</ModalHeader>
+                    <Form onSubmit={this.hanleSubmit}>
+                        <ModalBody>
+                            <FormGroup>
                                 <Label for=""></Label>
                                 <Input
-                                    name=""
                                     type=""
+                                    name=""
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
-                            <ModalFooter className="form-actions">
-                                <Button type="button" onClick={this.handleDelete.bind(this)}>Delete</Button>
+                            <ModalFooter>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Save</Button>
+                                <Button type="submit">Add New Assessment</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>
-                </Modal>  
-            </Fragment>  
+                </Modal>
+            </Fragment>
         );
     };
 };
@@ -127,7 +120,8 @@ const mapStateToProps = state => ({
     error: state.error
 });
 
-const mapDispatchToProps = { editCourse, updateCourse, deleteCourse, clearErrors };
+const mapDispatchToProps = { newAssessment, createAssessment, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseEditModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AssessmentNewModal);
+
 

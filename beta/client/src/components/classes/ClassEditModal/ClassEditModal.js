@@ -1,17 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { editClass, updateClass, deleteClass } from "../../../actions/data/classes.action";
 import { clearErrors } from "../../../actions/auth/errors.action";
 import PropTypes from "prop-types";
 
-import { Modal, ModalHeader, ModalBody, Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { 
+    Modal, ModalHeader, ModalBody, ModalFooter, 
+    Form, FormGroup, Label, Input, Button 
+} from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import "./ClassEditModal.scss";
 
 class ClassEditModal extends Component {
     state = {
-        open: false
+        modal: false
     };
 
     static propTypes = {
@@ -24,22 +29,27 @@ class ClassEditModal extends Component {
     };
     
     componentDidMount() {
-        this.setState({
-            open: true
-        });
+        const { editClass } = this.props;
 
-        this.editClass();
+        editClass();
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { error, isAuthenticated } = this.props;
+        if(error !== prevProps.error) {
 
+        };
     };
 
     toggle = () => {
+        const { clearErrors } = this.props;
+        const { modal } = this.state;
+
         this.setState({
-            open: !this.state.open
-        }); 
+            modal: !modal
+        });
+
+        clearErrors();
     };
 
     handleChange = e => {
@@ -51,13 +61,14 @@ class ClassEditModal extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
+        const { updateClass } = this.props;
         const { } = this.state;
 
-        const revisedClass = {
+        const classes = {
 
         };
 
-        this.props.updateClass(revisedClass);
+        updateClass(classes);
 
         this.toggle();
     };
@@ -71,36 +82,43 @@ class ClassEditModal extends Component {
     };
 
     handleDelete = id => {
+        const { deleteClass } = this.props;
 
-        this.props.deleteClass(id);
+        deleteClass(id);
 
         this.toggle();
     };
 
     render() {
-        const { open } = this.state;
+        const { modal } = this.state;
 
-        return(
-            <Modal isOpen={open} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}>Edit Class</ModalHeader>
-                <ModalBody>
+        return (
+            <Fragment>
+                <Button onClick={this.toggle}>  
+                    <FontAwesomeIcon icon={faEdit}/>
+                </Button>   
+
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>Edit Class</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for=""></Label>
-                            <Input 
-                                type="text"
-                                name=""
-                                onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="button" onClick={this.handleDelete.bind(this)}>Delete</Button>
-                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit">Save</Button>
-                        </FormGroup>
+                        <ModalBody>
+                                <FormGroup>
+                                    <Label for=""></Label>
+                                    <Input 
+                                        name=""
+                                        type="text"
+                                        onChange={this.handleChange}
+                                    />
+                                </FormGroup>
+                                <ModalFooter>
+                                    <Button type="button" onClick={this.handleDelete.bind(this)}>Delete</Button>
+                                    <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                                    <Button type="submit">Save</Button>
+                                </ModalFooter>
+                        </ModalBody>
                     </Form>
-                </ModalBody>
-            </Modal>
+                </Modal>
+            </Fragment>            
         );
     };
 };

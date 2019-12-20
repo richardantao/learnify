@@ -2,41 +2,32 @@ import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
-import { fetchTerms } from "../../../actions/data/terms.action";
-import { fetchCourses } from "../../../actions/data/courses.action";
-import { fetchClasses } from "../../../actions/data/classes.action";
 import PropTypes from "prop-types"; 
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Button, Col, Row } from "reactstrap";
 
 import Nav from "../../global/Nav";
 import Header from "../../global/Header";
 import Years from "../../years/Years";
-import Terms from "../../terms/Terms";
-import Courses from "../../courses/Courses";
-import Classes from "../../classes/Classes/Classes";
 import YearEditModal from "../../years/YearEditModal";
 import YearNewModal from "../../years/YearNewModal";
+import Terms from "../../terms/Terms";
 import TermEditModal from "../../terms/TermEditModal";
 import TermNewModal from "../../terms/TermNewModal";
+import Courses from "../../courses/Courses";
 import CourseEditModal from "../../courses/CourseEditModal";
 import CourseNewModal from "../../courses/CourseNewModal";
-
+import Classes from "../../classes/Classes/Classes";
+import ClassEditModal from "../../classes/ClassEditModal";
+import ClassNewModal from "../../classes/ClassNewModal";
 
 import "./Academics.scss";
 
 class Academics extends Component {
     state = {
-		openEditYear: false,
-        openNewYear: false,
-        openEditTerm: false,
-        openNewTerm: false,
-        openEditCourse: false,
-        openNewCourse: false,
-		openEditModule: false,
-        openNewModule: false,		
+			
     };
 
     static propTypes = {
@@ -52,11 +43,7 @@ class Academics extends Component {
 	};
 	
     render() {
-		const { 
-			openEditYear, openNewYear,
-			openEditTerm, openNewTerm,
-			openEditCourse, openNewCourse,
-		} = this.state;
+		
 
         return (
             <Fragment>
@@ -71,8 +58,8 @@ class Academics extends Component {
 						</Col>
 						<Col>
 							<Years/>
-							<Button onClick={this}>Manage Academics</Button>
-							<Button onClick={this}><FontAwesomeIcon icon={faPlus}/> New Academic Year</Button>
+							<YearEditModal/>
+							<YearNewModal/>
 						</Col>
 					</Row>
 					<Row className="body academics-body">
@@ -82,7 +69,7 @@ class Academics extends Component {
 									<h4>Terms</h4>
 								</Col>
 								<Col>
-									<Button onClick={this}><FontAwesomeIcon icon={faPlus} /></Button>
+									<TermNewModal/>
 									<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
 								</Col>
 							</Row>
@@ -93,7 +80,7 @@ class Academics extends Component {
 									<h4>Courses</h4>
 								</Col>
 								<Col>
-									<Button onClick={this}><FontAwesomeIcon icon={faPlus} /></Button>
+									<CourseNewModal/>
 									<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
 								</Col>
 							</Row>
@@ -104,7 +91,7 @@ class Academics extends Component {
 									<h4>Classes</h4>
 								</Col>
 								<Col>
-									<Button onClick={this}><FontAwesomeIcon icon={faPlus} /></Button>
+									<ClassNewModal/>
 									<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
 								</Col>
 							</Row>
@@ -115,25 +102,6 @@ class Academics extends Component {
 						<Courses className="courses-list"/>
 						<Classes className="class-list"/>		
 					</Row>
-
-					{ openEditYear ? (
-						<YearEditModal className="modal"/>
-					): null }
-					{ openNewYear ? (
-						<YearNewModal className="modal"/>
-					): null }
-					{ openEditTerm ? (
-						<TermEditModal className="modal"/>
-					): null }
-					{ openNewTerm ? (
-						<TermNewModal className="modal"/>
-					): null }
-					{ openEditCourse ? (
-						<CourseEditModal className="modal"/>
-					): null }
-					{ openNewCourse ? (
-						<CourseNewModal className="modal"/>
-					): null }
 				</div>
 			</Fragment>
         );
@@ -142,15 +110,9 @@ class Academics extends Component {
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
-	error: state.error,
-	term: state.term,
-	course: state.course,
-	classes: state.classes
+	error: state.error
 });
 
-const mapDispatchToProps = { 
-	fetchTerms, 
-	fetchCourses, fetchClasses 
-};
+const mapDispatchToProps = { };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Academics);

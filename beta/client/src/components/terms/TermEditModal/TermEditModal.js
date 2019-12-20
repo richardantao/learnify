@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { editTerm, updateTerm, deleteTerm } from "../../../actions/data/terms.action";
@@ -6,17 +6,20 @@ import { clearErrors } from "../../../actions/auth/errors.action";
 import PropTypes from "prop-types";
 
 import { 
-    Col, Row, 
-    Modal, ModalHeader, ModalBody, 
-    Form, FormGroup, Label, Input, 
-    Button 
+    Modal, ModalHeader, ModalBody, ModalFooter, 
+    Form, FormGroup, Label, Input, Button 
 } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 import "./TermEditModal.scss";
 
 class TermEditModal extends Component {
     state = {
-        open: false
+        modal: false,
+        title: "",
+        start: "",
+        end: ""
     };
 
     static propTypes = {
@@ -29,33 +32,28 @@ class TermEditModal extends Component {
     };
     
     componentDidMount() {
+        const { editTerm } = this.props;
 
+        editTerm();
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { error, isAuthenticated } = this.props;
 
-        if(error) {
-            if(!isAuthenticated) {
-                this.setState({
+        if(error !== prevProps.error) {
 
-                });
-            } else {
-                this.setState({
-
-                });
-            };
-        } else {
-            this.setState({
-
-            });
         };
     };
 
     toggle = () => {
+        const { clearErrors } = this.props;
+        const { modal } = this.state;
+
         this.setState({
-            open: !this.state.open
+            modal: !modal
         });
+
+        clearErrors();
     };
 
     handleChange = e => {
@@ -67,53 +65,73 @@ class TermEditModal extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const { } = this.state;
+        const { updateTerm } = this.props;
+        const { title, start, end } = this.state;
 
-        const updatedTerm = {
-
+        const term = {
+            title,
+            date: {
+                start,
+                end
+            }
         };
 
-        this.props.updateTerm(updatedTerm);
+        updateTerm(term);
+
+        this.toggle();
     };
 
     handleCancel = () => {
         this.setState({
-
+            title: "",
+            start: "",
+            end: ""
         });
 
         this.toggle();
     };
 
     handleDelete = id => {
-        
-        this.props.deleteTerm(id);
+        const { deleteTerm } = this.props;
+
+
+        deleteTerm(id);
 
         this.toggle();
     };
 
     render() {
-        const { open } = this.state;
+        const { modal, title, start, end } = this.state;
 
         return (
-            <Modal isOpen={open} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}>Edit Term</ModalHeader>
-                <ModalBody>
+            <Fragment>
+                <Button onClick={this.toggle}>
+                    <FontAwesomeIcon icon={faEdit}/>
+                </Button>
+
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>Edit Term</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for=""></Label>
-                            <Input
-                            name=""
-                            onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="button" onClick={this.handleDelete}>Delete Term</Button>
-                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit">Update Term</Button>
-                        </FormGroup>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for=""></Label>
+                                <Input
+                                    name=""
+                                    type=""
+                                    placeholder=""
+                                    value=""
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
+                            <ModalFooter>
+                                <Button type="button" onClick={this.handleDelete.bind(this)}>Delete Term</Button>
+                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                                <Button type="submit">Update Term</Button>
+                            </ModalFooter>
+                        </ModalBody>
                     </Form>
-                </ModalBody>
-            </Modal>
+                </Modal>
+            </Fragment>
         );
     };
 };

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { newCourse, createCourse } from "../../../actions/data/courses.action";
@@ -6,17 +6,17 @@ import { clearErrors } from "../../../actions/auth/errors.action";
 import PropTypes from "prop-types";
 
 import { 
-    Col, Row,
-    Modal, ModalHeader, ModalBody,
-    Form, FormGroup, Label, Input,
-    Button 
+    Modal, ModalHeader, ModalBody, ModalFooter, 
+    Form, FormGroup, Label, Input, Button 
 } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import "./CourseNewModal.scss";
 
 class CourseNewModal extends Component {
     state = {
-        open: false
+        modal: false
     };
 
     static propTypes = {
@@ -28,31 +28,28 @@ class CourseNewModal extends Component {
     };
 
     componentDidMount() {
-        this.setState({
-            open: true
-        });
+        const { newCourse } = this.props;
 
         this.props.newCourse();
     };
 
-    // componentDidUpdate() {
-    //     // const { error, isAuthenticated } = this.props;
+    componentDidUpdate(prevProps) {
+        const { error, isAuthenticated } = this.props;
 
-    //     if(error) {
-    //         this.setState({
+        if(error !== prevProps.error) {
 
-    //         });
-    //     } else {
-    //         this.setState({
-                
-    //         });
-    //     };
-    // };
+        };
+    };
 
     toggle = () => {
+        const { clearErrors } = this.props;
+        const { modal } = this.state;
+
         this.setState({
-            open: !this.state.open
+            modal: !modal
         });
+
+        clearErrors();
     };
 
     handleChange = e => {
@@ -72,41 +69,48 @@ class CourseNewModal extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
+        const { createCourse } = this.props;
         const { } = this.state;
 
-        const newCourse = {
+        const course = {
             
         };
 
         // attempt to create new course
-        this.props.createCourse(newCourse);
+        createCourse(course);
 
         this.toggle();
     };
     
     render() {
-        const { open } = this.state;
+        const { modal } = this.state;
 
         return (
-            <Modal isOpen={open} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}>New Course</ModalHeader>
-                <ModalBody>
+            <Fragment>
+                <Button onClick={this.toggle}>
+                    <FontAwesomeIcon icon={faPlus}/> New Course
+                </Button>
+
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>New Course</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label></Label>
-                            <Input
-                            type=""
-                            name=""
-                            onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit">Add New Course</Button>
-                        </FormGroup>
+                        <ModalBody>    
+                            <FormGroup>
+                                <Label></Label>
+                                <Input
+                                    name=""
+                                    type=""
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
+                            <ModalFooter>
+                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                                <Button type="submit">Add New Course</Button>
+                            </ModalFooter>
+                        </ModalBody>
                     </Form>
-                </ModalBody>
-            </Modal>
+                </Modal>
+            </Fragment>
         );
     };
 };

@@ -1,20 +1,16 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
 
+import { connect } from "react-redux";
 import { login } from "../../../actions/auth/auth.action";
 import { clearErrors } from "../../../actions/auth/errors.action";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Button, Container } from "react-bootstrap";
 import {
-    Form,
-    FormGroup,
-    Label,
-    Input,
-    Alert
-  } from 'reactstrap';
-
+    Alert, Button,
+    Form, FormGroup,
+    Label, Input
+} from 'reactstrap';
 
 import "./Login.scss";
 
@@ -33,7 +29,9 @@ class Login extends Component {
     };
 
     componentDidMount() {
-        this.props.clearErrors();
+        const { clearErrors } = this.props;
+        
+        clearErrors();
     };
 
     componentDidUpdate(prevProps) {
@@ -57,6 +55,7 @@ class Login extends Component {
     onSubmit = e => {
         e.preventDefault();
 
+        const { login } = this.props;
         const { email, password } = this.state;
 
         const user = {
@@ -67,7 +66,7 @@ class Login extends Component {
         };
 
          // Attempt to login
-        this.props.login(user);
+        login(user);
     };
     
     render() {

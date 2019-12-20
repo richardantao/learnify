@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { newTerm, createTerm } from "../../../actions/data/terms.action";
@@ -6,17 +6,20 @@ import { clearErrors } from "../../../actions/auth/errors.action";
 import PropTypes from "prop-types";
 
 import { 
-    Col, Row, 
-    Modal, ModalHeader, ModalBody,
-    Form, FormGroup, Label, Input, 
-    Button 
+    Modal, ModalHeader, ModalBody, ModalFooter, 
+    Form, FormGroup, Label, Input, Button 
 } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import "./TermNewModal.scss";
 
 class TermNewModal extends Component {
     state = {
-        open: false
+        modal: false,
+        title: "",
+        start: "",
+        end: ""
     };
 
     static propTypes = {
@@ -28,36 +31,28 @@ class TermNewModal extends Component {
     };
     
     componentDidMount() {
+        const { newTerm } = this.props;
 
-        this.props.newTerm();
+        newTerm();
     };
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps) {
         const { error, isAuthenticated } = this.props;
 
-        if(error) {
-            if(!isAuthenticated) {
-                this.setState({
-
-                });
-            } else {
-                this.setState({
-
-                });
-            };
-        } else {
-            this.setState({
-
-            });
+        if(error !== prevProps.error) {
+        
         };
     };
 
     toggle = () => {
+        const { clearErrors } = this.props;
+        const { modal } = this.state;
+
         this.setState({
-            open: !this.state.open
+            modal: !modal
         });
 
-        this.props.clearErrors();
+        clearErrors();
     };
 
     handleChange = e => {
@@ -69,13 +64,18 @@ class TermNewModal extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const { } = this.state;
+        const { createTerm } = this.props;
+        const { title, start, end } = this.state;
 
-        const newTerm = {
-
+        const term = {
+            title,
+            date: {
+                start,
+                end
+            }
         };
 
-        this.props.createTerm(newTerm);
+        createTerm(term);
 
         this.toggle();
     };
@@ -83,7 +83,9 @@ class TermNewModal extends Component {
     handleCancel = () => {
         // reset state
         this.setState({
-            
+            title: "",
+            start: "",
+            end: ""
         }); 
 
         // close modal
@@ -91,27 +93,36 @@ class TermNewModal extends Component {
     };
 
     render() {
-        const { open } = this.state;
+        const { modal, title, start, end } = this.state;
 
         return (
-            <Modal isOpen={open} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}>New Term</ModalHeader>
-                <ModalBody>
+            <Fragment>
+                <Button onClick={this.toggle}>
+                    <FontAwesomeIcon icon={faPlus}/> New Term
+                </Button>
+
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>New Term</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for=""></Label>
-                            <Input
-                            name=""
-                            onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit">Add New Term</Button>
-                        </FormGroup>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for=""></Label>
+                                <Input
+                                    name=""
+                                    type=""
+                                    placeholder=""
+                                    value=""
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
+                            <ModalFooter>
+                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                                <Button type="submit">Add New Term</Button>
+                            </ModalFooter> 
+                        </ModalBody>
                     </Form>
-                </ModalBody>
-            </Modal>
+                </Modal>
+            </Fragment>
         );
     };
 };

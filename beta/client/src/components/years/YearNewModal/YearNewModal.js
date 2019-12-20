@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
 import { createYear } from "../../../actions/data/years.action";
@@ -6,17 +6,20 @@ import { clearErrors } from "../../../actions/auth/errors.action";
 import PropTypes from "prop-types";
 
 import { 
-    Col, Row,
-    Modal, ModalHeader, ModalBody,
-    Form, FormGroup, Label, Input,
-    Button
+    Modal, ModalHeader, ModalBody, ModalFooter, 
+    Form, FormGroup, Label, Input, Button 
 } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import "./YearNewModal.scss";
 
 class YearNewModal extends Component {
     state = {
-        open: false
+        modal: false,
+        title: "",
+        start: "",
+        end: ""
     };
 
     static propTypes = {
@@ -28,39 +31,28 @@ class YearNewModal extends Component {
     };
     
     componentDidMount() {
-        this.setState({
-            open: true
-        });
+        const { newYear } = this.props;
 
-        this.props.newYear();
+        newYear();
     };
 
     componentDidUpdate(prevProps) {
         const { error, isAuthenticated } = this.props;
 
-        if(error) {
-            if(!isAuthenticated) {
-                this.setState({
-
-                });
-            } else {
-                this.setState({
-
-                });
-            };
-        } else {
-            this.setState({
-
-            });
+        if(error !== prevProps.error) {
+            
         };
     };
 
     toggle = () => {
+        const { clearErrors } = this.props;
+        const { modal } = this.state;
+
         this.setState({
-            open: !this.state.open
+            modal: !modal
         });
 
-        this.props.clearErrors();
+        clearErrors();
     };
 
     handleChange = e => {
@@ -72,46 +64,63 @@ class YearNewModal extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const { } = this.state;
+        const { createYear } = this.props;
+        const { title, start, end } = this.state;
 
-        const newYear = {
-
+        const year = {
+            title,
+            date: {
+                start,
+                end
+            }
         };
 
-        this.props.createYear(newYear);
+        createYear(year);
+
+        this.toggle();
     };
 
     handleCancel = () => {
         this.setState({
-            
+            title: "",
+            start: "",
+            end: ""
         });
 
         this.toggle();
     };
 
     render() {
-        const { open } = this.state;
+        const { modal, title, start, end } = this.state;
 
         return (
-            <Modal isOpen={open} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}>New Year</ModalHeader>
-                <ModalBody>
+            <Fragment>
+                <Button onClick={this.toggle}>
+                    <FontAwesomeIcon icon={faPlus}/> New Academic Year
+                </Button>
+                
+                <Modal isOpen={modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>New Year</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
-                        <FormGroup>
-                            <Label for=""></Label>
-                            <Input
-                            type=""
-                            name=""
-                            onChange={this.handleChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit">Add New Year</Button>
-                        </FormGroup>
+                        <ModalBody>
+                            <FormGroup>
+                                <Label for=""></Label>
+                                <Input
+                                    name=""
+                                    type=""
+                                    placeholder=""
+                                    value=""
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
+                            <ModalFooter>
+                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                                <Button type="submit">Add New Year</Button>
+                            </ModalFooter>
+                        </ModalBody>
                     </Form>
-                </ModalBody>
-            </Modal>
+                </Modal>
+            </Fragment>  
         );
     };
 };
