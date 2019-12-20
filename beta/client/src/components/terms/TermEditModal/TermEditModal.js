@@ -23,7 +23,7 @@ class TermEditModal extends Component {
     };
 
     static propTypes = {
-        isAuthenticated: PropTypes.bool,
+        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         editTerm: PropTypes.func.isRequired,
         updateTerm: PropTypes.func.isRequired,
@@ -38,7 +38,7 @@ class TermEditModal extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error } = this.props;
 
         if(error !== prevProps.error) {
 
@@ -137,7 +137,7 @@ class TermEditModal extends Component {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error
 });
 

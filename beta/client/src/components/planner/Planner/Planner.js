@@ -15,14 +15,18 @@ import Tasks from "../../tasks/Tasks";
 import TaskEditModal from "../../tasks/TaskEditModal";
 import TaskNewModal from "../../tasks/TaskNewModal";
 import Assessments from "../../assessments/Assessments";
-import AssessmentEditModal from "../../assessments";
-import AssessmentNewModal from "../../assessments";
+import AssessmentEditModal from "../../assessments/AssessmentEditModal";
+import AssessmentNewModal from "../../assessments/AssessmentNewModal";
 
 import Select from "react-select";
 
 import "./Planner.scss";
 
 class Planner extends Component {
+    state = {
+
+    };
+
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired

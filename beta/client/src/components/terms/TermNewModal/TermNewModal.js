@@ -23,7 +23,7 @@ class TermNewModal extends Component {
     };
 
     static propTypes = {
-        isAuthenticated: PropTypes.bool,
+        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         newTerm: PropTypes.func.isRequired,
         createTerm: PropTypes.func.isRequired,
@@ -37,7 +37,7 @@ class TermNewModal extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error } = this.props;
 
         if(error !== prevProps.error) {
         
@@ -128,7 +128,7 @@ class TermNewModal extends Component {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error
 });
 

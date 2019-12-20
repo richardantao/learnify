@@ -75,7 +75,6 @@ class Login extends Component {
                <Helmet>
                    <title>My Learnify | Sign In</title>
                </Helmet>
-                <Container>
                     <div id="login">
                             {
                                 this.message ? 
@@ -116,7 +115,6 @@ class Login extends Component {
                             <Button href="/register">Create</Button>
                         </div>
                     </div>
-                </Container>
             </Fragment>
        );
     };

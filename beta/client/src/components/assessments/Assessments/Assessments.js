@@ -7,9 +7,11 @@ import {
 } from "../../../actions/data/assessments.action";
 import PropTypes from "prop-types";
 
-import { Button, Col, Row } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Col, Row } from "reactstrap";
+
+import Moment from "react-moment";
+
+import AssessmentEditModal from "../AssessmentEditModal";
 
 import "./Assessments.scss";
 
@@ -29,25 +31,26 @@ class Assessments extends Component{
 	};
 
 	componentDidMount() {
-		this.props.fetchAssessmentsByTerm();
+		const { fetchAssessmentsByTerm } = this.props;
+		
+		fetchAssessmentsByTerm();
 	};
 
 	render() {
 		const { assessments } = this.props.assessment;
 
-		const assessmentRecords = assessments.map(({ _id, title, course, date, time, location}) => (
+		const assessmentRecords = assessments.map(({ _id, title, course, date, location}) => (
 			<Row class="ass-record" key={_id}>
 			<Col>
 				<h5>{title}</h5>
 				<h6>{course}</h6>			
 			</Col>
 			<Col>
-				<p>{date}</p>
-				<p>{time}</p>
+				<p><Moment format="dddd, MMMM Do">{date}</Moment></p>
 				<p>{location}</p>
 			</Col>
 			<Col>
-				<Button type="button" onClick={this.editAssessmentModal}><FontAwesomeIcon icon={faEdit}/></Button>
+				<AssessmentEditModal onClick={this.props.editAssessment.bind(this, _id)}/>
 			</Col>
 		</Row>
 		));

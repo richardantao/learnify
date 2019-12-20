@@ -27,7 +27,7 @@ class TaskNewModal extends Component {
 
     static propTypes = {
         error: PropTypes.object.isRequired,
-        isAuthenticated: PropTypes.bool,
+        // isAuthenticated: PropTypes.bool,
         newTask: PropTypes.func.isRequired,
         createTask: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
@@ -122,7 +122,7 @@ class TaskNewModal extends Component {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     tasks: state.tasks
 });

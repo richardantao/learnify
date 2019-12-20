@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
 import { 
@@ -10,27 +9,24 @@ import PropTypes from "prop-types";
 
 import { Button, Col, Row } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
-import Nav from "../../global/Nav";
-import Header from "../../global/Header";
 import TaskEditModal from "../TaskEditModal";
-import TaskNewModal from "../TaskNewModal";
 import Select from "react-select";
+
+import Moment from "react-moment";
 
 import "./Tasks.scss";
 
 class Tasks extends Component {
 	state = {
-		editModal: false,
-		newModal: false
+		
 	};
 
 	static propTypes = {
-		isAuthenticated: PropTypes.bool,
+		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
 		task: PropTypes.object.isRequired,
-		// parentOptions: PropTypes.object.isRequired,
 		fetchTasksByTerm: PropTypes.func.isRequired,
 		fetchPastTasksByTerm: PropTypes.func.isRequired,
 		fetchTasksByCourse: PropTypes.func.isRequired,
@@ -41,22 +37,9 @@ class Tasks extends Component {
 		this.props.fetchTasksByTerm();
 	};
 
-	newTaskModal = () => {
-		this.setState({
-			newModal: true
-		});
-	};
-
-	editTaskModal = () => {
-		this.setState({
-			editModal: true
-		});
-	};
 
 	render() {
-		const { editModal, newModal } = this.state;
 		const { tasks } = this.props.task;
-		// const { parentOptions } = this.props.course;
 
 		const taskRecords = tasks.map(({ _id, title, course, type, deadline }) => (
 			<Row key={_id} className="task-record">
@@ -68,10 +51,10 @@ class Tasks extends Component {
 						</Col>
 						<Col>
 							<p>{type}</p>
-							<p>{deadline}</p>
+							<p><Moment format="dddd, MMMM Do">{deadline}</Moment></p>
 						</Col>
 						<Col>
-							<Button onClick={this.editTaskModal}><FontAwesomeIcon icon={faEdit}/></Button>
+							<TaskEditModal onClick={this.editTask.bind(this, _id)}/>
 						</Col>
 					</Row>
 				</Col>
@@ -93,10 +76,9 @@ class Tasks extends Component {
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
+	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
-	task: state.task//,
-	// parentOptions: state.course
+	task: state.task
 });
 
 const mapDispatchToProps = { 

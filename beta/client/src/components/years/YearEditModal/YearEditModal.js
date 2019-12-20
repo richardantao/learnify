@@ -23,7 +23,7 @@ class YearEditModal extends Component {
     };
 
     static propTypes = {
-        isAuthenticated: PropTypes.bool,
+        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         editYear: PropTypes.func.isRequired,
         updateYear: PropTypes.func.isRequired,
@@ -39,7 +39,7 @@ class YearEditModal extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error } = this.props;
 
         if(error !== prevProps.error) {
 
@@ -138,7 +138,7 @@ class YearEditModal extends Component {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
+    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error
 });
 

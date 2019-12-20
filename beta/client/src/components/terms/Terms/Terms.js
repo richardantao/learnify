@@ -4,12 +4,11 @@ import { connect } from "react-redux";
 import { fetchTerms } from "../../../actions/data/terms.action";
 import PropTypes from "prop-types";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { Button, Col, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 
-import EditModal from "../TermEditModal";
-import NewModal from "../TermNewModal";
+import Moment from "react-moment";
+
+import TermEditModal from "../TermEditModal";
 
 import "./Terms.scss";
 
@@ -26,13 +25,9 @@ class Terms extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchTerms();
-    };
+        const { fetchTerms } = this.props;
 
-    openEditModal = () => {
-        this.setState({
-            editModal: true
-        });
+        fetchTerms();
     };
 
     render() {
@@ -44,13 +39,11 @@ class Terms extends Component {
                     <h5>{title}</h5>
                 </Col>
                 <Col>
-                    <h6>{date.start}</h6>
-                    <h6>{date.end}</h6>
+                    <h6><Moment format="dddd, MMMM Do">{date.start}</Moment></h6>
+                    <h6><Moment format="dddd, MMMM Do">{date.end}</Moment></h6>
                 </Col>
                 <Col>
-                    <Button onClick={this.openEditModal}>
-                        <FontAwesomeIcon icon={faEdit}/>
-                    </Button>
+                    <TermEditModal onClick={this.editModal.bind(this, _id)}/>
                 </Col>
             </Row>
         ));

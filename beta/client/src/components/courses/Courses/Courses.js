@@ -4,10 +4,9 @@ import { connect } from "react-redux";
 import { fetchCourses, editCourse } from "../../../actions/data/courses.action";
 import PropTypes from "prop-types";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import CourseEditModal from "../CourseEditModal";
 
-import { Button, Col, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 
 import "./Courses.scss";
 
@@ -64,9 +63,7 @@ class Courses extends Component {
 					<h6>{instructor}</h6>
 				</Col>
 				<Col>
-					<Button onClick={this.props.editCourse.bind(this, _id)}>
-						<FontAwesomeIcon icon={faEdit}/>
-					</Button>
+					<CourseEditModal onClick={this.props.editCourse.bind(this, _id)}/>
 				</Col>
 			</Row>
 		));
