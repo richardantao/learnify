@@ -2,7 +2,7 @@ import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "../actions/types";
 
 const initialState = {
     loading: false,
-    contact: {}
+    message: null
 };
 
 export default (state = initialState, action) => {
@@ -16,13 +16,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                contact: action.payload
+                message: action.payload
             };
         case CONTACT_ERROR: 
             return {
                 ...state,
                 loading: false,
-                contact: {}
+                message: false                
             };
         default:
             return state;
