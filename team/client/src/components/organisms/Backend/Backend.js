@@ -100,15 +100,15 @@ class Backend extends Component {
             && github.includes("github.com/") && linkedin.includes("linkedin.com/in/") 
             // && resume.value !== "";
         
-        const helpMin = 50 - help.length;
-        const helpMax = 400 - help.length;
+        const helpMin = 100 - help.length;
+        const helpMax = 500 - help.length;
         
-        const importanceMin = 30 - importance.length;
-        const importanceMax = 200 - importance.length;
+        const importanceMin = 50 - importance.length;
+        const importanceMax = 400 - importance.length;
 
         return (
             <Fragment>
-                <Button href="#" onClick={this.toggle}>Apply Now</Button>
+                <Button href="#backend" onClick={this.toggle}>Apply Now</Button>
 
                 <Modal isOpen={modal}>
                     <ModalHeader toggle={this.toggle}>
@@ -182,13 +182,13 @@ class Backend extends Component {
                                         <Input
                                             name="help"
                                             type="textarea"
-                                            maxLength={400}
+                                            maxLength={500}
                                             onChange={this.handleChange}
                                             required
                                         />
-                                        { help.length > 0 && help.length < 50 ? (
+                                        { help.length > 0 && help.length < 100 ? (
                                             <small className="warning">{helpMin} characters required</small>
-                                        ): help.length > 49 ? (
+                                        ): help.length > 99 ? (
                                             <small>{helpMax} characters left</small>
                                         ): null}
                                     </Col>
@@ -201,13 +201,13 @@ class Backend extends Component {
                                         <Input
                                             name="importance"
                                             type="textarea"
-                                            maxLength={200}
+                                            maxLength={400}
                                             onChange={this.handleChange}
                                             required
                                         />
-                                        { importance.length > 0 && importance.length < 30 ? (
+                                        { importance.length > 0 && importance.length < 50 ? (
                                             <small className="warning">{importanceMin} characters required</small>
-                                        ): importance.length > 29 ? (
+                                        ): importance.length > 49 ? (
                                             <small>{importanceMax} characters left</small>
                                         ): null }
                                     </Col>
@@ -229,7 +229,7 @@ class Backend extends Component {
                                             onChange={this.handleChange}
                                         />
                                         { github.length > 0 && !github.includes("github.com/") ? (
-                                            <small className="warning">This must be a valid URL pointing to Github.com</small>
+                                            <small className="warning">This must be a valid URL pointing to a Github account</small>
                                         ): null}
                                     </Col>
                                     <Col>

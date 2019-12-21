@@ -7,11 +7,11 @@ import PropTypes from "prop-types";
 import Nav from "../../organisms/Nav";
 import Footer from "../../organisms/Footer";
 
-import Backend from "../Backend";
-import Creator from "../Creator";
-import Designer from "../Designer";
-import Frontend from "../Frontend";
-import Marketer from "../Marketer";
+import Backend from "../../organisms/Backend";
+import Creator from "../../organisms/Creator";
+import Designer from "../../organisms/Designer";
+import Frontend from "../../organisms/Frontend";
+import Marketer from "../../organisms/Marketer";
 // import Swift from "../Swift";
 
 import { Button, Collapse, Card, CardBody, ListGroup, ListGroupItem } from "reactstrap";

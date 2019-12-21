@@ -1,19 +1,19 @@
 import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
-import { postCreator } from "../../../actions/applications";
+import { postMarketer } from "../../../actions/applications";
 import { clearErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
 import { 
-    Col, Row,
-    Button, Modal, ModalHeader, ModalBody, ModalFooter,
-    Form, FormGroup, Label, Input 
+    Row, Col,
+    Modal, ModalHeader, ModalBody, ModalFooter,
+    Button, Form, FormGroup, Label, Input
 } from "reactstrap";
 
-import "./Creator.scss";
+import "./Marketer.scss";
 
-class Creator extends Component {
+class Marketer extends Component {
     state = {
         modal: false,
         first: "",
@@ -26,7 +26,7 @@ class Creator extends Component {
     static propTypes = {
         application: PropTypes.object.isRequired,
         error: PropTypes.object.isRequired,
-        postCreator: PropTypes.func.isRequired,
+        postMarketer: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
 
@@ -54,7 +54,7 @@ class Creator extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const { postCreator } = this.props; 
+        const { postMarketer } = this.props;
         const { first, last, email, city, resume} = this.state;
 
         const application = {
@@ -67,23 +67,23 @@ class Creator extends Component {
             resume
         };
 
-        postCreator(application);
+        postMarketer(application);
 
         this.toggle();
     };
 
     render() {
         const { modal, first, last, email, city, resume } = this.state;
-
+        
         const isEnabled = regex.test(email);
 
         return (
             <Fragment>
-                <Button href="#" onClick={this.toggle}>Apply Now</Button>
+                <Button href="#marketer" onClick={this.toggle}>Apply Now</Button>
 
                 <Modal isOpen={modal}>
                     <ModalHeader toggle={this.toggle}>
-                        <h4>Content Creator &ndash; Application</h4>
+                        <h4>Marketing Specialist &ndash; Application</h4>
                     </ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
@@ -146,6 +146,6 @@ const mapStateToProps = state => ({
     error: state.error
 });
 
-const mapDispatchToProps = { postCreator, clearErrors };
+const mapDispatchToProps = { postMarketer, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Creator);
+export default connect(mapStateToProps, mapDispatchToProps)(Marketer);
