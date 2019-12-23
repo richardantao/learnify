@@ -11,6 +11,7 @@ import Footer from "../../organisms/Footer";
 
 import { Alert, Button, Form, FormGroup, Input, Label } from "reactstrap";
 
+import background from "./home-min.jpg";
 import "./Home.scss";
 
 class Home extends Component {
@@ -28,12 +29,24 @@ class Home extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { error } = this.props;
+        const { beta, error } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "INVITE_ERROR") {
                 this.setState({
                     message: error.message.message
+                });
+            } else {
+                this.setState({
+                    message: null
+                });
+            };
+        };
+
+        if(beta !== prevProps.beta) {
+            if(beta.message) {
+                this.setState({
+                    message: beta.message.message
                 });
             } else {
                 this.setState({
@@ -52,18 +65,21 @@ class Home extends Component {
     handleReset = e => {
         e.preventDefault();
 
+        const { clearErrors } = this.props;
+
+        clearErrors();
+
         this.setState({
             name: "",
-            email: ""
-        });
-
-        // clear errors
-        this.props.clearErrors();
+            email: "",
+            message: null
+        });        
     };
 
     handleSubmit = e => {
         e.preventDefault();
 
+        const { postInvite } = this.props;
         const { name, email } = this.state;
 
         const beta = {
@@ -72,7 +88,7 @@ class Home extends Component {
         };
 
         // pass data to API
-        this.props.postInvite(beta);
+        postInvite(beta);
 
         // reset form fields
         this.setState({
@@ -83,24 +99,21 @@ class Home extends Component {
 
     render() {
         const { name, email, message } = this.state;
-        const isEnabled = name.length > 2 && email.length > 5 && regex.test(email);
 
+        const isEnabled = name.length > 2 && email.length > 5 && regex.test(email);
+    
         return (
             <Fragment>
                 <Helmet>    
-                    <meta charset="UTF-8"/>
-                    <meta name="application-name" content="Learnify"/>
-                    <meta name="author" content="Richard Antao"/>
-                    <meta name="description" content="Learnify helps you organize your academic life with our intuitive all-in-one web application"/>
+                    <meta name="description" content="Sign up today for Learnify's beta program"/>
                     <meta name="keywords" content="Learnify, homework, app, study app, homework app, university app, planner, study planner, highschool"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                     <title>Learnify</title>
                 </Helmet>
                 <Header/>
                 <main className="home-main" role="main">
-                    <img src="assets/images/home-min.jpg" className="home-background" alt=""/>
+                    <img src={background} className="home-background" alt=""/>
                     <div className="home-pitch">
-                        <h3>Building the Foundations for Student Sucess</h3>
+                        <h3>Building the Foundations for Student Success</h3>
                         <p>
                             Sign up for the beta program to have a successful school year right at your finger tips. 
                             Academic excellence has never been this simple.
@@ -108,9 +121,7 @@ class Home extends Component {
                     </div>
                     <Form onSubmit={this.handleSubmit} className="beta-form" role="form">
                         { message ? (
-                            <Alert color="danger">{message}</Alert>
-                        ) : message === `An email confirmation of your invite has been sent to ${email}` ? (
-                            <Alert color="success">{message}</Alert>  
+                            <Alert color="success">{message}</Alert>
                         ) : null }
                         <FormGroup>
                             <Label for="name">Name</Label>
@@ -119,8 +130,8 @@ class Home extends Component {
                                 type="text" 
                                 placeholder="Jane Doe" 
                                 value={name}
-                                required
                                 onChange={this.handleChange}
+                                required
                                 />
                             { name.length === 1 ? (
                             <small className="warning">
@@ -139,8 +150,8 @@ class Home extends Component {
                                 type="email" 
                                 placeholder="janedoe@example.com" 
                                 value={email}
-                                required
                                 onChange={this.handleChange}
+                                required
                             />
                             {email.length > 5 && !regex.test(email) ? (
                                <small className="warning">
@@ -156,7 +167,6 @@ class Home extends Component {
                         </FormGroup>
                     </Form>
                 </main>
-                <Footer/>
             </Fragment>
         );
     };
