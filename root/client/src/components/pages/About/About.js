@@ -71,15 +71,25 @@ export default class About extends Component {
                         <h2>Meet the Team</h2>
                         <Card
                             src="assets/images/richardantao-min.png"
-                            alt="blah blah nigga"
+                            alt="Headshot of Richard Antao"
                             person="Richard Antao"
                             title="Founder"
-                            description="Richard is the founder of Learnify; 
-                            he is currently responsible for marketing, finance, strategy, 
-                            and software development. 
+                            description="Richard is currently responsible for marketing, 
+                            finance, strategy, and software development. 
                             He is in his final year of Integrated Engineering
-                            at Western University. Aside from school and Learnify, Richard enjoys 
-                            going to the gym, is an avid reader, and is crazy about cooking."
+                            at Western University. Aside from school and Learnify, 
+                            Richard is an avid reader, enjoys going to the gym, and is
+                            passionate about space, psychology, and thermodynamics."
+                        />
+
+                        <Card
+                            src=""
+                            alt="Unknown headshot"
+                            person="You?"
+                            title="Various positions"
+                            description={<div>
+                                Visit <a href="https://team.learnify.ca">https://team.learnify.ca</a> for open positions.
+                            </div>}
                         />
                     </div>
                 </main>
