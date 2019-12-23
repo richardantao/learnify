@@ -8,18 +8,18 @@
 }
 
 textarea {
-    margin-bottom: 2%;
+    margin-bottom: 2rem;
 }
 
 .contact-pitch {
     position: absolute;
         left: 10%;
-        top: 15%;
+        top: 20%;
     width: 95%;
 }
 
 .contact-pitch h3 {
-    font-size: 1.5em;
+    font-size: 1.5rem;
 }
 
 .contact-form {
@@ -32,6 +32,10 @@ textarea {
 }
 
 @media (min-width:576px) {
+    textarea {
+        margin-bottom: 1rem;
+    }
+
     .contact-background {
         height: auto; 
         object-fit: contain;
@@ -39,7 +43,7 @@ textarea {
     }
 
     .contact-pitch {
-        font-size: 2em;    
+        font-size: 2rem;    
         left: 10%;
         top: 22%;
         width: 35%;
@@ -49,6 +53,10 @@ textarea {
         left: 50%;
         top: 22%;
         width: 40%;
+    }
+
+    .contact-pitch h3 {
+        font-size: 2.5rem;
     }
 }
 
@@ -63,6 +71,10 @@ textarea {
         left: 50%;
         top: 40%;
         width: 40%;
+    }
+
+    .contact-pitch h3 {
+        font-size: 3rem;
     }
 }
 
@@ -82,6 +94,6 @@ textarea {
     }
     
     .contact-pitch h3 {
-        font-size: 2em;
+        font-size: 3.75rem;
     }
 }
