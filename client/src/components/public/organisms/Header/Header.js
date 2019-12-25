@@ -60,7 +60,7 @@ class Header extends Component {
         return (
             <header role="banner">
                 <nav id="nav" role="navigation">
-                    <a href="http://learnify.ca/">
+                    <a href="/">
                         <img src={logo} id="logo" alt="Learnify logo"/>
                     </a>
 
@@ -68,10 +68,10 @@ class Header extends Component {
                     { hamburger ? (
                         <Overlay/>
                     ):  <Fragment>
-                            <a href="https://learnify.ca/about">About</a>
-                            <a href="https://team.learnify.ca">Team</a>
-                            <a href="/">Blog</a>
-                            <a href="https://learnify.ca/contact">Contact</a>
+                            <a href="/about">About</a>
+                            <a href="/team">Team</a>
+                            <a href="/blog">Blog</a>
+                            <a href="/contact">Contact</a>
                         </Fragment>
                     }
                     </div>                

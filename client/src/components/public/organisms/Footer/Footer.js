@@ -5,7 +5,7 @@ import "./Footer.scss";
 export default class Footer extends Component {
     render() {
         return (
-            <footer className="container-fluid" role="contentinfo">
+            <footer role="contentinfo">
                 <div className="footer-internal">
                     <div>
                         <h3>Learnify</h3>
@@ -13,28 +13,28 @@ export default class Footer extends Component {
                     </div>
                     <div>
                         <h5>Company</h5>
-                        <a href="https://learnify.ca/about">About Us</a>
-                        <a href="https://team.learnify.ca/">Team</a>
-                        <a href="/">Blog</a>
-                        <a href="https://learnify.ca/contact">Contact Us</a>
+                        <a href="/about">About Us</a>
+                        <a href="/team">Team</a>
+                        <a href="/blog">Blog</a>
+                        <a href="/contact">Contact Us</a>
                     </div>
                     <div>
                         <h5>Explore</h5>
-                        <a href="https://docs.learnify.ca/">What is Learnify?</a>
-                        <a href="https://docs.learnify.ca/#why">Why use Learnify?</a>
-                        {/* <a href="https://docs.learnify.ca/api">Developers</a> */}
+                        <a href="/docs">What is Learnify?</a>
+                        <a href="/docs#why">Why use Learnify?</a>
+                        {/* <a href="/docs/api">Developers</a> */}
                     </div>
                     <div>
                         <h5>Resources</h5>
-                        <a href="https://docs.learnify.ca/terms">Terms of Service</a>
-                        <a href="https://docs.learnify.ca/privacy">Privacy Policy</a>
-                        <a href="https://docs.learnify.ca/cookies">Cookie Policy</a>
-                        <a href="https://docs.learnify.ca/sitemap">Sitemap</a>
+                        <a href="/docs/terms">Terms of Service</a>
+                        <a href="/docs/privacy">Privacy Policy</a>
+                        <a href="/docs/cookies">Cookie Policy</a>
+                        <a href="/docs/sitemap">Sitemap</a>
                     </div>
                     <div>
                         <h5>System</h5>
-                        <a href="https://docs.learnify.ca/changelog">Changelog</a>
-                        {/* <a href="https://docs.learnify.ca/status">System Status</a> */}
+                        <a href="/docs/changelog">Changelog</a>
+                        {/* <a href="/docs/status">System Status</a> */}
                     </div>
                 </div>
                 <div className="footer-public">
