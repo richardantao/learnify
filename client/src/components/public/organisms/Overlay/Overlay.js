@@ -40,10 +40,10 @@ class Overlay extends Component {
                         </a>
 
                         <nav role="navigation" className="overlay-content">
-                            <a href="https://learnify.ca/about" onClick={this.toggle}>About</a>
-                            <a href="https://team.learnify.ca/" onClick={this.toggle}>Team</a>
-                            <a href="/" onClick={this.toggle}>Blog</a>
-                            <a href="https://learnify.ca/contact" onClick={this.toggle}>Contact</a>
+                            <a href="/about" onClick={this.toggle}>About</a>
+                            <a href="/team" onClick={this.toggle}>Team</a>
+                            <a href="/blog" onClick={this.toggle}>Blog</a>
+                            <a href="/contact" onClick={this.toggle}>Contact</a>
                         </nav>
                     </div>
                     
