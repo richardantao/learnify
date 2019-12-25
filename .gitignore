@@ -1,17 +1,15 @@
-.DS_Store
-
-# packages
+# Node
 node_modules
 package-lock.json
 
-# environment variables
+# Environment variables
 .env
 
-# documentation
+# Documentation
 .gitignore
 documentation
 
-# GCP
+# Google
 *.yaml
 .gcloudignore
 
@@ -19,4 +17,6 @@ documentation
 .dockerignore
 Dockerfile
 
+# Misc.
+.DS_Store
 *.icloud

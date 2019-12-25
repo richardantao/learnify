@@ -1,0 +1,66 @@
+// Mobile phones
+.overlay {
+    background-color: black;
+    height: 100%;
+    margin-left: -1rem;
+    position: fixed;
+    opacity: 0.9;
+        left: 0;
+        top: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
+    width: 110%;
+    z-index: 2;
+}
+
+.overlay-content {
+    margin-top: 1rem;
+    position: relative;
+        right: 2.5%;
+        top: 10%;
+    text-align: center;
+    width: 100%;
+}
+
+.overlay a {
+    cursor: pointer;
+    display: block;
+    margin: 1rem auto;
+    padding: 1rem;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.cancel {
+    position: absolute;
+        right: 9%;
+        top: -1.5%;
+    font-size: 2rem;
+}
+
+// Landscape phones
+@media (min-width: 576px) {
+    .overlay {
+        background-color: black;
+        margin-left: -1rem;
+        width: 110%;
+    }
+    
+    .overlay-content {
+        margin-top: 1rem;
+        top: 25%;
+    }
+    
+    .overlay a {
+        cursor: pointer;
+        margin: 1rem auto;
+        padding: 1rem;
+    }
+}
+
+// Tablets and up
+@media (min-width: 768px) {
+    .overlay {
+        display: none;
+    }
+}

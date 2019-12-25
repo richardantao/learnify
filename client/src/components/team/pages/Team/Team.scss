@@ -1,0 +1,116 @@
+main {
+  background: #FAFAFA;
+  position: relative;
+}
+  
+.background {
+  height: auto;
+  margin: 0;
+  opacity: 0.9;
+  width: 100%;
+  z-index: 0;
+}
+
+#pitch {
+  color: white;
+  position: absolute;
+    left: 5%;
+    top: 20%;
+  width: 100%;
+  z-index: 1;
+}
+
+#pitch h1 {
+  font-size: 1.1rem;
+  width: 90%;
+}
+
+#pitch-links {
+  position: absolute;
+    left: 20%;
+}
+
+#pitch-links a {
+  font-size: .5rem;
+  margin-left: 1rem;
+}
+  
+@media (min-width: 576px) {
+  #pitch {
+    left: 10%;
+  }
+  
+  #pitch h1 {
+    font-size: 1.75rem;
+    left: 1%;
+    width: 95%;
+  }
+
+  #pitch-links {
+    left: 15%;
+    margin-top: 1rem;
+  }
+
+  #pitch-links a {
+    font-size: 1rem;
+  }
+}
+
+/* Tablets */
+@media (min-width: 768px) {  
+  #pitch h1 {
+    font-size: 2.5rem;
+  }
+
+  #pitch-links {
+    left: 18%;
+  }
+
+  #pitch-links a {
+    font-size: 1.25rem;
+    margin-left: 2rem;
+  }
+}
+
+/* Desktops */
+@media (min-width: 992px) {
+  #pitch h1 {
+    font-size: 3.25rem;
+  }
+
+  #pitch-links a {
+    font-size: 1.75rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  #pitch h1 {
+    font-size: 4rem;
+  }
+
+  #pitch-links {
+    left: 20%;
+  }
+
+  #pitch-links a {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  
+}
+
+@media (min-width: 2100px) {
+  #pitch h1 {
+    font-size: 7rem;
+  }
+
+  #pitch-links {
+    left: 28%;
+  }
+
+  #pitch-links a {
+    font-size: 2.5rem;
+  }
+}

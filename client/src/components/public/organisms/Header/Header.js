@@ -1,0 +1,90 @@
+import React, { Component, Fragment } from "react";
+
+import { connect } from "react-redux";
+
+import "./Header.scss";
+
+import logo from "./learnify-min.jpg";
+import Overlay from "../Overlay/Overlay";
+
+class Header extends Component {
+    state = {
+        hamburger: false,
+        width: window.innerWidth
+    };
+
+    trackWindowWidth = () => {
+        this.setState({
+            width: window.innerWidth
+        });
+    };
+
+    componentDidMount() {
+        const { width } = this.state;
+        window.addEventListener("resize", this.trackWindowWidth);
+
+        if(width < 768) {
+            this.setState({
+                hamburger: true
+            });
+        } else {
+            this.setState({
+                hamburger: false
+            });
+        };
+    };
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.trackWindowWidth);
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        const { width } = this.state;
+
+        if(width !== prevState.width) {
+            if(width < 768) {
+                this.setState({
+                    hamburger: true
+                });
+            } else {
+                this.setState({
+                    hamburger: false
+                });
+            };
+        }; 
+    };
+
+    render() {
+        const { hamburger } = this.state;
+
+        return (
+            <header role="banner">
+                <nav id="nav" role="navigation">
+                    <a href="http://learnify.ca/">
+                        <img src={logo} id="logo" alt="Learnify logo"/>
+                    </a>
+
+                    <div className="nav-links">
+                    { hamburger ? (
+                        <Overlay/>
+                    ):  <Fragment>
+                            <a href="https://learnify.ca/about">About</a>
+                            <a href="https://team.learnify.ca">Team</a>
+                            <a href="/">Blog</a>
+                            <a href="https://learnify.ca/contact">Contact</a>
+                        </Fragment>
+                    }
+                    </div>                
+                </nav>
+            </header>
+        );
+    };
+};
+
+const mapStateToProps = state => ({
+
+});
+
+const mapDispatchToProps = { };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
