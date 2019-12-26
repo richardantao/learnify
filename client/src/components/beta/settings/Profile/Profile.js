@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { editProfile, updateProfile } from "../../../../actions/data/users";
+import { editProfile, updateProfile } from "../../../../actions/beta/users";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
-import { Col, Row, Form, FormGroup, Label, Input } from "reactstrap";
+import { Button, Col, Row, Form, FormGroup, Label, Input } from "reactstrap";
 
-import Button from "../../global/Button";
-import Select from "../../global/Select";
 import "./Profile.scss";
 
 class Profile extends Component {
@@ -117,29 +115,29 @@ class Profile extends Component {
 				<Row>
 					<Col>
 						<Label for="country">Country</Label>
-						<Select name="country" value="">
+						{/* <Select name="country" value=""> */}
 							{/* {countryOptions} */}
-						</Select>
+						{/* </Select> */}
 					</Col>
 					<Col>
 						<Label for="region">Province/State</Label>				
-						<Select name="region" value="">
+						{/* <Select name="region" value=""> */}
 							{/* {regionOptions} */}
-						</Select>
+						{/* </Select> */}
 					</Col>
 				</Row>
 				<Row>
 					<Col>
 						<Label for="institution">Institution</Label>
-						<Select name="institution" value="">
+						{/* <Select name="institution" value=""> */}
 							{/* {institutionOptions} */}
-						</Select>
+						{/* </Select> */}
 					</Col>
 					<Col>
 						<Label for="school">School</Label>
-						<Select name="school" value="">
+						{/* <Select name="school" value=""> */}
 							{/* {schoolOptions} */}
-						</Select>
+						{/* </Select> */}
 					</Col>
 				</Row>
 				<Row>

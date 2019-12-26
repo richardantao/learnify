@@ -108,22 +108,24 @@ class Dashboard extends Component {
 				<Helmet>
 					<title>My Learnify | Dashboard</title>
 				</Helmet>
-				<Nav/>
-				<div id="dashboard">
-					<Row>
-						<DashboardHeader/>
-					</Row>
-					<Row id="dashboard-columns" className="body">
-						<Col id="classes-column">
-							{/* {classRecords} */}
-						</Col>
-						<Col id="tasks-column">
-							{/* {taskRecords} */}
-						</Col>
-						<Col id="ass-column">
-							{/* {assessmentRecords} */}
-						</Col>
-					</Row>
+				<div id="beta">
+					<Nav/>
+					<div id="dashboard">
+						<Row>
+							<DashboardHeader/>
+						</Row>
+						<Row id="dashboard-columns" className="body">
+							<Col id="classes-column">
+								{/* {classRecords} */}
+							</Col>
+							<Col id="tasks-column">
+								{/* {taskRecords} */}
+							</Col>
+							<Col id="ass-column">
+								{/* {assessmentRecords} */}
+							</Col>
+						</Row>
+					</div>
 				</div>
 			</Fragment>
 		);

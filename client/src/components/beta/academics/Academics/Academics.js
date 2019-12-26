@@ -47,58 +47,60 @@ class Academics extends Component {
 				<Helmet>
 					<title>My Learnify | Academics</title>
 				</Helmet>
-				<Nav/>
-				<div id="academics">
-					<Row className="header">
-						<Col>
-							<Header header="Academics"/>
-						</Col>
-						<Col>
-							<Years/>
-							<YearEditModal/>
-							<YearNewModal/>
-						</Col>
-					</Row>
-					<Row className="body academics-body">
-						<Col>
-							<Row className="terms-header">
-								<Col>
-									<h4>Terms</h4>
-								</Col>
-								<Col>
-									<TermNewModal/>
-									<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
-								</Col>
-							</Row>
-						</Col>
-						<Col>
-							<Row className="courses-header">
-								<Col>	
-									<h4>Courses</h4>
-								</Col>
-								<Col>
-									<CourseNewModal/>
-									<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
-								</Col>
-							</Row>
-						</Col>
-						<Col>
-							<Row className="classes-header">
-								<Col>
-									<h4>Classes</h4>
-								</Col>
-								<Col>
-									<ClassNewModal/>
-									<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
-								</Col>
-							</Row>
-						</Col>
-					</Row>
-					<Row>
-						<Terms className="terms-list"/>
-						<Courses className="courses-list"/>
-						<Classes className="class-list"/>		
-					</Row>
+				<div id="beta">
+					<Nav/>
+					<div id="academics">
+						<Row className="header">
+							<Col>
+								<Header header="Academics"/>
+							</Col>
+							<Col>
+								<Years/>
+								<YearEditModal/>
+								<YearNewModal/>
+							</Col>
+						</Row>
+						<Row className="body academics-body">
+							<Col>
+								<Row className="terms-header">
+									<Col>
+										<h4>Terms</h4>
+									</Col>
+									<Col>
+										<TermNewModal/>
+										<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
+									</Col>
+								</Row>
+							</Col>
+							<Col>
+								<Row className="courses-header">
+									<Col>	
+										<h4>Courses</h4>
+									</Col>
+									<Col>
+										<CourseNewModal/>
+										<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
+									</Col>
+								</Row>
+							</Col>
+							<Col>
+								<Row className="classes-header">
+									<Col>
+										<h4>Classes</h4>
+									</Col>
+									<Col>
+										<ClassNewModal/>
+										<Button onClick={this}><FontAwesomeIcon icon={faEdit} /></Button>
+									</Col>
+								</Row>
+							</Col>
+						</Row>
+						<Row>
+							<Terms className="terms-list"/>
+							<Courses className="courses-list"/>
+							<Classes className="class-list"/>		
+						</Row>
+					</div>
 				</div>
 			</Fragment>
         );

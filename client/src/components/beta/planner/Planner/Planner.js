@@ -17,7 +17,7 @@ import Assessments from "../../assessments/Assessments";
 import AssessmentEditModal from "../../assessments/AssessmentEditModal";
 import AssessmentNewModal from "../../assessments/AssessmentNewModal";
 
-import Select from "react-select";
+// import Select from "react-select";
 
 import "./Planner.scss";
 
@@ -43,36 +43,38 @@ class Planner extends Component {
                 <Helmet>
                     <title>My Learnify | Planner</title>
                 </Helmet>
-                <Nav/>
-                <div id="planner">
-                    <Row className="header">
-                        <Col>
-                            <Header header="Planner"/>
-                        </Col>
-                        <Col>
-                            <Select placeholder="Filter by Course..">
-								{/* {courseOptions} */}
-							</Select>
-                        </Col>
-                        <Col>
-                            <Button onClick={this.fetchTasks} className="current">Current</Button>
-							<Button onClick={this.fetchPastTasks} className="past">Past</Button>
-                        </Col>
-                    </Row>
-                    <Row className="body tasks-body"> 
-                        <Col>
-                            <h2>Tasks</h2>
-                            <TaskNewModal/>
-                        </Col>
-                        <Col>
-                            <h2>Assessments</h2>
-                            <AssessmentNewModal/>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Tasks/>
-                        <Assessments/>
-                    </Row>
+                <div id="beta">
+                    <Nav/>
+                    <div id="planner">
+                        <Row className="header">
+                            <Col>
+                                <Header header="Planner"/>
+                            </Col>
+                            <Col>
+                                {/* <Select placeholder="Filter by Course.."> */}
+                                    {/* {courseOptions} */}
+                                {/* </Select> */}
+                            </Col>
+                            <Col>
+                                <Button onClick={this.fetchTasks} className="current">Current</Button>
+                                <Button onClick={this.fetchPastTasks} className="past">Past</Button>
+                            </Col>
+                        </Row>
+                        <Row className="body tasks-body"> 
+                            <Col>
+                                <h2>Tasks</h2>
+                                <TaskNewModal/>
+                            </Col>
+                            <Col>
+                                <h2>Assessments</h2>
+                                <AssessmentNewModal/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Tasks/>
+                            <Assessments/>
+                        </Row>
+                    </div>
                 </div>
             </Fragment>
         );

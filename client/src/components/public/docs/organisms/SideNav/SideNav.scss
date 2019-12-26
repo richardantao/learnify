@@ -1,0 +1,29 @@
+$border-line: #E1E1E1;
+
+#side-nav {
+    border-right: $border-line 1px solid;
+    float: left;
+    height: 720px;
+    margin-right: 2%;
+    width: 20%;
+}
+
+#side-nav div {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+}
+
+#side-nav h3 {
+    margin: 5%;
+}
+
+#side-nav a {
+    display: block;
+    font-size: 0.7em;
+    margin: 5%;
+}
+
+#side-nav a:hover {
+    text-decoration: none;
+}

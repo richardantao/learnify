@@ -55,44 +55,46 @@ class Calendar extends Component {
 				<Helmet>
 					<title>My Learnify | Calendar</title>
 				</Helmet>
-				<Nav />
-				<div id="calendar">
-					<Row className="header">
-						<CalendarHeader/> 
-						<Col className="header-date">
-							<Button onClick="">
-								<FontAwesomeIcon icon={faChevronLeft}/>
-							</Button>
-							<h4>{this.props.date}</h4>
-							<Button onClick="">
-								<FontAwesomeIcon icon={faChevronRight}/>
-							</Button>
-						</Col>
-						<Col className="calendar-selector">
-							<Button>{this.props.display}</Button>
-						</Col>
-					</Row>
-					<Row className="body">
-						{ display === "month" ? (
-							<CalendarMonth/>
-						): null }
-						{ display === "week" ? (
-							<CalendarWeek/>
-						): null }
-						{ display === "day" ? (
-							<CalendarDay/>
-						): null }
-						{ display === "agenda" ? (
-							<CalendarAgenda/>
-						): null }
-					</Row>
+				<div id="beta">
+					<Nav />
+					<div id="calendar">
+						<Row className="header">
+							<CalendarHeader/> 
+							<Col className="header-date">
+								<Button onClick="">
+									<FontAwesomeIcon icon={faChevronLeft}/>
+								</Button>
+								<h4>{this.props.date}</h4>
+								<Button onClick="">
+									<FontAwesomeIcon icon={faChevronRight}/>
+								</Button>
+							</Col>
+							<Col className="calendar-selector">
+								<Button>{this.props.display}</Button>
+							</Col>
+						</Row>
+						<Row className="body">
+							{ display === "month" ? (
+								<CalendarMonth/>
+							): null }
+							{ display === "week" ? (
+								<CalendarWeek/>
+							): null }
+							{ display === "day" ? (
+								<CalendarDay/>
+							): null }
+							{ display === "agenda" ? (
+								<CalendarAgenda/>
+							): null }
+						</Row>
 
-					{ editModal ? (
-						<ClassEditModal className="modal"/>
-					): null }
-					{ newModal ? (
-						<ClassNewModal className="modal"/>
-					): null}
+						{ editModal ? (
+							<ClassEditModal className="modal"/>
+						): null }
+						{ newModal ? (
+							<ClassNewModal className="modal"/>
+						): null}
+					</div>
 				</div>
 			</Fragment>
 		);

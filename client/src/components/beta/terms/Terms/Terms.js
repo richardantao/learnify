@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { fetchTerms } from "../../../../actions/data/terms";
+import { fetchTerms } from "../../../../actions/beta/terms";
 import PropTypes from "prop-types";
 
 import { Col, Row } from "reactstrap";

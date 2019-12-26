@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
-import { createYear } from "../../../../actions/data/years";
+import { createYear } from "../../../../actions/beta/years";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

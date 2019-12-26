@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
-import { newAssessment, createAssessment } from "../../../actions/data/assessments";
-import { clearErrors } from "../../../actions/auth/errors";
+import { newAssessment, createAssessment } from "../../../../actions/beta/assessments";
+import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
 import { 

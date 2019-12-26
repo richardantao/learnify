@@ -73,54 +73,56 @@ class Settings extends Component {
 				<Helmet>
 					<title> My Learnify | Settings</title>
 				</Helmet>
-				<Nav/>
-				<div id="settings">
-					<Row className="header">
-						<Col>
-							<Header header="Settings"/> 
-						</Col>
-						<Col>
-							<Button onClick={this.handleLogout}>Sign Out</Button>
-						</Col>
-					</Row>
-					<Row>
-						<Col className="settings-nav">
-							<Button onClick={this.handleProfile} block>Profile</Button>
-							<Button onClick={this.handlePassword} block>Password</Button>	
-							<Button onClick={this.handlePreferences} block>Preferences</Button>
-							<Button onClick={this.handleIntegrations} block>Integrations</Button>
-						</Col>
-					</Row>
-					<Container>
-						<Row className="body settings-body">
+				<div id="beta">
+					<Nav/>
+					<div id="settings">
+						<Row className="header">
 							<Col>
-								{ form === "profile" ? (
-									<Profile/>
-								): null }
-								{ form === "password" ? (
-									<Password/>
-								): null }
-								{ form === "preferences" ? (
-									<Preference/>
-								): null }
-								{ form === "integration" ? (
-									<Integration/>
-								): null }
-							</Col>		
+								<Header header="Settings"/> 
+							</Col>
+							<Col>
+								<Button onClick={this.handleLogout}>Sign Out</Button>
+							</Col>
 						</Row>
-					</Container>
-					<Row className="footer settings-footer">
-						<Col>
-							<Button href="https://facebook.com" target="_blank" className="social"><FontAwesomeIcon icon={faFacebookSquare}/></Button>
-							<Button href="https://www.linkedin.com/company/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faLinkedin}/></Button>
-							<Button href="https://www.instagram.com/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faInstagram}/></Button>
-							<Button href="https://twitter.com/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faTwitterSquare}/></Button>
-						</Col>
-						<Col>
-							<p>Copyright {year} Learnify. All rights reserved. </p>
-							<a href="https://docs.learnify.ca/changelog" target="_blank">{version}</a>
-						</Col>
-					</Row>
+						<Row>
+							<Col className="settings-nav">
+								<Button onClick={this.handleProfile} block>Profile</Button>
+								<Button onClick={this.handlePassword} block>Password</Button>	
+								<Button onClick={this.handlePreferences} block>Preferences</Button>
+								<Button onClick={this.handleIntegrations} block>Integrations</Button>
+							</Col>
+						</Row>
+						<Container>
+							<Row className="body settings-body">
+								<Col>
+									{ form === "profile" ? (
+										<Profile/>
+									): null }
+									{ form === "password" ? (
+										<Password/>
+									): null }
+									{ form === "preferences" ? (
+										<Preference/>
+									): null }
+									{ form === "integration" ? (
+										<Integration/>
+									): null }
+								</Col>		
+							</Row>
+						</Container>
+						<Row className="footer settings-footer">
+							<Col>
+								<Button href="https://facebook.com" target="_blank" className="social"><FontAwesomeIcon icon={faFacebookSquare}/></Button>
+								<Button href="https://www.linkedin.com/company/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faLinkedin}/></Button>
+								<Button href="https://www.instagram.com/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faInstagram}/></Button>
+								<Button href="https://twitter.com/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faTwitterSquare}/></Button>
+							</Col>
+							<Col>
+								<p>Copyright {year} Learnify. All rights reserved. </p>
+								<a href="https://docs.learnify.ca/changelog" target="_blank">{version}</a>
+							</Col>
+						</Row>
+					</div>
 				</div>
 			</Fragment>
 		);

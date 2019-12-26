@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { 
 	fetchAssessmentsByTerm, fetchPastAssessmentsByTerm,
 	fetchAssessmentsByCourse, fetchPastAssessmentsByCourse
-} from "../../../../actions/beta/assessments.action";
+} from "../../../../actions/beta/assessments";
 import PropTypes from "prop-types";
 
 import { Col, Row } from "reactstrap";

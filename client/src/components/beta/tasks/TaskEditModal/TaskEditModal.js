@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import Select from "react-select";
+// import Select from "react-select";
 
 import "./TaskEditModal.scss";
 
@@ -135,9 +135,9 @@ class TaskEditModal extends Component {
                                 />
 
                                 <Label for="course">Course</Label>
-                                <Select value="">
+                                {/* <Select value=""> */}
                                     {courses}
-                                </Select>
+                                {/* </Select> */}
 
                                 <Label for="type"></Label>
                                 <Input 

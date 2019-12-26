@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
-import { newClass, createClass } from "../../../../actions/data/classes";
+import { newClass, createClass } from "../../../../actions/beta/classes";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

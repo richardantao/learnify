@@ -11,7 +11,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 import Nav from "../../global/Nav";
 import Header from "../../global/Header";
-import Select from "../../global/Select";
+// import Select from "../../global/Select";
 
 import "./Search.scss";
 
@@ -67,10 +67,10 @@ class Search extends Component {
 							</FormGroup>
 						</Col>
 						<Col>
-							<Select placeholder="Filter by Course.."/>
+							{/* <Select placeholder="Filter by Course.."/> */}
 						</Col>
 						<Col>
-							<Select placeholder="Filter by Type.."/>
+							{/* <Select placeholder="Filter by Type.."/> */}
 						</Col>
 					</Row>
 					<Row className="footer">
