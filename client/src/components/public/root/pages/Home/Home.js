@@ -11,7 +11,7 @@ import Header from "../../../global/organisms/Header";
 import { Alert, Button, Form, FormGroup, Input, Label } from "reactstrap";
 
 import background from "./home-min.jpg";
-import "./Home.scss";
+import "../../Root.scss";
 
 class Home extends Component {
     state = {
@@ -116,7 +116,7 @@ class Home extends Component {
                 </Helmet>
                 <div id="public">
                     <Header/>
-                    <main className="root home-main" role="main">
+                    <main className="root" role="main">
                         <img src={background} className="home-background" alt=""/>
                         <div className="home-pitch">
                             <h3>Building the Foundations for Student Success</h3>
@@ -125,7 +125,7 @@ class Home extends Component {
                                 Academic excellence has never been this simple.
                             </p>
                         </div>
-                        <Form onSubmit={this.handleSubmit} className="beta-form" role="form">
+                        <Form onSubmit={this.handleSubmit} className="home-form" role="form">
                             {   message && success ? (
                                 <Alert color="success">{message}</Alert>
                             ):  message && !success ? (

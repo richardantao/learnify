@@ -1,0 +1,472 @@
+/* --- Colour Palette --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background: #FAFAFA;
+$form-background: #F1F1F1;
+$border-line: #E1E1E1;
+
+/* --- Portrait Mobile --- */
+
+/* Root styles */
+.root {
+    position: relative;
+}
+
+/* Home styles */
+.home {
+    &-background {
+        height: 500px;
+        object-fit: cover;
+        opacity: 0.8;
+        position: relative;
+        width: auto;
+        z-index: 0;
+    }
+
+    &-pitch {
+        position: absolute;
+        left: 2%;
+        top: 5%;
+        width: 90%;
+
+        h3 {
+            font-size: 1.25rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+    }
+
+    &-form {
+        border-radius: 2%;
+        min-height: 250px;
+        padding: 1.5rem 1.5rem 2rem 1.5rem;
+        position: absolute;
+            left: 6%;
+            top: 35%;
+        width: 80%;
+    }
+
+    &-reset, &-submit {
+        font-size: 0.65rem;
+        margin: 1% 4% 0 0;
+        padding: 4px 10px;
+        position: absolute;
+            bottom: 0.67rem;
+    }
+
+    &-reset {
+        background-color: red;
+        border-color: red;
+        right: 7.5rem;
+
+        &:hover {
+            background-color: red;
+            border-color: red;
+        }
+    }
+
+    &-submit {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        right: 1.5rem;
+    }
+}
+
+/* About styles */
+.about {
+    background: $background;
+    border-bottom: $border-line 1px solid;
+    border-top: $border-line 1px solid;
+
+    h1, div {
+        margin: 0 1rem;
+    }
+
+    p {
+        font-size: 1.1rem;
+    }
+
+    .mission p, .values p {
+        margin: 0;
+    }
+
+    &-team {
+        display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 50px 700px 425px;
+            grid-gap: 0;
+    }
+
+    .headshot {
+        height: auto;
+        width: 100%;
+    }
+
+    .card {
+        margin: 1rem auto;
+        width: 85%;   
+    }
+}
+
+/* Contact styles */
+.contact {
+    textarea {
+        margin-bottom: 1rem;
+    }
+
+    &-background {
+        height: 500px;
+        object-fit: cover;
+        opacity: 0.65;
+        position: relative;
+        width: auto;
+        z-index: 0; 
+    }
+
+    &-pitch {
+        position: absolute;
+            left: 5%;
+            top: 20%;
+        width: 80%;
+
+        h3 {
+            font-size: 1.5rem;
+        }
+    }
+
+    &-form {
+        border-radius: 2%;
+        padding: 1.5rem 1.5rem 2.25rem 1.5rem;
+        position: absolute;
+            left: 10%;
+            top: 30%;
+        width: 80%;
+    }
+
+    &-reset, &-submit {
+        font-size: 0.65rem;
+        margin: 1% 4% 0 0;
+        padding: 4px 10px;
+        position: absolute;
+            bottom: 0.67rem;
+    }
+
+    &-reset {
+        background-color: red;
+        border-color: red;
+        right: 7.5rem;
+
+        &:hover {
+            background-color: red;
+            border-color: red;
+        }
+    }
+
+    &-submit {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        right: 1.5rem;
+    }
+}
+
+/* --- Landscape Mobile --- */
+@media (min-width: 576px) {
+    /* Home styles */
+    .home {
+        &-pitch {
+            top: 9.5%;
+            width: 90%;
+
+            h3 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1.2em;
+            }
+        }
+
+        &-form {
+            top: 35%;
+        }
+    }
+
+    /* About styles */
+    .about {
+        .card {
+            margin: 1rem auto;
+            width: 66%;   
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        textarea {
+            margin-bottom: 1rem;
+        }
+
+        &-background {
+            height: auto; 
+            object-fit: contain;
+            width: 100%;
+        }
+
+        &-pitch {
+            font-size: 2rem;    
+            left: 10%;
+            top: 28%;
+            width: 35%;
+
+            h3 {
+                font-size: 2.5rem;
+            }
+        }
+
+        &-form {
+            left: 50%;
+            top: 18%;
+            width: 40%;
+        }
+    }
+}
+
+/* --- Portrait Tablets --- */
+@media (min-width: 768px) {
+    /* Home styles */
+    .home {
+        &-background {
+            height: auto;
+            object-fit: contain;
+            width: 100%;
+        }
+
+        &-pitch {
+            left: 15%;
+            top: 25%;
+            width: 30%;
+        }
+
+        &-form {
+            left: 50%;
+            top: 20%;
+            width: 40%;
+        }
+
+        &-reset, &-submit {
+            font-size: 0.85rem;
+        }
+
+        &-reset {
+            right: 9rem;
+        }
+
+        &-submit {
+            right: 1.6rem;
+        }
+    }
+
+    /* About styles */
+    .about {
+        &-team {
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 50px 615px;
+
+            h2 {
+                grid-column-end: span 2;
+            }
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        &-pitch {
+            left: 10%;
+            top: 30%;
+            width: 35%;
+
+            h3 {
+                font-size: 3rem;
+            }
+        }
+
+        &-form {
+            left: 50%;
+            top: 27%;
+            width: 40%;
+        }
+
+        &-reset, &-submit {
+            font-size: 0.85rem;
+        }
+
+        &-reset {
+            right: 9rem;
+        }
+
+        &-submit {
+            right: 1.6rem;
+        }
+    }
+}
+
+/* --- Landscape Tablets --- */
+@media (min-width: 992px) {
+    /* Home styles */
+    .home {
+        &-pitch {
+            top: 22%;        
+
+            h3 {
+                font-size: 1.75rem;
+            }
+
+            p {
+                font-size: 1.25rem;
+            }
+        }
+    }
+
+    /* About styles */
+    .about {
+        &-team {
+            grid-template-rows: 50px 650px;
+
+            h2 {
+                grid-column-end: span 3;
+            }
+        }
+
+        .card {
+            width: 70%;   
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        &-pitch {
+            left: 15%;
+            top: 43%;
+            width: 28%;
+        }
+
+        &-form {
+            left: 50%;
+            top: 38%;
+        }
+    }
+
+}
+
+/* --- Small Laptops --- */
+@media (min-width: 1200px) {
+    /* Home styles */
+    .home {
+        small {
+            margin-bottom: 1.5rem;
+        }
+
+        &-pitch {
+            h3 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1.5rem;
+            }
+        }
+
+        &-reset, &-submit {
+            font-size: 1rem;
+            padding: 6px 12px;
+        }
+
+        &-reset {
+            right: 10rem;
+        }
+
+        &-submit {
+            right: 1.33rem;
+        }
+    }
+
+    /* About styles */
+    .about {
+        &-team {
+            grid-template-columns: 33% 33% 33%;
+        }
+
+        .card {
+            width: 80%;   
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        textarea {
+            margin-bottom: 2rem;
+        }
+
+        &-pitch {
+            left: 20%;
+            top: 44%;
+            width: 22%;
+
+            h3 {
+                font-size: 3.75rem;
+            }
+        }
+
+        &-reset, &-submit {
+            font-size: 1rem;
+            padding: 6px 12px;
+        }
+
+        &-reset {
+            right: 10rem;
+        }
+
+        &-submit {
+            right: 1.25rem;
+        }
+    }
+
+}
+
+/* --- Large Laptops --- */
+@media (min-width: 1440px) {
+    /* Home styles */
+    .home {
+
+    }
+
+    /* About styles */
+    .about {
+        
+    }
+
+    /* Contact styles */
+    .contact {
+
+    }
+
+}
+
+/* --- Desktops --- */
+@media (min-width: 2100px) {
+    /* Home styles */
+    .home {
+
+    }
+
+    /* About styles */
+    .about {
+
+    }
+
+    /* Contact styles */
+    .contact {
+
+    }
+}

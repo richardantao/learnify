@@ -11,7 +11,7 @@ import { Alert, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 
-import "./Contact.scss";
+import "../../Root.scss";
 
 class Contact extends Component {
     state = {

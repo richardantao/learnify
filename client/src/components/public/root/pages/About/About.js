@@ -5,7 +5,7 @@ import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 import Card from "../../../global/templates/Card";
 
-import "./About.scss";
+import "../../Root.scss";
 
 export default class About extends Component {
     state = {
@@ -24,10 +24,10 @@ export default class About extends Component {
                 </Helmet>
                 <div id="public">
                     <Header/>
-                    <main className="about-main root" role="main">
+                    <main className="root about" role="main">
                         <h1>About Us</h1>
                         <br/>
-                        <div className="about">
+                        <div>
                             <h2>Mission</h2>
                             <p>
                                 At Learnify, we believe in the transformational power of education. It is through accessible and engaging education that we can solve 
@@ -68,7 +68,7 @@ export default class About extends Component {
                             </p>
                             <br/>
                         </div>
-                        <div className="team">
+                        <div className="about-team">
                             <h2>Meet the Team</h2>
                             <Card
                                 src="assets/images/richardantao-min.png"
