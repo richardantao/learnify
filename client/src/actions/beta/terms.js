@@ -4,8 +4,8 @@ import {
     NEW_TERM, CREATE_TERM, 
     UPDATE_TERM, DELETE_TERM 
 } from "../types";
-import { tokenConfig } from "../auth/auth.action";
-import { returnErrors } from "../auth/errors.action";
+import { tokenConfig } from "../auth/auth";
+import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

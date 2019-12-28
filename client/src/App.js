@@ -1,65 +1,19 @@
-/* --- React dependencies --- */
+/* --- Static dependencies --- */
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 
-/* --- Redux dependencies */
+/* --- Redux --- */
 import { Provider } from "react-redux";
 import store from "./store";
-import { loadUser } from "./actions/auth/auth.action";
+import { loadUser } from "./actions/auth/auth";
 
-/* --- Beta components --- */
-import BetaRegister from "./components/beta/auth/BetaRegister";
-import Login from "./components/beta/auth/Login";
-import VerifyEmail from "./components/beta/auth/VerifyEmail";
-import ForgotPassword from "./components/beta/auth/ForgotPassword";
-import ResetPassword from "./components/beta/auth/ResetPassword";
-import Dashboard from "./components/beta/dashboard/Dashboard";
-import Calendar from "./components/beta/calendar/Calendar";
-import Academics from "./components/beta/academics/Academics";
-import Planner from "./components/beta/planner/Planner";
-import Tasks from "./components/beta/tasks/Tasks";
-import Assessments from "./components/beta/assessments/Assessments";
-import Search from "./components/beta/search/Search";
-import Settings from "./components/beta/settings/Settings";
-import Help from "./components/beta/help/Help";
+/* --- Dynamic Imports, see components below App Routing --- */
+import Loadable from "react-loadable";
+import Loading from "./components/public/global/organisms/Loading";
 
-/* --- Blog components --- */
-import Blog from "./components/blog/pages/Blog";
-import Calling from "./components/blog/pages/Calling";
-import Change from "./components/blog/pages/Change";
-import Danger from "./components/blog/pages/Danger";
-import Emerging from "./components/blog/pages/Emerging";
-import Habits from "./components/blog/pages/Habits";
-import History from "./components/blog/pages/History";
-import Leadership from "./components/blog/pages/Leadership";
-import Mission from "./components/blog/pages/Mission";
-import Pareto from "./components/blog/pages/Pareto";
-import Tips from "./components/blog/pages/Tips";
-
-/* --- Docs components --- */
-import Docs from "./components/docs/pages/Docs";
-import Api from "./components/docs/pages/Api";
-import Terms from "./components/docs/pages/Terms";
-import Privacy from "./components/docs/pages/Privacy";
-import Cookies from "./components/docs/pages/Cookies";
-import Changelog from "./components/docs/pages/Changelog";
-import Sitemap from "./components/docs/pages/Sitemap";
-import Status from "./components/docs/pages/Status";
-
-/* --- Root components --- */
-import Home from "./components/root/pages/Home";
-import About from "./components/root/pages/About";
-import Contact from "./components/root/pages/Contact";
-import NotFound from "./components/public/pages/NotFound";
-
-/* --- Team components --- */
-import Team from "./components/team/pages/Team";
-import Roles from "./components/team/pages/Roles";
-import TeamRegister from "./components/team/pages/TeamRegister";
-
-import "./App";
 import './App.scss';
 
+/* --- App Routing --- */
 export default class App extends Component {
 	componentDidMount() {
 		store.dispatch(loadUser());
@@ -70,7 +24,7 @@ export default class App extends Component {
 			<Provider store={store}>
 				<Switch>
 					<Route name="register" path="/beta/register" component={BetaRegister}/>
-					<Route name="login" path="/beta/signin" component={Login}/>
+					<Route name="login" path="/beta/signin" component={BetaLogin}/>
 					<Route name="verifyEmail" path="/beta/verifyEmail" component={VerifyEmail}/>
 					<Route name="forgotPassword" path="/beta/forgotPassword" component={ForgotPassword}/>
 					<Route name="resetPassword" path="/beta/resetPassword" component={ResetPassword}/>
@@ -78,8 +32,6 @@ export default class App extends Component {
 					<Route name="calendar" path="/beta/calendar" component={Calendar}/>
 					<Route name="academics" path="/beta/academics" component={Academics}/>
 					<Route name="planner" path="/beta/planner" component={Planner}/>
-					<Route name="tasks" path="/beta/tasks" component={Tasks}/>
-					<Route name="assessments" path="/beta/assessments" component={Assessments}/>
 					<Route name="search" path="/beta/search" component={Search}/>
 					<Route name="settings" path="/beta/settings" component={Settings}/>
 					<Route name="help" path="/beta/help" component={Help}/>
@@ -119,3 +71,233 @@ export default class App extends Component {
 		);
 	};
 };
+
+/* --- Beta components --- */
+const BetaRegister = Loadable({
+	loader: () => import(/* webpackChunkName: "BetaRegister" */ "./components/beta/auth/BetaRegister"),
+	loading: Loading,
+	delay: 300
+});
+
+const BetaLogin = Loadable({
+	loader: () => import(/* webpackChunkName: "BetaLogin" */ "./components/beta/auth/BetaLogin"),
+	loading: Loading,
+	delay: 300
+});
+
+const VerifyEmail = Loadable({
+	loader: () => import(/* webpackChunkName: "VerifyEmail" */ "./components/beta/auth/VerifyEmail"),
+	loading: Loading,
+	delay: 300
+});
+
+const ForgotPassword = Loadable({
+	loader: () => import(/* webpackChunkName: "ForgotPassword" */ "./components/beta/auth/ForgotPassword"),
+	loading: Loading,
+	delay: 300
+});
+
+const ResetPassword = Loadable({
+	loader: () => import(/* webpackChunkName: "ResetPassword" */ "./components/beta/auth/ResetPassword"),
+	loading: Loading,
+	delay: 300
+});
+
+const Dashboard = Loadable({
+	loader: () => import(/* webpackChunkName: "Dashboard" */ "./components/beta/dashboard/Dashboard"),
+	loading: Loading,
+	delay: 300
+});
+
+const Calendar = Loadable({
+	loader: () => import(/* webpackChunkName: "Calendar" */ "./components/beta/calendar/Calendar"),
+	loading: Loading,
+	delay: 300
+});
+
+const Academics = Loadable({
+	loader: () => import(/* webpackChunkName: "Academics" */ "./components/beta/academics/Academics"),
+	loading: Loading,
+	delay: 300
+});
+
+const Planner = Loadable({
+	loader: () => import(/* webpackChunkName: "Planner" */ "./components/beta/planner/Planner"),
+	loading: Loading,
+	delay: 300
+});
+
+const Search = Loadable({
+	loader: () => import(/* webpackChunkName: "Search" */ "./components/beta/search/Search"),
+	loading: Loading,
+	delay: 300
+});
+
+const Settings = Loadable({
+	loader: () => import(/* webpackChunkName: "Settings" */ "./components/beta/settings/Settings"),
+	loading: Loading,
+	delay: 300
+});
+
+const Help = Loadable({
+	loader: () => import(/* webpackChunkName: "Help" */ "./components/beta/help/Help"),
+	loading: Loading,
+	delay: 300
+});
+
+/* --- Blog components --- */
+const Blog = Loadable({
+	loader: () => import(/* webpackChunkName: "Blog" */ "./components/public/blog/pages/Blog"),
+	loading: Loading,
+	delay: 300
+});
+
+const Calling = Loadable({
+	loader: () => import(/* webpackChunkName: "Calling" */ "./components/public/blog/pages/Calling"),
+	loading: Loading,
+	delay: 300
+});
+
+const Change = Loadable({
+	loader: () => import(/* webpackChunkName: "Change" */ "./components/public/blog/pages/Change"),
+	loading: Loading,
+	delay: 300
+});
+
+const Danger = Loadable({
+	loader: () => import(/* webpackChunkName: "Danger" */ "./components/public/blog/pages/Danger"),
+	loading: Loading,
+	delay: 300
+});
+
+const Emerging = Loadable({
+	loader: () => import(/* webpackChunkName: "Emerging" */ "./components/public/blog/pages/Emerging"),
+	loading: Loading,
+	delay: 300
+});
+
+const Habits = Loadable({
+	loader: () => import(/* webpackChunkName: "Habits" */ "./components/public/blog/pages/Habits"),
+	loading: Loading,
+	delay: 300
+});
+
+const History = Loadable({
+	loader: () => import(/* webpackChunkName: "History" */ "./components/public/blog/pages/History"),
+	loading: Loading,
+	delay: 300
+});
+const Leadership = Loadable({
+	loader: () => import(/* webpackChunkName: "Leadership" */ "./components/public/blog/pages/Leadership"),
+	loading: Loading,
+	delay: 300
+});
+const Mission = Loadable({
+	loader: () => import(/* webpackChunkName: "Mission" */ "./components/public/blog/pages/Mission"),
+	loading: Loading,
+	delay: 300
+});
+const Pareto = Loadable({
+	loader: () => import(/* webpackChunkName: "Pareto" */ "./components/public/blog/pages/Pareto"),
+	loading: Loading,
+	delay: 300
+});
+const Tips = Loadable({
+	loader: () => import(/* webpackChunkName: "Tips" */ "./components/public/blog/pages/Tips"),
+	loading: Loading,
+	delay: 300
+});
+
+/* --- Docs components --- */
+const Docs = Loadable({
+	loader: () => import(/* webpackChunkName: "Docs" */ "./components/public/docs/pages/Docs"),
+	loading: Loading,
+	delay: 300
+});
+
+const Api = Loadable({
+	loader: () => import(/* webpackChunkName: "Api" */ "./components/public/docs/pages/Api"),
+	loading: Loading,
+	delay: 300
+});
+
+const Terms = Loadable({
+	loader: () => import(/* webpackChunkName: "Terms" */ "./components/public/docs/pages/Terms"),
+	loading: Loading,
+	delay: 300
+});
+
+const Privacy = Loadable({
+	loader: () => import(/* webpackChunkName: "Privacy" */ "./components/public/docs/pages/Privacy"),
+	loading: Loading,
+	delay: 300
+});
+
+const Cookies = Loadable({
+	loader: () => import(/* webpackChunkName: "Cookies" */ "./components/public/docs/pages/Cookies"),
+	loading: Loading,
+	delay: 300
+});
+
+const Changelog = Loadable({
+	loader: () => import(/* webpackChunkName: "Changelog" */ "./components/public/docs/pages/Changelog"),
+	loading: Loading,
+	delay: 300
+});
+
+const Sitemap = Loadable({
+	loader: () => import(/* webpackChunkName: "Sitemap" */ "./components/public/docs/pages/Sitemap"),
+	loading: Loading,
+	delay: 300
+});
+
+const Status = Loadable({
+	loader: () => import(/* webpackChunkName: "Status" */ "./components/public/docs/pages/Status"),
+	loading: Loading,
+	delay: 300
+});
+
+/* --- Root components --- */
+const Home = Loadable({
+	loader: () => import(/* webpackChunkName: "Home" */ "./components/public/root/pages/Home"),
+	loading: Loading,
+	delay: 300
+});
+
+const About = Loadable({
+	loader: () => import(/* webpackChunkName: "About" */ "./components/public/root/pages/About"),
+	loading: Loading,
+	delay: 300
+});
+
+const Contact = Loadable({
+	loader: () => import(/* webpackChunkName: "Contact" */ "./components/public/root/pages/Contact"),
+	loading: Loading,
+	delay: 300
+});
+
+const NotFound = Loadable({
+	loader: () => import(/* webpackChunkName: "NotFound" */ "./components/public/global/pages/NotFound/NotFound"),
+	loading: Loading,
+	delay: 300
+});
+
+/* --- Team components --- */
+const Team = Loadable({
+	loader: () => import(/* webpackChunkName: "Team" */ "./components/public/team/pages/Team"),
+	loading: Loading,
+	delay: 300
+});
+
+const Roles = Loadable({
+	loader: () => import(/* webpackChunkName: "Roles" */"./components/public/team/pages/Roles"),
+	loading: Loading,
+	delay: 300
+});
+
+const TeamRegister = Loadable({
+	loader: () => import(/* webpackChunkName: "TeamRegister" */ "./components/public/team/pages/TeamRegister"),
+	loading: Loading,
+	delay: 300
+});
+

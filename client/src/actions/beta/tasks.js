@@ -3,8 +3,8 @@ import {
     NEW_TASK, CREATE_TASK, 
     EDIT_TASK, UPDATE_TASK, DELETE_TASK
 } from "../types";
-import { tokenConfig } from "../auth/auth.action";
-import { returnErrors } from "../auth/errors.action";
+import { tokenConfig } from "../auth/auth";
+import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

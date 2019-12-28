@@ -1,4 +1,4 @@
-body {
+/* body {
     color: white;
     margin: 0;
     overflow: hidden;
@@ -100,28 +100,4 @@ h2 {
 }
 
 /* from root domain*/
-#loader {
-    animation: loader 1s ease-in-out infinite;
-    border: 22.22px solid;
-    border-radius: 100%;
-    border-top-color: #00A6FF;
-    border-bottom-color:rgba(255,255,255, 0.3);
-    border-left-color: #00A6FF;
-    border-right-color:rgba(255,255,255, 0.3);
-    display: inline-block;
-    height: 200px;
-    padding: 0px;
-    position: absolute;
-        left: 40%;
-        top: 30%;
-    width: 200px;
-    -webkit-animation: loader 1s ease-in-out infinite;
-}
-@keyframes loader {
-    from {transform: rotate(0deg);}
-    to {transform: rotate(360deg);}
-}
-@-webkit-keyframes loader {
-    from {-webkit-transform: rotate(0deg);}
-    to {-webkit-transform: rotate(360deg);}
-}
+

@@ -1,5 +1,5 @@
-import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "../../../../root/client/src/actions/types";
-import { returnErrors } from "./errors";
+import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "../types";
+import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

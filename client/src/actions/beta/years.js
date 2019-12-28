@@ -3,8 +3,8 @@ import {
     NEW_YEAR, CREATE_YEAR, 
     EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
 } from "../types";
-import { tokenConfig } from "../auth/auth.action";
-import { returnErrors } from "../auth/errors.action";
+import { tokenConfig } from "../auth/auth";
+import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

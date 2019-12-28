@@ -1,7 +1,7 @@
 import { 
     PROCESSING_FORM, FORM_POSTED, FORM_FAILED
-} from "../../../../team/client/src/actions/types";
-import { returnErrors } from "./auth/errors";
+} from "../types";
+import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

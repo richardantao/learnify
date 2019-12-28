@@ -3,8 +3,8 @@ import { LOADING_SETTINGS,
     EDIT_PASSWORD, UPDATE_PASSWORD,
     EDIT_PREFERENCES, UPDATE_PREFERENCES
 } from "../types";
-import { tokenConfig } from "../auth/auth.action";
-import { returnErrors } from "../auth/errors.action";
+import { tokenConfig } from "../auth/auth";
+import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

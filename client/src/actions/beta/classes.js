@@ -3,8 +3,8 @@ import {
     NEW_CLASS, CREATE_CLASS, 
     EDIT_CLASS, UPDATE_CLASS, DELETE_CLASS 
 } from "../types";
-import { tokenConfig } from "../auth/auth.action";
-import { returnErrors } from "../auth/errors.action";
+import { tokenConfig } from "../auth/auth";
+import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

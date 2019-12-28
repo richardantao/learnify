@@ -2,7 +2,7 @@ import {
     AUTH_ERROR, USER_LOADING, USER_LOADED, LOGIN_SUCCESS,
     LOGIN_FAILED, LOGOUT_SUCCESS, REGISTER_SUCCESS, REGISTER_FAILED 
 } from "../types";
-import { returnErrors } from "./errors.action";
+import { returnErrors } from "./errors";
 import axios from "axios";
 
 // check and load user
@@ -92,6 +92,10 @@ export const logout = () => dispatch => {
     .catch(err => {
         returnErrors(err.data, err.status);
     });
+};
+
+export const resetPassword = () => dispatch => {
+    
 };
 
 /* VERIFIED */

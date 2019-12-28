@@ -5,21 +5,13 @@ import { combineReducers } from "redux";
 import errorReducer from "./auth/errors";
 
 // data
-import yearReducer from "./data/years";
-import termReducer from "./data/terms";
-import courseReducer from "./data/courses";
-import classReducer from "./data/classes";
-import assessmentReducer from "./data/assessments";
-import taskReducer from "./data/tasks";
-import integrationReducer from "./data/integrations";
-
-// functions
-import counterReducer from "./functions/counter";
-
-// views
-import plannerReducer from "./views/planner";
-import settingsReducer from "./views/settings";
-import navReducer from "./views/nav";
+import yearReducer from "./beta/years";
+import termReducer from "./beta/terms";
+import courseReducer from "./beta/courses";
+import classReducer from "./beta/classes";
+import assessmentReducer from "./beta/assessments";
+import taskReducer from "./beta/tasks";
+import integrationReducer from "./beta/integrations";
 
 export default combineReducers({
     // auth: authReducer,
@@ -30,9 +22,5 @@ export default combineReducers({
     classes: classReducer,
     assessment: assessmentReducer,
     task: taskReducer,
-    integration: integrationReducer,
-    counter: counterReducer,
-    planner: plannerReducer,
-    settings: settingsReducer,
-    nav: navReducer
+    integration: integrationReducer
 });

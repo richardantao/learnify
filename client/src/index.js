@@ -1,6 +1,5 @@
 import React from "react";
 import { render } from "react-dom";
-import "./index.scss";
 import "bootstrap/dist/css/bootstrap.css";
 import App from "./App";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -15,5 +14,5 @@ render(
 	<Router history={customHistory}>
 		<Index />
 	</Router>,
-	document.querySelector("#app")
+	document.querySelector("#learnify")
 );
