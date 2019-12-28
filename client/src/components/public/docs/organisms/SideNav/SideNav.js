@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import "./SideNav.scss";
+import "../../Docs.scss";
 
 export default class SideNav extends Component {
     state = {
@@ -15,7 +15,7 @@ export default class SideNav extends Component {
 
         return (
             <header role="banner">
-                <nav id="side-nav" style={{height: this.props.siblingHeight}}>
+                <nav className="side-nav" style={{height: this.props.siblingHeight}}>
                     <div>
                         <h3>Explore</h3>
                             <a href="/docs">What is Learnify?</a>

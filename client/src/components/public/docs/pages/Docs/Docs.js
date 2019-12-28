@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import SideNav from "../../organisms/SideNav";
 import Footer from "../../../global/organisms/Footer";
 
-import "./Docs.scss";
+import "../../Docs.scss";
 
 export default class Docs extends Component {
     state = {
@@ -39,11 +39,11 @@ export default class Docs extends Component {
         const { childHeight } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Docs</title>
                 </Helmet>
-                <div id="pitch">
+                <div id="public">
                     <Header/>
                     <SideNav siblingHeight={childHeight}/>
                     <main className="docs" role="main" ref={ (mainElement) => { this.mainElement = mainElement } }>
@@ -99,7 +99,7 @@ export default class Docs extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

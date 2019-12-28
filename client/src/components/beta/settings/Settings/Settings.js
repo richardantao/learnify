@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
@@ -69,7 +69,7 @@ class Settings extends Component {
 		const { form } = this.state;
 
 		return (
-			<Fragment>
+			<>
 				<Helmet>
 					<title> My Learnify | Settings</title>
 				</Helmet>
@@ -124,7 +124,7 @@ class Settings extends Component {
 						</Row>
 					</div>
 				</div>
-			</Fragment>
+			</>
 		);
 	};
 };

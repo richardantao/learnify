@@ -10,7 +10,7 @@ import { Alert, Button,
     Form, Label, Input 
 } from "reactstrap";
 
-import "./Forgot.scss";
+import "../../Application.scss";
 
 class Forgot extends Component {
     state = {

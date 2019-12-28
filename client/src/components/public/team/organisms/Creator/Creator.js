@@ -11,7 +11,7 @@ import {
     Form, FormGroup, Label, Input 
 } from "reactstrap";
 
-import "./Creator.scss";
+import "../../Application.scss";
 
 class Creator extends Component {
     state = {
@@ -101,7 +101,7 @@ class Creator extends Component {
                     <ModalHeader toggle={this.toggle}>
                         <h4>Content Creator &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit} className="application">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>

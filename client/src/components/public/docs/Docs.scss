@@ -1,0 +1,106 @@
+/* --- Colour Palette --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background: #FAFAFA;
+$form-background: #F1F1F1;
+$border-line: #E1E1E1;
+
+/* --- Portrait Mobile --- */
+
+/* Docs styles */
+.docs {
+    // main
+    background-color: $background;
+    border-bottom: $border-line 1px solid;
+    border-top: $border-line 1px solid;
+
+    // content inside main
+    * {
+        margin: 0 1rem;
+    }
+
+    #changelog {
+        z-index: -2;
+    }
+    
+    hr {
+        width: 30%;
+    }
+    .active {
+        text-decoration: underline;
+    }
+}
+
+/* Side nav styles */
+.side-nav {
+    border-right: $border-line 1px solid;
+    float: left;
+    height: 720px;
+    margin-right: 2%;
+    width: 20%;
+
+    div {
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+    }
+
+    h3 {
+        margin: 5%;
+    }
+    
+    a {
+        display: block;
+        font-size: 0.7em;
+        margin: 5%;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+}
+
+/* --- Landscape Mobile --- */
+@media (min-width: 768px) {
+    /* Docs styles */
+
+    /* Side nav styles */
+
+}
+
+/* --- Portrait Tablets --- */
+@media (min-width: 992px) {
+    /* Docs styles */
+
+    /* Side nav styles */
+}
+
+/* --- Landscape Tablets --- */
+@media (min-width: 1200px) {
+    /* Docs styles */
+    
+    /* Side nav styles */
+}
+
+
+
+/* --- Small Laptops --- */
+@media (min-width: 1200px) {
+    /* Docs styles */
+
+    /* Side nav styles */
+}
+
+/* --- Large Laptops --- */
+@media (min-width: 1440px) {
+    /* Docs styles */
+
+    /* Side nav styles */
+}
+
+/* --- Desktops --- */
+@media (min-width: 2100px) {
+    /* Docs styles */
+    
+    /* Side nav styles */
+}

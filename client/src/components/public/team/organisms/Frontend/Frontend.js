@@ -11,7 +11,7 @@ import {
     Button, Form, FormGroup, Label, Input
 } from "reactstrap";
 
-import "./Frontend.scss";
+import "../../Application.scss";
 
 class Frontend extends Component {
     state = {
@@ -89,7 +89,7 @@ class Frontend extends Component {
                     <ModalHeader toggle={this.toggle}>
                         <h4>Frontend React Developer &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit} className="application">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>

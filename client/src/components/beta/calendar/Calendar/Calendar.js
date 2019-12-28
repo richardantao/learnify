@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
@@ -51,7 +51,7 @@ class Calendar extends Component {
 		const { assessments } = this.props.assessment;
 
 		return (
-			<Fragment>
+			<>
 				<Helmet>
 					<title>My Learnify | Calendar</title>
 				</Helmet>
@@ -96,7 +96,7 @@ class Calendar extends Component {
 						): null}
 					</div>
 				</div>
-			</Fragment>
+			</>
 		);
 	};
 };

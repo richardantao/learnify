@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
@@ -39,7 +39,7 @@ class Planner extends Component {
 
         
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>My Learnify | Planner</title>
                 </Helmet>
@@ -76,7 +76,7 @@ class Planner extends Component {
                         </Row>
                     </div>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

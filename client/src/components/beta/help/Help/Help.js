@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
@@ -22,7 +22,7 @@ export default class Help extends Component {
 
 	render() {
 		return (
-			<Fragment>
+			<>
 				<Helmet>
 					<title>My Learnify | Help</title>
 				</Helmet>
@@ -47,7 +47,7 @@ export default class Help extends Component {
 						</Row>
 					</div>
 				</div>
-			</Fragment>
+			</>
 		);
 	};
 };

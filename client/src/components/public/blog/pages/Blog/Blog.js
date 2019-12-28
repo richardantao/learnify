@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
-import Card from "../../../global/templates/Card";
+import BlogCard from "../../templates/BlogCard";
 
 import calling from "../Calling/calling-min.jpg"
 import change from "../Change/change-min.jpg";
@@ -14,7 +14,7 @@ import history from "../History/history-min.jpg";
 import mission from "../Mission/mission-min.jpg";
 import pareto from "../Pareto/pareto-min.jpg";
 import tips from "../Tips/tips-min.jpg";
-import "./Blog.scss";
+import "../../Blog.scss";
 
 export default class Blog extends Component {
     state = {
@@ -27,11 +27,11 @@ export default class Blog extends Component {
 
     render() {
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Blog</title>
                 </Helmet>
-                <div id="pitch">
+                <div id="public">
                     <Header/>
                     <main className="blog" role="main">
                         <h1>Blog</h1>
@@ -39,7 +39,7 @@ export default class Blog extends Component {
                             At Learnify, we're crazy about helping students achieve their very best. We use this blog to collect our insights, ideas, and achievements.
                         </div>
                         <div id="posts">
-                            <Card
+                            <BlogCard
                                 src={calling}
                                 alt="Don't Find a Career, Find a Calling"
                                 href="/blogs/calling"
@@ -47,7 +47,7 @@ export default class Blog extends Component {
                                 date="Coming Soon"
                                 text="Jeff Bezos: You can have a job or a career, but if you have this you've 'hit the jackpot'."
                             />
-                            <Card
+                            <BlogCard
                                 src={danger}
                                 alt="Danger of Choosing Your Child's Career For Them"
                                 href="/blog/danger"
@@ -56,7 +56,7 @@ export default class Blog extends Component {
                                 text="We all think we know what's best for our kids. But at what point do our own wants deter them from 
                                     reaching their full potential?"
                             />
-                            <Card
+                            <BlogCard
                                 src={pareto}
                                 alt="Pareto's Principle"
                                 href="/blog/pareto"
@@ -65,7 +65,7 @@ export default class Blog extends Component {
                                 text="Most things in life are not distributed evenly. The same goes for the results that come from your efforts. 
                                 Here's how you can make the most from your time."
                             />
-                            <Card
+                            <BlogCard
                                 src={habits}
                                 alt="Habits Students Need"
                                 href="/blog/habits"
@@ -74,7 +74,7 @@ export default class Blog extends Component {
                                 text="It doesn't matter what domain you are pursuing excellence in &ndash; you won't be successful if you don't adopt
                                     a disciplined routine. Here are 10 habits that are essential for academic excellence."
                             />
-                            <Card
+                            <BlogCard
                                 src={emerging}
                                 alt="Emerging Ed. Tech You Should Be Aware Of"
                                 href="/blog/emerging"
@@ -82,7 +82,7 @@ export default class Blog extends Component {
                                 date="Coming Soon"
                                 text=""
                             />
-                            <Card
+                            <BlogCard
                                 src={tips}
                                 alt=""
                                 href="/blog/tips"
@@ -90,7 +90,7 @@ export default class Blog extends Component {
                                 date="Coming Soon"
                                 text="Where the Foundation Lies."
                             />
-                            <Card
+                            <BlogCard
                                 src={change}
                                 alt=""
                                 href="/blog/change"
@@ -100,7 +100,7 @@ export default class Blog extends Component {
                                     Finance, medicine, technology, transportation, and commerce have all dramatically evolved over the past 40 years - 
                                     so why hasn't education?"
                             />
-                            <Card
+                            <BlogCard
                                 src={history}
                                 alt="History of School"
                                 href="/blog/history"
@@ -109,7 +109,7 @@ export default class Blog extends Component {
                                 text="We want to change the student experience. To do so, it's important to understand when institutional education 
                                     started, what it was designed for, and how things have changed since."
                             />
-                            <Card
+                            <BlogCard
                                 src={mission}
                                 alt="Learnify Mission"
                                 href="/blog/mission"
@@ -121,7 +121,7 @@ export default class Blog extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

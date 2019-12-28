@@ -1,111 +1,136 @@
-footer {
+/* --- Colour Palette --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background: #FAFAFA;
+$form-background: #F1F1F1;
+$border-line: #E1E1E1;
+
+/* --- Portrait Mobile --- */
+.footer {
     margin: 2%;
     min-height: 130px;
-}
-  
-footer a {
-    display: block;
-}
-  
-.footer-internal {
-    display: grid;
-        grid-template-columns: 50% 50%;
-        grid-template-rows: 25% 42% 33%;
-}
-  
-.footer-internal div:first-child {
-    grid-column-end: span 3;
-}
-  
-.footer-internal div:nth-child(4) {
-    grid-column-start: 1;
-}
-  
-.footer-public {
-    display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 50% 50%;
-}
-  
-.copyright p {
-    font-size: 1em;
-    position: relative;
-        top: 1%;
-}
-  
-.social {
-    display: inline-block;
-    font-size: 1.5em;
-    margin-left: 5%;
-}
 
+    a {
+        display: block;
+    }
+
+    &-internal {
+        display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 25% 42% 33%;
+
+        div:first-child {
+            grid-column-end: span 3;
+        }
+
+        div:nth-child(4) {
+            grid-column-start: 1;
+        }
+    }
+
+    &-public {
+        display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 50% 50%;
+    }
+
+    .copyright p {
+        font-size: 1em;
+        position: relative;
+            top: 1%;
+    }
+
+    .social {
+        display: inline-block;
+        font-size: 1.5em;
+        margin-left: 5%;
+    }
+}
+  
+/* --- Landscape Mobile --- */
 @media (min-width: 576px) {
-    footer h3 {
-        font-size: 2em;
-    }
-  
-    footer h5 {
-        font-size: 1.25em;
-    }
-  
-    .footer-internal {
-        font-size: 1.5vw;
-        grid-template-columns: 48% 11% 15% 13% 13%;
-        grid-template-rows: 100%;
-    }
+    .footer {
+        h3 {
+            font-size: 2em;
+        }
 
-    .footer-internal div:first-child {
-        grid-column-end: span 1;
-    }
-    
-    .footer-internal div:nth-child(4) {
-        grid-column-start: 4;
-    }
-    
-    .footer-public {
-        grid-column-start: 2;
-        grid-template-columns: 0 70% 30%;
-        grid-template-rows: 100%;
-        font-size: 1.5vw;
-    }
-    
-    .copyright {
-        grid-column-start: 2;
-    }
+        h5 {
+            font-size: 1.25em;
+        }
+
+        &-internal {
+            font-size: 1.5vw;
+            grid-template-columns: 48% 11% 15% 13% 13%;
+            grid-template-rows: 100%;
+
+            div:first-child {
+                grid-column-end: span 1;
+            }
+
+            div:nth-child(4) {
+                grid-column-start: 4;
+            }
+        }
+
+        &-public {
+            grid-column-start: 2;
+            grid-template-columns: 0 70% 30%;
+            grid-template-rows: 100%;
+            font-size: 1.5vw;
+        }
+        .copyright {
+            grid-column-start: 2;
+        }
+    }        
 }
 
+/* --- Portrait Tablets --- */
 @media (min-width: 768px) {
-    .footer-internal div:nth-child(n+4):nth-child(-n+5) {
-        margin-top: 0;
+    .footer {
+        &-internal div:nth-child(n+4):nth-child(-n+5) {
+            margin-top: 0;
+        }
+
+        &-public {
+            grid-template-columns: 26% 40% 33%;
+        }    
     }
-  
-    .footer-public {
-        grid-template-columns: 26% 40% 33%;
-    }    
 }
 
+/* --- Landscape Tablets --- */
 @media (min-width: 992px) {  
-    .footer-public {
-        grid-template-columns: 26% 40% 33%;
+    .footer {
+        &-public {
+            grid-template-columns: 26% 40% 33%;
+        }
     }
 }
 
+/* --- Small Laptops --- */
 @media (min-width:1200px) {  
-    .footer-internal {
-        grid-template-columns: 52% 10% 14% 12% 12%;
-        grid-template-rows: 100%;
-    }
+    .footer{
+        &-internal {
+            grid-template-columns: 52% 10% 14% 12% 12%;
+            grid-template-rows: 100%;
+        }
     
-    .footer-public {
-        grid-column-start: 2;
-        grid-template-columns: 25% 42% 33%;
+        &-public {
+            grid-column-start: 2;
+            grid-template-columns: 25% 42% 33%;
+        }
     }
 }
 
+/* --- Large Laptops --- */
 @media (min-width: 1440px) {
+    .footer {
 
+    }
 }
 
+/* --- Desktops --- */
 @media (min-width: 2100px) {
-
+    .footer {
+        
+    }
 }

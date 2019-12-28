@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import SideNav from "../../organisms/SideNav";
 import Footer from "../../../global/organisms/Footer";
 
-import "./Privacy.scss";
+import "../../Docs.scss";
 
 export default class Privacy extends Component {
     state = {
@@ -39,7 +39,7 @@ export default class Privacy extends Component {
         const { childHeight } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Privacy Policy</title>
                 </Helmet>
@@ -260,7 +260,7 @@ export default class Privacy extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };  
 };

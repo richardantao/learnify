@@ -11,8 +11,7 @@ import {
     Button, Form, FormGroup, Label, Input
 } from "reactstrap";
 
-
-import "./Backend.scss";
+import "../../Application.scss";
 
 class Backend extends Component {
     state = {

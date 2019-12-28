@@ -10,6 +10,11 @@ $border-line: #E1E1E1;
 /* Root styles */
 .root {
     position: relative;
+
+    form {
+        background-color: $form-background;
+        z-index: 1;
+    }
 }
 
 /* Home styles */
@@ -71,6 +76,30 @@ $border-line: #E1E1E1;
         background-color: $primary-color;
         border-color: $primary-color;
         right: 1.5rem;
+    }
+    
+    form {
+        background-color: $form-background;
+        z-index: 1;
+    }
+    
+    form label:after {
+        color: red;
+        content: "*";
+    }
+    
+    .warning {
+        color: red;
+    }
+    
+    .form-group .disabled {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        opacity: 0.6;
+    }
+    
+    .emailHelp {
+        font-size: 0.65rem;
     }
 }
 
@@ -169,6 +198,42 @@ $border-line: #E1E1E1;
         border-color: $primary-color;
         right: 1.5rem;
     }
+
+    // .btn:not(form .btn) {
+    //     background-color: $primary-color;
+    //     border-color: $primary-color;
+    //     color: white;
+    // }
+    
+    // .btn:hover {
+    //     background-color: $secondary-color;
+    //     border-color: $secondary-color;
+    //     color: white;
+    // } 
+    
+    form {
+        background-color: $form-background;
+        z-index: 1;
+    }
+    
+    form label:after {
+        color: red;
+        content: "*";
+    }
+    
+    .warning {
+        color: red;
+    }
+    
+    .form-group .disabled {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        opacity: 0.6;
+    }
+    
+    .emailHelp {
+        font-size: 0.65rem;
+    }
 }
 
 /* --- Landscape Mobile --- */
@@ -190,6 +255,10 @@ $border-line: #E1E1E1;
 
         &-form {
             top: 35%;
+        }
+
+        .emailHelp {
+            font-size: 0.75rem;
         }
     }
 

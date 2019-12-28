@@ -26,26 +26,26 @@ class Nav extends Component {
 		return ( 
 			<Fragment>
 				<Logo/> 
-				<nav role="navigation">
-					<Button href="/dashboard">
+				<nav className="beta-nav" role="navigation">
+					<Button href="/beta/dashboard">
 						<FontAwesomeIcon icon={faTachometerAlt}/>
 					</Button>
-					<Button href="/calendar">
+					<Button href="/beta/calendar">
 						<FontAwesomeIcon icon={faCalendarAlt}/>
 					</Button>
-					<Button href="/academics">
+					<Button href="/beta/academics">
 						<FontAwesomeIcon icon={faUniversity}/>
 					</Button>
-					<Button href="/planner">
+					<Button href="/beta/planner">
 						<FontAwesomeIcon icon={faTasks}/>
 					</Button>
 					{/* <Button href="/search">
 						<FontAwesomeIcon icon={faSearch}/>
 					</Button> */}
-					<Button href="/settings" className="secondary-nav-button">
+					<Button href="/beta/settings" className="secondary-nav-button">
 						<FontAwesomeIcon icon={faCog}/>
 					</Button>
-					<Button href="/help" className="secondary-nav-button">
+					<Button href="/beta/help" className="secondary-nav-button">
 						<FontAwesomeIcon icon={faQuestionCircle}/>
 					</Button>
 				</nav>

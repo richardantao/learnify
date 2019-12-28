@@ -12,9 +12,9 @@ import {
     Label, Input
 } from 'reactstrap';
 
-import "./Login.scss";
+import "./BetaLogin.scss";
 
-class Login extends Component {
+class BetaLogin extends Component {
     state = {
         email: "",
         password: "",
@@ -127,4 +127,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { login, clearErrors }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(BetaLogin);

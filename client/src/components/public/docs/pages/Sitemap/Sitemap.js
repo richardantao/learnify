@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 
-import "./Sitemap.scss";
+import "../../Docs.scss";
 
 export default class Sitemap extends Component {
     state = {
@@ -17,7 +17,7 @@ export default class Sitemap extends Component {
 
     render() {
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Sitemap</title>
                 </Helmet>
@@ -113,7 +113,7 @@ export default class Sitemap extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

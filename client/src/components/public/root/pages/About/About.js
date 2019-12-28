@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
-import Card from "../../../global/templates/Card";
+import TeamCard from "../../templates/TeamCard/TeamCard";
 
 import "../../Root.scss";
 
@@ -18,7 +18,7 @@ export default class About extends Component {
     
     render() {
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | About Us</title>
                 </Helmet>
@@ -70,7 +70,7 @@ export default class About extends Component {
                         </div>
                         <div className="about-team">
                             <h2>Meet the Team</h2>
-                            <Card
+                            <TeamCard
                                 src="assets/images/richardantao-min.png"
                                 alt="Headshot of Richard Antao"
                                 person="Richard Antao"
@@ -83,7 +83,7 @@ export default class About extends Component {
                                 passionate about space, psychology, and thermodynamics."
                             />
 
-                            <Card
+                            <TeamCard
                                 src=""
                                 alt="Unknown headshot"
                                 person="You?"
@@ -96,7 +96,7 @@ export default class About extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

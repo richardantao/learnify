@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
@@ -114,7 +114,7 @@ class Contact extends Component {
         const textLeft = 15 - text.length;
 
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <meta name="application-name" content="Learnify"/>
                     <meta name="description" content="Learnify helps you organize your academic life with our intuitive all-in-one web application"/>
@@ -124,7 +124,7 @@ class Contact extends Component {
                 </Helmet>
                 <div id="public">
                     <Header/>
-                    <main className="root contact-main" role="main">
+                    <main className="root contact" role="main">
                         <img src="assets/images/contact-min.jpg" className="contact-background" alt="Student walking home"/>
                         <div className="contact-pitch">
                             <h3>Have a question? Send us a message.</h3>
@@ -199,7 +199,7 @@ class Contact extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

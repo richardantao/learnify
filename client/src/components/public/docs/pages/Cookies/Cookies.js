@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import SideNav from "../../organisms/SideNav";
 import Footer from "../../../global/organisms/Footer";
 
-import "./Cookies.scss";
+import "../../Docs.scss";
 
 export default class Cookies extends Component {
     state = {
@@ -41,7 +41,7 @@ export default class Cookies extends Component {
         const { childHeight } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Cookies</title>
                 </Helmet>
@@ -144,7 +144,7 @@ export default class Cookies extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

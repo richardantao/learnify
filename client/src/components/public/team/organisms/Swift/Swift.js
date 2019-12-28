@@ -10,7 +10,8 @@ import {
     Modal, ModalHeader, ModalBody, ModalFooter,
     Button, Form, FormGroup, Label, Input
 } from "reactstrap";
-import "./Swift.scss";
+
+import "../../Application.scss";
 
 class Swift extends Component {
     state = {
@@ -84,7 +85,7 @@ class Swift extends Component {
                     <ModalHeader toggle={this.toggle}>
                         <h4>Swift Developer &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit} className="application">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>

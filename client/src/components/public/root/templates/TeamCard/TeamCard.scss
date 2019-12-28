@@ -1,0 +1,64 @@
+/* --- Colour Palette --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background: #FAFAFA;
+$form-background: #F1F1F1;
+$border-line: #E1E1E1;
+
+
+#public {
+    .about {
+        /* --- Portrait Mobile --- */
+        .card {
+            margin: 1rem auto;
+            width: 85%;  
+            
+            .headshot {
+                height: auto;
+                width: 100%;
+            }
+        }
+
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
+            .card {
+                margin: 1rem auto;
+                width: 66%;   
+            }
+        }
+        
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
+    
+        }
+
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
+            .card {
+                width: 70%;   
+            }
+        }
+
+        /* --- Small Laptops --- */
+        @media (min-width: 1200px) {
+            .card {
+                width: 80%;   
+            }
+        }
+
+        /* --- Large Laptops --- */
+        @media (min-width: 1440px) {
+            
+        }
+
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+            
+        }
+    }
+}
+
+
+
+
+

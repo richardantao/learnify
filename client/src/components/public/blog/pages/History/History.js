@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 
-import "./History.scss";
+import "../../Blog.scss";
 
 export default class History extends Component {
     state = {
@@ -17,18 +17,18 @@ export default class History extends Component {
     
     render() {
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Blog</title>
                 </Helmet>
                 <div id="public">
                     <Header/>
-                    <main className="blog" role="main">
+                    <main className="posts" role="main">
 
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

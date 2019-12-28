@@ -11,7 +11,7 @@ import {
     Button, Form, FormGroup, Label, Input
 } from "reactstrap";
 
-import "./Marketer.scss";
+import "../../Application.scss";
 
 class Marketer extends Component {
     state = {
@@ -85,7 +85,7 @@ class Marketer extends Component {
                     <ModalHeader toggle={this.toggle}>
                         <h4>Marketing Specialist &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit} className="application">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>

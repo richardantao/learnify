@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
@@ -14,9 +14,9 @@ import Frontend from "../../organisms/Frontend";
 import Marketer from "../../organisms/Marketer";
 // import Swift from "../Swift";
 
-import { Button, Collapse, Card, CardBody, ListGroup, ListGroupItem } from "reactstrap";
+import { Collapse, Card, CardBody, ListGroup, ListGroupItem } from "reactstrap";
 
-import "./Roles.scss";
+import "../../Team.scss";
 
 class Roles extends Component {
     state = {
@@ -88,13 +88,13 @@ class Roles extends Component {
         const { openBackend, openCreator, openDesigner, openFrontend, openMarketer } = this.state;
 
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Roles</title>
                 </Helmet>  
                 <div id="public">
                     <Header/>
-                    <main className="team" role="main">
+                    <main className="roles" role="main">
                         <div>
                             <h1>Roles</h1>
                             <p>
@@ -107,7 +107,7 @@ class Roles extends Component {
                         <ListGroup>
                             <ListGroupItem id="backend">
                                 <h4>
-                                    <a href="#backend" onClick={this.toggleBackend} className="accordion role-title">Backend Node Developer</a>
+                                    <a href="#backend" onClick={this.toggleBackend} className="accordion roles-title">Backend Node Developer</a>
                                 </h4>                            
                                 <Collapse isOpen={openBackend}>
                                     <Card>
@@ -207,7 +207,7 @@ class Roles extends Component {
                             </ListGroupItem>
                             <ListGroupItem id="creator">
                                 <h4>
-                                    <a href="#creator" onClick={this.toggleCreator} className="accordion role-title">Content Creator</a>
+                                    <a href="#creator" onClick={this.toggleCreator} className="accordion roles-title">Content Creator</a>
                                 </h4>
                                 <Collapse isOpen={openCreator}>
                                     <Card>
@@ -269,7 +269,7 @@ class Roles extends Component {
                             </ListGroupItem>
                             <ListGroupItem id="designer">
                                 <h4>
-                                    <a href="#designer" onClick={this.toggleDesigner} className="accordion role-title">Visual Designer</a>
+                                    <a href="#designer" onClick={this.toggleDesigner} className="accordion roles-title">Visual Designer</a>
                                 </h4>
                                 <Collapse isOpen={openDesigner}>
                                     <Card>
@@ -364,7 +364,7 @@ class Roles extends Component {
                             </ListGroupItem>
                             <ListGroupItem id="frontend">
                                 <h4>
-                                    <a href="#frontend" onClick={this.toggleFrontend} className="accordion role-title">Frontend React Developer</a>
+                                    <a href="#frontend" onClick={this.toggleFrontend} className="accordion roles-title">Frontend React Developer</a>
                                 </h4>
                                 <Collapse isOpen={openFrontend}>
                                     <Card>
@@ -458,7 +458,7 @@ class Roles extends Component {
                             </ListGroupItem>
                             <ListGroupItem id="marketer">
                                 <h4>
-                                    <a href="#marketer" onClick={this.toggleMarketer} className="accordion role-title">Marketing Specialist</a>
+                                    <a href="#marketer" onClick={this.toggleMarketer} className="accordion roles-title">Marketing Specialist</a>
                                 </h4>
                                 <Collapse isOpen={openMarketer}>
                                     <Card>
@@ -553,7 +553,7 @@ class Roles extends Component {
                     </main>  
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

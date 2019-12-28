@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
@@ -108,7 +108,7 @@ class Home extends Component {
         const isEnabled = name.length > 2 && email.length > 5 && regex.test(email);
     
         return (
-            <Fragment>
+            <>
                 <Helmet>    
                     <meta name="description" content="Sign up today for Learnify's beta program"/>
                     <meta name="keywords" content="Learnify, homework, app, study app, homework app, university app, planner, study planner, highschool"/>
@@ -116,7 +116,7 @@ class Home extends Component {
                 </Helmet>
                 <div id="public">
                     <Header/>
-                    <main className="root" role="main">
+                    <main className="root home" role="main">
                         <img src={background} className="home-background" alt=""/>
                         <div className="home-pitch">
                             <h3>Building the Foundations for Student Success</h3>
@@ -176,7 +176,7 @@ class Home extends Component {
                         </Form>
                     </main>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

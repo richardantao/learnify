@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
@@ -9,7 +9,7 @@ import Footer from "../../../global/organisms/Footer";
 
 import { Input } from "reactstrap";
 
-import "./Changelog.scss";
+import "../../Docs.scss";
 
 class Changelog extends Component {
     state = {
@@ -73,7 +73,7 @@ class Changelog extends Component {
         const { showMajors, showMinors, showPatches, childHeight } = this.state;
 
         return(
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Changelog</title>
                 </Helmet>
@@ -116,7 +116,7 @@ class Changelog extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         ); 
     };
 };

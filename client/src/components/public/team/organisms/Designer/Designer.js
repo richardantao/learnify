@@ -11,7 +11,7 @@ import {
     Button, Form, FormGroup, Label, Input
 } from "reactstrap";
 
-import "./Designer.scss";
+import "../../Application.scss";
 
 class Designer extends Component {
     state = {
@@ -85,7 +85,7 @@ class Designer extends Component {
                     <ModalHeader toggle={this.toggle}>
                         <h4>Visual Designer &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleSubmit} className="application">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>

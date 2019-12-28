@@ -1,5 +1,56 @@
-.logo {
-	float: left;
-	height: 100px;
-	width: 100px;
+#beta {
+	/* --- Portrait Mobile --- */
+	.logo {
+		float: left;
+		height: 100px;
+		width: 100px;
+	}
+
+	/* --- Landscape Mobile --- */
+	@media (min-width: 576px) {
+		.logo {
+			height: 100px;
+			width: 100px;
+		}
+	}
+	
+	/* --- Portrait Tablets --- */
+	@media (min-width: 768px) {
+		.logo {
+			height: 100px;
+			width: 100px;
+		}
+	}
+	
+	/* --- Landscape Tablets --- */
+	@media (min-width: 992px) {
+		.logo {
+			height: 100px;
+			width: 100px;
+		}
+	}
+	
+	/* --- Small Laptops --- */
+	@media (min-width: 1200px) {
+		.logo {
+			height: 100px;
+			width: 100px;
+		}
+	}
+	
+	/* --- Large Laptops --- */
+	@media (min-width: 1440px) {
+		.logo {
+			height: 100px;
+			width: 100px;
+		}
+	}
+	
+	/* --- Desktops --- */
+	@media (min-width: 2100px) {
+		.logo {
+			height: 100px;
+			width: 100px;
+		}
+	}
 }

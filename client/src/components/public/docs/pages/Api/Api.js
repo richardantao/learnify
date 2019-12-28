@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import SideNav from "../../organisms/SideNav";
 import Footer from "../../../global/organisms/Footer";
 
-import "./Api.scss";
+import "../../Docs.scss";
 
 export default class Api extends Component {
     state = {
@@ -18,7 +18,7 @@ export default class Api extends Component {
 
     render() {
         return(
-            <Fragment>
+            <>
                 <Helmet>
                     <title>Learnify | Developers</title>
                 </Helmet>
@@ -30,7 +30,7 @@ export default class Api extends Component {
                     </main>
                     <Footer/>
                 </div>
-            </Fragment>
+            </>
         );
     };
 };

@@ -5,7 +5,7 @@ import "./Footer.scss";
 export default class Footer extends Component {
     render() {
         return (
-            <footer role="contentinfo">
+            <footer className="footer" role="contentinfo">
                 <div className="footer-internal">
                     <div>
                         <h3>Learnify</h3>
