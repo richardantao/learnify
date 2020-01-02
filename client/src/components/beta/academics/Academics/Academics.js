@@ -11,14 +11,12 @@ import { Button, Col, Row } from "reactstrap";
 import Nav from "../../global/Nav";
 import Header from "../../global/Header";
 import Years from "../../years/Years";
-import YearEditModal from "../../years/YearEditModal";
-import YearNewModal from "../../years/YearNewModal";
 import Terms from "../../terms/Terms";
-import TermNewModal from "../../terms/TermNewModal";
 import Courses from "../../courses/Courses";
-import CourseNewModal from "../../courses/CourseNewModal";
 import Classes from "../../classes/Classes/Classes";
-import ClassNewModal from "../../classes/ClassNewModal";
+
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
 
 import "./Academics.scss";
 
@@ -106,6 +104,36 @@ class Academics extends Component {
         );
     };
 };
+
+const YearEditModal = Loadable({
+	loader: import(/* webpackChunkName: "YearEditModal" */ "../../years/YearEditModal"),
+	loading: Loading,
+	delay: 300
+});
+
+const YearNewModal = Loadable({
+	loader: import(/* webpackChunkName: "YearNewModal" */ "../../years/YearNewModal"),
+	loading: Loading,
+	delay: 300
+});
+
+const TermNewModal = Loadable({
+	loader: import(/* webpackChunkName: "TermNewModal" */ "../../terms/TermNewModal"),
+	loading: Loading,
+	delay: 300
+});
+
+const CourseNewModal = Loadable({
+	loader: import(/* webpackChunkName: "CourseNewModal" */ "../../courses/CourseNewModal"),
+	loading: Loading,
+	delay: 300
+});
+
+const ClassNewModal = Loadable({
+	loader: import(/* webpackChunkName: "ClassNewModal" */ "../../classes/ClassNewModal"),
+	loading: Loading,
+	delay: 300
+});
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,

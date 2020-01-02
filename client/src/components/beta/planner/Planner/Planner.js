@@ -4,18 +4,15 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import {  Col, Row, Button } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Col, Row, Button } from "reactstrap";
 
 import Nav from "../../global/Nav";
 import Header from "../../global/Header";
 import Tasks from "../../tasks/Tasks";
-import TaskEditModal from "../../tasks/TaskEditModal";
-import TaskNewModal from "../../tasks/TaskNewModal";
 import Assessments from "../../assessments/Assessments";
-import AssessmentEditModal from "../../assessments/AssessmentEditModal";
-import AssessmentNewModal from "../../assessments/AssessmentNewModal";
+
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
 
 // import Select from "react-select";
 
@@ -80,6 +77,18 @@ class Planner extends Component {
         );
     };
 };
+
+const TaskNewModal = Loadable({
+    loader: () => import(/* webpackChunkName: "TaskNewModal" */ "../../tasks/TaskNewModal"),
+    loading: Loading,
+    delay: 300
+});
+
+const AssessmentNewModal = Loadable({
+    loader: () => import(/* webpackChunkName: "AssessmentNewModal" */ "../../assessments/AssessmentNewModal"),
+    loading: Loading,
+    delay: 300
+});
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,

@@ -11,7 +11,8 @@ import { Col, Row } from "reactstrap";
 
 import Moment from "react-moment";
 
-import AssessmentEditModal from "../AssessmentEditModal";
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
 
 import "./Assessments.scss";
 
@@ -62,6 +63,12 @@ class Assessments extends Component{
 		);	
 	};
 };
+
+const AssessmentEditModal = Loadable({
+	loader: () => import(/* webpackChunkName: "AssessmentEditModal" */ "../AssessmentEditModal"),
+	loading: Loading,
+	delay: 300
+});
 
 const mapStateToProps = state => ({
 	// isAuthenticated: state.auth.isAuthenticated,

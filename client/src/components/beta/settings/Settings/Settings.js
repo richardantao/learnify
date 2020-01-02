@@ -11,10 +11,9 @@ import { faFacebookSquare, faLinkedin, faInstagram, faTwitterSquare } from "@for
 
 import Nav from "../../global/Nav";
 import Header from "../../global/Header";
-import Profile from "../Profile";
-import Password from "../Preference";
-import Preference from "../Preference";
-import Integration from "../Integration";
+
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
 
 import "./Settings.scss";
 
@@ -128,6 +127,30 @@ class Settings extends Component {
 		);
 	};
 };
+
+const Profile = Loadable({
+	loader: () => import(/* webpackChunkName: "Profile" */ "../Profile"),
+	loading: Loading,
+	delay: 300
+});
+
+const Password = Loadable({
+	loader: () => import(/* webpackChunkName: "Password" */ "../Password"),
+	loading: Loading,
+	delay: 300
+});
+
+const Preference = Loadable({
+	loader: () => import(/* webpackChunkName: "Preference" */ "../Preference"),
+	loading: Loading,
+	delay: 300
+});
+
+const Integration = Loadable({
+	loader: () => import(/* webpackChunkName: "Integration" */ "../Integration"),
+	loading: Loading,
+	delay: 300
+});
 
 const year = new Date().getFullYear();
 const version = "Version 1.0.0";

@@ -59,7 +59,7 @@ class Password extends Component {
         
         // if the new password is not empty and is equal to the confirmation password
         if(this.state.new !== "" && this.state.new === this.state.confirm) {
-            this.props.updatePassword(newPassword);
+            this.props.updatePassword(this.state.new);
         };
 
     };

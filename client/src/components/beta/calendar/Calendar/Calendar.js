@@ -13,12 +13,9 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 
 import Nav from "../../global/Nav";
 import CalendarHeader from "../CalendarHeader";
-import CalendarMonth from "../CalendarMonth";
-import CalendarWeek from "../CalendarWeek";
-import CalendarDay from "../CalendarDay";
-import CalendarAgenda from "../CalendarAgenda";
-import ClassEditModal from "../../classes/ClassEditModal";
-import ClassNewModal from "../../classes/ClassNewModal";
+
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
 
 import "./Calendar.scss";
 
@@ -100,6 +97,42 @@ class Calendar extends Component {
 		);
 	};
 };
+
+const CalendarMonth = Loadable({
+	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../CalendarMonth"),
+	loading: Loading, 
+	delay: 300
+});
+
+const CalendarWeek = Loadable({
+	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../CalendarWeek"),
+	loading: Loading,
+	delay: 300
+});
+
+const CalendarDay = Loadable({
+	loader: () => import(/* webpackChunkName: "CalendarDay" */ "../CalendarDay"),
+	loading: Loading,
+	delay: 300
+});
+
+const CalendarAgenda = Loadable({
+	loader: () => import(/* webpackChunkName: "CalendarAgenda" */ "../CalendarAgenda"),
+	loading: Loading,
+	delay: 300
+});
+
+const ClassEditModal = Loadable({
+	loader: () => import(/* webpackChunkName: "ClassEditModal" */ "../../classes/ClassEditModal"),
+	loading: Loading,
+	delay: 300
+});
+
+const ClassNewModal = Loadable({
+	loader: () => import(/* webpackChunkName: "ClassNewModal" */ "../../classes/ClassNewModal"),
+	loading: Loading,
+	delay: 300
+});
 
 const mapStateToProps = state => ({
 	// isAuthenticated: state.auth.isAuthenticated,

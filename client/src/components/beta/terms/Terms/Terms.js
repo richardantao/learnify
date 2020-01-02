@@ -8,7 +8,8 @@ import { Col, Row } from "reactstrap";
 
 import Moment from "react-moment";
 
-import TermEditModal from "../TermEditModal";
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
 
 import "./Terms.scss";
 
@@ -55,6 +56,12 @@ class Terms extends Component {
         );
     };
 };
+
+const TermEditModal = Loadable({
+    loader: () => import(/* */ "../TermEditModal"),
+    loading: Loading,
+    delay: 300
+});
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,

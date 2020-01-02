@@ -10,8 +10,8 @@ import PropTypes from "prop-types";
 
 import { Col, Row } from "reactstrap";
 
-
-import TaskEditModal from "../TaskEditModal";
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
 
 import Moment from "react-moment";
 
@@ -75,6 +75,12 @@ class Tasks extends Component {
 		);
 	};
 };
+
+const TaskEditModal = Loadable({
+	loader: () => import(/* webpackChunkName: "TaskEditModal" */ "../TaskEditModal"),
+	loading: Loading,
+	delay: 300
+});
 
 const mapStateToProps = state => ({
 	// isAuthenticated: state.auth.isAuthenticated,

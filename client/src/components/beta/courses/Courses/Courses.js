@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 import { fetchCourses, editCourse } from "../../../../actions/beta/courses";
 import PropTypes from "prop-types";
 
-import CourseEditModal from "../CourseEditModal";
-
 import { Col, Row } from "reactstrap";
+
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
 
 import "./Courses.scss";
 
@@ -75,6 +76,12 @@ class Courses extends Component {
 		);
 	};
 };
+
+const CourseEditModal = Loadable({ 
+	loader: () => import(/* webpackChunkName: "CourseEditModal" */ "../CourseEditModal"),
+	loading: Loading,
+	delay: 300
+});
 
 const mapStateToProps = state => ({
 	// isAuthenticated: state.auth.isAuthenticated,
