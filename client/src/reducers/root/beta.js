@@ -1,4 +1,4 @@
-import { PROCESSING_FORM, POST_INVITE, INVITE_ERROR } from "../actions/types";
+import { PROCESSING_FORM, POST_INVITE, INVITE_ERROR } from "../../actions/types";
 
 const initialState = {
     loading: false,

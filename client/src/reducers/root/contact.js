@@ -1,4 +1,4 @@
-import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "../actions/types";
+import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "../../actions/types";
 
 const initialState = {
     loading: false,
