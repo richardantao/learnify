@@ -1,8 +1,10 @@
 const router = require("express").Router()
 const controller = require("../controllers/root");
 
-router.post("/invite", controller.invite);
+const validation = require("../middleware/validation/root");
 
-router.post("/contact", controller.contact);
+router.post("/invite", validation.invite, controller.invite);
+
+router.post("/contact", validation.contact, controller.contact);
 
 module.exports = router;
