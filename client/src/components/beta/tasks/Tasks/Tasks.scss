@@ -1,46 +1,40 @@
-.tasks-column {
-	border-right: #E5E5E5 solid 1px;
-}
+/* --- Colour Palette --- */
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background-color: #FAFAFA;
+$form-background: #F9F9F9;
+$border-line: #E1E1E1;
+$text: #212529;
 
-.task-record h5 {
+/* --- Portrait Mobile --- */
 
-}
 
-.task-record h6 {
-	
-}
-
-.task-record p {
-	
-}
-
-.modal {
-	
-}
-
-.tasks-body div {
-	// position: relative;
-		// top: 5%;
-}
-
+/* --- Landscape Mobile --- */
 @media (min-width: 576px) {
+    
+};
 
-}
-
+/* --- Portrait Tablets --- */
 @media (min-width: 768px) {
-
+    
 }
 
+/* --- Landscape Tablets --- */
 @media (min-width: 992px) {
+    
+}
+
+/* --- Small Laptops --- */
+@media (min-width: 1200px) {
+	
+}
+
+/* --- Large Laptops --- */
+@media (min-width: 1440px) {
 
 }
 
-@media (min-width: 1200px) {
-	.current, .past {
-		margin-left: 2%;
-	}
+/* --- Desktops --- */
+@media (min-width: 2100px) {
 
-	// .body div {
-	// 	top: 5%;
-	// }
 }

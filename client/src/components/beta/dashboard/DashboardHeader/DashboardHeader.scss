@@ -1,3 +1,12 @@
+/* --- Colour Palette --- */
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background-color: #FAFAFA;
+$form-background: #F9F9F9;
+$border-line: #E1E1E1;
+$text: #212529;
+
+/* --- Portrait Mobile --- */
 .dashboard-header {
     border-bottom: #E5E5E5 1px solid;
     // -moz-box-shadow:    3px 3px 5px 6px #E5E5E5;
@@ -30,32 +39,46 @@ figure {
         top: 50%;
 }
 
+/* --- Landscape Mobile --- */
 @media (min-width: 576px) {
 
-}
+};
 
+/* --- Portrait Tablets --- */
 @media (min-width: 768px) {
 
 }
 
+/* --- Landscape Tablets --- */
 @media (min-width: 992px) {
 
 }
 
+/* --- Small Laptops --- */
 @media (min-width: 1200px) {
-    .dashboard-header {
-       height: 130px;
-    }
+	.dashboard-header {
+        height: 130px;
+     }
+ 
+     .dashboard-header a {
+         left: 5%;
+         top: 50%;
+     }
+ 
+     figure {
+         bottom: 10%;
+         right: 5%;
+     }
+}
 
-    .dashboard-header a {
-        left: 5%;
-        top: 50%;
-    }
+/* --- Large Laptops --- */
+@media (min-width: 1440px) {
 
-    figure {
-        bottom: 10%;
-        right: 5%;
-    }
+}
+
+/* --- Desktops --- */
+@media (min-width: 2100px) {
+
 }
 
 
