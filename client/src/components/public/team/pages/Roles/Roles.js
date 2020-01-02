@@ -7,14 +7,10 @@ import PropTypes from "prop-types";
 import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 
-import Backend from "../../organisms/Backend";
-import Creator from "../../organisms/Creator";
-import Designer from "../../organisms/Designer";
-import Frontend from "../../organisms/Frontend";
-import Marketer from "../../organisms/Marketer";
-// import Swift from "../Swift";
+import Loadable from "react-loadable";
+import Loading from "../../../global/organisms/Loading";
 
-import { Collapse, Card, CardBody, ListGroup, ListGroupItem } from "reactstrap";
+import { Badge, Collapse, Card, CardBody, ListGroup, ListGroupItem } from "reactstrap";
 
 import "../../Team.scss";
 
@@ -107,7 +103,9 @@ class Roles extends Component {
                         <ListGroup>
                             <ListGroupItem id="backend">
                                 <h4>
-                                    <a href="#backend" onClick={this.toggleBackend} className="accordion roles-title">Backend Node Developer</a>
+                                    <a href="#backend" onClick={this.toggleBackend} className="accordion roles-title">
+                                        Backend Node Developer {new Date("2020-01-01T00:00-0400") - Date.now() < 1000*60*60*24*30  ? <Badge color="primary">New</Badge>: null}
+                                    </a>
                                 </h4>                            
                                 <Collapse isOpen={openBackend}>
                                     <Card>
@@ -207,7 +205,9 @@ class Roles extends Component {
                             </ListGroupItem>
                             <ListGroupItem id="creator">
                                 <h4>
-                                    <a href="#creator" onClick={this.toggleCreator} className="accordion roles-title">Content Creator</a>
+                                    <a href="#creator" onClick={this.toggleCreator} className="accordion roles-title">
+                                        Content Creator {new Date("2020-01-01T00:00-0400") - Date.now() < 1000*60*60*24*30  ? <Badge color="primary">New</Badge>: null}
+                                    </a>
                                 </h4>
                                 <Collapse isOpen={openCreator}>
                                     <Card>
@@ -217,7 +217,7 @@ class Roles extends Component {
                                                 <p>
                                                     Learnify isn't just about cool tech and flashy software. At our core, we are selling a future where people find
                                                     true meaning and purpose through their learning and education. That's why we need an exceptional content creator to communicate
-                                                    the vision to our users throughout our platform, in blog posts, and on social media. 
+                                                    the vision to our users throughout our platform, blog, and on social media. 
                                                 </p>
                                             </div>
                                             <div>
@@ -237,20 +237,32 @@ class Roles extends Component {
                                             <div>
                                                 <h5>What you'll do</h5>
                                                 <ul>
-                                                    <li></li>                          
+                                                    <li>Research industry&ndash;related topics</li>
+                                                    <li>Identify customer needs and recommend new topics</li>
+                                                    <li>Coordinate with marketing and design teams to illustrate articles</li>
+                                                    <li>Conduct keyword research and use SEO guidelines to optimize content</li>
+                                                    <li>Edit and proofread written pieces before publication</li>
+                                                    <li>Measure web traffic to content (eg. conversion and bounce rates)</li>  
+                                                    <li>Promote content on social networks and monitor engagement (e.g. comments and shares)</li> 
+                                                    <li>Update our website as needed</li>                       
                                                 </ul>
                                             </div>
                                             <div>
                                                 <h5>What we look for</h5>
                                                 <ul>
-                                                    <li></li>
+                                                    <li>Portfolio of published work</li>
+                                                    <li>Excellent writing and editing skills in English</li>
+                                                    <li>Familiarity with SEO</li>
+                                                    <li>Experience with HTML is a plus</li>
                                                 </ul>
                                             </div>
                                             <div>
                                                 <h5>The kind of people we are looking for:</h5>
                                                 <ul>    
                                                     <li>Communication &mdash; you are a great listener, and an even better communicator; translating needs into actions between two parties comes second nature to you</li>
+                                                    <li>Collaborative &mdash; </li>
                                                     <li>Creative &mdash; you are an abstract thinker who can turn their ideas into a visual presentation</li>
+                                                    <li>Detail&ndash;oriented &mdash;</li>
                                                 </ul>
                                             </div><br/>
                                             <div>
@@ -269,7 +281,9 @@ class Roles extends Component {
                             </ListGroupItem>
                             <ListGroupItem id="designer">
                                 <h4>
-                                    <a href="#designer" onClick={this.toggleDesigner} className="accordion roles-title">Visual Designer</a>
+                                    <a href="#designer" onClick={this.toggleDesigner} className="accordion roles-title">
+                                        Visual Designer {new Date("2020-01-01T00:00-0400") - Date.now() < 1000*60*60*24*30  ? <Badge color="primary">New</Badge>: null}
+                                    </a>
                                 </h4>
                                 <Collapse isOpen={openDesigner}>
                                     <Card>
@@ -364,7 +378,9 @@ class Roles extends Component {
                             </ListGroupItem>
                             <ListGroupItem id="frontend">
                                 <h4>
-                                    <a href="#frontend" onClick={this.toggleFrontend} className="accordion roles-title">Frontend React Developer</a>
+                                    <a href="#frontend" onClick={this.toggleFrontend} className="accordion roles-title">
+                                        Frontend React Developer {new Date("2020-01-01T00:00-0400") - Date.now() < 1000*60*60*24*30  ? <Badge color="primary">New</Badge>: null}
+                                    </a>
                                 </h4>
                                 <Collapse isOpen={openFrontend}>
                                     <Card>
@@ -458,7 +474,9 @@ class Roles extends Component {
                             </ListGroupItem>
                             <ListGroupItem id="marketer">
                                 <h4>
-                                    <a href="#marketer" onClick={this.toggleMarketer} className="accordion roles-title">Marketing Specialist</a>
+                                    <a href="#marketer" onClick={this.toggleMarketer} className="accordion roles-title">
+                                        Marketing Specialist {new Date("2020-01-01T00:00-0400") - Date.now() < 1000*60*60*24*30  ? <Badge color="primary">New</Badge>: null}
+                                    </a>
                                 </h4>
                                 <Collapse isOpen={openMarketer}>
                                     <Card>
@@ -558,6 +576,42 @@ class Roles extends Component {
     };
 };
 
+const Backend = Loadable({
+    loader: () => import(/* webpackChunkName: "Backend" */ "../../organisms/Backend"),
+    loading: Loading,
+    delay: 300
+});
+
+const Creator = Loadable({
+    loader: () => import(/* webpackChunkName: "Creator" */ "../../organisms/Creator"),
+    loading: Loading,
+    delay: 300
+});
+
+const Designer = Loadable({
+    loader: () => import(/* webpackChunkName: "Designer" */ "../../organisms/Designer"),
+    loading: Loading,
+    delay: 300
+});
+
+const Frontend = Loadable({
+    loader: () => import(/* webpackChunkName: "Frontend" */ "../../organisms/Frontend"),
+    loading: Loading,
+    delay: 300
+});
+
+const Marketer = Loadable({
+    loader: () => import(/* webpackChunkName: "Marketer" */ "../../organisms/Marketer"),
+    loading: Loading,
+    delay: 300
+});
+
+// const Swift = Loadable({
+//     loader: () => import(/* webpackChunkName: "Swift" */ "../../organisms/Swift"),
+//     loading: Loading,
+//     delay: 300
+// });
+
 const mapStateToProps = state => ({
     error: state.error
 });
@@ -565,3 +619,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Roles);
+
