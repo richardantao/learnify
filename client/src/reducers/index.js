@@ -4,7 +4,7 @@ import { combineReducers } from "redux";
 // import authReducer from "./auth/auth";
 import errorReducer from "./auth/errors";
 
-// data
+// beta
 import yearReducer from "./beta/years";
 import termReducer from "./beta/terms";
 import courseReducer from "./beta/courses";
@@ -12,6 +12,10 @@ import classReducer from "./beta/classes";
 import assessmentReducer from "./beta/assessments";
 import taskReducer from "./beta/tasks";
 import integrationReducer from "./beta/integrations";
+
+// root
+import betaReducer from "./root/beta";
+import contactReducer from "./root/contact";
 
 export default combineReducers({
     // auth: authReducer,
@@ -22,5 +26,7 @@ export default combineReducers({
     classes: classReducer,
     assessment: assessmentReducer,
     task: taskReducer,
-    integration: integrationReducer
+    integration: integrationReducer,
+    beta: betaReducer,
+    contact: contactReducer
 });
