@@ -78,14 +78,14 @@ class Swift extends Component {
         const isEnabled = regex.test(email);
         
         return (
-            <Fragment>
+            <>
                 <Button href="#" onClick={this.toggle}>Apply Now</Button>
 
-                <Modal isOpen={modal}>
+                <Modal isOpen={modal} className="roles-app">
                     <ModalHeader toggle={this.toggle}>
                         <h4>Swift Developer &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit} className="application">
+                    <Form onSubmit={this.handleSubmit} className="application" enctype="multipart/form-data">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>
@@ -134,7 +134,7 @@ class Swift extends Component {
                         </ModalFooter>
                     </Form>
                 </Modal>
-            </Fragment>
+            </>
         );
     };
 };

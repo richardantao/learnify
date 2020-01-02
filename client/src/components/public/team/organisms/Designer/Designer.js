@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { postDesigner } from "../../../../../actions/team/applications";
@@ -78,20 +78,20 @@ class Designer extends Component {
         const isEnabled = regex.test(email);
         
         return (
-            <Fragment>
+            <>
                 <Button href="#" onClick={this.toggle}>Apply Now</Button>
 
-                <Modal isOpen={modal}>
+                <Modal isOpen={modal} className="roles-app">
                     <ModalHeader toggle={this.toggle}>
                         <h4>Visual Designer &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit} className="application">
+                    <Form onSubmit={this.handleSubmit} className="application" enctype="multipart/form-data">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>
                                 <Row>
                                     <Col>
-                                        <Label for="first">First Name</Label>
+                                        <Label for="first" className="required">First Name</Label>
                                         <Input
                                             name="first"
                                             type="text"
@@ -101,11 +101,33 @@ class Designer extends Component {
                                         />
                                     </Col>
                                     <Col>
-                                        <Label for="last">Last Name</Label>
+                                        <Label for="last" className="required">Last Name</Label>
                                         <Input
                                             name="last"
                                             type="text"
                                             placeholder="Last name.."
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label for="email" className="required">Email</Label>
+                                        <Input
+                                            name="email"
+                                            type="email"
+                                            placeholder="Email.."
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="city" className="required">City</Label>
+                                        <Input
+                                            name="city"
+                                            type="text"
+                                            placeholder="ex. London"
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -124,7 +146,43 @@ class Designer extends Component {
                                 <h4>Links and Attachments</h4>
                                 <Row>
                                     <Col>
-                                    
+                                        <Label for="resume" className="required">Resume</Label>
+                                        <Input
+                                            name="resume"
+                                            type="file"
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="portfolio" className="required">Portfolio</Label>
+                                        <Input
+                                            name="portfolio"
+                                            type="url"
+                                            placeholder="https://portfolioURL.com"
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label for="linkedin">LinkedIn</Label>
+                                        <Input
+                                            name="linkedin"
+                                            type="url"
+                                            placeholder="https://linkedin/com/in/username"
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="other">Other</Label>
+                                        <Input
+                                            name=""
+                                            type=""
+                                            placeholder=""
+                                            onChange={this.handleChange}
+                                        />
                                     </Col>
                                 </Row>
                             </FormGroup>
@@ -134,7 +192,7 @@ class Designer extends Component {
                         </ModalFooter>
                     </Form>
                 </Modal>
-            </Fragment>
+            </>
         );
     };
 };

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { postBackend } from "../../../../../actions/team/applications";
@@ -106,15 +106,15 @@ class Backend extends Component {
         const importanceMax = 400 - importance.length;
 
         return (
-            <Fragment>
+            <>
                 <Button href="#backend" onClick={this.toggle}>Apply Now</Button>
 
-                <Modal isOpen={modal}>
+                <Modal isOpen={modal} className="roles-app">
                     <ModalHeader toggle={this.toggle}>
                         <h4>Backend Node Developer &ndash; Application</h4>
                         
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit} className="application">
+                    <Form onSubmit={this.handleSubmit} className="application" enctype="multipart/form-data">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>
@@ -220,23 +220,22 @@ class Backend extends Component {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Label for="github" className="required">Github</Label>
+                                        <Label for="resume" className="required">Resume</Label>
                                         <Input
-                                            name="github"
-                                            type="url"
-                                            placeholder="https://github.com/username"
-                                            onChange={this.handleChange}
+                                            name="resume"
+                                            type="file"
+                                            multiple
                                         />
                                         { github.length > 0 && !github.includes("github.com/") ? (
                                             <small className="warning">Must start with 'https://github.com/'</small>
                                         ): null}
                                     </Col>
                                     <Col>
-                                        <Label for="linkedin" className="required">LinkedIn</Label>
+                                        <Label for="github" className="required">Github</Label>
                                         <Input
-                                            name="linkedin"
+                                            name="github"
                                             type="url"
-                                            placeholder="https://linkedin.com/in/username"
+                                            placeholder="https://github.com/username"
                                             onChange={this.handleChange}
                                         />
                                         { linkedin.length > 0 && !linkedin.includes("linkedin.com/in/") ? (
@@ -246,19 +245,20 @@ class Backend extends Component {
                                 </Row>
                                 <Row>
                                     <Col>
+                                        <Label for="linkedin" className="required">LinkedIn</Label>
+                                        <Input
+                                            name="linkedin"
+                                            type="url"
+                                            placeholder="https://linkedin.com/in/username"
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                    <Col>
                                         <Label for="other">Other</Label>
                                         <Input
                                             name="other"
                                             type="url"
                                             onChange={this.handleChange}
-                                        />
-                                    </Col>
-                                    <Col>
-                                        <Label for="resume" className="required">Resume</Label>
-                                        <Input
-                                            name="resume"
-                                            type="file"
-                                            multiple
                                         />
                                     </Col>
                                 </Row>
@@ -269,7 +269,7 @@ class Backend extends Component {
                         </ModalFooter>
                     </Form>
                 </Modal>
-            </Fragment>
+            </>
         );
     };
 };

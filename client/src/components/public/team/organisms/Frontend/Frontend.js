@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { postFrontend } from "../../../../../actions/team/applications";
@@ -82,14 +82,14 @@ class Frontend extends Component {
         const importanceMin = 50 - importance.length;
         const importanceMax = 400 - importance.length;        
         return (
-            <Fragment>
+            <>
                 <Button href="#frontend" onClick={this.toggle}>Apply Now</Button>
 
-                <Modal isOpen={modal}>
+                <Modal isOpen={modal} className="roles-app">
                     <ModalHeader toggle={this.toggle}>
                         <h4>Frontend React Developer &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit} className="application">
+                    <Form onSubmit={this.handleSubmit} className="application" enctype="multipart/form-data">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>
@@ -169,7 +169,43 @@ class Frontend extends Component {
                                 <h4>Links and Attachments</h4>
                                 <Row>
                                     <Col>
-                                    
+                                        <Label for="resume" className="required">Resume</Label>
+                                        <Input
+                                            name="resume"
+                                            type="file"
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="github" className="required">Github</Label>
+                                        <Input
+                                            name="github"
+                                            type="url"
+                                            placeholder="https://github.com/username"
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label for="linkedin" className="required">LinkedIn</Label>
+                                        <Input
+                                            name="linkedin"
+                                            type="url"
+                                            placeholder="https://linkedin/com/in/username"
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="other">Other</Label>
+                                        <Input
+                                            name=""
+                                            type=""
+                                            placeholder=""
+                                            onChange={this.handleChange}
+                                        />
                                     </Col>
                                 </Row>
                             </FormGroup>
@@ -179,7 +215,7 @@ class Frontend extends Component {
                         </ModalFooter>
                     </Form>
                 </Modal>
-            </Fragment>
+            </>
         );
     };
 };

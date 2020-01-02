@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { postCreator } from "../../../../../actions/team/applications";
@@ -94,14 +94,14 @@ class Creator extends Component {
         const importanceMax = 400 - importance.length;
 
         return (
-            <Fragment>
+            <>
                 <Button href="#creator" onClick={this.toggle}>Apply Now</Button>
 
-                <Modal isOpen={modal}>
+                <Modal isOpen={modal} className="roles-app">
                     <ModalHeader toggle={this.toggle}>
                         <h4>Content Creator &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit} className="application">
+                    <Form onSubmit={this.handleSubmit} className="application" enctype="multipart/form-data">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>
@@ -240,7 +240,7 @@ class Creator extends Component {
                         </ModalFooter>
                     </Form>
                 </Modal>
-            </Fragment>
+            </>
         );
     };
 };

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { postMarketer } from "../../../../../actions/team/applications";
@@ -78,20 +78,20 @@ class Marketer extends Component {
         const isEnabled = regex.test(email);
 
         return (
-            <Fragment>
+            <>
                 <Button href="#marketer" onClick={this.toggle}>Apply Now</Button>
 
-                <Modal isOpen={modal}>
+                <Modal isOpen={modal} className="roles-app">
                     <ModalHeader toggle={this.toggle}>
                         <h4>Marketing Specialist &ndash; Application</h4>
                     </ModalHeader>
-                    <Form onSubmit={this.handleSubmit} className="application">
+                    <Form onSubmit={this.handleSubmit} className="application" enctype="multipart/form-data">
                         <ModalBody>
                             <FormGroup>
                                 <h4>Personal</h4>
                                 <Row>
                                     <Col>
-                                        <Label for="first">First Name</Label>
+                                        <Label for="first" className="required">First Name</Label>
                                         <Input
                                             name="first"
                                             type="text"
@@ -101,7 +101,7 @@ class Marketer extends Component {
                                         />
                                     </Col>
                                     <Col>
-                                        <Label for="last">Last Name</Label>
+                                        <Label for="last" className="required">Last Name</Label>
                                         <Input
                                             name="last"
                                             type="text"
@@ -116,13 +116,40 @@ class Marketer extends Component {
                                 <h4>Tell us about yourself</h4>
                                 <Row>
                                     <Col>
-                                    
+                                        <Label className="required">
+                                            Recall a recent event where you went out of your way to help someone else. 
+                                            Include details about how you went about it, why you did it, and what difference your actions made.
+                                        </Label>
+                                        <Input
+                                            name="help"
+                                            type="textarea"
+                                            maxLength={500}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label className="required">
+                                            What are three things that are most important to you in a work setting?
+                                        </Label>
+                                        <Input
+                                            name="importance"
+                                            type="textarea"
+                                            maxLength={400}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
                                     </Col>
                                 </Row>
                             </FormGroup>
                             <FormGroup>
                                 <h4>Links and Attachments</h4>
                                 <Row>
+                                    <Col>
+                                    
+                                    </Col>
                                     <Col>
                                     
                                     </Col>
@@ -134,7 +161,7 @@ class Marketer extends Component {
                         </ModalFooter>
                     </Form>
                 </Modal>
-            </Fragment>
+            </>
         );
     };
 };
