@@ -116,7 +116,7 @@ export const RENDER_PASSWORD = "RENDER_PASSWORD";
 export const RENDER_PREFERENCES = "RENDER_PREFERENCES";
 export const RENDER_INTEGRATIONS = "RENDER_INTEGRATIONS";
 
-// root
+/* --- ROOT --- */
 export const PROCESSING_FORM = "PROCESSING_FORM";
 
 export const POST_INVITE = "POST_INVITE";
@@ -125,7 +125,7 @@ export const INVITE_ERROR = "INVITE_ERROR";
 export const POST_CONTACT = "POST_CONTACT";
 export const CONTACT_ERROR = "CONTACT_ERROR";
 
-// team
+/* --- TEAM --- */
 /* AUTH */
 export const FORM_POSTED = "FORM_POSTED";
 export const FORM_FAILED = "FORM_FAILED";
