@@ -5,6 +5,9 @@ import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 import TeamCard from "../../templates/TeamCard/TeamCard";
 
+import Loadable from "react-loadable";
+import Loading from "../../../global/organisms/Loading";
+
 import "../../Root.scss";
 
 export default class About extends Component {
@@ -71,7 +74,7 @@ export default class About extends Component {
                         <div className="about-team">
                             <h2>Meet the Team</h2>
                             <TeamCard
-                                src="assets/images/richardantao-min.png"
+                                src={richardantao}
                                 alt="Headshot of Richard Antao"
                                 person="Richard Antao"
                                 title="Founder"
@@ -100,3 +103,9 @@ export default class About extends Component {
         );
     };
 };
+
+const richardantao = Loadable({
+    loading: () => import(/* webpackChunkName: "richardantao" */ "./richardantao-min.png"),
+    loading: Loading,
+    delay: 300
+});

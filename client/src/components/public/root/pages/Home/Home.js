@@ -117,7 +117,7 @@ class Home extends Component {
                 <div id="public">
                     <Header/>
                     <main className="root home" role="main">
-                        <img src={background} className="home-background" alt=""/>
+                        <img src={background} className="home-background" type="image/jpeg" alt=""/>
                         <div className="home-pitch">
                             <h3>Building the Foundations for Student Success</h3>
                             <p>

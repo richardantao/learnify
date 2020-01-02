@@ -125,7 +125,7 @@ class Contact extends Component {
                 <div id="public">
                     <Header/>
                     <main className="root contact" role="main">
-                        <img src="assets/images/contact-min.jpg" className="contact-background" alt="Student walking home"/>
+                        <img src="assets/images/contact-min.jpg" className="contact-background" type="image/jpeg" alt="Student walking home"/>
                         <div className="contact-pitch">
                             <h3>Have a question? Send us a message.</h3>
                         </div>
