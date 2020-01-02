@@ -8,7 +8,7 @@ const controller = [];
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback( null, "client/public/assets/resumes");
+        callback(null, "client/build/assets/resumes");
     },
     filename: (req, file, callback) => {
         callback(null, Date.now() + "-" + file.originalname)
@@ -60,6 +60,9 @@ controller.backend = (req, res) => {
                     message: err.message
                 });
             });
+        },
+        verification: callback => {
+            
         }
     }, (err, results) => {
         if(err) {
@@ -113,6 +116,9 @@ controller.creator = (req, res) => {
                     message: err.message
                 });
             });
+        },
+        verification: callback => {
+            
         }
     }, (err, results => {
         if(err) {
@@ -162,6 +168,9 @@ controller.designer = (req, res) => {
                     message: err.message
                 });
             });
+        },
+        verification: callback => {
+            
         }
     }, (err, results) => {
         if(err) {
@@ -211,6 +220,9 @@ controller.frontend = (req, res) => {
                     message: err.message
                 });
             });
+        },
+        verification: callback => {
+
         }
     }, (err, results) => {
         if(err) {
@@ -260,6 +272,9 @@ controller.marketer = (req, res) => {
                     message: err.message
                 });
             });
+        },
+        verification: callback => {
+            
         }
     }, (err, results) => {
         if(err) {
@@ -309,6 +324,9 @@ controller.swift= (req, res) => {
                     message: err.message
                 });
             });
+        },
+        verification: callback => {
+            
         }
     }, (err, results) => {
         if(err) {
@@ -320,6 +338,5 @@ controller.swift= (req, res) => {
         };
     });
 };
-
 
 module.exports = controller;
