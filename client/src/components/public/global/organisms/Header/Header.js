@@ -1,13 +1,11 @@
 import React, { Component, Fragment } from "react";
 
-import { connect } from "react-redux";
-
-import "./Header.scss";
-
-import logo from "./learnify-min.jpg";
 import Overlay from "../Overlay/Overlay";
 
-class Header extends Component {
+import logo from "./learnify-min.jpg";
+import "./Header.scss";
+
+export default class Header extends Component {
     state = {
         hamburger: false,
         width: window.innerWidth
@@ -80,11 +78,3 @@ class Header extends Component {
         );
     };
 };
-
-const mapStateToProps = state => ({
-
-});
-
-const mapDispatchToProps = { };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
