@@ -7,7 +7,7 @@ $border-line: #E1E1E1;
 
 /* --- Portrait Mobile --- */
 #public {
-    .overlay {
+    #overlay {
         background-color: black;
         height: 100%;
         margin-left: -1rem;
@@ -21,7 +21,7 @@ $border-line: #E1E1E1;
         z-index: 2;
     }
     
-    .overlay-content {
+    #overlay-content {
         margin-top: 1rem;
         position: relative;
             right: 2.5%;
@@ -30,7 +30,7 @@ $border-line: #E1E1E1;
         width: 100%;
     }
     
-    .overlay a {
+    #overlay a {
         cursor: pointer;
         display: block;
         margin: 1rem auto;
@@ -45,34 +45,24 @@ $border-line: #E1E1E1;
             top: -1.5%;
         font-size: 2rem;
     }
-}
 
-/* --- Landscape Mobile --- */
-@media (min-width: 576px) {
-    #public {
-        .overlay {
-            background-color: black;
-            margin-left: -1rem;
-            width: 110%;
-        }
-        
-        .overlay-content {
+    /* --- Landscape Mobile --- */
+    @media (min-width: 576px) {
+        #overlay-content {
             margin-top: 1rem;
             top: 25%;
         }
         
-        .overlay a {
+        #overlay a {
             cursor: pointer;
             margin: 1rem auto;
             padding: 1rem;
         }
     }
-}
 
-/* --- Portrait Tablets --- */
-@media (min-width: 768px) {
-    #public {
-        .overlay {
+    /* --- Portrait Tablets --- */
+    @media (min-width: 768px) {
+        #overlay {
             display: none;
         }
     }

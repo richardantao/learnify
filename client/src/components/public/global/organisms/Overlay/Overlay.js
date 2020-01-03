@@ -1,13 +1,11 @@
-import React, { Component, Fragment } from "react";
-
-import { connect } from "react-redux";
+import React, { Component } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import "./Overlay.scss";
 
-class Overlay extends Component {
+export default class Overlay extends Component {
     state = {
         active: false
     };
@@ -28,18 +26,18 @@ class Overlay extends Component {
         const { active } = this.state;
         
         return(
-            <Fragment>
+            <>
                 <a href="#menu" onClick={this.toggle}>
                     <FontAwesomeIcon icon={faBars}/>
                 </a>                
 
                 { active ? (
-                    <div className="overlay">
+                    <div id="overlay">
                         <a onClick={this.toggle} href="#closeMenu" className="cancel">
                             <FontAwesomeIcon icon={faTimes}/>
                         </a>
 
-                        <nav role="navigation" className="overlay-content">
+                        <nav role="navigation" id="overlay-content">
                             <a href="/about" onClick={this.toggle}>About</a>
                             <a href="/team" onClick={this.toggle}>Team</a>
                             <a href="/blog" onClick={this.toggle}>Blog</a>
@@ -48,16 +46,7 @@ class Overlay extends Component {
                     </div>
                     
                 ):  <div styles={{display: "none"}}></div>}
-            </Fragment>
-            
+            </>
         );
     }; 
 };
-
-const mapStateToProps = state => ({
-
-});
-
-const mapDispatchToProps = { };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Overlay);
