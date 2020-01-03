@@ -130,7 +130,7 @@ class Contact extends Component {
                             <h3>Have a question? Send us a message.</h3>
                         </div>
                         <Form onSubmit={this.handleSubmit} className="contact-form">
-                            {   message /*&& success*/ ? (
+                            {   message && success ? (
                                 <Alert color="success">{message}</Alert>
                             ):  message && !success ? (
                                 <Alert color="danger">{message}</Alert>
