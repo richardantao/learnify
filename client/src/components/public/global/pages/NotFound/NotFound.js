@@ -10,15 +10,17 @@ const NotFound = () => {
     return (
         <>
             <Helmet>
+                <meta name="description" content="The resource you requested could not be found"/>
                 <title>404 Error</title>
             </Helmet>
-            <main role="main">
+            <main className="not-found" role="main">
                 <h1>Resource Not Found</h1>
                 <p>
                     We couldn't find anything located at <code>{location.pathname}</code>.
                 </p>
 
-                <a href="/">Back to {}</a>
+                <a href="/">Go back to Public Homepage</a>
+                <a href="/dashboard">Go back to App Dashboard</a>
             </main>
         </>
     );  
