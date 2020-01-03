@@ -77,6 +77,11 @@ $border-line: #E1E1E1;
         background-color: $primary-color;
         border-color: $primary-color;
         right: 0.67rem;
+
+        &:hover, &:focus, &:active {
+            background-color: $secondary-color;
+            border-color: $secondary-color;
+        }
     }
     
     form {
@@ -195,6 +200,11 @@ $border-line: #E1E1E1;
         background-color: $primary-color;
         border-color: $primary-color;
         right: 0.67rem;
+
+        &:hover, &:focus, &:active {
+            background-color: $secondary-color;
+            border-color: $secondary-color;
+        }
     }
     
     form {
@@ -632,7 +642,7 @@ $border-line: #E1E1E1;
             width: 40%;
         }
 
-        .form-group label, .form-group input {
+        .form-group label, .form-group input, .alert {
             font-size: 1.8rem;
         }
 
@@ -696,7 +706,7 @@ $border-line: #E1E1E1;
             width: 40%;
         }
 
-        .form-group label, .form-group input, .form-group textarea {
+        .form-group label, .form-group input, .form-group textarea, .alert {
             font-size: 1.8rem;
         }
 
