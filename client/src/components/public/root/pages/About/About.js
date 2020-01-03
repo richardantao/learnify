@@ -5,9 +5,10 @@ import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 import TeamCard from "../../templates/TeamCard/TeamCard";
 
-import Loadable from "react-loadable";
-import Loading from "../../../global/organisms/Loading";
+// import Loadable from "react-loadable";
+// import Loading from "../../../global/organisms/Loading";
 
+import richardantao from "./richardantao-min.png";
 import "../../Root.scss";
 
 export default class About extends Component {
@@ -86,7 +87,7 @@ export default class About extends Component {
                                 passionate about space, psychology, and thermodynamics."
                             />
 
-                            <TeamCard
+                            {/* <TeamCard
                                 src=""
                                 alt="Unknown headshot"
                                 person="You?"
@@ -94,7 +95,7 @@ export default class About extends Component {
                                 description={<div>
                                     Visit <a href="https://team.learnify.ca">https://team.learnify.ca</a> for open positions.
                                 </div>}
-                            />
+                            /> */}
                         </div>
                     </main>
                     <Footer/>
@@ -104,8 +105,8 @@ export default class About extends Component {
     };
 };
 
-const richardantao = Loadable({
-    loading: () => import(/* webpackChunkName: "richardantao" */ "./richardantao-min.png"),
-    loading: Loading,
-    delay: 300
-});
+// const richardantao = Loadable({
+//     loader: () => import(/* webpackChunkName: "richardantao" */ "./richardantao-min.png"),
+//     loading: Loading,
+//     delay: 300
+// });

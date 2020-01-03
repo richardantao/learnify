@@ -11,6 +11,7 @@ import { Alert, Button, Form, FormGroup, Label, Input } from "reactstrap";
 import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 
+import background from "./contact-min.jpg"
 import "../../Root.scss";
 
 class Contact extends Component {
@@ -119,18 +120,17 @@ class Contact extends Component {
                     <meta name="application-name" content="Learnify"/>
                     <meta name="description" content="Learnify helps you organize your academic life with our intuitive all-in-one web application"/>
                     <meta name="keywords" content="Learnify, homework, app, study app, homework app, university app, planner, study planner, highschool"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                     <title>Learnify | Contact Us</title>
                 </Helmet>
                 <div id="public">
                     <Header/>
                     <main className="root contact" role="main">
-                        <img src="assets/images/contact-min.jpg" className="contact-background" type="image/jpeg" alt="Student walking home"/>
+                        <img src={background} className="contact-background" type="image/jpeg" alt="Student walking home"/>
                         <div className="contact-pitch">
                             <h3>Have a question? Send us a message.</h3>
                         </div>
                         <Form onSubmit={this.handleSubmit} className="contact-form">
-                            {   message && success ? (
+                            {   message /*&& success*/ ? (
                                 <Alert color="success">{message}</Alert>
                             ):  message && !success ? (
                                 <Alert color="danger">{message}</Alert>
@@ -146,13 +146,13 @@ class Contact extends Component {
                                     onChange={this.handleChange}
                                 />
                                 { name.length === 1 ? (
-                                <small className="warning">
-                                    2 characters left.
-                                </small>
+                                    <small className="warning">
+                                        2 characters left.
+                                    </small>
                                 ) : name.length === 2 ? (
-                                <small className="warning">
-                                    1 character left.
-                                </small>
+                                    <small className="warning">
+                                        1 character left.
+                                    </small>
                                 ) : null } 
                             </FormGroup>
                             <FormGroup>
@@ -189,7 +189,9 @@ class Contact extends Component {
                                     <small className="warning">
                                         1 character left.
                                     </small>
-                                ) : null}
+                                ) : 
+                                    <small className="buffer">.</small>
+                                }
                             </FormGroup>
                             <FormGroup>
                                 <Button className="contact-reset" type="reset" onClick={this.handleReset}>Reset Form</Button>

@@ -2,7 +2,7 @@
 $primary-color: #00A6FF;
 $secondary-color: #0091FF;
 $background: #FAFAFA;
-$form-background: #F1F1F1;
+$form-background: #F9F9F9;
 $border-line: #E1E1E1;
 
 /* --- Portrait Mobile --- */
@@ -44,6 +44,7 @@ $border-line: #E1E1E1;
     }
 
     &-form {
+        border: $border-line 0.1rem solid;
         border-radius: 2%;
         min-height: 250px;
         padding: 1.5rem 1.5rem 2rem 1.5rem;
@@ -64,9 +65,9 @@ $border-line: #E1E1E1;
     &-reset {
         background-color: red;
         border-color: red;
-        right: 7.5rem;
+        right: 6.5rem;
 
-        &:hover {
+        &:hover, &:focus, &:active {
             background-color: red;
             border-color: red;
         }
@@ -75,7 +76,7 @@ $border-line: #E1E1E1;
     &-submit {
         background-color: $primary-color;
         border-color: $primary-color;
-        right: 1.5rem;
+        right: 0.67rem;
     }
     
     form {
@@ -109,7 +110,7 @@ $border-line: #E1E1E1;
     border-bottom: $border-line 1px solid;
     border-top: $border-line 1px solid;
 
-    h1, div {
+    > * {
         margin: 0 1rem;
     }
 
@@ -117,14 +118,10 @@ $border-line: #E1E1E1;
         font-size: 1.1rem;
     }
 
-    .mission p, .values p {
-        margin: 0;
-    }
-
     &-team {
         display: grid;
             grid-template-columns: 100%;
-            grid-template-rows: 50px 700px 425px;
+            grid-template-rows: 50px 650px;
             grid-gap: 0;
     }
 
@@ -136,15 +133,15 @@ $border-line: #E1E1E1;
     .card {
         margin: 1rem auto;
         width: 85%;   
+    
+        > *:not(img) {
+            margin: 1rem;
+        }
     }
 }
 
 /* Contact styles */
 .contact {
-    textarea {
-        margin-bottom: 1rem;
-    }
-
     &-background {
         height: 500px;
         object-fit: cover;
@@ -157,7 +154,7 @@ $border-line: #E1E1E1;
     &-pitch {
         position: absolute;
             left: 5%;
-            top: 20%;
+            top: 10%;
         width: 80%;
 
         h3 {
@@ -166,11 +163,12 @@ $border-line: #E1E1E1;
     }
 
     &-form {
+        border: $border-line 0.1rem solid;
         border-radius: 2%;
         padding: 1.5rem 1.5rem 2.25rem 1.5rem;
         position: absolute;
             left: 10%;
-            top: 30%;
+            top: 22%;
         width: 80%;
     }
 
@@ -185,7 +183,7 @@ $border-line: #E1E1E1;
     &-reset {
         background-color: red;
         border-color: red;
-        right: 7.5rem;
+        right: 7rem;
 
         &:hover {
             background-color: red;
@@ -196,20 +194,8 @@ $border-line: #E1E1E1;
     &-submit {
         background-color: $primary-color;
         border-color: $primary-color;
-        right: 1.5rem;
+        right: 0.67rem;
     }
-
-    // .btn:not(form .btn) {
-    //     background-color: $primary-color;
-    //     border-color: $primary-color;
-    //     color: white;
-    // }
-    
-    // .btn:hover {
-    //     background-color: $secondary-color;
-    //     border-color: $secondary-color;
-    //     color: white;
-    // } 
     
     form {
         background-color: $form-background;
@@ -223,6 +209,10 @@ $border-line: #E1E1E1;
     
     .warning {
         color: red;
+    }
+
+    .buffer {
+        color: transparent;
     }
     
     .form-group .disabled {
@@ -257,6 +247,14 @@ $border-line: #E1E1E1;
             top: 35%;
         }
 
+        &-reset {
+            right: 6rem;
+        }
+    
+        &-submit {
+            right: 0;
+        }
+
         .emailHelp {
             font-size: 0.75rem;
         }
@@ -264,18 +262,18 @@ $border-line: #E1E1E1;
 
     /* About styles */
     .about {
+        &-team {        
+            grid-template-rows: 50px 620px;
+        }
+
         .card {
             margin: 1rem auto;
-            width: 66%;   
+            width: 50%;   
         }
     }
 
     /* Contact styles */
     .contact {
-        textarea {
-            margin-bottom: 1rem;
-        }
-
         &-background {
             height: auto; 
             object-fit: contain;
@@ -285,7 +283,7 @@ $border-line: #E1E1E1;
         &-pitch {
             font-size: 2rem;    
             left: 10%;
-            top: 28%;
+            top: 25%;
             width: 35%;
 
             h3 {
@@ -295,7 +293,7 @@ $border-line: #E1E1E1;
 
         &-form {
             left: 50%;
-            top: 18%;
+            top: 2%;
             width: 40%;
         }
     }
@@ -328,11 +326,11 @@ $border-line: #E1E1E1;
         }
 
         &-reset {
-            right: 9rem;
+            right: 8rem;
         }
 
         &-submit {
-            right: 1.6rem;
+            right: 0.75rem;
         }
     }
 
@@ -340,11 +338,16 @@ $border-line: #E1E1E1;
     .about {
         &-team {
             grid-template-columns: 50% 50%;
-            grid-template-rows: 50px 615px;
+            grid-template-rows: 50px 650px;
 
             h2 {
                 grid-column-end: span 2;
             }
+        }
+
+        .card {
+            margin: 1rem auto;
+            width: 80%;   
         }
     }
 
@@ -362,7 +365,7 @@ $border-line: #E1E1E1;
 
         &-form {
             left: 50%;
-            top: 27%;
+            top: 15%;
             width: 40%;
         }
 
@@ -371,11 +374,11 @@ $border-line: #E1E1E1;
         }
 
         &-reset {
-            right: 9rem;
+            right: 8rem;
         }
 
         &-submit {
-            right: 1.6rem;
+            right: 0.5rem;
         }
     }
 }
@@ -395,12 +398,20 @@ $border-line: #E1E1E1;
                 font-size: 1.25rem;
             }
         }
+
+        &-reset {
+            right: 7.5rem;
+        }
+
+        &-submit {
+            right: 0.5rem;
+        }
     }
 
     /* About styles */
     .about {
         &-team {
-            grid-template-rows: 50px 650px;
+            grid-template-rows: 50px 600px;
 
             h2 {
                 grid-column-end: span 3;
@@ -416,13 +427,21 @@ $border-line: #E1E1E1;
     .contact {
         &-pitch {
             left: 15%;
-            top: 43%;
+            top: 28%;
             width: 28%;
         }
 
         &-form {
             left: 50%;
-            top: 38%;
+            top: 18%;
+        }
+
+        &-reset {
+            right: 8rem;
+        }
+
+        &-submit {
+            right: 0.5rem;
         }
     }
 
@@ -452,11 +471,11 @@ $border-line: #E1E1E1;
         }
 
         &-reset {
-            right: 10rem;
+            right: 9rem;
         }
 
         &-submit {
-            right: 1.33rem;
+            right: 0.5rem;
         }
     }
 
@@ -473,13 +492,9 @@ $border-line: #E1E1E1;
 
     /* Contact styles */
     .contact {
-        textarea {
-            margin-bottom: 2rem;
-        }
-
         &-pitch {
             left: 20%;
-            top: 44%;
+            top: 22%;
             width: 22%;
 
             h3 {
@@ -487,17 +502,22 @@ $border-line: #E1E1E1;
             }
         }
 
+        &-form {
+            top: 20%;
+        }
+
         &-reset, &-submit {
             font-size: 1rem;
+            margin-top: 2rem;
             padding: 6px 12px;
         }
 
         &-reset {
-            right: 10rem;
+            right: 9rem;
         }
 
         &-submit {
-            right: 1.25rem;
+            right: 0.25rem;
         }
     }
 
@@ -507,35 +527,193 @@ $border-line: #E1E1E1;
 @media (min-width: 1440px) {
     /* Home styles */
     .home {
+        &-pitch {
+            left: 15%;
+            top: 25%;
+            width: 33%;
 
+            h3 {
+                font-size: 2.30rem;
+            }
+
+            p {
+                font-size: 1.8rem;
+            }
+        }
+        &-form {
+            left: 55%;
+            top: 25%;
+            width: 35%;
+        }
+    
+        &-reset, &-submit {
+            font-size: 1rem;
+        }
+
+        &-reset {
+            right: 8.5rem;
+        }
+
+        &-submit {
+            right: 0;
+        }
     }
 
     /* About styles */
     .about {
-        
+        h1 {
+            font-size: 2.75rem;
+        }
+
+        h2 {
+            font-size: 2.25rem;
+        }
+
+        h4 {
+            font-size: 1.67rem;
+        }
+
+        p {
+            font-size: 1.33rem;
+        }
+
+        &-team {
+            grid-template-columns: 33% 33% 33%;
+            grid-template-rows: 50px 725px;
+        }
+
+        .card {
+            width: 80%;   
+        }
     }
 
     /* Contact styles */
     .contact {
+        &-pitch {
+            left: 10%;
+            top: 28%;
+            width: 40%;
 
+            h3 {
+                font-size: 3.75rem;
+            }
+        }
+
+        &-form {
+            left: 50%;
+            top: 15%;
+        }
     }
-
 }
 
 /* --- Desktops --- */
 @media (min-width: 2100px) {
     /* Home styles */
     .home {
+        &-pitch {
+            // left: 15%;
+            // top: 25%;
+            // width: 33%;
 
+            h3 {
+                font-size: 4rem;
+            }
+
+            p {
+                font-size: 2.5rem;
+            }
+        }
+
+        &-form {
+            left: 52.5%;
+            min-height: 400px;
+            padding: 1.75rem 1.75rem 2.25rem 1.75rem;
+            top: 23.5%;
+            width: 40%;
+        }
+
+        .form-group label, .form-group input {
+            font-size: 1.8rem;
+        }
+
+        .emailHelp, small {
+            font-size: 1.33rem;
+        }
+    
+        &-reset, &-submit {
+            font-size: 1.5rem;
+        }
+
+        &-reset {
+            right: 12rem;
+        }    
     }
 
     /* About styles */
     .about {
+        h1 {
+            font-size: 4rem;
+        }
 
+        h2 {
+            font-size: 3rem;
+        }
+
+        h4 {
+            font-size: 2.25rem;
+        }
+
+        p {
+            font-size: 2rem;
+        }
+
+        &-team {
+            grid-template-columns: 33% 33% 33%;
+            grid-template-rows: 50px 1000px;
+        }
+
+        .card {
+            width: 75%;   
+        }
     }
 
     /* Contact styles */
     .contact {
+        &-pitch {
+            font-size: 2rem;    
+            left: 10%;
+            top: 25%;
+            width: 35%;
 
+            h3 {
+                font-size: 6rem;
+            }
+        }
+
+        &-form {
+            min-height: 400px;
+            top: 18%;
+            width: 40%;
+        }
+
+        .form-group label, .form-group input, .form-group textarea {
+            font-size: 1.8rem;
+        }
+
+        .emailHelp, small {
+            font-size: 1.33rem;
+        }
+    
+        &-reset, &-submit {
+            font-size: 1.5rem;
+        }
+
+        &-reset {
+            right: 12rem;
+        }
+
+        &-submit {
+            right: 0;
+        }
     }
 }
