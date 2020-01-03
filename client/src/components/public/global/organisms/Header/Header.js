@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import Overlay from "../Overlay/Overlay";
 
@@ -65,12 +65,12 @@ export default class Header extends Component {
                     <div className="nav-links">
                     { hamburger ? (
                         <Overlay/>
-                    ):  <Fragment>
+                    ):  <>
                             <a href="/about">About</a>
                             <a href="/team">Team</a>
                             <a href="/blog">Blog</a>
                             <a href="/contact">Contact</a>
-                        </Fragment>
+                        </>
                     }
                     </div>                
                 </nav>
