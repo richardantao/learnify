@@ -17,7 +17,7 @@ $border-line: #E1E1E1;
     &-internal {
         display: grid;
             grid-template-columns: 50% 50%;
-            grid-template-rows: 25% 42% 33%;
+            grid-template-rows: 25% 42% 38%;
 
         div:first-child {
             grid-column-end: span 3;
@@ -31,13 +31,18 @@ $border-line: #E1E1E1;
     &-public {
         display: grid;
             grid-template-columns: 100%;
-            grid-template-rows: 50% 50%;
+            grid-template-rows: 100%;
+        margin: 1rem;
     }
 
-    .copyright p {
-        font-size: 1em;
-        position: relative;
-            top: 1%;
+    .copyright {
+        margin: 0 auto;
+        
+        p {
+            font-size: 1rem;
+            position: relative;
+                top: 1%;
+        }
     }
 
     .social {
