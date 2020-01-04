@@ -13,7 +13,7 @@ export const setLoading = () => {
 export const postBackend = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post("https://localhost:3001/v1/applications/backend", application)
+    axios.post("http://localhost:3001/applications/backend", application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -26,7 +26,7 @@ export const postBackend = application => dispatch => {
 export const postCreator = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post("https://localhost:3001/v1/applications/creator", application)
+    axios.post("http://localhost:3001/applications/creator", application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -39,7 +39,7 @@ export const postCreator = application => dispatch => {
 export const postDesigner= application => dispatch => {
     dispatch(setLoading());
 
-    axios.post("https://localhost:3001/v1/applications/designer", application)
+    axios.post("http://localhost:3001/applications/designer", application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -52,7 +52,7 @@ export const postDesigner= application => dispatch => {
 export const postFrontend = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post("https://localhost:3001/v1/applications/frontend", application)
+    axios.post("http://localhost:3001/applications/frontend", application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -65,7 +65,7 @@ export const postFrontend = application => dispatch => {
 export const postMarketer = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post("https://localhost:3001/v1/applications/marketer", application)
+    axios.post("http://localhost:3001/applications/marketer", application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -78,7 +78,7 @@ export const postMarketer = application => dispatch => {
 export const postSwift = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post("https://localhost:3001/v1/applications/swift", application)
+    axios.post("http://localhost:3001/applications/swift", application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
