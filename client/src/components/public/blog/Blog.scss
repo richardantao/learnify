@@ -19,7 +19,7 @@ $border-line: #E1E1E1;
     
         
     h1 {
-      font-size: 32px;
+      font-size: 2rem;
     }
     
     #pitch {
@@ -32,7 +32,7 @@ $border-line: #E1E1E1;
     #posts {
       display: grid;
           grid-template-columns: 100%;
-          grid-template-rows: 400px 400px 400px;
+          grid-template-rows: 425px /*400px 400px*/;
     }
 }
 
@@ -47,7 +47,7 @@ $border-line: #E1E1E1;
     .blog {
         #posts {
             grid-template-columns: 50% 50%;
-                grid-template-rows: 475px 475px;
+                grid-template-rows: 475px /*475px*/;
         }
         
         footer {
@@ -101,7 +101,7 @@ $border-line: #E1E1E1;
         #posts {
             display: grid;
                 grid-template-columns: 33% 33% 33%;
-                grid-template-rows: 475px 475px 475px;
+                grid-template-rows: 475px /*475px 475px*/;
                 grid-gap: 5px;
         }
     
@@ -121,7 +121,7 @@ $border-line: #E1E1E1;
     /* Blog styles */
     .blog {
         #posts {
-            height: 1450px;
+            // height: 1450px;
         }   
     }
     

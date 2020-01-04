@@ -39,15 +39,15 @@ export default class Blog extends Component {
                             At Learnify, we're crazy about helping students achieve their very best. We use this blog to collect our insights, ideas, and achievements.
                         </div>
                         <div id="posts">
-                            <BlogCard
+                            {/* <BlogCard
                                 src={calling}
                                 alt="Don't Find a Career, Find a Calling"
                                 href="/blogs/calling"
                                 title="Don't Find a Career, Find a Calling"
                                 date="Coming Soon"
                                 text="Jeff Bezos: You can have a job or a career, but if you have this you've 'hit the jackpot'."
-                            />
-                            <BlogCard
+                            /> */}
+                            {/* <BlogCard
                                 src={danger}
                                 alt="Danger of Choosing Your Child's Career For Them"
                                 href="/blog/danger"
@@ -55,8 +55,8 @@ export default class Blog extends Component {
                                 date="Coming Soon"
                                 text="We all think we know what's best for our kids. But at what point do our own wants deter them from 
                                     reaching their full potential?"
-                            />
-                            <BlogCard
+                            /> */}
+                            {/* <BlogCard
                                 src={pareto}
                                 alt="Pareto's Principle"
                                 href="/blog/pareto"
@@ -64,8 +64,8 @@ export default class Blog extends Component {
                                 date="Coming Soon"
                                 text="Most things in life are not distributed evenly. The same goes for the results that come from your efforts. 
                                 Here's how you can make the most from your time."
-                            />
-                            <BlogCard
+                            /> */}
+                            {/* <BlogCard
                                 src={habits}
                                 alt="Habits Students Need"
                                 href="/blog/habits"
@@ -73,24 +73,24 @@ export default class Blog extends Component {
                                 date="Coming Soon"
                                 text="It doesn't matter what domain you are pursuing excellence in &ndash; you won't be successful if you don't adopt
                                     a disciplined routine. Here are 10 habits that are essential for academic excellence."
-                            />
-                            <BlogCard
+                            /> */}
+                            {/* <BlogCard
                                 src={emerging}
                                 alt="Emerging Ed. Tech You Should Be Aware Of"
                                 href="/blog/emerging"
                                 title="Emerging Ed. Tech You Should Be Aware Of"
                                 date="Coming Soon"
                                 text=""
-                            />
-                            <BlogCard
+                            /> */}
+                            {/* <BlogCard
                                 src={tips}
                                 alt=""
                                 href="/blog/tips"
                                 title="X Tips for Better Organization"
                                 date="Coming Soon"
                                 text="Where the Foundation Lies."
-                            />
-                            <BlogCard
+                            /> */}
+                            {/* <BlogCard
                                 src={change}
                                 alt=""
                                 href="/blog/change"
@@ -99,8 +99,8 @@ export default class Blog extends Component {
                                 text="The world we live in is changing faster than ever, and it's not going to slow down anytime soon.
                                     Finance, medicine, technology, transportation, and commerce have all dramatically evolved over the past 40 years - 
                                     so why hasn't education?"
-                            />
-                            <BlogCard
+                            /> */}
+                            {/* <BlogCard
                                 src={history}
                                 alt="History of School"
                                 href="/blog/history"
@@ -108,7 +108,7 @@ export default class Blog extends Component {
                                 date="Coming Soon"
                                 text="We want to change the student experience. To do so, it's important to understand when institutional education 
                                     started, what it was designed for, and how things have changed since."
-                            />
+                            /> */}
                             <BlogCard
                                 src={mission}
                                 alt="Learnify Mission"
