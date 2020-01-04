@@ -20,7 +20,13 @@ class Designer extends Component {
         last: "",
         email: "",
         city: "",
-        resume: null
+        strategy: "",
+        help: "",
+        importance: "",
+        resume: "",
+        portfolio: "",
+        linkedin: "",
+        other: ""
     };
 
     static propTypes = {
@@ -55,16 +61,20 @@ class Designer extends Component {
         e.preventDefault();
 
         const { postDesigner } = this.props;
-        const { first, last, email, city, resume } = this.state;
+        const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = this.state;
 
         const application = {
-            name: {
-                first,
-                last
-            },
+            first,
+            last,
             email,
             city,
-            resume
+            strategy,
+            help,
+            importance,
+            resume,
+            portfolio,
+            linkedin,
+            other
         };
 
         postDesigner(application);
@@ -73,9 +83,20 @@ class Designer extends Component {
     };
 
     render() {
-        const { modal, first, last, email, city, resume } = this.state;
+        const { modal, first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = this.state;
 
-        const isEnabled = regex.test(email);
+        const isEnabled = first.length > 0 && last.length > 0 && regex.test(email) && city.length > 0 
+            && strategy.length > 74 && help.length > 100 && importance.length > 49
+            && resume.length > 0;
+        
+        const strategyMin = 75 - strategy.length;
+        const strategyMax = 500 - strategy.length;
+
+        const helpMin = 100 - help.length;
+        const helpMax = 500 - help.length;
+        
+        const importanceMin = 50 - importance.length;
+        const importanceMax = 400 - importance.length;
         
         return (
             <>
@@ -95,7 +116,8 @@ class Designer extends Component {
                                         <Input
                                             name="first"
                                             type="text"
-                                            placeholder="First name.."
+                                            placeholder="e.g. John"
+                                            value={first}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -105,7 +127,8 @@ class Designer extends Component {
                                         <Input
                                             name="last"
                                             type="text"
-                                            placeholder="Last name.."
+                                            placeholder="e.g Doe"
+                                            value={last}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -117,17 +140,22 @@ class Designer extends Component {
                                         <Input
                                             name="email"
                                             type="email"
-                                            placeholder="Email.."
+                                            placeholder="e.g. johndoe@example.com"
+                                            value={email}
                                             onChange={this.handleChange}
                                             required
                                         />
+                                        { email.length > 0 && !regex.test(email) ? (
+                                            <small className="warning">Email must be a valid email address</small>
+                                        ): null }
                                     </Col>
                                     <Col>
                                         <Label for="city" className="required">City</Label>
                                         <Input
                                             name="city"
                                             type="text"
-                                            placeholder="ex. London"
+                                            placeholder="e.g. London"
+                                            value={city}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -135,10 +163,74 @@ class Designer extends Component {
                                 </Row>
                             </FormGroup>
                             <FormGroup>
-                                <h4>Tell us about yourself</h4>
                                 <Row>
                                     <Col>
-                                    
+                                        <h4>Tell us about yourself</h4>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label className="required">
+                                            How would you determine a good user experience for your target user?
+                                        </Label>
+                                        <Input
+                                            name="strategy"
+                                            type="textarea"
+                                            value={strategy}
+                                            minLength={75}
+                                            maxLength={500}
+                                            rows={5}
+                                            onChange={this.handleChange}
+                                        />
+                                        { strategy.length > 0 && strategy.length < 75 ? (
+                                            <small className="warning">{strategyMin} characters required</small>
+                                        ): strategy.length > 74 ? (
+                                            <small>{strategyMax} characters left</small>
+                                        ): null }
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label className="required">
+                                            Recall a recent event where you went out of your way to help someone else. 
+                                            Include details about how you went about it, why you did it, and what difference your actions made.
+                                        </Label>
+                                        <Input
+                                            name="help"
+                                            type="textarea"
+                                            value={help}
+                                            minLength={100}
+                                            maxLength={500}
+                                            rows={5}
+                                            onChange={this.handleChange}
+                                        />
+                                        { help.length > 0 && help.length < 100 ? (
+                                            <small className="warning">{helpMin} characters required</small>
+                                        ): help.length > 99 ? (
+                                            <small>{helpMax} characters left</small>
+                                        ): null}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label className="required">
+                                            What are three things that are most important to you in a work setting?
+                                        </Label>
+                                        <Input
+                                            name="importance"
+                                            type="textarea"
+                                            value={importance}
+                                            minLength={50}
+                                            maxLength={400}
+                                            rows={5}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                        { importance.length > 0 && importance.length < 50 ? (
+                                            <small className="warning">{importanceMin} characters required</small>
+                                        ): importance.length > 49 ? (
+                                            <small>{importanceMax} characters left</small>
+                                        ): null }
                                     </Col>
                                 </Row>
                             </FormGroup>
@@ -150,18 +242,18 @@ class Designer extends Component {
                                         <Input
                                             name="resume"
                                             type="file"
+                                            value={resume}
                                             onChange={this.handleChange}
                                             required
                                         />
                                     </Col>
                                     <Col>
-                                        <Label for="portfolio" className="required">Portfolio</Label>
+                                        <Label for="portfolio">Portfolio</Label>
                                         <Input
                                             name="portfolio"
-                                            type="url"
-                                            placeholder="https://portfolioURL.com"
+                                            type="text"
                                             onChange={this.handleChange}
-                                            required
+                                            value={portfolio}
                                         />
                                     </Col>
                                 </Row>
@@ -170,17 +262,21 @@ class Designer extends Component {
                                         <Label for="linkedin">LinkedIn</Label>
                                         <Input
                                             name="linkedin"
-                                            type="url"
-                                            placeholder="https://linkedin/com/in/username"
+                                            type="text"
+                                            placeholder="https://linkedin.com/in/username"
+                                            value={linkedin}
                                             onChange={this.handleChange}
                                         />
+                                        { linkedin.length > 0 && !linkedin.includes("linkedin.com/in/") ? (
+                                            <small className="warning">URL must contain 'linkedin.com/in/'</small>
+                                        ): null}
                                     </Col>
                                     <Col>
                                         <Label for="other">Other</Label>
                                         <Input
-                                            name=""
-                                            type=""
-                                            placeholder=""
+                                            name="other"
+                                            type="text"
+                                            value={other}
                                             onChange={this.handleChange}
                                         />
                                     </Col>

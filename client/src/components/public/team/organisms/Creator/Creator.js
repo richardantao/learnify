@@ -20,10 +20,13 @@ class Creator extends Component {
         last: "",
         email: "",
         city: "",
-        knowledge: "",
         strategy: "",
+        help: "",
         importance: "",
-        resume: null
+        resume: "",
+        portfolio: "",
+        linkedin: "",
+        other: ""
     };
 
     static propTypes = {
@@ -58,19 +61,20 @@ class Creator extends Component {
         e.preventDefault();
 
         const { postCreator } = this.props; 
-        const { first, last, email, city, knowledge, strategy, importance, resume} = this.state;
+        const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = this.state;
 
         const application = {
-            name: {
-                first,
-                last
-            },
+            first,
+            last,
             email,
             city,
-            knowledge,
+            help,
             strategy,
             importance,
-            resume
+            resume,
+            portfolio,
+            linkedin,
+            other
         };
 
         postCreator(application);
@@ -79,17 +83,17 @@ class Creator extends Component {
     };
 
     render() {
-        const { modal, first, last, email, city, knowledge, strategy, importance, resume } = this.state;
+        const { modal, first, last, email, city, help, strategy, importance, resume, portfolio, linkedin, other } = this.state;
 
-        const isEnabled = first.length && last.length > 0 && regex.test(email) && city.length > 0
-        && knowledge.length > 99 && strategy.length > 99 && importance.length > 49;
-
-        const knowledgeMin = 75 - knowledge.length;
-        const knowledgeMax = 500 - knowledge.length;
-
+        const isEnabled = first.length > 0 && last.length > 0 && regex.test(email) && city.length > 0 
+            && strategy.length > 74 && help.length > 100 && importance.length > 49 && resume.length > 0;
+        
         const strategyMin = 75 - strategy.length;
         const strategyMax = 500 - strategy.length;
 
+        const helpMin = 100 - help.length;
+        const helpMax = 500 - help.length;
+        
         const importanceMin = 50 - importance.length;
         const importanceMax = 400 - importance.length;
 
@@ -111,7 +115,8 @@ class Creator extends Component {
                                         <Input
                                             name="first"
                                             type="text"
-                                            placeholder="First name.."
+                                            value={first}
+                                            placeholder="e.g. Jane"
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -121,7 +126,8 @@ class Creator extends Component {
                                         <Input
                                             name="last"
                                             type="text"
-                                            placeholder="Last name.."
+                                            value={last}
+                                            placeholder="e.g. Doe"
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -133,7 +139,8 @@ class Creator extends Component {
                                         <Input
                                             name="email"
                                             type="email"
-                                            placeholder="Email.."
+                                            placeholder="e.g. janedoe@example.com"
+                                            value={email}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -146,7 +153,8 @@ class Creator extends Component {
                                         <Input
                                             name="city"
                                             type="text"
-                                            placeholder="ex. London"
+                                            placeholder="e.g. London"
+                                            value={city}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -154,23 +162,9 @@ class Creator extends Component {
                                 </Row>
                             </FormGroup>
                             <FormGroup>
-                                <h4>Tell us about yourself</h4>
                                 <Row>
                                     <Col>
-                                        <Label for="knowledge" className="required">What makes content successful?</Label>
-                                        <Input
-                                            name="knowledge"
-                                            type="textarea"
-                                            minLength={75}
-                                            maxLength={500}
-                                            onChange={this.handleChange}
-                                            required
-                                        />
-                                        { knowledge.length > 0 && knowledge.length < 75 ? (
-                                            <small className="warning">{knowledgeMin} characters required</small>
-                                        ): knowledge.length > 74 ? (
-                                            <small>{knowledgeMax} characters left</small>
-                                        ): null }
+                                        <h4>Tell us about yourself</h4>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -179,10 +173,11 @@ class Creator extends Component {
                                         <Input
                                             name="strategy"
                                             type="textarea"
+                                            value={strategy}
                                             minLength={75}
                                             maxLength={500}
+                                            rows={5}
                                             onChange={this.handleChange}
-                                            required
                                         />
                                         { strategy.length > 0 && strategy.length < 75 ? (
                                             <small className="warning">{strategyMin} characters required</small>
@@ -194,15 +189,38 @@ class Creator extends Component {
                                 <Row>
                                     <Col>
                                         <Label className="required">
+                                            Recall a recent event where you went out of your way to help someone else. 
+                                            Include details about how you went about it, why you did it, and what difference your actions made.
+                                        </Label>
+                                        <Input
+                                            name="help"
+                                            type="textarea"
+                                            value={help}
+                                            minLength={100}
+                                            maxLength={500}
+                                            rows={5}
+                                            onChange={this.handleChange}
+                                        />
+                                        { help.length > 0 && help.length < 100 ? (
+                                            <small className="warning">{helpMin} characters required</small>
+                                        ): help.length > 99 ? (
+                                            <small>{helpMax} characters left</small>
+                                        ): null}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label className="required">
                                             What are three things that are most important to you in a work setting?
                                         </Label>
                                         <Input
                                             name="importance"
                                             type="textarea"
+                                            value={importance}
                                             minLength={50}
                                             maxLength={400}
+                                            rows={5}
                                             onChange={this.handleChange}
-                                            required
                                         />
                                         { importance.length > 0 && importance.length < 50 ? (
                                             <small className="warning">{importanceMin} characters required</small>
@@ -216,19 +234,46 @@ class Creator extends Component {
                                 <h4>Links and Attachments</h4>
                                 <Row>
                                     <Col>
-                                        <Label>Personal URL</Label>
-                                        <Input
-                                            name="other"
-                                            type="url"
-                                            placeholder="LinkedIn, blog, portfolio, etc."
-                                            onChange={this.handleChange}
-                                        />
-                                    </Col>
-                                    <Col>
-                                        <Label className="required">Resume </Label>
+                                        <Label className="required">Resume</Label>
                                         <Input
                                             name="resume"
                                             type="file"
+                                            value={resume}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label>Personal URL</Label>
+                                        <Input
+                                            name="portfolio"
+                                            type="text"
+                                            placeholder="Blog, portfolio, etc."
+                                            value={portfolio}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label for="linkedin">LinkedIn</Label>
+                                        <Input
+                                            name="linkedin"
+                                            type="text"
+                                            placeholder="https://linkedin.com/in/username"
+                                            value={linkedin}
+                                            onChange={this.handleChange}
+                                        />
+                                        { linkedin.length > 0 && !linkedin.includes("linkedin.com/in/") ? (
+                                            <small className="warning">URL must contain 'linkedin.com/in/'</small>
+                                        ): null}
+                                    </Col>
+                                    <Col>
+                                        <Label for="other">Other</Label>
+                                        <Input
+                                            name="other"
+                                            type="text"
+                                            value={other}
                                             onChange={this.handleChange}
                                         />
                                     </Col>

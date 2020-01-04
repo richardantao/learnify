@@ -20,8 +20,13 @@ class Frontend extends Component {
         last: "",
         email: "",
         city: "",
+        strategy: "",
+        help: "",
         importance: "",
-        resume: null
+        resume: "",
+        portfolio: "",
+        linkedin: "",
+        other: ""
     };
 
     static propTypes = {
@@ -56,17 +61,20 @@ class Frontend extends Component {
         e.preventDefault();
 
         const { postFrontend } = this.props;
-        const { first, last, email, city, importance, resume} = this.state;
+        const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = this.state;
 
         const application = {
-            name: {
-                first,
-                last
-            },
+            first,
+            last,
             email,
             city,
+            strategy,
+            help,
             importance,
-            resume
+            resume,
+            portfolio,
+            linkedin,
+            other
         };
 
         postFrontend(application);
@@ -75,12 +83,21 @@ class Frontend extends Component {
     };
 
     render() {
-        const { modal, first, last, email, city, importance, resume } = this.state;
+        const { modal, first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = this.state;
 
-        const { isEnabled } = regex.test(email);
+        const isEnabled = first.length > 0 && last.length > 0 && regex.test(email) && city.length > 0 
+            && strategy.length > 74 && help.length > 100 && importance.length > 49
+            && resume.length > 0 && portfolio.includes("github.com/") && linkedin.includes("linkedin.com/in/"); 
+        
+        const strategyMin = 75 - strategy.length;
+        const strategyMax = 500 - strategy.length;
+
+        const helpMin = 100 - help.length;
+        const helpMax = 500 - help.length;
         
         const importanceMin = 50 - importance.length;
-        const importanceMax = 400 - importance.length;        
+        const importanceMax = 400 - importance.length;
+
         return (
             <>
                 <Button href="#frontend" onClick={this.toggle}>Apply Now</Button>
@@ -99,7 +116,8 @@ class Frontend extends Component {
                                         <Input
                                             name="first"
                                             type="text"
-                                            placeholder="First name.."
+                                            placeholder="e.g. Jane"
+                                            value={first}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -109,7 +127,8 @@ class Frontend extends Component {
                                         <Input
                                             name="last"
                                             type="text"
-                                            placeholder="Last name.."
+                                            placeholder="e.g. Doe"
+                                            value={last}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -121,17 +140,22 @@ class Frontend extends Component {
                                         <Input
                                             name="email"
                                             type="email"
-                                            placeholder="Email.."
+                                            placeholder="janedoe@example.com"
+                                            value={email}
                                             onChange={this.handleChange}
                                             required
                                         />
+                                        { email.length > 0 && !regex.test(email) ? (
+                                            <small className="warning">Email must be a valid email address</small>
+                                        ): null }
                                     </Col>
                                     <Col>
                                         <Label for="city" className="required">City</Label>
                                         <Input
                                             name="city"
                                             type="city"
-                                            placeholder="Ex. London"
+                                            placeholder="e.g. London"
+                                            value={city}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -139,10 +163,55 @@ class Frontend extends Component {
                                 </Row>
                             </FormGroup>
                             <FormGroup>
-                                <h4>Tell us about yourself</h4>
                                 <Row>
                                     <Col>
-                                    
+                                        <h4>Tell us about yourself</h4>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label className="required">
+                                            You've noticed that the client&ndash;side performance of your app has diminished 
+                                            as the app has scaled; Discuss your strategy to improve the performance of the app.
+                                        </Label>
+                                        <Input
+                                            name="strategy"
+                                            type="textarea"
+                                            value={strategy}
+                                            minLength={75}
+                                            maxLength={500}
+                                            rows={5}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                        { strategy.length > 0 && strategy.length < 75 ? (
+                                            <small className="warning">{strategyMin} characters required</small>
+                                        ): strategy.length > 74 ? (
+                                            <small>{strategyMax} characters left</small>
+                                        ): null }
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <Label className="required">
+                                            Recall a recent event where you went out of your way to help someone else. 
+                                            Include details about how you went about it, why you did it, and what difference your actions made.
+                                        </Label>
+                                        <Input
+                                            name="help"
+                                            type="textarea"
+                                            value={help}
+                                            minLength={100}
+                                            maxLength={500}
+                                            rows={5}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                        { help.length > 0 && help.length < 100 ? (
+                                            <small className="warning">{helpMin} characters required</small>
+                                        ): help.length > 99 ? (
+                                            <small>{helpMax} characters left</small>
+                                        ): null}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -153,7 +222,10 @@ class Frontend extends Component {
                                         <Input
                                             name="importance"
                                             type="textarea"
+                                            value={importance}
+                                            minLength={50}
                                             maxLength={400}
+                                            rows={5}
                                             onChange={this.handleChange}
                                             required
                                         />
@@ -173,18 +245,24 @@ class Frontend extends Component {
                                         <Input
                                             name="resume"
                                             type="file"
+                                            value={resume}
                                             onChange={this.handleChange}
                                             required
                                         />
                                     </Col>
                                     <Col>
-                                        <Label for="github" className="required">Github</Label>
+                                        <Label for="portfolio" className="required">Github</Label>
                                         <Input
-                                            name="github"
-                                            type="url"
+                                            name="portfolio"
+                                            type="text"
                                             placeholder="https://github.com/username"
+                                            value={portfolio}
                                             onChange={this.handleChange}
+                                            required
                                         />
+                                        { portfolio.length > 0 && !portfolio.includes("github.com/") ? (
+                                            <small className="warning">URL must contain 'github.com/'</small>
+                                        ): null}
                                     </Col>
                                 </Row>
                                 <Row>
@@ -192,18 +270,22 @@ class Frontend extends Component {
                                         <Label for="linkedin" className="required">LinkedIn</Label>
                                         <Input
                                             name="linkedin"
-                                            type="url"
+                                            type="text"
                                             placeholder="https://linkedin/com/in/username"
+                                            value={linkedin}
                                             onChange={this.handleChange}
                                             required
                                         />
+                                        { linkedin.length > 0 && !linkedin.includes("linkedin.com/in/") ? (
+                                            <small className="warning">URL must contain 'linkedin.com/in/'</small>
+                                        ): null}
                                     </Col>
                                     <Col>
                                         <Label for="other">Other</Label>
                                         <Input
-                                            name=""
-                                            type=""
-                                            placeholder=""
+                                            name="other"
+                                            type="text"
+                                            value={other}
                                             onChange={this.handleChange}
                                         />
                                     </Col>
