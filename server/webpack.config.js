@@ -1,11 +1,11 @@
 const path = require("path");
 
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 module.exports = {
     entry: {
-        // api: "./src/index.js", // TBD
         server: "./src/server.js",
     },
     output: {
@@ -16,6 +16,11 @@ module.exports = {
     externals: [nodeExternals()],
     plugins: [
         new CleanWebpackPlugin(),
+        new HtmlWebPackPlugin({
+            template: "./index.html",
+            filename: "./index.html",
+            excludeChunks: [ "server" ],
+        }),
     ],
     module: {
         rules: [
