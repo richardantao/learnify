@@ -2,9 +2,9 @@ const { check, sanitize, validationResult } = require("express-validator");
 
 const validation = [];
 
-validation.backend = (req, res, next) => {
+validation.tech = (req, res, next) => {
     const error = validationResult(req);
-    const { first, last, email, city } = req.body;
+    const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = req.body;
 
     check(first, "First name had an invalid input")
         .exists().withMessage("First name is a required field")
@@ -22,10 +22,43 @@ validation.backend = (req, res, next) => {
         .exists().withMessage("City is a required field")
         .isAlpha().withMessage("City field can only contain letters");
 
+    check(strategy, "First 'Tell Us About Yourself' answer had an invalid input")
+        .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+
+    check(help, "Second 'Tell Us About Yourself' answer had an invalid input")
+        .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+
+    check(importance, "Third 'Tell Us About Yourself' answer had an invalid input")
+        .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+
+    check(resume, "Resume had an invalid input")
+        .exists().withMessage("You must attach a PDF file of your resume with your application")
+
+    if(!resume.includes(".pdf")) {
+        return res.status(422).json({
+            message: "Resume must be a PDF File"
+        });
+    };
+
+    check(portfolio, "Github had an invalid input")
+        .exists().withMessage("Github is a required field");
+
+    check(linkedin, "LinkedIn had an invalid input")
+        .exists().withMessage("LinkedIn is a required field");
+
+    check(other, "Other had an invalid input")
+        .optional();
+
     sanitize(first).escape();
     sanitize(last).escape();
     sanitize(email).escape().normalizeEmail();
     sanitize(city).escape();
+    sanitize(strategy).escape();
+    sanitize(help).escape();
+    sanitize(importance).escape();
+    sanitize(portfolio).escape();
+    sanitize(linkedin).escape();
+    sanitize(other).escape();
 
     if(!error.isEmpty()) {
         return res.status(422).json({
@@ -36,7 +69,7 @@ validation.backend = (req, res, next) => {
     };
 };
 
-validation.creator = (req, res, next) => {
+validation.nontech = (req, res, next) => {
     const error = validationResult(req);
     const { first, last, email, city } = req.body;
 
@@ -55,113 +88,44 @@ validation.creator = (req, res, next) => {
     check(city, "City had an invalid input")
         .exists().withMessage("City is a required field")
         .isAlpha().withMessage("City field can only contain letters");
+    
+        check(strategy, "First 'Tell Us About Yourself' answer had an invalid input")
+        .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
 
-    sanitize(first).escape();
-    sanitize(last).escape();
-    sanitize(email).escape().normalizeEmail();
-    sanitize(city).escape();
+    check(help, "Second 'Tell Us About Yourself' answer had an invalid input")
+        .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
 
-    if(!error.isEmpty()) {
+    check(importance, "Third 'Tell Us About Yourself' answer had an invalid input")
+        .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+
+    check(resume, "Resume had an invalid input")
+        .exists().withMessage("You must attach a PDF file of your resume with your application")
+
+    if(!resume.includes(".pdf")) {
         return res.status(422).json({
-            message: error.message
+            message: "Resume must be a PDF File"
         });
-    } else {
-        next();
     };
-};
 
-validation.designer = (req, res, next) => {
-    const error = validationResult(req);
-    const { first, last, email, city } = req.body;
+    check(portfolio, "Portfolio had an invalid input")
+        .optional();
 
-    check(first, "First name had an invalid input")
-        .exists().withMessage("First name is a required field")
-        .isAlphanumeric().withMessage("First name field can only contain letters and numbers");
+    check(linkedin, "LinkedIn had an invalid input")
+        optional();
 
-    check(last, "Last name had an invalid input")
-        .exists().withMessage("Last name is a required field")
-        .isAlphanumeric().withMessage("Last name field can only contain letters and numbers");
-    
-    check(email, "Email had an invalid input")
-        .exists().withMessage("Email is a required field")
-        .isEmail().withMessage("Email must be a valid email address");
-    
-    check(city, "City had an invalid input")
-        .exists().withMessage("City is a required field")
-        .isAlpha().withMessage("City field can only contain letters");
+    check(other, "Other had an invalid input")
+        .optional();
 
     sanitize(first).escape();
     sanitize(last).escape();
     sanitize(email).escape().normalizeEmail();
     sanitize(city).escape();
-
-    if(!error.isEmpty()) {
-        return res.status(422).json({
-            message: error.message
-        });
-    } else {
-        next();
-    };
-};
-
-validation.frontend = (req, res, next) => {
-    const error = validationResult(req);
-    const { first, last, email, city } = req.body;
-
-    check(first, "First name had an invalid input")
-        .exists().withMessage("First name is a required field")
-        .isAlphanumeric().withMessage("First name field can only contain letters and numbers");
-
-    check(last, "Last name had an invalid input")
-        .exists().withMessage("Last name is a required field")
-        .isAlphanumeric().withMessage("Last name field can only contain letters and numbers");
-    
-    check(email, "Email had an invalid input")
-        .exists().withMessage("Email is a required field")
-        .isEmail().withMessage("Email must be a valid email address");
-    
-    check(city, "City had an invalid input")
-        .exists().withMessage("City is a required field")
-        .isAlpha().withMessage("City field can only contain letters");
-
-    sanitize(first).escape();
-    sanitize(last).escape();
-    sanitize(email).escape().normalizeEmail();
-    sanitize(city).escape();
-
-    if(!error.isEmpty()) {
-        return res.status(422).json({
-            message: error.message
-        });
-    } else {
-        next();
-    };
-};
-
-validation.marketer = (req, res, next) => {
-    const error = validationResult(req);
-    const { first, last, email, city } = req.body;
-
-    check(first, "First name had an invalid input")
-        .exists().withMessage("First name is a required field")
-        .isAlphanumeric().withMessage("First name field can only contain letters and numbers");
-
-    check(last, "Last name had an invalid input")
-        .exists().withMessage("Last name is a required field")
-        .isAlphanumeric().withMessage("Last name field can only contain letters and numbers");
-    
-    check(email, "Email had an invalid input")
-        .exists().withMessage("Email is a required field")
-        .isEmail().withMessage("Email must be a valid email address");
-    
-    check(city, "City had an invalid input")
-        .exists().withMessage("City is a required field")
-        .isAlpha().withMessage("City field can only contain letters");
-
-    sanitize(first).escape();
-    sanitize(last).escape();
-    sanitize(email).escape().normalizeEmail();
-    sanitize(city).escape();
+    sanitize(strategy).escape();
+    sanitize(help).escape();
+    sanitize(importance).escape();
+    sanitize(portfolio).escape();
+    sanitize(linkedin).escape();
+    sanitize(other).escape();
 
     if(!error.isEmpty()) {
         return res.status(422).json({
