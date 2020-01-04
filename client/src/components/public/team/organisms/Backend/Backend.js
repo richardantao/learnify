@@ -96,7 +96,7 @@ class Backend extends Component {
 
         const isEnabled = first.length > 0 && last.length > 0 && regex.test(email) && city.length > 0 
             && strategy.length > 74 && help.length > 100 && importance.length > 49
-            && resume.length > 0 && portfolio.includes("github.com/") && linkedin.includes("linkedin.com/in/"); 
+            && resume.includes(".pdf") && portfolio.includes("github.com/") && linkedin.includes("linkedin.com/in/"); 
         
         const strategyMin = 75 - strategy.length;
         const strategyMax = 500 - strategy.length;
@@ -181,7 +181,7 @@ class Backend extends Component {
                                 <Row>
                                     <Col>
                                         <Label className="required">
-                                            You've been told that the SDLC of your team's backend is becoming messy and inefficient. Briefly discuss a strategy you would suggest to improve the
+                                            You've been told that the SDLC of your team's backend is becoming messy and inefficient. Briefly discuss a strategy you would suggest to improve
                                             the efficiency of the release cycle.
                                         </Label>
                                         <Input
@@ -261,6 +261,9 @@ class Backend extends Component {
                                             onChange={this.handleChange}
                                             required
                                         />
+                                        { resume.length > 0 && !resume.includes(".pdf") ? (
+                                            <small className="warning">File must be a PDF</small>
+                                        ): null }
                                     </Col>
                                     <Col>
                                         <Label for="portfolio" className="required">Github</Label>

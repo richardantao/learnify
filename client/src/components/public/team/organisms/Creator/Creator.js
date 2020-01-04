@@ -86,7 +86,8 @@ class Creator extends Component {
         const { modal, first, last, email, city, help, strategy, importance, resume, portfolio, linkedin, other } = this.state;
 
         const isEnabled = first.length > 0 && last.length > 0 && regex.test(email) && city.length > 0 
-            && strategy.length > 74 && help.length > 100 && importance.length > 49 && resume.length > 0;
+            && strategy.length > 74 && help.length > 100 && importance.length > 49
+            && resume.includes(".pdf");
         
         const strategyMin = 75 - strategy.length;
         const strategyMax = 500 - strategy.length;
@@ -242,6 +243,9 @@ class Creator extends Component {
                                             onChange={this.handleChange}
                                             required
                                         />
+                                        { resume.length > 0 && !resume.includes(".pdf") ? (
+                                            <small className="warning">File must be a PDF</small>
+                                        ): null }
                                     </Col>
                                     <Col>
                                         <Label>Personal URL</Label>
