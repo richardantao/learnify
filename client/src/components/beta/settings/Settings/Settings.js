@@ -118,7 +118,7 @@ class Settings extends Component {
 							</Col>
 							<Col>
 								<p>Copyright {year} Learnify. All rights reserved. </p>
-								<a href="https://docs.learnify.ca/changelog" target="_blank">{version}</a>
+								<a href="https://learnify.ca/docs/changelog" target="_blank">{version}</a>
 							</Col>
 						</Row>
 					</div>
@@ -153,7 +153,7 @@ const Integration = Loadable({
 });
 
 const year = new Date().getFullYear();
-const version = "Version 1.0.0";
+const version = "Version 1.0.0-beta";
 
 const mapStateToProps = state => ({
 	isAuthenticated: state.auth.isAuthenticated,
