@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 
-import SideOverlay from "../SideOverlay";
+import Loadable from "react-loadable";
+import Loading from "../../../global/organisms/Loading";
 
 import "../../Docs.scss";
+
+const SideOverlay = Loadable({
+    loader: () => import(/* webpackChunkName: "SideOverlay" */ "../SideOverlay"),
+    loading: Loading,
+    delay: 300
+});
 
 export default class SideNav extends Component {
     state = {
@@ -64,7 +71,7 @@ export default class SideNav extends Component {
                             <>
                                 <h3>Explore</h3>
                                     <a href="/docs">What is Learnify?</a>
-                                    <a href="/docs/api">Developers</a>
+                                    <a href="/docs/developers">Developers</a>
                                 <h3>Resources</h3>
                                     <a href="/docs/terms">Terms of Service</a>
                                     <a href="/docs/privacy">Privacy Policy</a>
