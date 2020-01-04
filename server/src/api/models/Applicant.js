@@ -13,7 +13,7 @@ const ApplicantSchema = new Schema({
     strategy: { type: String, required: true},
     help: { type: String, required: true},
     importance: { type: String, required: true },
-    resume: { type: String, required: true },
+    resume: { type: Buffer, required: true },
     portfolio: String,
     linkedin: String,
     other: String,
