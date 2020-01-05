@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { resetPassword } from "../../../../../actions/auth/auth";
@@ -58,11 +58,11 @@ class Forgot extends Component {
     };
 
     render() {
-        const { modal, message } = this.state;
+        const { modal, email, message } = this.state;
 
         return (
-            <Fragment> 
-                <Button href="#forgot" className="forgot" onClick={this.toggle}>Forgot Password</Button>
+            <> 
+                <a id="forgot" href="#forgot" className="forgot" onClick={this.toggle}>Forgot Password?</a>
 
                 <Modal isOpen={modal}>
                     <ModalHeader toggle={this.toggle}>Reset Password</ModalHeader>
@@ -74,9 +74,9 @@ class Forgot extends Component {
                             <Label for="email">Email</Label>
                             <Input
                                 name="email"
-                                type="text"
+                                type="email"
                                 placeholder="Email.."
-                                value=""
+                                value={email}
                                 onChange={this.handleChange}
                                 required
                             />
@@ -86,7 +86,7 @@ class Forgot extends Component {
                         </ModalFooter>
                     </Form>
                 </Modal>
-            </Fragment>
+            </>
         );
     };
 };

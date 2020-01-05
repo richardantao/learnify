@@ -93,7 +93,7 @@ class Login extends Component {
                     </ModalHeader>  
                     <Form onSubmit={this.onSubmit}>
                         <ModalBody>
-                            {   message ? (
+                            { message ? (
                                 <Alert color="danger">{message}</Alert> 
                             ):  null }
                             
@@ -105,7 +105,7 @@ class Login extends Component {
                                     id="email"
                                     placeholder="Enter email.."
                                     className="mb-3"
-                                    onChange={this.onChange}
+                                    onChange={this.handleChange}
                                 />
 
                                 <Label for="password">Password</Label>
@@ -115,19 +115,18 @@ class Login extends Component {
                                     id="password"
                                     placeholder="Enter password.."
                                     className= "mb-3"
-                                    onChange={this.onChange}
+                                    onChange={this.handleChange}
                                 />
-                                
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="submit" block>
+                                <Button id="submit" type="submit" block>
                                     Sign In
                                 </Button>
                                 <Forgot/>
-                                <div className="create">
+                                {/* <div className="create">
                                     <span>Don't have an account?</span>
-                                    <Button href="/register">Create Team Account</Button>
-                                </div>
+                                    <Button id="register" href="/register">Create Team Account</Button>
+                                </div> */}
                             </ModalFooter>
                         </ModalBody>
                     </Form>
