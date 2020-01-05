@@ -9,6 +9,9 @@ const FeedbackSchema = new Schema({
     subject: { type: String, required: true },
     message: { type: String, required: true },
     date: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
+},
+{ 
+  versionKey: false 
 });
 
 module.exports = model("feedback", FeedbackSchema);
