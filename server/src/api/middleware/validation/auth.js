@@ -16,7 +16,7 @@ validate.user = (req, res, next) => {
             message: "Validation successful",
             errors: null
         });
-        next();
+        return next();
     };
 };
 
@@ -37,7 +37,7 @@ validate.application = (req, res, next) => {
             message: "Validation successful",
             errors: null
         })
-        next();
+        return next();
     };
 };
 
@@ -65,7 +65,7 @@ validate.contact = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next();
     };
 };
 
@@ -89,7 +89,7 @@ validate.invite = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next();
     };
 };
 
@@ -120,7 +120,7 @@ validate.register = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next();
     };
 };
 
@@ -142,7 +142,7 @@ validate.signin = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next();
     };
 };
 
@@ -155,7 +155,7 @@ validate.signout = (req, res, next) => {
             errors
         });
     } else {
-        next();
+        return next();
     };
 };
 

@@ -65,7 +65,7 @@ validation.tech = (req, res, next) => {
             message: error.message
         });
     } else {
-        next();
+        return next()
     };
 };
 
@@ -132,7 +132,7 @@ validation.nontech = (req, res, next) => {
             message: error.message
         });
     } else {
-        next();
+        return next()
     };
 };
 

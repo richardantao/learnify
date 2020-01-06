@@ -73,7 +73,7 @@ const validate = (req, res, next) => {
                     message: "The assessment date must be inside the date of the term your course is in"
                 });
             } else {
-                next();
+                return next();
             };
         })
         .catch(err => {

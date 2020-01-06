@@ -48,7 +48,7 @@ validate.profile = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next()
     };
 };
 
@@ -81,7 +81,7 @@ validate.password = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next()
     };
 };
 
@@ -111,7 +111,7 @@ validate.preferences = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next()
     };
 };
 
@@ -123,7 +123,7 @@ validate.integration = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next()
     };
 };
 

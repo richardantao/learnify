@@ -44,7 +44,7 @@ const validate = (req, res, next) => {
             message: errors.message
         });
     } else {
-        next();
+        return next();
     };
 };
 

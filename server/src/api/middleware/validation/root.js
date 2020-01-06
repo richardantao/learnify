@@ -25,7 +25,7 @@ validate.invite = (req, res, next) => {
             message: error.message
         });
     } else {
-        next();
+        return next();
     };
 };
 
@@ -55,7 +55,7 @@ validate.contact = (req, res, next) => {
             message: error.message
         });
     } else {
-        next();
+        return next();
     };
 };
 

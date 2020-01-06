@@ -39,7 +39,7 @@ const validate =  (req, res, next) => {
                     message: "The start and end date must be inside the dates of the year you have selected"
                 });
             } else {
-                next();
+                return next()
             };
         })
         .catch(err => {

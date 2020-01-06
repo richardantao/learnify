@@ -52,7 +52,7 @@ const validate = (req, res, next) => {
                     message: "Task deadline must be inside the date of the term your course is in"
                 });
             } else {
-                next();
+                return next()
             };
         })
         .catch(err => {
