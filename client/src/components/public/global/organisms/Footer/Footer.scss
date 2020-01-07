@@ -39,7 +39,7 @@ $border-line: #E1E1E1;
         margin: 0 auto;
         
         p {
-            font-size: 1.5vw;
+            font-size: 0.75rem;
             position: relative;
                 top: 1%;
         }
@@ -83,6 +83,7 @@ $border-line: #E1E1E1;
             grid-template-rows: 100%;
             font-size: 1.5vw;
         }
+
         .copyright {
             grid-column-start: 2;
         }
@@ -108,6 +109,12 @@ $border-line: #E1E1E1;
         &-public {
             grid-template-columns: 26% 40% 33%;
         }
+
+        .copyright {
+            p {
+                font-size: 0.9rem;
+            }
+        }
     }
 }
 
@@ -123,19 +130,33 @@ $border-line: #E1E1E1;
             grid-column-start: 2;
             grid-template-columns: 25% 42% 33%;
         }
+
+        .copyright {
+            p {
+                font-size: 1rem;
+            }
+        }
     }
 }
 
 /* --- Large Laptops --- */
 @media (min-width: 1440px) {
     .footer {
-
+        .copyright {
+            p {
+                font-size: 1.25rem;
+            }
+        }
     }
 }
 
 /* --- Desktops --- */
 @media (min-width: 2100px) {
     .footer {
-        
+        .copyright {
+            p {
+                font-size: 2.25rem;
+            }
+        }
     }
 }
