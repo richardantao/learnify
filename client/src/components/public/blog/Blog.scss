@@ -23,7 +23,7 @@ $border-line: #E1E1E1;
     }
     
     #pitch {
-      font-size: 1em;
+      font-size: 1rem;
       font-weight: 400;
       margin-bottom: 2.5%;
       width: 95%;
@@ -72,16 +72,16 @@ $border-line: #E1E1E1;
     /* Blog styles */
     .blog {
         #pitch {
-            font-size: 1.25em;
+            font-size: 1.25rem;
         }
                 
         h1 {
-            font-size: 2.5em;
+            font-size: 2rem;
         }
     
         h2 {
-            font-size: 28px;
-        } 
+            font-size: 1.75rem;
+        }
     }
 
     /* Blog post styles */
@@ -104,55 +104,67 @@ $border-line: #E1E1E1;
                 grid-template-rows: 475px /*475px 475px*/;
                 grid-gap: 5px;
         }
-    
-        h2 {
-            font-size: 28px;
-        }
     }
 
-    /* Blog post styles */
-    .posts {
+    // /* Blog post styles */
+    // .posts {
     
-    }
+    // }
 }
 
-/* ---  Small Laptops --- */
-@media (min-width: 1200px) {   
-    /* Blog styles */
-    .blog {
-        #posts {
-            // height: 1450px;
-        }   
-    }
+// /* ---  Small Laptops --- */
+// @media (min-width: 1200px) {   
+//     /* Blog styles */
+//     .blog {
+//         #posts {
+//             // height: 1450px;
+//         }   
+//     }
     
-    /* Blog post styles */
-    .posts {
+//     /* Blog post styles */
+//     .posts {
     
-    }
-}
+//     }
+// }
 
-/* ---  Portait Mobile --- */
+/* ---  Large Laptops --- */
 @media (min-width: 1440px) {
     /* Blog styles */
     .blog {
+        min-height: 900px;
 
+        h1 {
+            font-size: 3.5rem;
+        }
+
+        #pitch {
+            font-size: 2rem;
+        }
     }
     
-    /* Blog post styles */
-    .posts {
+    // /* Blog post styles */
+    // .posts {
     
-    }
+    // }
 }
 
-/* ---  Portait Mobile --- */
+/* ---  Desktops --- */
 @media (min-width: 2100px) {
     /* Blog styles */
     .blog {
+        min-height: 1200px;
 
+        h1 {
+            font-size: 5rem;
+        }
+
+        #pitch {
+            font-size: 2.5rem;
+        }
     }
 
-    /* Blog post styles */
-    .posts {
+    // /* Blog post styles */
+    // .posts {
     
-    }
+    // }
 }
