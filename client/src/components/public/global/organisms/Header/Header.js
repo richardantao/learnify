@@ -1,9 +1,16 @@
 import React, { Component } from "react";
 
-import Overlay from "../Overlay/Overlay";
+import Loadable from "react-loadable";
+import Loading from "../Loading";
 
 import logo from "./learnify-min.jpg";
 import "./Header.scss";
+
+const Overlay = Loadable({
+    loader: () => import(/* webpackChunkName: "Overlay" */ "../Overlay"),
+    loading: Loading,
+    delay: 300
+});
 
 export default class Header extends Component {
     state = {
