@@ -10,11 +10,8 @@ const Term = require("../models/Terms");
 const Assessment = require("../models/Assessments");
 const User = require("../models/User");
 
-// initialize controller
-const cron = [];
-
 // check if the term keys has any redundant elements
-cron.cleanItems = (req, res) => {
+exports.cleanItems = (req, res) => {
     Assessment.find({
         _id: 1,
         term: 1,
@@ -37,7 +34,7 @@ cron.cleanItems = (req, res) => {
         const mailOptions = {
             from: user,
             to: user,
-            subject: "Cron job error: cleanItems",
+            subject: "exports job error: cleanItems",
             html: `<!DOCTYPE HTML>
             <html lang="en">
                 <head>
@@ -58,5 +55,3 @@ cron.cleanItems = (req, res) => {
         sgMail.send(mailOptions);
     });
 };
-
-module.exports = cron;

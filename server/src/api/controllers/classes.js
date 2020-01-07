@@ -2,9 +2,7 @@ const moment = require("moment");
 
 const User = require("../models/User");
 
-const controller = [];
-
-controller.create = (req, res) => {
+exports.create = (req, res) => {
     const { _id } = req.user[0];
 
     User.updateOne({ _id}, {
@@ -20,7 +18,7 @@ controller.create = (req, res) => {
     })
 };
 
-controller.read = (req, res) => {
+exports.read = (req, res) => {
     const { _id } = req.user[0];
     
     User.find({ _id }, {
@@ -35,7 +33,7 @@ controller.read = (req, res) => {
     })
 };
 
-controller.edit = (req, res) => {
+exports.edit = (req, res) => {
     const { classId } = req.params;
 
     User.find({  }, { 
@@ -50,7 +48,7 @@ controller.edit = (req, res) => {
     });
 };
 
-controller.update = (req, res) => {
+exports.update = (req, res) => {
     const { classId } = req.params;
 
     User.updateOne({  }, { 
@@ -67,7 +65,7 @@ controller.update = (req, res) => {
 
 };
 
-controller.delete = (req, res) => {
+exports.delete = (req, res) => {
     const { classId } = req.params;
 
     User.updateOne({  }, { 
@@ -82,5 +80,3 @@ controller.delete = (req, res) => {
         });
     });
 };
-
-module.exports = controller;

@@ -6,10 +6,7 @@ const ObjectId = require("mongodb").ObjectId;
 const Course = require("../models/Courses");
 const Assessment = require("../models/Assessments");
 
-// initialize controller
-const controller = [];
-
-controller.create = (req, res) => {
+exports.create = (req, res) => {
     const { course, title, type, start, end, location, weight, score } = req.body;
 
     const matchTerm = (callback) => {
@@ -78,7 +75,7 @@ controller.create = (req, res) => {
     });
 };
 
-controller.readAll = (req, res) => {
+exports.readAll = (req, res) => {
     // const { _id } = req.user;
     
     Assessment.find({  }, {
@@ -106,7 +103,7 @@ controller.readAll = (req, res) => {
     });
 };
 
-controller.filterByTerm = (req, res) => {
+exports.filterByTerm = (req, res) => {
     const { termId } = req.params;
 
     Assessment.find({ term: termId }, {
@@ -134,7 +131,7 @@ controller.filterByTerm = (req, res) => {
     });
 };
 
-controller.filterByCourse = (req, res) => {
+exports.filterByCourse = (req, res) => {
     const { courseId } = req.params;
 
     Assessment.find({ course: courseId }, {
@@ -162,7 +159,7 @@ controller.filterByCourse = (req, res) => {
     });
 };
 
-controller.edit = (req, res) => {
+exports.edit = (req, res) => {
     const { assessmentId } = req.params;
     
     getAssessment = (callback) => {
@@ -233,7 +230,7 @@ controller.edit = (req, res) => {
     });    
 };
 
-controller.update = (req, res) => {
+exports.update = (req, res) => {
     const { assessmentId } = req.params;
     const { course, title, type, start, end, location, weight, score, createdAt } = req.body;
 
@@ -317,7 +314,7 @@ controller.update = (req, res) => {
     });
 };
 
-controller.delete = (req, res) => {
+exports.delete = (req, res) => {
     const { assessmentId } = req.params;
 
     Assessment.deleteOne({ _id: assessmentId })
@@ -338,5 +335,3 @@ controller.delete = (req, res) => {
         });
     });
 };
-
-module.exports = controller;

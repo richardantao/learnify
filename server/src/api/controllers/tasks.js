@@ -6,10 +6,7 @@ const ObjectId = require("mongodb").ObjectId;
 const Task = require("../models/Tasks");
 const Course = require("../models/Courses");
 
-// initialize controller
-const controller = [];
-
-controller.create = (req, res) => {
+exports.create = (req, res) => {
     const { course, title, type, deadline, completion, description } = req.body;
 
     const matchTerm = (callback) => {
@@ -72,7 +69,7 @@ controller.create = (req, res) => {
     });     
 };
 
-controller.readAll = (req, res) => {
+exports.readAll = (req, res) => {
     // const { _id = req.user}
 
     Task.find({  }, {
@@ -101,7 +98,7 @@ controller.readAll = (req, res) => {
     });
 };
 
-controller.filterByTerm = (req, res) => {
+exports.filterByTerm = (req, res) => {
     const { termId } = req.params;
 
 
@@ -131,7 +128,7 @@ controller.filterByTerm = (req, res) => {
     });
 };
 
-controller.filterByCourse = (req, res) => {
+exports.filterByCourse = (req, res) => {
     const { courseId } = req.params;
 
     Task.find({ course: courseId }, {
@@ -160,7 +157,7 @@ controller.filterByCourse = (req, res) => {
     });
 };
 
-controller.edit = (req, res) => {
+exports.edit = (req, res) => {
     const { taskId } = req.params;
     
     const getTask = (callback) => {
@@ -237,7 +234,7 @@ controller.edit = (req, res) => {
     });   
 };
 
-controller.update = (req, res) => {
+exports.update = (req, res) => {
     const { taskId } = req.params;
     const { course, title, type, deadline, completion, description, createdAt } = req.body;
 
@@ -320,7 +317,7 @@ controller.update = (req, res) => {
     });
 };
 
-controller.delete = (req, res) => {
+exports.delete = (req, res) => {
     const { taskId } = req.params;
 
     Task.deleteOne({ _id: taskId })
@@ -347,5 +344,3 @@ controller.delete = (req, res) => {
         };
     });
 };
-
-module.exports = controller;

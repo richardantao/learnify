@@ -5,11 +5,8 @@ const ObjectId = require("mongodb").ObjectId;
 // model
 const Course = require("../models/Courses");
 const Term = require("../models/Terms");
-
-// initialize controller
-const controller = [];
 	
-controller.create = (req, res) => {
+exports.create = (req, res) => {
 	// const { _id } = req.user;
 	const { term, code, title, instructor, credit, theme } = req.body;
 	
@@ -36,7 +33,7 @@ controller.create = (req, res) => {
 	});
 };
 
-controller.read = (req, res) => {
+exports.read = (req, res) => {
 	const { termId } = req.params;
 
 	Course.find({ term: termId}, {
@@ -64,7 +61,7 @@ controller.read = (req, res) => {
 	});
 };
 
-controller.edit = (req, res) => {
+exports.edit = (req, res) => {
 	const { courseId } = req.params;
 	
 	const getCourse = (callback) => {
@@ -141,7 +138,7 @@ controller.edit = (req, res) => {
 	});	
 };
 
-controller.update = (req, res) => {
+exports.update = (req, res) => {
 	const { courseId } = req.params;
 	const { term, code, title, credit, instructor, theme, createdAt } = req.body;
 	
@@ -186,7 +183,7 @@ controller.update = (req, res) => {
 	});
 };
 
-controller.delete = (req, res) => {
+exports.delete = (req, res) => {
 	const { courseId } = req.params;
 	
 	Course.deleteOne({ _id: courseId})
@@ -213,5 +210,3 @@ controller.delete = (req, res) => {
 		};
 	});
 };
-
-module.exports = controller;

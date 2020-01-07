@@ -5,14 +5,11 @@ const moment = require("moment");
 // import model
 const User = require("../models/User");
 
-// instantiate controller
-const controller = [];
-
-controller.index = (req, res) => {
+exports.index = (req, res) => {
 	
 };
 
-controller.editProfile = (req, res) => {
+exports.editProfile = (req, res) => {
 	const { _id } = req.user[0];
 
 	User.find({ _id }, {
@@ -37,7 +34,7 @@ controller.editProfile = (req, res) => {
 	});
 };
 
-controller.updateProfile = (req, res) => {
+exports.updateProfile = (req, res) => {
 	const { _id } = req.user[0];
 	const { first, last, email, country, region, institution, school } = req.body; 
 
@@ -83,7 +80,7 @@ controller.updateProfile = (req, res) => {
 	});
 };
 
-controller.deleteProfile = (req, res) => {
+exports.deleteProfile = (req, res) => {
 	const { _id } = req.user[0];
 
 	User.findByIdAndDelete({ _id })
@@ -110,7 +107,7 @@ controller.deleteProfile = (req, res) => {
 };
 
 // GET request to retrieve user's password in settings page
-controller.editPassword = (req, res) => {
+exports.editPassword = (req, res) => {
 	const { _id } = req.user[0];
 
 	User.find({ _id }, {
@@ -134,7 +131,7 @@ controller.editPassword = (req, res) => {
 };
 
 // PUT request to update database with user's new password
-controller.updatePassword = (req, res) => {
+exports.updatePassword = (req, res) => {
 	const { _id } = req.user[0];
 	const { password } = req.body;
 
@@ -166,7 +163,7 @@ controller.updatePassword = (req, res) => {
 };
 
 // GET request to retrieve user's preferences 
-controller.editPreferences = (req, res) => {
+exports.editPreferences = (req, res) => {
 	const { _id } = req.user[0];
 
 	User.find({ _id }, {
@@ -196,7 +193,7 @@ controller.editPreferences = (req, res) => {
 };
 
 // POST request to update user's personal app preferences
-controller.updatePreferences = (req, res) => {
+exports.updatePreferences = (req, res) => {
 	const { _id } = req.user[0];
 	const { startDay, startTime, defaultDuration, defaultCalendar, onEmailList } = req.body;
 
@@ -236,7 +233,7 @@ controller.updatePreferences = (req, res) => {
 /* Future routes */
 
 // GET request to retrieve user's third party integrations
-controller.newIntegration = (req, res) => {
+exports.newIntegration = (req, res) => {
 	const { _id } = req.user[0];
 
 	User.find({ _id }, {
@@ -259,7 +256,7 @@ controller.newIntegration = (req, res) => {
 };
 
 // POST request to create third party integration connections
-controller.create = (req, res) => {
+exports.create = (req, res) => {
 	const { _id } = req.user[0];
 	const { } = req.body;
 
@@ -278,11 +275,11 @@ controller.create = (req, res) => {
 	});
 };
 
-controller.read = (req, res) => {
+exports.read = (req, res) => {
 
 };
 
-controller.edit = (req, res) => {
+exports.edit = (req, res) => {
 	const { integrationId } = req.params;
 
 	User.find({ integrationId }, {
@@ -305,7 +302,7 @@ controller.edit = (req, res) => {
 };
 
 // PUT request to update user's third party integrations
-controller.update = (req, res) => {
+exports.update = (req, res) => {
 	const { integrationId } = req.params;
 	const { } = req.body;
 
@@ -328,7 +325,7 @@ controller.update = (req, res) => {
 };
 
 // PUT request to delete user's third party integrations
-controller.delete = (req, res) => {
+exports.delete = (req, res) => {
 	const { integrationId } = req.params;
 
 	User.update({ "integration._id": integrationId }, {	
@@ -347,5 +344,3 @@ controller.delete = (req, res) => {
 		});
 	});
 };
-
-module.exports = controller;

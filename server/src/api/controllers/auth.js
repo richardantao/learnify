@@ -13,10 +13,7 @@ const secret = process.env.JWT_SECRET;
 // import model
 const User = require("../models/User");
 
-// instantiate controller
-const controller = [];
-
-controller.user = (req, res) => {
+exports.user = (req, res) => {
     // const { _id } = req.user[0];
 
     // User.find({ _id }, {
@@ -36,7 +33,7 @@ controller.user = (req, res) => {
     // });
 };
 
-controller.register = (req, res) => {
+exports.register = (req, res) => {
     var { first, last, email, password } = req.body;
 
     // grab user data from registration form body    
@@ -157,7 +154,7 @@ controller.register = (req, res) => {
     });
 };
 
-controller.signin = (req, res) => {
+exports.signin = (req, res) => {
     // deconstruct submission from login form
     var { email, password } = req.body;
 
@@ -214,7 +211,7 @@ controller.signin = (req, res) => {
 };
 
 // Set user's account to email verified
-controller.verifyEmail = (req, res) => {
+exports.verifyEmail = (req, res) => {
     const checkToken = (callback) => {
         const { token } = req.params;
 
@@ -270,7 +267,7 @@ controller.verifyEmail = (req, res) => {
     });
 };
 
-controller.resendEmailVerification = (req, res) => {
+exports.resendEmailVerification = (req, res) => {
     // grab email from form 
     const { email } = req.body;
 
@@ -331,7 +328,7 @@ controller.resendEmailVerification = (req, res) => {
 };
 
 // resets user's password
-controller.forgotPassword = (req, res) => {
+exports.forgotPassword = (req, res) => {
     const { email } = req.body;
 
     User.find({ "email.address": email }, {
@@ -383,7 +380,7 @@ controller.forgotPassword = (req, res) => {
     }); 
 };
 
-controller.changePassword = (req, res) => {
+exports.changePassword = (req, res) => {
     const { token } = req.params;
 
     User.find({ "password.token": token }, {
@@ -408,7 +405,7 @@ controller.changePassword = (req, res) => {
     })
 };
 
-controller.resetPassword = (req, res) => {
+exports.resetPassword = (req, res) => {
     const { password, confirm, token } = req.body; 
 
     if(password !== confirm) {
@@ -446,7 +443,7 @@ controller.resetPassword = (req, res) => {
     };
 };
 
-controller.signout = (req, res) => {
+exports.signout = (req, res) => {
     return res.status(200).json({
         message: "You have successfully logged out",
         token: null
@@ -454,5 +451,3 @@ controller.signout = (req, res) => {
 
     // return res.redirect(301, "https://learnify.ca");
 };
-
-module.exports = controller;

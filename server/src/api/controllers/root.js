@@ -6,9 +6,7 @@ const sendGridKey = process.env.SENDGRID_API_KEY;
 const sgMail = require("@sendgrid/mail");
 const async = require("async");
 
-const controller = [];
-
-controller.invite = (req, res) => {
+exports.invite = (req, res) => {
     const { name, email } = req.body;
     const Beta = require("../models/Beta");
     const ObjectId = require("mongodb").ObjectID;
@@ -108,7 +106,7 @@ controller.invite = (req, res) => {
     });
 };
 
-controller.contact = (req, res) => {
+exports.contact = (req, res) => {
     const { name, email, text } = req.body;
     sgMail.setApiKey(sendGridKey);
 
@@ -141,5 +139,3 @@ controller.contact = (req, res) => {
         message: "Your message has been sent"
     });
 };
-
-module.exports = controller;

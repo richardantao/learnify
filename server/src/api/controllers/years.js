@@ -3,9 +3,7 @@ const moment = require("moment");
 const Year = require("../models/Years");
 const ObjectId = require("mongodb").ObjectId;
 
-const controller = [];
-
-controller.create = (req, res) => {
+exports.create = (req, res) => {
 	// const { _id } = req.user;
 	const { title, start, end } = req.body;
 
@@ -31,7 +29,7 @@ controller.create = (req, res) => {
 	});
 };
 
-controller.read = (req, res) => {
+exports.read = (req, res) => {
 	// const { _id } = req.user;
 
 	Year.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
@@ -55,7 +53,7 @@ controller.read = (req, res) => {
 	});
 };
 
-controller.edit = (req, res) => {
+exports.edit = (req, res) => {
 	const { yearId } = req.params;
 
 	Year.find({ _id: yearId }, {
@@ -86,7 +84,7 @@ controller.edit = (req, res) => {
 	});
 };
 
-controller.update = (req, res) => {
+exports.update = (req, res) => {
 	const { yearId } = req.params;
 	const { title, start, end, createdAt } = req.body;
 
@@ -130,7 +128,7 @@ controller.update = (req, res) => {
 	});
 };
 
-controller.delete = (req, res) => {
+exports.delete = (req, res) => {
 	const { yearId } = req.params;
 
 	Year.deleteOne({ _id: yearId })
@@ -157,5 +155,3 @@ controller.delete = (req, res) => {
 		};
 	});
 };
-
-module.exports = controller;

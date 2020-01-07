@@ -5,11 +5,8 @@ const ObjectId = require("mongodb").ObjectId;
 // model
 const Term = require("../models/Terms");
 const Year = require("../models/Years");
-
-// initialize controller
-const controller = [];
 	
-controller.create = (req, res) => {
+exports.create = (req, res) => {
 	// const { _id } = req.user;
 	const { year, title, start, end } = req.body;
 	
@@ -36,7 +33,7 @@ controller.create = (req, res) => {
 	});
 };
 
-controller.read = (req, res) => {
+exports.read = (req, res) => {
 	const { yearId } = req.params;
 
 	Term.find({ year: yearId }, {
@@ -61,7 +58,7 @@ controller.read = (req, res) => {
 	});
 };
 
-controller.edit = (req, res) => {
+exports.edit = (req, res) => {
 	const { termId } = req.params;
 
 	const getTerm = (callback) => {
@@ -136,7 +133,7 @@ controller.edit = (req, res) => {
 	});
 };
 
-controller.update = (req, res) => {
+exports.update = (req, res) => {
 	const { termId } = req.params;
 	const { year, title, start, end, createdAt } = req.body;
 	
@@ -181,7 +178,7 @@ controller.update = (req, res) => {
 	});
 };
 
-controller.delete = (req, res) => {
+exports.delete = (req, res) => {
 	const { termId } = req.params;
 	
 	Term.deleteOne({ _id: termId })
@@ -208,5 +205,3 @@ controller.delete = (req, res) => {
 		};
 	});
 };
-
-module.exports = controller;
