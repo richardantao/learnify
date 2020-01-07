@@ -31,7 +31,7 @@ export default class About extends Component {
                     <main className="root about" role="main">
                         <h1>About Us</h1>
                         <br/>
-                        <div>
+                        <section>
                             <h2>Mission</h2>
                             <p>
                                 At Learnify, we believe in the transformational power of education. It is through accessible and engaging education that we can solve 
@@ -45,8 +45,8 @@ export default class About extends Component {
                                 Our mission is to provide a platform that enables students everywhere to be the best version of themselves.
                             </p>
                             <br/>
-                        </div>
-                        <div>
+                        </section>
+                        <section>
                             <h2>Values</h2>
                             <h4>Trust</h4>
                             <p>
@@ -71,8 +71,8 @@ export default class About extends Component {
                                 giving access to more people, everywhere.
                             </p>
                             <br/>
-                        </div>
-                        <div className="about-team">
+                        </section>
+                        <section className="about-team">
                             <h2>Meet the Team</h2>
                             <TeamCard
                                 src={richardantao}
@@ -96,7 +96,7 @@ export default class About extends Component {
                                     Visit <a href="https://team.learnify.ca">https://team.learnify.ca</a> for open positions.
                                 </div>}
                             /> */}
-                        </div>
+                        </section>
                     </main>
                     <Footer/>
                 </div>
