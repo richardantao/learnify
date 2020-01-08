@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 
 import Loadable from "react-loadable";
-import Loading from "../../../global/organisms/Loading";
+// import Loading from "../../../global/organisms/Loading";
 
 import "../../Docs.scss";
 
 const SideOverlay = Loadable({
     loader: () => import(/* webpackChunkName: "SideOverlay" */ "../SideOverlay"),
-    loading: Loading,
+    // loading: Loading,
+    loading: () => <div></div>, // change to Loading component once bad performance
     delay: 500
 });
 
