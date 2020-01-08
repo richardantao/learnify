@@ -5,102 +5,248 @@ $background: #FAFAFA;
 $form-background: #F1F1F1;
 $border-line: #E1E1E1;
 
-/* --- Portrait Mobile --- */
+#public {
+    /* Docs styles */
+    .docs {
+        /* --- Portrait Mobile --- */
+        background-color: $background;
+        border-bottom: $border-line 1px solid;
+        border-top: $border-line 1px solid;
+        min-height: 825px;
 
-/* Docs styles */
-.docs {
-    // main
-    background-color: $background;
-    border-bottom: $border-line 1px solid;
-    border-top: $border-line 1px solid;
+        > * {
+            margin-left: 4.33rem;
+            margin-right: 2.5rem;
+        }
 
-    // content inside main
-    * {
-        margin: 0 1rem;
+        #filters {
+            > * {
+                display: none;
+            }
+        }
+
+        hr {
+            width: 50%;
+        }
+        
+        .active {
+            text-decoration: underline;
+        }
+
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
+            > * {
+                margin-left: 6.33rem;
+            }
+
+            #filters {
+                > * {
+                    display: block;
+                    float: right;
+                    margin-right: 2rem;
+                }
+            }
+        }
+
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
+            > * {
+                margin-left: 12rem;
+                margin-right: 2.25rem;
+            }
+        }
+
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
+            > * {
+                margin-left: 15rem;
+            }
+        }
+
+        /* --- Small Laptops --- */
+        @media (min-width: 1200px) {
+            > * {
+                margin-left: 19rem;
+            }
+        }
+
+        /* --- Large Laptops --- */
+        @media (min-width: 1440px) {
+            > * {
+                margin-left: 21rem;
+            }
+
+            #filters {
+                > * {
+                    font-size: 1.25rem;
+                }
+
+                input {
+                    position: relative;
+                    top: 100%;
+                }
+            }
+
+            h1 {
+                font-size: 3.25rem;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            h3 {
+                font-size: 2.2rem;
+            }
+
+            h5 {
+                font-size: 1.67rem;
+            }
+
+            p, li {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* --- Intermediate breakpoint ---*/
+        @media (min-width: 1725px) {
+            > * {
+                margin-left: 26rem;
+            }
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            h2 {
+                font-size: 2.75rem;
+            }
+
+            h3 {
+                font-size: 2.33rem;
+            }
+
+            h5 {
+                font-size: 2.25rem;
+            }
+
+            p, li {
+                font-size: 1.67rem;
+            }
+        }
+
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+            > * {
+                margin-left: 28rem;
+            }
+
+            h1 {
+                font-size: 4.75rem;
+            }
+
+            h2 {
+                font-size: 3.67rem;
+            }
+
+            h3 {
+                font-size: 3rem;
+            }
+
+            h5 {
+                font-size: 2.5rem;
+            }
+
+            p, li {
+                font-size: 2.2rem;
+            }
+        }
     }
 
-    #changelog {
-        z-index: -2;
-    }
     
-    hr {
-        width: 30%;
-    }
-    .active {
-        text-decoration: underline;
-    }
-}
-
-/* Side nav styles */
-.side-nav {
-    border-right: $border-line 1px solid;
-    float: left;
-    height: 720px;
-    margin-right: 2%;
-    width: 20%;
-
-    div {
-        position: -webkit-sticky;
-        position: sticky;
-        top: 0;
-    }
-
-    h3 {
-        margin: 5%;
-    }
-    
-    a {
-        display: block;
-        font-size: 0.7em;
-        margin: 5%;
-    }
-
-    a:hover {
-        text-decoration: none;
-    }
-}
-
-/* --- Landscape Mobile --- */
-@media (min-width: 768px) {
-    /* Docs styles */
-
     /* Side nav styles */
+    .side-nav {
+        /* --- Portrait Mobile --- */
+        border-right: $border-line 1px solid;
+        float: left;
+        margin-right: 1rem;
+        width: 15%;
 
-}
+        .hamburger {
+            margin: 0 auto;
+        }
+        
+        div {
+            position: -webkit-sticky;
+            position: sticky;
+                top: 0;
+        }
+        
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
 
-/* --- Portrait Tablets --- */
-@media (min-width: 992px) {
-    /* Docs styles */
+        }
 
-    /* Side nav styles */
-}
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
+            width: 20%;
 
-/* --- Landscape Tablets --- */
-@media (min-width: 1200px) {
-    /* Docs styles */
-    
-    /* Side nav styles */
-}
+            h3 {
+                display: block;
+                font-size: 1.75rem;
+                margin: 1rem;
+            }
 
+            a {
+                display: block;
+                font-size: 1.33rem;
+                margin: 1rem;
+            }
+        }
 
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
+        
+        }
 
-/* --- Small Laptops --- */
-@media (min-width: 1200px) {
-    /* Docs styles */
+        /* --- Small Laptops --- */
+        @media (min-width: 1200px) {
+            
+        }
 
-    /* Side nav styles */
-}
+        /* --- Large Laptops --- */
+        @media (min-width: 1440px) {
+            h3 {
+                font-size: 2rem;
+            }
 
-/* --- Large Laptops --- */
-@media (min-width: 1440px) {
-    /* Docs styles */
+            a {
+                font-size: 1.5rem;
+            }
+        }
 
-    /* Side nav styles */
-}
+        /* --- Intermediate breakpoint --- */
+        @media (min-width: 1700px) {
+            h3 {
+                font-size: 2.5rem;
+            }
+            
+            a {
+                font-size: 2rem;
+            }
+        }
 
-/* --- Desktops --- */
-@media (min-width: 2100px) {
-    /* Docs styles */
-    
-    /* Side nav styles */
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+            width: 15%;
+
+            h3 {
+                font-size: 3.5rem;
+            }
+
+            a {
+                font-size: 2.5rem;
+            }
+        }
+    }
 }
