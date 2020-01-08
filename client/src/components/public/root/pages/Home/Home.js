@@ -170,7 +170,7 @@ class Home extends Component {
                                 ) : null}
                                 <small className="emailHelp form-text text-muted">
                                     We'll never share your email with anyone else. 
-                                    By requesting an invite you agree to our <a href="https://docs.learnify.ca/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="https://docs.learnify.ca/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                                    By requesting an invite you agree to our <a href="/docs/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="/docs/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
                                 </small>
                             </FormGroup>
                             <FormGroup>
