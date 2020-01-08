@@ -1,21 +1,43 @@
 import React, { Component } from "react";
-import Helmet from "react-helmet";
+import Helmet, { renderStatic } from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
+import SideNav from "../../organisms/SideNav";
 import Footer from "../../../global/organisms/Footer";
 
 import "../../Docs.scss";
 
 export default class Sitemap extends Component {
     state = {
-
+        childHeight: 0
     };
 
     componentDidMount() {
+        const childHeight = this.mainElement.clientHeight;
 
+        this.setState({
+            childHeight
+        });
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        // const { childHeight } = this.state;
+        // if(childHeight !== prevState.childHeight) {
+
+        // };
+
+        setTimeout(() => {
+            const childHeight = this.mainElement.clientHeight;
+
+            this.setState({
+                childHeight
+            });
+        }, 1000);
     };
 
     render() {
+        const { childHeight } = this.state;
+
         return (
             <>
                 <Helmet>
@@ -23,29 +45,30 @@ export default class Sitemap extends Component {
                 </Helmet>
                 <div id="public">
                     <Header/>
-                    <main className="docs" role="main">
+                    <SideNav siblingHeight={childHeight}/>
+                    <main className="docs" role="main" ref={ (mainElement) => { this.mainElement = mainElement } }>
                         <h1>Sitemap</h1>
                         <div>
                             <h2>Root</h2>
                             <ul>
                                 <li>
-                                    <a href="https://learnify.ca/">Home</a>
+                                    <a href="/">Home</a>
                                 </li>
                                 <li>
-                                    <a href="https://learnify.ca/about">About</a>
+                                    <a href="/about">About</a>
                                 </li>
                                 <li>
-                                    <a href="https://blog.learnify.ca/">Blog</a>
+                                    <a href="/team">Team</a>
                                 </li>
                                 <li>
-                                    <a href="https://learnify.ca/contact">Contact</a>
+                                    <a href="/blog">Blog</a>
                                 </li>
                                 <li>
-                                    <a href="https://careers.learnify.ca/">Careers</a>
+                                    <a href="/contact">Contact</a>
                                 </li>
                             </ul>
                         </div>
-                        <div>
+                        {/* <div>
                             <h2>Beta</h2>
                             <ul>
                                 <li>
@@ -55,32 +78,40 @@ export default class Sitemap extends Component {
                                     <a href="https://beta.learnify.ca/signin">Signin</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div>*/}
                         <div>
                             <h2>Blog</h2>
                             <ul>
                                 <li>
-                                    <a href="https://blog.learnify.ca/mission">Our Mission</a>
+                                    <a href="/blog/mission">Our Mission</a>
                                 </li>
                             </ul>
                         </div>
                         <div>
-                            <h2>Careers</h2>
+                            <h2>Team</h2>
                             <ul>
                                 <li>
-                                    <a href="https://careers.learnify.ca/designer">Visual Designer</a>
+                                    <a href="/team/roles">Roles</a>
                                 </li>
+                                <ul>
+                                    <li>
+                                        <a href="/team/roles#backend">Backend Node Developer</a>
+                                    </li>
+                                    <li>
+                                        <a href="/team/roles#creator">Content Creator</a>
+                                    </li>
+                                    <li>
+                                        <a href="/team/roles#designer">Visual Designer</a>
+                                    </li>
+                                    <li>
+                                        <a href="/team/roles#frontend">Frontend React Developer</a>
+                                    </li>
+                                    <li>
+                                        <a href="/team/roles#marketer">Marketing Specialist</a>
+                                    </li>
+                                </ul>
                                 <li>
-                                    <a href="https://careers.learnify.ca/frontend">Frontend React Developer</a>
-                                </li>
-                                <li>
-                                    <a href="https://careers.learnify.ca/backend">Backend Node Developer</a>
-                                </li>
-                                <li>
-                                    <a href="https://careers.learnify.ca/swift">Swift Developer</a>
-                                </li>
-                                <li>
-                                    <a href="https://careers.learnify.ca/marketer">Marketing Specialist</a>
+                                    <a href="/team/#login">Login</a>
                                 </li>
                             </ul>
                         </div>
@@ -88,26 +119,26 @@ export default class Sitemap extends Component {
                             <h2>Docs</h2>
                             <ul>
                                 <li>
-                                    <a href="/">What is Learnify?</a>
-                                </li>
-                                <li>
-                                    <a href="/api">Developers</a>
-                                </li>
-                                <li>
-                                    <a href="/terms">Terms of Service</a>
-                                </li>
-                                <li>
-                                    <a href="/privacy">Privacy Policy</a>
-                                </li>
-                                <li>
-                                    <a href="/cookies">Cookie Policy</a>
-                                </li>
-                                <li>
-                                    <a href="/changelog">Changelog</a>
+                                    <a href="/docs">What is Learnify?</a>
                                 </li>
                                 {/* <li>
-                                    <a href="/status">System Status</a>
+                                    <a href="/api">Developers</a>
                                 </li> */}
+                                <li>
+                                    <a href="/docs/terms">Terms of Service</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/privacy">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/cookies">Cookie Policy</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/changelog">Changelog</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/status">System Status</a>
+                                </li>
                             </ul>
                         </div>
                     </main>
