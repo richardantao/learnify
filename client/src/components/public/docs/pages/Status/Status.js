@@ -9,25 +9,47 @@ import "../../Docs.scss";
 
 export default class Status extends Component {
     state = {
-
+        childHeight: 0
     };
 
     componentDidMount() {
-        
-    }; 
+        const childHeight = this.mainElement.clientHeight;
+
+        this.setState({
+            childHeight
+        });
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        // const { childHeight } = this.state;
+        // if(childHeight !== prevState.childHeight) {
+
+        // };
+
+        setTimeout(() => {
+            const childHeight = this.mainElement.clientHeight;
+
+            this.setState({
+                childHeight
+            });
+        }, 1000);
+    };
 
     render() {
+        const { childHeight } = this.state;
+
         return (
             <>
                 <Helmet>
+                    <meta name="description" content=""/>
                     <title>Learnify | System Status</title>
                 </Helmet>
                 <div id="public">
                     <Header/>
-                    <main className="docs" role="main">
+                    <SideNav siblingHeight={childHeight}/>
+                    <main className="docs" role="main" ref={ (mainElement) => { this.mainElement = mainElement } }>
                         <h1>System Status</h1>
                         <div>
-                            <hr/>
                         </div>
                         <div>
                             There are no status updates.

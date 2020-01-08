@@ -9,23 +9,45 @@ import "../../Docs.scss";
 
 export default class Developers extends Component {
     state = {
-        
+        childHeight: 0
     };
 
     componentDidMount() {
-        alert("This webpage is a work in progress.");
+        const childHeight = this.mainElement.clientHeight;
+
+        this.setState({
+            childHeight
+        });
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        // const { childHeight } = this.state;
+        // if(childHeight !== prevState.childHeight) {
+
+        // };
+
+        setTimeout(() => {
+            const childHeight = this.mainElement.clientHeight;
+
+            this.setState({
+                childHeight
+            });
+        }, 1000);
     };
 
     render() {
+        const { childHeight } = this.state;
+
         return (
             <>
                 <Helmet>
+                    <meta name="description" content=""/>
                     <title>Learnify | Developers</title>
                 </Helmet>
                 <div id="public">
                     <Header/>
                     <SideNav/>
-                    <main className="docs" role="main">
+                    <main className="docs" role="main" ref={ (mainElement) => { this.mainElement = mainElement } }>
                         <h1>Developers</h1>
                         <section id="resources">
                             <h2>Resource Description</h2>
