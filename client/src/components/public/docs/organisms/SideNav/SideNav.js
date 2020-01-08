@@ -8,7 +8,7 @@ import "../../Docs.scss";
 const SideOverlay = Loadable({
     loader: () => import(/* webpackChunkName: "SideOverlay" */ "../SideOverlay"),
     loading: Loading,
-    delay: 300
+    delay: 500
 });
 
 export default class SideNav extends Component {
@@ -71,7 +71,7 @@ export default class SideNav extends Component {
                             <>
                                 <h3>Explore</h3>
                                     <a href="/docs">What is Learnify?</a>
-                                    <a href="/docs/developers">Developers</a>
+                                    {/* <a href="/docs/developers">Developers</a> */}
                                 <h3>Resources</h3>
                                     <a href="/docs/terms">Terms of Service</a>
                                     <a href="/docs/privacy">Privacy Policy</a>
