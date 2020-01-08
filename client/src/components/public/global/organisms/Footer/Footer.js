@@ -22,7 +22,7 @@ export default class Footer extends Component {
                         <h5>Explore</h5>
                         <a href="/docs">What is Learnify?</a>
                         <a href="/docs#why">Why use Learnify?</a>
-                        <a href="/docs/developers">Developers</a>
+                        {/* <a href="/docs/developers">Developers</a> */}
                     </div>
                     <div>
                         <h5>Resources</h5>
