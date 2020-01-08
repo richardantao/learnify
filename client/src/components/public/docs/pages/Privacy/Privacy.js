@@ -41,6 +41,7 @@ export default class Privacy extends Component {
         return (
             <>
                 <Helmet>
+                    <meta name="description" content="Learnify's privacy policy."/>
                     <title>Learnify | Privacy Policy</title>
                 </Helmet>
                 <div id="public">
