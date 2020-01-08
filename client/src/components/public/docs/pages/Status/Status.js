@@ -50,9 +50,7 @@ export default class Status extends Component {
                     <main className="docs" role="main" ref={ (mainElement) => { this.mainElement = mainElement } }>
                         <h1>System Status</h1>
                         <div>
-                        </div>
-                        <div>
-                            There are no status updates.
+                            <p>There are no status updates.</p>
                         </div>
                     </main>
                     <Footer/>
