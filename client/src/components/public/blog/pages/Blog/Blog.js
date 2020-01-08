@@ -112,7 +112,7 @@ export default class Blog extends Component {
                             <BlogCard
                                 src={mission}
                                 alt="Learnify Mission"
-                                href="/blog/mission"
+                                // href="/blog/mission"
                                 title="Our Mission"
                                 date="Coming Soon"
                                 text="What drives us forward at Learnify."
