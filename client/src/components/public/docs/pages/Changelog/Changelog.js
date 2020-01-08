@@ -83,12 +83,18 @@ class Changelog extends Component {
                     <main id="changelog" className="docs" role="main" ref={ (mainElement) => { this.mainElement = mainElement } } >
                         <h1>Changelog</h1>
                         <header id="filters">
-                            <Input type="checkbox" id="major" name="major" checked={showMajors} onChange={this.toggleMajor}/> <span>Major Versions</span>
-                            <Input type="checkbox" id="minor" name="minor" checked={showMinors} onChange={this.toggleMinor}/> <span>Minor Versions</span>
-                            <Input type="checkbox" id="patch" name="patch" checked={showPatches} onChange={this.togglePatch}/> <span>Patch Versions</span>
+                            <div>
+                                <Input type="checkbox" id="patch" name="patch" checked={showPatches} onChange={this.togglePatch}/> <span>Patch Versions</span>
+                            </div>
+                            <div>
+                                <Input type="checkbox" id="minor" name="minor" checked={showMinors} onChange={this.toggleMinor}/> <span>Minor Versions</span>   
+                            </div>
+                            <div>
+                                <Input type="checkbox" id="major" name="major" checked={showMajors} onChange={this.toggleMajor}/> <span>Major Versions</span>    
+                            </div>
                         </header>
                         <br/>
-                        { showMinors ? (
+                        {/* { showMinors ? (
                             <div className="minor">
                                 <h2>v1.1.0-beta</h2>
                                 <h5>Unreleased</h5>
@@ -99,23 +105,23 @@ class Changelog extends Component {
                                 </p>
                                 <hr/>
                             </div>
-                        ): null }    
-                        { showMajors ? (
+                        ): null }     */}
+                        {/* { showMajors ? (
                             <div className="major">
                                 <h2>v1.0.0-beta</h2>
-                                <h5>January 8, 2020</h5>
+                                <h5>January 31, 2020</h5>
                                 <p>
                                     The app is live! We're kicking off our launch with a closed beta, 
                                     to receive initial feedback on quality and bugs. 
-                                    You can request an invite at <a href="https://learnify.ca/">https://learnify.ca</a>. 
+                                    You can request an invite at <a href="/">https://learnify.ca</a>. 
                                 </p>
                                 <hr/>
                             </div>
-                        ): null}
+                        ): null} */}
                         { showMinors ? (
                             <div className="minor">
                                 <h2>We're starting a changelog</h2>
-                                <h5>January 4, 2020</h5>
+                                <h5>January 8, 2020</h5>
                                 <p>
                                     Big news today, we're starting a public changelog so you're always up 
                                     to date with every update, improvement, and fix that is made in Learnify.
