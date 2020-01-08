@@ -7,6 +7,12 @@ $border-line: #E1E1E1;
 
 /* --- Portrait Mobile --- */
 #public {
+    .side-nav {
+        .hamburger {
+            margin: 20%;
+        }
+    }
+
     #side-overlay {
         background-color: black;
         height: 100%;
@@ -48,6 +54,12 @@ $border-line: #E1E1E1;
 
     /* --- Landscape Mobile --- */
     @media (min-width: 576px) {
+        .side-nav {
+            .hamburger {
+                margin: 33%;
+            }
+        }
+
         #side-overlay-content {
             margin-top: 1rem;
             // top: 25%;
