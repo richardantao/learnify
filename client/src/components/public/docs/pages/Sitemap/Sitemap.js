@@ -134,6 +134,9 @@ export default class Sitemap extends Component {
                                     <a href="/docs/cookies">Cookie Policy</a>
                                 </li>
                                 <li>
+                                    <a href="/docs/sitemap">Sitemap</a>
+                                </li>
+                                <li>
                                     <a href="/docs/changelog">Changelog</a>
                                 </li>
                                 <li>
