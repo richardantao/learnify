@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Helmet from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
@@ -6,21 +6,21 @@ import Footer from "../../../global/organisms/Footer";
 
 import "../../Blog.scss";
 
-export default class Pareto extends Component {
-    render() {
-        return (
-            <>
-                <Helmet>
-                    <title>Learnify | Blog</title>
-                </Helmet>
-                <div id="public">
-                    <Header/>
-                    <main className="posts" role="main">
+const Pareto = props => {
+    return (
+        <>
+            <Helmet>
+                <title>Learnify | Blog</title>
+            </Helmet>
+            <div id="public">
+                <Header/>
+                <main className="posts" role="main">
 
-                    </main>
-                    <Footer/>
-                </div>
-            </>
-        );
-    };
+                </main>
+                <Footer/>
+            </div>
+        </>
+    );
 };
+
+export default Pareto;
