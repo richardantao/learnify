@@ -1,4 +1,4 @@
-export const years = [
+exports.Years = [
     {
         title: "",
         date: {

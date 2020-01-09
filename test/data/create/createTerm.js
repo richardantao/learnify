@@ -1,4 +1,6 @@
-export const term = {
+const ObjectId = require("mongodb").ObjectId;
+
+exports.Term = {
     _id: ObjectId(),
     title: "Fall 2019",
     date: {
@@ -7,7 +9,7 @@ export const term = {
     }
 };
 
-export const noTitle = {
+exports.noTitle = {
     _id: ObjectId(),
     title: "",
     date: {
@@ -16,7 +18,7 @@ export const noTitle = {
     }
 };
 
-export const noStart = {
+exports.noStart = {
     _id: ObjectId(),
     title: "Fall 2019",
     date: {
@@ -25,7 +27,7 @@ export const noStart = {
     }
 };
 
-export const noEnd = {
+exports.noEnd = {
     _id: ObjectId(),
     title: "Fall 2019",
     date: {

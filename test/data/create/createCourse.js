@@ -1,6 +1,9 @@
-export const course = {
+const ObjectId = require("mongodb").ObjectId;
+
+exports.Course = {
     _id: ObjectId(),
-	term: ObjectId(""),
+	// term: ObjectId(""),
+	term: "",
 	code: "CBE 3322",
 	title: "Heat Transfer Operations",
 	credit: 0.5,

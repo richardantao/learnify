@@ -1,4 +1,4 @@
-export const goodUser = {
+exports.goodUser = {
     name: {
         first: "Richard",
         last: "Antao"
@@ -9,7 +9,7 @@ export const goodUser = {
     password: "abc123"
 };
 
-export const badEmail = {
+exports.badEmail = {
     name: {
         first: "Richard",
         last: "Antao"
@@ -20,7 +20,7 @@ export const badEmail = {
     password: "abc123"
 };
 
-export const badPassword = {
+exports.badPassword = {
     name: {
         first: "Richard",
         last: "Antao"

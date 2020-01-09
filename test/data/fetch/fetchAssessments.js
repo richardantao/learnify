@@ -1,4 +1,4 @@
-export const assessments = [
+exports.Assessments = [
     {
         title: "",
         type: "",

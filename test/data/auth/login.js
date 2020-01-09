@@ -1,20 +1,20 @@
-export const goodUser = {
+exports.goodUser = {
     email: "rantao@uwo",
     password: ""
 };
 
-export const notRegistered = {
+exports.notRegistered = {
     email: "richardmantao@gmail.coms",
     password: ""
 };
 
 // not necessary?
-export const invalidEmail = { 
+exports.invalidEmail = { 
     email: "",
     password: ""
 };
 
-export const incorrectPassword = {
+exports.incorrectPassword = {
     email: "rantao@uwo.ca",
     password: "abc132" // mixed last two characters
 };

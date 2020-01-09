@@ -1,3 +1,3 @@
-export const Class = {
+exports.Class = {
 
 };

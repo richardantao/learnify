@@ -1,4 +1,6 @@
-export const tasks = [
+const ObjectId = require("mongodb").ObjectId;
+
+exports.Tasks = [
     {
         _id: ObjectId(),
         title: "",

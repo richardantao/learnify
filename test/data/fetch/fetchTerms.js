@@ -1,4 +1,6 @@
-export const terms = [
+const ObjectId = require("mongodb").ObjectId;
+
+exports.Terms = [
     {
         _id: ObjectId(),
         parent: {

@@ -1,6 +1,9 @@
-export const assessment = {
+const ObjectId = require("mongodb").ObjectId;
+
+exports.Assessment = {
     _id: ObjectId(),
-	course: ObjectId(""),
+	// course: ObjectId(""),
+	course: "",
 	title: "Midterm Exam",
   	type: "Exam",
 	date: {
