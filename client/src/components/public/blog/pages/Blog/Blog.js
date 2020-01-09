@@ -5,15 +5,15 @@ import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
 import BlogCard from "../../templates/BlogCard";
 
-import calling from "../Calling/calling-min.jpg"
-import change from "../Change/change-min.jpg";
-import danger from "../Danger/danger-min.jpg";
-import emerging from "../Emerging/emerging-min.jpg";
-import habits from "../Habits/habits-min.jpg";
-import history from "../History/history-min.jpg";
+// import calling from "../Calling/calling-min.jpg"
+// import change from "../Change/change-min.jpg";
+// import danger from "../Danger/danger-min.jpg";
+// import emerging from "../Emerging/emerging-min.jpg";
+// import habits from "../Habits/habits-min.jpg";
+// import history from "../History/history-min.jpg";
 import mission from "../Mission/mission-min.jpg";
-import pareto from "../Pareto/pareto-min.jpg";
-import tips from "../Tips/tips-min.jpg";
+// import pareto from "../Pareto/pareto-min.jpg";
+// import tips from "../Tips/tips-min.jpg";
 import "../../Blog.scss";
 
 export default class Blog extends Component {
