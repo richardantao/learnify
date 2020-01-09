@@ -1,0 +1,26 @@
+# Configuration
+HOST = 
+PORT = 
+NODE_ENV = 
+
+# Database
+DB_DEV = 
+DB_PROD = 
+
+# User auth
+JWT_SECRET = 
+
+# Gmail OAuth2
+AUTH_EMAIL = 
+CLIENT_ID = 
+CLIENT_SECRET = 
+REFRESH_TOKEN = 
+REDIRECT_URL = 
+
+# API keys
+SENDGRID_API_KEY =
+
+# Google Cloud Platform
+GCP_PROJECT_ID =
+GCP_APPLICATIONS_KEYFILE = 
+BUCKET_NAME =
