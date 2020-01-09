@@ -14,6 +14,26 @@ exports.invite = (req, res) => {
     
     async.series([
         callback => {
+            Beta.find({ email }, {
+                email: 1
+            })
+            .limit(1)
+            .then(beta => {
+                if(beta.length > 0) {
+                    return res.status(400).json({
+                        message: "This email has already received a beta invite"
+                    });
+                } else {
+                    callback(null, beta);
+                };
+            })
+            .catch(err => {
+                return res.status(500).json({
+                    message: err.message
+                });
+            }); 
+        },
+        callback => {
             Beta.create({
                 _id: ObjectId(),
                 name,
@@ -100,8 +120,8 @@ exports.invite = (req, res) => {
                 message: err.message
             });
         } else {
-            console.log(results[2]);
-            return res.status(201).json(results[2]);
+            console.log(results[3]);
+            return res.status(201).json(results[3]);
         };
     });
 };
