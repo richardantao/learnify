@@ -84,7 +84,7 @@ export default class About extends Component {
                                 He is in his final year of Integrated Engineering
                                 at Western University. Aside from school and Learnify, 
                                 Richard is an avid reader, enjoys going to the gym, and is
-                                passionate about space, psychology, and thermodynamics."
+                                passionate about space, psychology, finance, and transport phenomena."
                             />
 
                             {/* <TeamCard
