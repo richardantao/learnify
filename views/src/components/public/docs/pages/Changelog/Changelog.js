@@ -121,7 +121,7 @@ class Changelog extends Component {
                         { showMinors ? (
                             <div className="minor">
                                 <h2>We're starting a changelog</h2>
-                                <h5>January 8, 2020</h5>
+                                <h5>January 10, 2020</h5>
                                 <p>
                                     Big news today, we're starting a public changelog so you're always up 
                                     to date with every update, improvement, and fix that is made in Learnify.
