@@ -37,15 +37,7 @@ $border-line: #E1E1E1;
         @media (min-width: 576px) {
             > * {
                 margin-left: 6.33rem;
-            }
-
-            #filters {
-                > * {
-                    display: block;
-                    float: right;
-                    margin-right: 2rem;
-                }
-            }
+            }            
         }
 
         /* --- Portrait Tablets --- */
@@ -53,6 +45,14 @@ $border-line: #E1E1E1;
             > * {
                 margin-left: 12rem;
                 margin-right: 2.25rem;
+            }
+
+            #filters {
+                > * {
+                    display: block;
+                    float: right;
+                    margin-right: 1.9rem;
+                }
             }
         }
 
