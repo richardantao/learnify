@@ -77,6 +77,8 @@ $border-line: #E1E1E1;
             }
 
             #filters {
+                margin-bottom: 1rem;
+
                 > * {
                     font-size: 1.25rem;
                 }
@@ -112,6 +114,22 @@ $border-line: #E1E1E1;
         @media (min-width: 1725px) {
             > * {
                 margin-left: 26rem;
+            }
+
+            #filters {           
+                > * {
+                    font-size: 2rem;
+                    margin-right: 3rem;
+                }
+
+                input {
+                    -ms-transform: scale(2); /* IE */
+                    -moz-transform: scale(2); /* FF */
+                    -webkit-transform: scale(2); /* Safari and Chrome */
+                    -o-transform: scale(2); /* Opera */
+                    padding: 10px;
+                    transform: scale(2);
+                }
             }
 
             h1 {
