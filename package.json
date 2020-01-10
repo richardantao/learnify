@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "concurrently \"nodemon server.js\" \"cd views && npm start\"",
-    "deploy": "gcloud app deploy",
+    "deploy": "NODE_ENV=production gcloud app deploy",
     "server": "nodemon server.js",
     "start": "node server.js",
     "test": "mocha --timeout 5000"
