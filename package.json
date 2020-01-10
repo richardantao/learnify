@@ -7,7 +7,7 @@
     "node": "10.x.x"
   },
   "scripts": {
-    "dev": "concurrently \"nodemon server.js\" \"cd ../client && npm start\"",
+    "dev": "concurrently \"nodemon server.js\" \"cd views && npm start\"",
     "deploy": "gcloud app deploy",
     "server": "nodemon server.js",
     "start": "node server.js",
