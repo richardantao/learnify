@@ -4,7 +4,6 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
-const path = require("path");
 const compression = require("compression");
 
 /* --- Configurations --- */
@@ -22,7 +21,7 @@ app.use(compression());
 
 if (env === "production") {
 	app.use(helmet());
-	app.use(express.static(path.resolve(__dirname, "client", "build")));
+	app.use(express.static("views/build"));
 	logger((tokens, req, res) => {
 		return [
 		  tokens.method(req, res),
@@ -60,7 +59,7 @@ app.use("/", require("./routes/team"));
 
 /* Fetch Client Side Rendering */
 app.get("*", (req, res) => {
-	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	res.sendFile("views/build/index.html");
 });
 
 /* --- Bootup --- */
