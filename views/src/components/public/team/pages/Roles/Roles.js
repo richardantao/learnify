@@ -156,7 +156,7 @@ class Roles extends Component {
                                                     <li>Module Bundler &mdash; Bundles packed together with Webpack</li>
                                                     <li>Client&ndash;side &mdash; React built UIs; State managed with Redux</li>
                                                     <li>Server&ndash;side &mdash; Web API built with Express in the Node environment</li>
-                                                    <li>Database &mdash; MongoDB; Object-document modelled with Mongoose</li>
+                                                    <li>Database &mdash; MongoDB; Modelled with Mongoose</li>
                                                 </ul>
                                             </div>
                                             <div>
@@ -425,7 +425,7 @@ class Roles extends Component {
                                                     <li>Module Bundler &mdash; Bundles packed together with Webpack</li>
                                                     <li>Client&ndash;side &mdash; React built UIs; State managed with Redux</li>
                                                     <li>Server&ndash;side &mdash; Web API built with Express in the Node environment</li>
-                                                    <li>Database &mdash; MongoDB; Object-document modelled with Mongoose</li>
+                                                    <li>Database &mdash; MongoDB; Modelled with Mongoose</li>
                                                 </ul>
                                             </div>
                                             <div>
