@@ -22,7 +22,7 @@ const options = {
 
 mongoose.connect(mongoDB, options)
 .then(() =>  {
-  console.log("Successfully connected to Mongo Atlas!");
+  console.log("Connected to Mongo Atlas");
 })
 .catch(err => {
   console.error(err);
@@ -31,7 +31,7 @@ mongoose.connect(mongoDB, options)
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error: "));
 db.once("open", () => {
-  console.log(`Your connection with the database has been established`);
+  console.log(`Connected to Database`);
 });
 
 module.exports = db;

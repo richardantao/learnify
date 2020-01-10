@@ -15,13 +15,26 @@ const env = process.env.NODE_ENV || "development";
 require("./config/db");
 
 /* --- Middleware --- */
-app.use(helmet());
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.resolve(__dirname,"client", "build")));
 app.use(compression());
-app.use(logger("dev"));
+
+if (env === "production") {
+	app.use(helmet());
+	app.use(express.static(path.resolve(__dirname, "client", "build")));
+	logger((tokens, req, res) => {
+		return [
+		  tokens.method(req, res),
+		  tokens.url(req, res),
+		  tokens.status(req, res),
+		  tokens.res(req, res, "content-length"), "-",
+		  tokens["response-time"](req, res), "ms"
+		].join(" ")
+	});
+} else {
+	app.use(logger("dev"));
+}
 
 /* --- Routes --- */
 /* Beta  */

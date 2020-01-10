@@ -3,11 +3,16 @@
   "version": "0.1.0",
   "description": "Learnify's npm server",
   "main": "server.js",
+  "private": true,
+  "engines": {
+    "node": "10.x.x"
+  },
   "scripts": {
     "dev": "concurrently \"nodemon server.js\" \"cd client && npm start\"",
+    "deploy": "gcloud app deploy",
     "server": "nodemon server.js",
     "start": "node server.js",
-    "test": "mocha"
+    "test": "mocha --timeout 5000"
   },
   "repository": {
     "type": "git",
