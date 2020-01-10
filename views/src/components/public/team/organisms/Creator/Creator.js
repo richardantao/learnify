@@ -37,7 +37,7 @@ class Creator extends Component {
     };
 
     componentDidMount() {
-
+        alert("This form is currently being tested on the live server. If you do not receive a confirmation from the form upon submission, the form does not work.");
     };
 
     toggle = () => {

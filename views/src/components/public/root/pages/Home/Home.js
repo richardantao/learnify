@@ -28,6 +28,10 @@ class Home extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
+    componentDidMount() {
+        alert("This form is currently being tested on the live server. If you do not receive a confirmation from the form upon submission, the form does not work.");
+    };
+
     componentDidUpdate(prevProps) {
         const { beta, error } = this.props;
 
