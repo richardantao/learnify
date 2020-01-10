@@ -279,7 +279,7 @@ class Backend extends Component {
                                             onChange={this.handleChange}
                                             required
                                         />
-                                        { resume.length > 0  && resume.includes("drive.google.com/") ? (
+                                        { resume.length > 0  && !resume.includes("drive.google.com/") ? (
                                             <small className="warning">Link must point to a Google Drive folder</small>
                                         ): null }
                                     </Col>
