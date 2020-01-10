@@ -31,11 +31,12 @@ $border-line: #E1E1E1;
     &-public {
         display: grid;
             grid-template-columns: 100%;
-            grid-template-rows: 100%;
+            grid-template-rows: 50% 50%;
         margin: 1rem;
     }
 
     .copyright {
+        // height: 50px;
         margin: 0 auto;
         
         p {
