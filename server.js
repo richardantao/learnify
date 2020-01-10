@@ -15,7 +15,7 @@ const env = process.env.NODE_ENV || "development";
 require("./config/db");
 
 /* --- Middleware --- */
-app.use(cors({ origin: "https://www.learnify.ca/" }));
+app.use(cors({ origin: "https://www.learnify.ca:8081" }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(compression());
