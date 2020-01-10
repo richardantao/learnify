@@ -16,7 +16,7 @@ export const setLoading = () => {
 export const fetchClasses = termId => dispatch => {
     dispatch(setLoading());
     
-    axios.get(`http://localhost:3000/v1/terms/${termId}/classes`)
+    axios.get(`${process.env,API_HOST}/v1/terms/${termId}/classes`)
     .then(res => dispatch({ 
         type: FETCH_CLASSES,
         payload: res.data

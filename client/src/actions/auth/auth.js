@@ -11,7 +11,7 @@ export const loadUser = () => (dispatch, getState) => {
     dispatch({ type: USER_LOADING });
 
     // match url
-    axios.get("http://localhost:3000/v1/user", tokenConfig(getState))
+    axios.get(`${process.env.API_HOST}/v1/user`, tokenConfig(getState))
     .then(res => dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -43,7 +43,7 @@ export const register = ({ fname, lname, email, password }) => dispatch => {
     /* 
         Axios is not passing a promise
     */
-    axios.post("http://localhost:3000/v1/register", body, config)
+    axios.post(`${process.env.API_HOST}/v1/register`, body, config)
     .then(res => dispatch({
        type: REGISTER_SUCCESS,
        payload: res.data 
@@ -68,7 +68,7 @@ export const login = ({ email, password }) => dispatch => {
 
     const body = JSON.stringify({ email, password });
 
-    axios.post("http://localhost:3000/v1/signin", body, config)
+    axios.post(`${process.env.API_HOST}/v1/signin`, body, config)
     .then(res => dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
@@ -85,7 +85,7 @@ export const login = ({ email, password }) => dispatch => {
 
 // Logout User
 export const logout = () => dispatch => {
-    axios.post("http://localhost:3000/v1/signout")
+    axios.post(`${process.env.API_HOST}/v1/signout`)
     .then(res => dispatch({
         type: LOGOUT_SUCCESS
     }))
