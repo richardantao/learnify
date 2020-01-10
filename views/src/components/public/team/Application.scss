@@ -51,6 +51,15 @@ $border-line: #E1E1E1;
     .warning {
         color: red;
     }
+
+    #backend-resume-info, #creator-resume-info, #designer-resume-info, #frontend-resume-info, #marketer-resume-info {
+        position: relative;
+        left: 1%;
+    }
+
+    .tooltip-inner p {
+        text-align: left;
+    }
 }
 
 /* --- Landscape Mobile --- */

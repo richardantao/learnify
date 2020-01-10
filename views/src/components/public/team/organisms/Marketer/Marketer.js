@@ -5,10 +5,13 @@ import { postMarketer } from "../../../../../actions/team/applications";
 import { clearErrors } from "../../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+
 import { 
     Row, Col,
     Modal, ModalHeader, ModalBody, ModalFooter,
-    Button, Form, FormGroup, Label, Input
+    Button, Form, FormGroup, Label, Input, Tooltip
 } from "reactstrap";
 
 import "../../Application.scss";
@@ -16,6 +19,7 @@ import "../../Application.scss";
 class Marketer extends Component {
     state = {
         modal: false,
+        tooltipOpen: false,
         first: "",
         last: "",
         email: "",
@@ -44,6 +48,14 @@ class Marketer extends Component {
 
         this.setState({
             modal: !modal
+        });
+    };
+
+    toggleTooltip = () => {
+        const { tooltipOpen } = this.state;
+
+        this.setState({
+            tooltipOpen: !tooltipOpen
         });
     };
 
@@ -79,11 +91,14 @@ class Marketer extends Component {
     };
 
     render() {
-        const { modal, first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = this.state;
+        const { 
+            modal, tooltipOpen,
+            first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other 
+        } = this.state;
         
         const isEnabled = first.length > 0 && last.length > 0 && regex.test(email) && city.length > 0 
             && strategy.length > 74 && help.length > 100 && importance.length > 49
-            && resume.includes(".pdf");
+            && resume.includes("drive.google.com/") > 0;
         
         const strategyMin = 75 - strategy.length;
         const strategyMax = 500 - strategy.length;
@@ -237,17 +252,29 @@ class Marketer extends Component {
                                 <Row>
                                     <Col>
                                         <Label for="resume" className="required">Resume</Label>
+                                        <FontAwesomeIcon icon={faInfoCircle} id="marketer-resume-info"/>
+                                        <Tooltip placement="right" isOpen={tooltipOpen} target="marketer-resume-info" toggle={this.toggleTooltip}>
+                                            <p>Don't have it online yet? No problem.</p>                                          
+                                            <p>1. Place a copy of your resume into Google Drive.</p>
+                                            <p>2. Right click the file and select 'Share'.</p>
+                                            <p>
+                                                3. Click 'Copy Link', or manually copy the link displayed, and paste the link into the Resume field below.
+                                            </p>    
+                                        </Tooltip>
                                         <Input
                                             name="resume"
-                                            type="file"
+                                            type="text"
+                                            placeholder="https://drive.google.com/drive/folder/"
                                             value={resume}
                                             onChange={this.handleChange}
                                             required
                                         />
-                                        { resume.length > 0 && !resume.includes(".pdf") ? (
-                                            <small className="warning">File must be a PDF</small>
+                                        { resume.length > 0 && !resume.includes("drive.google.com/") ? (
+                                            <small className="warning">URL must point to a Google Drive folder.</small>
                                         ): null }
                                     </Col>
+                                </Row>
+                                <Row>
                                     <Col>
                                         <Label for="portfolio">Portfolio</Label>
                                         <Input
@@ -272,6 +299,8 @@ class Marketer extends Component {
                                             <small className="warning">URL must contain 'linkedin.com/in/'</small>
                                         ): null}
                                     </Col>
+                                </Row>
+                                <Row>
                                     <Col>
                                         <Label for="other">Other</Label>
                                         <Input
