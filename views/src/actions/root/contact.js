@@ -11,7 +11,7 @@ export const setLoading = () => {
 export const postContact = contact => dispatch => {
     dispatch(setLoading());
 
-    axios.post("http://localhost:3001/contact", contact)
+    axios.post(`${process.env.API_HOST}/contact`, contact)
     .then(res => dispatch({
         type: POST_CONTACT,
         payload: res.data

@@ -11,7 +11,7 @@ export const setLoading = () => {
 export const postInvite = beta => dispatch => {
     dispatch(setLoading());
 
-    axios.post("http://localhost:3001/invite", beta)
+    axios.post(`${process.env.API_HOST}/invite`, beta)
     .then(res => dispatch({
         type: POST_INVITE,
         payload: res.data
