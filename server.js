@@ -1,9 +1,10 @@
 /* --- Dependencies --- */
 require("dotenv").config();
 const express = require("express");
-const logger = require("morgan");
-const cors = require("cors");
 const helmet = require("helmet");
+const logger = require("morgan");
+const path = require("path");
+const cors = require("cors");
 const compression = require("compression");
 
 /* --- Configurations --- */
@@ -21,7 +22,7 @@ app.use(compression());
 
 if (env === "production") {
 	app.use(helmet());
-	app.use(express.static("views/build"));
+	app.use(express.static(path.join(__dirname, "views/build")));
 	logger((tokens, req, res) => {
 		return [
 		  tokens.method(req, res),
@@ -59,7 +60,7 @@ app.use("/", require("./routes/team"));
 
 /* Fetch Client Side Rendering */
 app.get("*", (req, res) => {
-	res.sendFile("views/build/index.html");
+	res.sendFile(path.join(__dirname, "views/build/index.html"));
 });
 
 /* --- Bootup --- */
