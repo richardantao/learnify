@@ -1,0 +1,67 @@
+/* --- Colour Palette --- */
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background-color: #FAFAFA;
+$form-background: #F9F9F9;
+$border-line: #E1E1E1;
+$text: #212529;
+
+/* --- Global styles --- */
+// html {
+//   box-sizing: border-box;
+//   // background: white; move to beta
+//   font-family: Georgia, "Times New Roman", Times, serif;
+//   // overflow: hidden; move to beta
+// } 
+
+// *, *:before, *:after {
+// 	box-sizing: inherit;
+// } 
+
+// body {
+// 	margin: 0;
+//   overflow-x: hidden;
+// }
+
+/* --- App styles --- */
+#app {
+  
+}
+
+/* --- Beta styles --- */
+// #beta {
+//   .body {
+//     background: #F7F9FA;	
+//   }
+//   .header {
+//     border-bottom: #E5E5E5 1px solid;
+//     height: 101px;
+//   }
+//   // .footer {
+//   // 	background: #F7F9FA;
+//   // }
+
+//   .btn {
+//     background-color: $primary-color;
+//     border-color: $primary-color;
+//   }
+  
+//   nav .btn {
+//     background-color: transparent;
+//     border-color: transparent;
+//   }
+  
+//   nav .btn:hover {
+//     background-color: $primary-color;
+//     border-color: transparent;
+//   }
+// }
+
+// /* --- Public styles --- */
+a {
+    color: $primary-color;
+
+    &:hover, &:focus, &:active {
+      color: $secondary-color;
+    }
+}

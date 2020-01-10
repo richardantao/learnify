@@ -1,16 +1,35 @@
 # Learnify
-Building the foundations for student success.
+Building the Foundations for Student Success.
 
 ## Application Structure
 
-### Client
+### Config
+
+### Controllers
 
 
-### Server
+### Middleware
+Folder contains middleware for `rendering` (SSR), `storage`, and `validation`.
 
+### Migrations
+
+### Models
+`models` contained the generated schema for the API's data
+
+### Routes
+`routes` connect the `middleware` and `controllers` of the API to the server. Public routes call any necessary storage/middleware before the respective controller. Private routes contain the same sequence as public routes except their are initialized are auth validation.
+
+### Test
+Integration test files are contained here. Unit tests are held beside the file they represent.
+
+### Util
+Any helper functions are defined heres.
+
+### Views
+`views` contains the client-side React/Redux app.
 
 ## Scripts
-All scripts can be called from the `/server` folder, as Learnify uses `concurrently` to run parallel scripts.
+Learnify uses `concurrently` to run parallel scripts.
 
 `npm run build` - create an optimized bundle of the server.
 

@@ -1,0 +1,84 @@
+/* --- Colour Palette --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background: #FAFAFA;
+$form-background: #F1F1F1;
+$border-line: #E1E1E1;
+
+/* --- Portrait Mobile --- */
+.roles-app {
+    h2 {
+        margin-bottom: 1%;
+        margin-left: 2%;
+    }
+    
+    .application {
+        h4, label, input {
+            margin-left: 2%;
+        }
+
+        input {
+            width: 90%;
+        }
+
+        textarea {
+            margin: 0 auto;
+            width: 95%;
+        }
+
+        button {
+            background-color: $primary-color;
+            border-color: $primary-color;
+            margin: 2% auto;
+            width: 90%;
+
+            &:hover, &:focus, &:active {
+                background-color: $secondary-color;
+                border-color: $secondary-color;
+            }
+        }
+
+        small {
+            margin-left: 2%;
+        }
+    }
+        
+    .required::after{
+        color: red;
+        content: "*";
+    }
+    
+    .warning {
+        color: red;
+    }
+}
+
+/* --- Landscape Mobile --- */
+@media (min-width: 576px) {
+    
+}
+
+/* --- Portrait Tablets --- */
+@media (min-width: 768px) {
+    
+}
+
+/* --- Landscape Tablets --- */
+@media (min-width: 992px) {
+    
+}
+
+/* --- Small Laptops --- */
+@media (min-width: 1200px) {
+    
+}
+
+/* --- Large Laptops --- */
+@media (min-width: 1440px) {
+    
+}
+
+/* --- Desktops --- */
+@media (min-width: 2100px) {
+    
+}
