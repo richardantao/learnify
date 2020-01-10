@@ -38,25 +38,25 @@ if (env === "production") {
 
 /* --- Routes --- */
 /* Beta  */
-app.use(`${host}:${port}/api/v1/`, require("./routes/auth"));
-app.use(`${host}:${port}/api/v1/cron`, require("./routes/cron"));
-app.use(`${host}:${port}/api/v1/`, require("./routes/users"));
+app.use("/api/v1/", require("./routes/auth"));
+app.use("/api/v1/cron", require("./routes/cron"));
+app.use("/api/v1/", require("./routes/users"));
 
-app.use(`${host}:${port}/api/v1/`, require("./routes/years"));
-app.use(`${host}:${port}/api/v1/`, require("./routes/terms"));
-app.use(`${host}:${port}/api/v1/`, require("./routes/courses"));
-app.use(`${host}:${port}/api/v1/`, require("./routes/classes"));
-app.use(`${host}:${port}/api/v1/`, require("./routes/assessments"));
-app.use(`${host}:${port}/api/v1/`, require("./routes/tasks"));
+app.use("/api/v1/", require("./routes/years"));
+app.use("/api/v1/", require("./routes/terms"));
+app.use("/api/v1/", require("./routes/courses"));
+app.use("/api/v1/", require("./routes/classes"));
+app.use("/api/v1/", require("./routes/assessments"));
+app.use("/api/v1/", require("./routes/tasks"));
 
-app.use(`${host}:${port}/api/v1/`, require("./routes/search"));
-app.use(`${host}:${port}/api/v1/`, require("./routes/integrations"));
+app.use("/api/v1/", require("./routes/search"));
+app.use("/api/v1/", require("./routes/integrations"));
 
 /* Root */
-app.use(`${host}:${port}`, require("./routes/root"));
+app.use("/", require("./routes/root"));
 
 /* Team */
-app.use(`${host}:${port}`, require("./routes/team"));
+app.use("/", require("./routes/team"));
 
 /* Fetch Client Side Rendering */
 app.get("*", (req, res) => {
