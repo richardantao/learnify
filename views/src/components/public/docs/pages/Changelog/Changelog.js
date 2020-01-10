@@ -23,6 +23,7 @@ class Changelog extends Component {
         const childHeight = this.mainElement.clientHeight;
 
         this.setState({
+            showAnnouncements: true,
             showMajors: true,
             showMinors: true,
             showPatches: true,
@@ -43,6 +44,14 @@ class Changelog extends Component {
                 childHeight
             });
         }, 1000);
+    };
+
+    toggleAnnouncement= () => {
+        const { showAnnouncements } = this.state;
+
+        this.setState({
+            showAnnouncements: !showAnnouncements
+        });
     };
 
     toggleMajor = () => {
@@ -70,7 +79,7 @@ class Changelog extends Component {
     };
 
     render() {
-        const { showMajors, showMinors, showPatches, childHeight } = this.state;
+        const { showAnnouncements, showMajors, showMinors, showPatches, childHeight } = this.state;
 
         return(
             <>
@@ -92,6 +101,9 @@ class Changelog extends Component {
                             <div>
                                 <Input type="checkbox" id="major" name="major" checked={showMajors} onChange={this.toggleMajor}/> <span>Major Versions</span>    
                             </div>
+                            <div>
+                                <Input type="checkbox" id="announcement" name="announcement" checked={showAnnouncements} onChange={this.toggleAnnouncement}/> <span>Announcements</span>    
+                            </div>
                         </header>
                         <br/>
                         {/* { showMinors ? (
@@ -109,17 +121,17 @@ class Changelog extends Component {
                         {/* { showMajors ? (
                             <div className="major">
                                 <h2>v1.0.0-beta</h2>
-                                <h5>January 31, 2020</h5>
+                                <h5>January x, 2020</h5>
                                 <p>
-                                    The app is live! We're kicking off our launch with a closed beta, 
-                                    to receive initial feedback on quality and bugs. 
+                                    The app is live! We're kicking off our launch with a closed beta 
+                                    to receive initial feedback on bugs and quality. 
                                     You can request an invite at <a href="/">https://learnify.ca</a>. 
                                 </p>
                                 <hr/>
                             </div>
                         ): null} */}
-                        { showMinors ? (
-                            <div className="minor">
+                        { showAnnouncements ? (
+                            <div className="announcement">
                                 <h2>We're starting a changelog</h2>
                                 <h5>January 10, 2020</h5>
                                 <p>
