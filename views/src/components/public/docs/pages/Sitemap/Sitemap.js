@@ -79,11 +79,43 @@ export default class Sitemap extends Component {
                                 </li>
                             </ul>
                         </div>*/}
-                        <div>
+                        {/* <div>
                             <h2>Blog</h2>
                             <ul>
                                 <li>
                                     <a href="/blog/mission">Our Mission</a>
+                                </li>
+                                <li>
+                                    <a href="/blog/history">A Brief History of School</a>
+                                </li>
+                            </ul>
+                        </div> */}
+                        <div>
+                            <h2>Docs</h2>
+                            <ul>
+                                <li>
+                                    <a href="/docs">What is Learnify?</a>
+                                </li>
+                                {/* <li>
+                                    <a href="/api">Developers</a>
+                                </li> */}
+                                <li>
+                                    <a href="/docs/terms">Terms of Service</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/privacy">Privacy Policy</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/cookies">Cookie Policy</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/sitemap">Sitemap</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/changelog">Changelog</a>
+                                </li>
+                                <li>
+                                    <a href="/docs/status">System Status</a>
                                 </li>
                             </ul>
                         </div>
@@ -111,36 +143,7 @@ export default class Sitemap extends Component {
                                     </li>
                                 </ul>
                                 <li>
-                                    <a href="/team/#login">Login</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h2>Docs</h2>
-                            <ul>
-                                <li>
-                                    <a href="/docs">What is Learnify?</a>
-                                </li>
-                                {/* <li>
-                                    <a href="/api">Developers</a>
-                                </li> */}
-                                <li>
-                                    <a href="/docs/terms">Terms of Service</a>
-                                </li>
-                                <li>
-                                    <a href="/docs/privacy">Privacy Policy</a>
-                                </li>
-                                <li>
-                                    <a href="/docs/cookies">Cookie Policy</a>
-                                </li>
-                                <li>
-                                    <a href="/docs/sitemap">Sitemap</a>
-                                </li>
-                                <li>
-                                    <a href="/docs/changelog">Changelog</a>
-                                </li>
-                                <li>
-                                    <a href="/docs/status">System Status</a>
+                                    <a href="/team/#signin">Sign In</a>
                                 </li>
                             </ul>
                         </div>
