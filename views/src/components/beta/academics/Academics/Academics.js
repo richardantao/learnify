@@ -16,7 +16,6 @@ import Courses from "../../courses/Courses";
 import Classes from "../../classes/Classes/Classes";
 
 import Loadable from "react-loadable";
-import Loading from "../../../public/global/organisms/Loading";
 
 import "./Academics.scss";
 
@@ -107,31 +106,31 @@ class Academics extends Component {
 
 const YearEditModal = Loadable({
 	loader: import(/* webpackChunkName: "YearEditModal" */ "../../years/YearEditModal"),
-	loading: Loading,
+	loading: () => <div></div>,
 	delay: 300
 });
 
 const YearNewModal = Loadable({
 	loader: import(/* webpackChunkName: "YearNewModal" */ "../../years/YearNewModal"),
-	loading: Loading,
+	loading: () => <div></div>,
 	delay: 300
 });
 
 const TermNewModal = Loadable({
 	loader: import(/* webpackChunkName: "TermNewModal" */ "../../terms/TermNewModal"),
-	loading: Loading,
+	loading: () => <div></div>,
 	delay: 300
 });
 
 const CourseNewModal = Loadable({
 	loader: import(/* webpackChunkName: "CourseNewModal" */ "../../courses/CourseNewModal"),
-	loading: Loading,
+	loading: () => <div></div>,
 	delay: 300
 });
 
 const ClassNewModal = Loadable({
 	loader: import(/* webpackChunkName: "ClassNewModal" */ "../../classes/ClassNewModal"),
-	loading: Loading,
+	loading: () => <div></div>,
 	delay: 300
 });
 

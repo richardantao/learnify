@@ -12,9 +12,6 @@ import Tasks from "../../tasks/Tasks";
 import Assessments from "../../assessments/Assessments";
 
 import Loadable from "react-loadable";
-import Loading from "../../../public/global/organisms/Loading";
-
-// import Select from "react-select";
 
 import "./Planner.scss";
 
@@ -80,13 +77,13 @@ class Planner extends Component {
 
 const TaskNewModal = Loadable({
     loader: () => import(/* webpackChunkName: "TaskNewModal" */ "../../tasks/TaskNewModal"),
-    loading: Loading,
+    loading: () => <div></div>,
     delay: 300
 });
 
 const AssessmentNewModal = Loadable({
     loader: () => import(/* webpackChunkName: "AssessmentNewModal" */ "../../assessments/AssessmentNewModal"),
-    loading: Loading,
+    loading: () => <div></div>,
     delay: 300
 });
 

@@ -23,7 +23,7 @@ class Settings extends Component {
 	};
 
 	static propTypes = {
-		isAuthenticated: PropTypes.bool,
+		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
         logout: PropTypes.func.isRequired
 	};
@@ -70,7 +70,7 @@ class Settings extends Component {
 		return (
 			<>
 				<Helmet>
-					<title> My Learnify | Settings</title>
+					<title>My Learnify | Settings</title>
 				</Helmet>
 				<div id="beta">
 					<Nav/>
@@ -111,14 +111,14 @@ class Settings extends Component {
 						</Container>
 						<Row className="footer settings-footer">
 							<Col>
-								<Button href="https://facebook.com" target="_blank" className="social"><FontAwesomeIcon icon={faFacebookSquare}/></Button>
-								<Button href="https://www.linkedin.com/company/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faLinkedin}/></Button>
-								<Button href="https://www.instagram.com/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faInstagram}/></Button>
-								<Button href="https://twitter.com/learnify" target="_blank" className="social"><FontAwesomeIcon icon={faTwitterSquare}/></Button>
+								<Button href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="social"><FontAwesomeIcon icon={faFacebookSquare}/></Button>
+								<Button href="https://www.linkedin.com/company/learnify" target="_blank" rel="noopener noreferrer" className="social"><FontAwesomeIcon icon={faLinkedin}/></Button>
+								<Button href="https://www.instagram.com/learnify" target="_blank" rel="noopener noreferrer" className="social"><FontAwesomeIcon icon={faInstagram}/></Button>
+								{/* <Button href="https://twitter.com/learnify" target="_blank" rel="noopener noreferrer" className="social"><FontAwesomeIcon icon={faTwitterSquare}/></Button> */}
 							</Col>
 							<Col>
 								<p>Copyright {year} Learnify. All rights reserved. </p>
-								<a href="https://learnify.ca/docs/changelog" target="_blank">{version}</a>
+								<a href="https://learnify.ca/docs/changelog" target="_blank" rel="noopener noreferrer">{process.env.APP_VERSION}</a>
 							</Col>
 						</Row>
 					</div>
@@ -153,10 +153,10 @@ const Integration = Loadable({
 });
 
 const year = new Date().getFullYear();
-const version = "Version 1.0.0-beta";
+// const version = "Version 1.0.0-beta";
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
+	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error
 });
 

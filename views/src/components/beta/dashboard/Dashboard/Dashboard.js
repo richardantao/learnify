@@ -4,9 +4,7 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { Button, Col, Row } from "reactstrap";
+import { Col, Row } from "reactstrap";
 
 import Nav from "../../global/Nav";
 import DashboardHeader from "../DashboardHeader";
