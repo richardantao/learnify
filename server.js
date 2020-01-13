@@ -10,12 +10,20 @@ const compression = require("compression");
 /* --- Configurations --- */
 const app = express();
 const host = process.env.HOST || "http://localhost";
-const port = process.env.PORT || 3001;
+const port = process.env.PORT;
 const env = process.env.NODE_ENV || "development";
+// const corsOptions = [`https://learnify.ca:${port}`, `https://www.learnify.ca:${port}`];
 require("./config/db");
 
 /* --- Middleware --- */
-app.use(cors({ origin: "https://www.learnify.ca:8081" }));
+app.use(cors(/*{ origin: (origin, callback) => {
+	if(corsOptions.indexOf(origin) !== -1) {
+		callback(null, true);
+	} else {
+		console.log("Not allowed by CORS")
+		callback(new Error("Not allowed by CORS"));
+	};
+}}*/));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(compression());
@@ -34,7 +42,7 @@ if (env === "production") {
 	});
 } else {
 	app.use(logger("dev"));
-}
+};
 
 /* --- Routes --- */
 /* Beta  */
