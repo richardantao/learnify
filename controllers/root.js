@@ -156,6 +156,6 @@ exports.contact = (req, res) => {
     sgMail.send(mailOptions);
 
     return res.status(200).json({
-        message: "Your message has been sent"
+        message: "Message sent"
     });
 };
