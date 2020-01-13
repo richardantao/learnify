@@ -123,7 +123,7 @@ class Home extends Component {
                     <main className="root home" role="main">
                         <img src={background} className="home-background" type="image/jpeg" alt=""/>
                         <div className="home-pitch">
-                            <h3>Building the Foundations for Student Success</h3>
+                            <h1>Building the Foundations for Student Success</h1>
                             <p>
                                 Sign up for the beta program to have a successful school year right at your finger tips. 
                                 Academic excellence has never been this simple.

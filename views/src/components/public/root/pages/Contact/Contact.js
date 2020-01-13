@@ -127,7 +127,7 @@ class Contact extends Component {
                     <main className="root contact" role="main">
                         <img src={background} className="contact-background" type="image/jpeg" alt="Student walking home"/>
                         <div className="contact-pitch">
-                            <h3>Have a question? Send us a message.</h3>
+                            <h1>Have a question? Send us a message.</h1>
                         </div>
                         <Form onSubmit={this.handleSubmit} className="contact-form">
                             {   message && success ? (
