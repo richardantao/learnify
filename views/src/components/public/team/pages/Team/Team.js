@@ -14,7 +14,7 @@ import "../../Team.scss";
 
 const Login = Loadable({
     loader: () => import("../../organisms/Login"),
-    loading: Loading,
+    loading: () => <div></div>,    
     delay: 300
 });
 
