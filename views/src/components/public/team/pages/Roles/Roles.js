@@ -262,9 +262,9 @@ class Roles extends Component {
                                                 <h5>The kind of people we are looking for:</h5>
                                                 <ul>    
                                                     <li>Communication &mdash; you are a great listener, and an even better communicator; translating needs into actions between two parties comes second nature to you</li>
-                                                    <li>Collaborative &mdash; </li>
+                                                    <li>Collaborative &mdash; being approachable and open to different ideas enables others to communicate comfortably with you in all forms of communication</li>
                                                     <li>Creative &mdash; you are an abstract thinker who can turn their ideas into a visual presentation</li>
-                                                    <li>Detail&ndash;oriented &mdash;</li>
+                                                    <li>Meticulous &mdash; you have high attention to detail; this often brings order to your environment and the people working around you</li>
                                                 </ul>
                                             </div><br/>
                                             <div>
