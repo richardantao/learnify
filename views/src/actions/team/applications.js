@@ -13,7 +13,7 @@ export const setLoading = () => {
 export const postBackend = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/applications/backend`, application)
+    axios.post(`https://learnify.ca/applications/backend`, application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -26,7 +26,7 @@ export const postBackend = application => dispatch => {
 export const postCreator = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/applications/creator`, application)
+    axios.post(`https://learnify.ca/applications/creator`, application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -39,7 +39,7 @@ export const postCreator = application => dispatch => {
 export const postDesigner= application => dispatch => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/applications/designer`, application)
+    axios.post(`https://learnify.ca/applications/designer`, application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -52,7 +52,7 @@ export const postDesigner= application => dispatch => {
 export const postFrontend = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/applications/frontend`, application)
+    axios.post(`https://learnify.ca/applications/frontend`, application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
@@ -65,20 +65,7 @@ export const postFrontend = application => dispatch => {
 export const postMarketer = application => dispatch => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/applications/marketer`, application)
-    .then(res => dispatch({
-        type: FORM_POSTED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, FORM_FAILED)
-    ));
-};
-
-export const postSwift = application => dispatch => {
-    dispatch(setLoading());
-
-    axios.post(`${process.env.API_HOST}/applications/swift`, application)
+    axios.post(`https://learnify.ca/applications/marketer`, application)
     .then(res => dispatch({
         type: FORM_POSTED,
         payload: res.data
