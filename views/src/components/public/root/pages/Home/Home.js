@@ -29,7 +29,7 @@ class Home extends Component {
     };
 
     componentDidMount() {
-        alert("Forms on this website are currently being tested on the live server. If you do not receive a confirmation from the form upon submission, the form does not work.");
+        alert("If you have visited this site before, clear your browser cache to use the forms.");
     };
 
     componentDidUpdate(prevProps) {
