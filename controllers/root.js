@@ -156,6 +156,6 @@ exports.contact = (req, res) => {
     sgMail.send(mailOptions);
 
     return res.status(200).json({
-        message: "Message sent"
+        message: "Your message has been sent. You will receive a reply within 24 hours"
     });
 };
