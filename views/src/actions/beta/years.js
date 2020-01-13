@@ -30,7 +30,7 @@ export const setLoading = () => {
 export const createYear = year => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/v1/years`, year/*, tokenConfig(getState)*/)
+    axios.post("http://localhost:8080/v1/years", year/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: CREATE_YEAR, 
         payload: res.data
@@ -43,7 +43,7 @@ export const createYear = year => (dispatch, getState) => {
 export const fetchYears = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/years`/*, tokenConfig(getState)*/)
+    axios.get("http://localhost:8080/v1/years"/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_YEARS,
         payload: res.data
@@ -56,7 +56,7 @@ export const fetchYears = () => (dispatch, getState) => {
 export const editYear = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/years/${_id}`/*, tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/years/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: EDIT_YEAR,
         payload: res.data
@@ -69,7 +69,7 @@ export const editYear = _id => (dispatch, getState) => {
 export const updateYear = (_id, year) => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.put(`${process.env.API_HOST}/v1/years/${_id}`, year/*, tokenConfig(getState)*/)
+    axios.put(`http://localhost:8080/v1/years/${_id}`, year/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: UPDATE_YEAR,
         payload: res.data
@@ -80,7 +80,7 @@ export const updateYear = (_id, year) => (dispatch, getState) => {
 };
 
 export const deleteYear = _id => (dispatch, getState) => {
-    axios.delete(`${process.env.API_HOST}/v1/years/${_id}`/*, tokenConfig(getState)*/)
+    axios.delete(`http://localhost:8080/v1/years/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: DELETE_YEAR,
         payload: _id

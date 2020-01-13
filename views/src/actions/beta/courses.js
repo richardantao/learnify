@@ -16,7 +16,7 @@ export const setLoading = () => {
 export const newCourse = yearId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/years/${yearId}/terms`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/years/${yearId}/terms`, tokenConfig(getState))
     .then(res => dispatch({
         type: NEW_COURSE,
         payload: res.data
@@ -29,7 +29,7 @@ export const newCourse = yearId => (dispatch, getState) => {
 export const createCourse = course => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/v1/courses`, course, tokenConfig(getState))
+    axios.post("http://localhost:8080/v1/courses", course, tokenConfig(getState))
     .then(res => dispatch({
         type: CREATE_COURSE,
         payload: res.data
@@ -42,7 +42,7 @@ export const createCourse = course => (dispatch, getState) => {
 export const fetchCourses = termId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`${process.env.API_HOST}/v1/terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/terms/${termId}/courses`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_COURSES,
         payload: res.data
@@ -55,7 +55,7 @@ export const fetchCourses = termId => (dispatch, getState) => {
 export const editCourse = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/courses/${_id}`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/courses/${_id}`, tokenConfig(getState))
     .then(res => dispatch({
         type: EDIT_COURSE,
         payload: res.data
@@ -68,7 +68,7 @@ export const editCourse = _id => (dispatch, getState) => {
 export const updateCourse = (_id, course) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`${process.env.API_HOST}/v1/courses/${_id}`, course, tokenConfig(getState))
+    axios.put(`http://localhost:8080/v1/courses/${_id}`, course, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_COURSE,
         payload: res.data
@@ -81,7 +81,7 @@ export const updateCourse = (_id, course) => (dispatch, getState) => {
 export const deleteCourse = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`${process.env.API_HOST}/v1/courses/${_id}`, tokenConfig(getState))
+    axios.delete(`http://localhost:8080/v1/courses/${_id}`, tokenConfig(getState))
     .then(res => dispatch({
         type: DELETE_COURSE,
         payload: _id

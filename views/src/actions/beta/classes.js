@@ -16,7 +16,7 @@ export const setLoading = () => {
 export const fetchClasses = termId => dispatch => {
     dispatch(setLoading());
     
-    axios.get(`${process.env.API_HOST}/v1/terms/${termId}/classes`)
+    axios.get(`http://localhost:8080/v1/terms/${termId}/classes`)
     .then(res => dispatch({ 
         type: FETCH_CLASSES,
         payload: res.data
@@ -29,7 +29,7 @@ export const fetchClasses = termId => dispatch => {
 export const editClass = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/class/${_id}`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/class/${_id}`, tokenConfig(getState))
     .then(res => dispatch({ 
         type: EDIT_CLASS,
         payload: res.data
@@ -42,7 +42,7 @@ export const editClass = _id => (dispatch, getState) => {
 export const newClass = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/terms/${termId}/courses`, tokenConfig(getState))
     .then(res => dispatch({ 
         type: NEW_CLASS,
         payload: res.data
@@ -55,7 +55,7 @@ export const newClass = termId => (dispatch, getState) => {
 export const createClass = newClass => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/v1/classes`, newClass, tokenConfig(getState))
+    axios.post("http://localhost:8080/v1/classes", newClass, tokenConfig(getState))
     .then(res => dispatch({ 
         type: CREATE_CLASS,
         payload: res.data
@@ -68,7 +68,7 @@ export const createClass = newClass => (dispatch, getState) => {
 export const updateClass = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`${process.env.API_HOST}/v1/classes/${_id}`, tokenConfig(getState))
+    axios.put(`http://localhost:8080/v1/classes/${_id}`, tokenConfig(getState))
     .then(res => dispatch({ 
         type: UPDATE_CLASS,
         payload: res.data
@@ -81,7 +81,7 @@ export const updateClass = _id => (dispatch, getState) => {
 export const deleteClass = _id => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.delete(`${process.env.API_HOST}/v1/classes/${_id}`, tokenConfig(getState))
+    axios.delete(`http://localhost:8080/v1/classes/${_id}`, tokenConfig(getState))
     .then(res => dispatch({ 
         type: DELETE_CLASS,
         payload: _id

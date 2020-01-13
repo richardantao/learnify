@@ -18,7 +18,7 @@ export const setLoading = () => {
 export const newAssessment = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/terms/${termId}/courses`, tokenConfig(getState))
     .then(res => dispatch({
         type: NEW_ASSESSMENT,
         payload: res.data
@@ -31,7 +31,7 @@ export const newAssessment = termId => (dispatch, getState) => {
 export const createAssessment = newAssessment => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/v1/assessments`, newAssessment, tokenConfig(getState))
+    axios.post(`http://localhost:8080/v1/assessments`, newAssessment, tokenConfig(getState))
     .then(res => dispatch({
         type: CREATE_ASSESSMENT,
         payload: res.data
@@ -44,7 +44,7 @@ export const createAssessment = newAssessment => (dispatch, getState) => {
 export const fetchAssessments = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/assessments`/*, tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/assessments`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_ASSESSMENTS,
         payload: res.data
@@ -57,7 +57,7 @@ export const fetchAssessments = () => (dispatch, getState) => {
 export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`${process.env.API_HOST}/v1/terms/${termId}/assessments`/*, tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/terms/${termId}/assessments`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_ASSESSMENTS,
         payload: res.data
@@ -70,7 +70,7 @@ export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
 export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/terms/${termId}/assessments`, /*tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/terms/${termId}/assessments`, /*tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_PAST_ASSESSMENTS,
         payload: res.data
@@ -83,7 +83,7 @@ export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
 export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/terms/${courseId}/assessments`, /*tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/terms/${courseId}/assessments`, /*tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_ASSESSMENTS,
         payload: res.data
@@ -97,7 +97,7 @@ export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
 export const fetchPastAssessmentsByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/terms/${courseId}/assessments`/*, tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/terms/${courseId}/assessments`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_ASSESSMENTS,
         payload: res.data
@@ -110,7 +110,7 @@ export const fetchPastAssessmentsByCourse = courseId => (dispatch, getState) => 
 export const editAssessment = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/assessments/${_id}`/*, tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/assessments/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: EDIT_ASSESSMENT,
         _id,
@@ -124,7 +124,7 @@ export const editAssessment = _id => (dispatch, getState) => {
 export const updateAssessment = (_id, assessment) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`${process.env.API_HOST}/v1/assessments/${_id}`, assessment/*, tokenConfig(getState)*/)
+    axios.put(`http://localhost:8080/v1/assessments/${_id}`, assessment/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: UPDATE_ASSESSMENT,
         _id,
@@ -138,7 +138,7 @@ export const updateAssessment = (_id, assessment) => (dispatch, getState) => {
 export const deleteAssessment = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`${process.env.API_HOST}/v1/assessments/${_id}`/*, tokenConfig(getState)*/)
+    axios.delete(`http://localhost:8080/v1/assessments/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: DELETE_ASSESSMENT,
         payload: _id

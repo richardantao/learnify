@@ -16,7 +16,7 @@ export const setLoading = () => {
 export const newTask = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1terms/${termId}/courses`, tokenConfig(getState))
     .then(res => dispatch({
         type: NEW_TASK,
         payload: res.data
@@ -29,7 +29,7 @@ export const newTask = termId => (dispatch, getState) => {
 export const createTask = task => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/v1/tasks`, task, tokenConfig(getState))
+    axios.post("http://localhost:8080/v1/task", task, tokenConfig(getState))
     .then(res => dispatch({
         type: CREATE_TASK,
         payload: res.data
@@ -40,7 +40,7 @@ export const createTask = task => (dispatch, getState) => {
 };
 
 export const fetchTasks = () => (dispatch, getState) => {
-    axios.get(`${process.env.API_HOST}/v1/tasks`, tokenConfig(getState))
+    axios.get("http://localhost:8080/v1/tasks", tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_TASKS,
         payload: res.data
@@ -53,7 +53,7 @@ export const fetchTasks = () => (dispatch, getState) => {
 export const fetchTasksByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/terms/${termId}/tasks`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/terms/${termId}/tasks`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_TASKS, 
         payload: res.data
@@ -67,7 +67,7 @@ export const fetchTasksByTerm = termId => (dispatch, getState) => {
 export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/terms/${termId}/tasks`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/terms/${termId}/tasks`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_PAST_TASKS,
         payload: res.data
@@ -80,7 +80,7 @@ export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
 export const fetchTasksByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/courses/${courseId}/tasks`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/courses/${courseId}/tasks`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_TASKS,
         payload: res.data
@@ -93,7 +93,7 @@ export const fetchTasksByCourse = courseId => (dispatch, getState) => {
 export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`${process.env.API_HOST}/v1/courses/${courseId}/tasks`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/courses/${courseId}/tasks`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_PAST_TASKS,
         payload: res.data
@@ -106,7 +106,7 @@ export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
 export const editTask = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/tasks/${_id}`, tokenConfig(getState))
+    axios.get(`http://localhost:8080/v1/tasks/${_id}`, tokenConfig(getState))
     .then(res => {
         dispatch({
             type: EDIT_TASK,
@@ -121,7 +121,7 @@ export const editTask = _id => (dispatch, getState) => {
 export const updateTask = (_id, task) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`${process.env.API_HOST}/v1/tasks/${_id}`, task, tokenConfig(getState))
+    axios.put(`http://localhost:8080/v1/tasks/${_id}`, task, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_TASK,
         payload: res.data
@@ -134,7 +134,7 @@ export const updateTask = (_id, task) => (dispatch, getState) => {
 export const deleteTask = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`${process.env.API_HOST}/v1/tasks/${_id}`, tokenConfig(getState))
+    axios.delete(`http://localhost:8080/v1/tasks/${_id}`, tokenConfig(getState))
     .then(res => {
         dispatch({
             type: DELETE_TASK,

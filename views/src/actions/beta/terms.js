@@ -17,7 +17,7 @@ export const setLoading = () => {
 export const newTerm = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/years`/*, tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/years`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: NEW_TERM,
         payload: res.data
@@ -30,7 +30,7 @@ export const newTerm = () => (dispatch, getState) => {
 export const createTerm = term => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post(`${process.env.API_HOST}/v1/terms`, term/*, tokenConfig(getState)*/)
+    axios.post(`http://localhost:8080/v1/terms`, term/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: CREATE_TERM,
         payload: res.data
@@ -43,7 +43,7 @@ export const createTerm = term => (dispatch, getState) => {
 export const fetchTerms = yearId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`${process.env.API_HOST}/v1/years/${yearId}/terms`/*, tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/years/${yearId}/terms`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_TERMS,
         payload: res.data
@@ -56,7 +56,7 @@ export const fetchTerms = yearId => (dispatch, getState) => {
 export const editTerm = _id => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`${process.env.API_HOST}/v1/terms/${_id}`/*, tokenConfig(getState)*/)
+    axios.get(`http://localhost:8080/v1/terms/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: EDIT_TERM,
         payload: res.data
@@ -69,7 +69,7 @@ export const editTerm = _id => (dispatch, getState) => {
 export const updateTerm = (_id, term) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`${process.env.API_HOST}/v1/terms/${_id}`, term/*, tokenConfig(getState)*/)
+    axios.put(`http://localhost:8080/v1/terms/${_id}`, term/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: UPDATE_TERM,
         payload: res.data
@@ -82,7 +82,7 @@ export const updateTerm = (_id, term) => (dispatch, getState) => {
 export const deleteTerm = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`${process.env.API_HOST}/v1/terms/${_id}`/*, tokenConfig(getState)*/)
+    axios.delete(`http://localhost:8080/v1/terms/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: DELETE_TERM,
         payload: _id

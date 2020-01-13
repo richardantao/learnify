@@ -16,7 +16,7 @@ export const setLoading = () => {
 export const editProfile = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/users/profile`, tokenConfig(getState))
+    axios.get("http://localhost:8080/v1/users/profile", tokenConfig(getState))
     .then(res => dispatch({
         type: EDIT_PROFILE,
         payload: res.data
@@ -29,7 +29,7 @@ export const editProfile = () => (dispatch, getState) => {
 export const updateProfile = profile => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.put(`${process.env.API_HOST}/v1/users/profile`, profile, tokenConfig(getState))
+    axios.put("http://localhost:8080/v1/users/profile", profile, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_PROFILE,
         payload: res.data
@@ -42,7 +42,7 @@ export const updateProfile = profile => (dispatch, getState) => {
 export const editPassword = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/users/password`, tokenConfig(getState))
+    axios.get("http://localhost:8080/v1/users/password", tokenConfig(getState))
     .then(res => dispatch({
         type: EDIT_PASSWORD,
         payload: res.data
@@ -55,7 +55,7 @@ export const editPassword = () => (dispatch, getState) => {
 export const updatePassword = password => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`${process.env.API_HOST}/v1/users/password`, password, tokenConfig(getState))
+    axios.put("http://localhost:8080/v1/users/password", password, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_PASSWORD,
         payload: res.data
@@ -68,7 +68,7 @@ export const updatePassword = password => (dispatch, getState) => {
 export const editPreferences = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`${process.env.API_HOST}/v1/users/preferences`, tokenConfig(getState))
+    axios.get("http://localhost:8080/v1/users/preferences", tokenConfig(getState))
     .then(res => dispatch({
         type: EDIT_PREFERENCES,
         payload: res.data
@@ -81,7 +81,7 @@ export const editPreferences = () => (dispatch, getState) => {
 export const updatePreferences = preferences => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`${process.env.API_HOST}/v1/users/preferences`, preferences, tokenConfig(getState))
+    axios.put("http://localhost:8080/v1/users/preferences", preferences, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_PREFERENCES,
         payload: res.data

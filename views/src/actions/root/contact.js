@@ -11,7 +11,7 @@ export const setLoading = () => {
 export const postContact = contact => dispatch => {
     dispatch(setLoading());
 
-    axios.post(`https://learnify.ca/contact`, contact)
+    axios.post("https://learnify.ca/contact", contact)
     .then(res => dispatch({
         type: POST_CONTACT,
         payload: res.data
