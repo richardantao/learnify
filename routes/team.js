@@ -4,7 +4,7 @@ const controller = require("../controllers/team");
 
 router.post("/applications/backend", validation.tech, controller.backend);
 
-router.post("/applications/creator", /*validation.nontech,*/  controller.creator);
+router.post("/applications/creator", validation.nontech,  controller.creator);
 
 router.post("/applications/designer", validation.nontech,  controller.designer);
 
