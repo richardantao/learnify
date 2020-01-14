@@ -88,11 +88,9 @@ class Backend extends Component {
             linkedin,
             other
         };
-
         
         // send data to server
         postBackend(application);
-        console.log("Application received from UI: " + application);
 
         // close modal
         this.toggle();
