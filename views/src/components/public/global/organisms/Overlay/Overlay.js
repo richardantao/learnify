@@ -10,10 +10,6 @@ export default class Overlay extends Component {
         active: false
     };
 
-    componentDidMount() {
-
-    };
-
     toggle = () => {
         const { active } = this.state;
         
@@ -25,7 +21,7 @@ export default class Overlay extends Component {
     render() {
         const { active } = this.state;
         
-        return(
+        return (
             <>
                 <a href="#menu" onClick={this.toggle}>
                     <FontAwesomeIcon icon={faBars}/>
@@ -33,7 +29,7 @@ export default class Overlay extends Component {
 
                 { active ? (
                     <div id="overlay">
-                        <a onClick={this.toggle} href="#closeMenu" className="cancel">
+                        <a href="#closeMenu" className="cancel" onClick={this.toggle}>
                             <FontAwesomeIcon icon={faTimes}/>
                         </a>
 
