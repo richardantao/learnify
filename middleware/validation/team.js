@@ -97,7 +97,7 @@ exports.nontech = (req, res, next) => {
         .optional();
 
     check(linkedin, "LinkedIn had an invalid input")
-        optional();
+        .optional();
 
     check(other, "Other had an invalid input")
         .optional();
