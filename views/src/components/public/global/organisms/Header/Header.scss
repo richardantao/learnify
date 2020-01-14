@@ -21,10 +21,13 @@ $border-line: #E1E1E1;
             margin: 1rem;
             padding: 0.375rem 0.75rem;
         }
-          
-        .nav-links > * {
+        
+        .nav-links a:first-child {
             display: inline-block;
-            margin-left: 1rem;
+        }
+
+        .nav-links a:nth-child(n+2) {
+            display: none;
         }
           
         #nav a:hover {
@@ -41,50 +44,57 @@ $border-line: #E1E1E1;
     }
 }
 
-/* --- Landscape Mobile --- */
-@media (min-width: 576px) {
-    #public {
-        nav {
+// /* --- Landscape Mobile --- */
+// @media (min-width: 576px) {
+//     #public {
+//         nav {
 
-        }
-    }
-}
+//         }
+//     }
+// }
 
 /* --- Portrait Tablets --- */
 @media (min-width: 768px) {
     #public {
         nav {
-            
+            .nav-links a:first-child {
+                display: none;
+            }
+    
+            .nav-links a:nth-child(n+2) {
+                display: inline-block;
+                margin-left: 1rem;
+            }
         }
     }
 }
 
-/* --- Landscape Tablets --- */
-@media (min-width: 992px) {
-    #public {
-        nav {
+// /* --- Landscape Tablets --- */
+// @media (min-width: 992px) {
+//     #public {
+//         nav {
             
-        }
-    }
-}
+//         }
+//     }
+// }
 
-/* --- Small Laptops --- */
-@media (min-width: 1200px) {
-    #public {
-        nav {
+// /* --- Small Laptops --- */
+// @media (min-width: 1200px) {
+//     #public {
+//         nav {
             
-        }
-    }
-}
+//         }
+//     }
+// }
 
-/* --- Large Laptops --- */
-@media (min-width: 1440px) {
-    #public {
-        nav {
+// /* --- Large Laptops --- */
+// @media (min-width: 1440px) {
+//     #public {
+//         nav {
             
-        }
-    }
-}
+//         }
+//     }
+// }
 
 /* --- Desktops --- */
 @media (min-width: 2100px) {
