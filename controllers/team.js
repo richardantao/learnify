@@ -40,6 +40,26 @@ exports.backend = (req, res) => {
                 });
             });
         },
+        notification: callback => {
+            const mailOptions = {
+                from: email,
+                to: user,
+                subject: "",
+                html: `<!DOCTYPE HTML>
+                <html lang="en">
+                    <head>
+                        <meta charset="utf-8">
+                    </head>
+                    <body>
+                        <p>${first} ${last} has applied for the ${type} position.</p>
+                    </body>
+                </html>
+                `
+            };
+
+            sgMail.send(mailOptions);
+            callback(null, mailOptions);
+        },  
         receipt: callback => {
             const mailOptions = {
                 from: user,
@@ -143,7 +163,7 @@ exports.backend = (req, res) => {
             });
         } else {
             console.log(results);
-            return res.status(201).json(results[1]);
+            return res.status(201).json(results[2]);
         };
     });
 };
