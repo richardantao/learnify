@@ -10,7 +10,7 @@
     "dev": "concurrently \"nodemon server.js\" \"cd views && npm start\"",
     "deploy": "NODE_ENV=production gcloud app deploy",
     "server": "nodemon server.js",
-    "start": "forever start --minUptime 1000 --spinSleepTime 1000 server.js",
+    "start": "node server.js",
     "test": "mocha --timeout 5000"
   },
   "repository": {
