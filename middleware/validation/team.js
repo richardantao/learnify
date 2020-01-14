@@ -30,13 +30,7 @@ exports.tech = (req, res, next) => {
         .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
 
     check(resume, "Resume had an invalid input")
-        .exists().withMessage("You must attach a PDF file of your resume with your application")
-
-    if(!resume.includes(".pdf")) {
-        return res.status(422).json({
-            message: "Resume must be a PDF File"
-        });
-    };
+        .exists().withMessage("You must include a link to your resume with your application")
 
     check(portfolio, "Github had an invalid input")
         .exists().withMessage("Github is a required field");
@@ -63,7 +57,7 @@ exports.tech = (req, res, next) => {
             message: error.message
         });
     } else {
-        return next()
+        return next();
     };
 };
 
@@ -97,13 +91,7 @@ exports.nontech = (req, res, next) => {
         .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
 
     check(resume, "Resume had an invalid input")
-        .exists().withMessage("You must attach a PDF file of your resume with your application")
-
-    if(!resume.includes(".pdf")) {
-        return res.status(422).json({
-            message: "Resume must be a PDF File"
-        });
-    };
+        .exists().withMessage("You must attach a link to your resume with your application")
 
     check(portfolio, "Portfolio had an invalid input")
         .optional();
