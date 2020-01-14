@@ -2,7 +2,7 @@ const { check, sanitize, validationResult } = require("express-validator");
 
 const Course = require("../../models/Courses");
 
-const validate = (req, res, next) => {
+module.exports = (req, res, next) => {
     const error = validationResult(req);
     const { course, title, type, deadline, completion, description } = req.body;
 
@@ -52,7 +52,7 @@ const validate = (req, res, next) => {
                     message: "Task deadline must be inside the date of the term your course is in"
                 });
             } else {
-                return next()
+                return next();
             };
         })
         .catch(err => {
@@ -62,5 +62,3 @@ const validate = (req, res, next) => {
         });
     };
 };
-
-module.exports = validate;

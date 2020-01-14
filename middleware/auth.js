@@ -1,8 +1,8 @@
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const secret = process.env.AUTH_SECRET;
 
-const auth = (req, res, next) => {
+module.exports = (req, res, next) => {
     // get token from header
     const token = req.header("x-auth-token");
     
@@ -31,5 +31,3 @@ const auth = (req, res, next) => {
         };
     };    
 };
-
-module.exports = auth;

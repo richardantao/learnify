@@ -1,9 +1,6 @@
 const { check, sanitize, validationResult } = require("express-validator"); 
 
-// instantiate validation 
-const validate = [];
-
-validate.user = (req, res, next) => {
+exports.user = (req, res, next) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
@@ -20,7 +17,7 @@ validate.user = (req, res, next) => {
     };
 };
 
-validate.application = (req, res, next) => {
+exports.application = (req, res, next) => {
     const errors = validationResult(req);
 
     check("");
@@ -41,7 +38,7 @@ validate.application = (req, res, next) => {
     };
 };
 
-validate.contact = (req, res, next) => {
+exports.contact = (req, res, next) => {
     const errors = validationResult(req);
     const { name, email, message } = req.body;
 
@@ -69,7 +66,7 @@ validate.contact = (req, res, next) => {
     };
 };
 
-validate.invite = (req, res, next) => {
+exports.invite = (req, res, next) => {
     const errors = validationResult(req);
     const { name, email } = req.body;
 
@@ -93,7 +90,7 @@ validate.invite = (req, res, next) => {
     };
 };
 
-validate.register = (req, res, next) => {
+exports.register = (req, res, next) => {
     const errors = validationResult(req);
     const { first, last, email, password } = req.body;
 
@@ -124,7 +121,7 @@ validate.register = (req, res, next) => {
     };
 };
 
-validate.signin = (req, res, next) => {
+exports.signin = (req, res, next) => {
     const errors = validationResult(req);
     const { email, password } = req.body;
 
@@ -146,7 +143,7 @@ validate.signin = (req, res, next) => {
     };
 };
 
-validate.signout = (req, res, next) => {
+exports.signout = (req, res, next) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
@@ -158,5 +155,3 @@ validate.signout = (req, res, next) => {
         return next();
     };
 };
-
-module.exports = validate;

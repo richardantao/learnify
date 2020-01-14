@@ -1,6 +1,6 @@
 const { check, sanitize, validationResult } = require("express-validator");
 
-const validate = (req, res, next) => {
+module.exports = (req, res, next) => {
     const errors = validationResult(req);
     const { title, start, end } = req.body;
 
@@ -30,5 +30,3 @@ const validate = (req, res, next) => {
         return next()
     };
 };
-
-module.exports = validate;

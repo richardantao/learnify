@@ -1,8 +1,6 @@
 const { check, sanitize, validationResult } = require("express-validator");
 
-const validate = [];
-
-validate.invite = (req, res, next) => {
+exports.invite = (req, res, next) => {
     const error = validationResult(req);
     const { name, email } = req.body;
 
@@ -29,7 +27,7 @@ validate.invite = (req, res, next) => {
     };
 };
 
-validate.contact = (req, res, next) => {    
+exports.contact = (req, res, next) => {    
     const error = validationResult(req);
     const { name, email, text } = req.body;
 
@@ -58,5 +56,3 @@ validate.contact = (req, res, next) => {
         return next();
     };
 };
-
-module.exports = validate;

@@ -2,7 +2,6 @@ const { check, sanitize, validationResult } = require("express-validator");
 
 const User = require("../../models/User");
 
-
 /* Yet to finish */
 const validate = (req, res, next) => {
     const errors = validationResult(req);

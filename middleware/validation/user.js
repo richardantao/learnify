@@ -1,9 +1,6 @@
 const { check, sanitize, validationResult } = require("express-validator");
 
-// instantiate validation 
-const validate = [];
-
-validate.profile = (req, res, next) => {
+exports.profile = (req, res, next) => {
     const errors = validationResult(req);
     const { first, last, email, country, region, institution, school } = req.body;
     
@@ -48,11 +45,11 @@ validate.profile = (req, res, next) => {
             message: errors.message
         });
     } else {
-        return next()
+        return next();
     };
 };
 
-validate.password = (req, res, next) => {
+exports.password = (req, res, next) => {
     const errors = validationResult(req);
     const { current, confirm } = req.body;
 
@@ -81,11 +78,11 @@ validate.password = (req, res, next) => {
             message: errors.message
         });
     } else {
-        return next()
+        return next();
     };
 };
 
-validate.preferences = (req, res, next) => {
+exports.preferences = (req, res, next) => {
     const errors = validationResult(req);
     const { startDay, startTime, defaultDuration, defaultCalendar } = req.body;
 
@@ -111,11 +108,11 @@ validate.preferences = (req, res, next) => {
             message: errors.message
         });
     } else {
-        return next()
+        return next();
     };
 };
 
-validate.integration = (req, res, next) => {
+exports.integration = (req, res, next) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
@@ -123,8 +120,6 @@ validate.integration = (req, res, next) => {
             message: errors.message
         });
     } else {
-        return next()
+        return next();
     };
 };
-
-module.exports = validate;

@@ -2,7 +2,7 @@ const { check, sanitize, validationResult } = require("express-validator");
 
 const Course = require("../../models/Courses");
 
-const validate = (req, res, next) => {
+const validation = (req, res, next) => {
     const error = validationResult(req);
     const { course, title, type, start, end, location, weight, score } = req.body;
 
@@ -84,4 +84,4 @@ const validate = (req, res, next) => {
     };
 };
 
-module.exports = validate;
+module.exports = validation;

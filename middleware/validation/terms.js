@@ -2,7 +2,7 @@ const { check, sanitize, validationResult } = require("express-validator");
 
 const Term = require("../../models/Terms");
 
-const validate =  (req, res, next) => {
+module.exports =  (req, res, next) => {
     const errors = validationResult(req);
     const { year, title, start, end } = req.body;
 
@@ -39,7 +39,7 @@ const validate =  (req, res, next) => {
                     message: "The start and end date must be inside the dates of the year you have selected"
                 });
             } else {
-                return next()
+                return next();
             };
         })
         .catch(err => {
@@ -49,5 +49,3 @@ const validate =  (req, res, next) => {
         });
     };    
 };
-
-module.exports = validate;

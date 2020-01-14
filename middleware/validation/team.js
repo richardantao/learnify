@@ -1,8 +1,6 @@
 const { check, sanitize, validationResult } = require("express-validator");
 
-const validation = [];
-
-validation.tech = (req, res, next) => {
+exports.tech = (req, res, next) => {
     const error = validationResult(req);
     const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = req.body;
 
@@ -69,9 +67,9 @@ validation.tech = (req, res, next) => {
     };
 };
 
-validation.nontech = (req, res, next) => {
+exports.nontech = (req, res, next) => {
     const error = validationResult(req);
-    const { first, last, email, city } = req.body;
+    const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = req.body;
 
     check(first, "First name had an invalid input")
         .exists().withMessage("First name is a required field")
@@ -132,8 +130,6 @@ validation.nontech = (req, res, next) => {
             message: error.message
         });
     } else {
-        return next()
+        return next();
     };
 };
-
-module.exports = validation;
