@@ -482,7 +482,8 @@ exports.designer = (req, res) => {
 
 exports.frontend = (req, res) => {
     const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = req.body;
-    
+    const type = "Frontend React Developer";
+
     async.series({        
         database: callback => {
             Applicant.create({
@@ -491,7 +492,7 @@ exports.frontend = (req, res) => {
                 last,
                 email,
                 city,
-                type: "Frontend React Developer",
+                type,
                 strategy,
                 help,
                 importance,
