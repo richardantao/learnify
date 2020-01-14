@@ -264,7 +264,7 @@ class Creator extends Component {
                                             required
                                         />
                                         { resume.length > 0 && !resume.includes("drive.google.com/") ? (
-                                            <small className="warning">URL must point to a Google Drive folder.</small>
+                                            <small className="warning">URL must contain 'drive.google.com/'</small>
                                         ): null }
                                     </Col>
                                 </Row>
