@@ -46,11 +46,9 @@ $text: #212529;
     }
 
     .btn, .btn-secondary {
-        // &:not(form .btn) {
-            background-color: $primary-color;
-            border-color: $primary-color;
-            color: white;
-        // }
+        background-color: $primary-color;
+        border-color: $primary-color;
+        color: white;
         
         &:hover, &:focus, &:active {
             background-color: $secondary-color;
@@ -117,9 +115,9 @@ $text: #212529;
     }
 
     /* Roles styles */
-    .roles {
+    // .roles {
 
-    }
+    // }
 }
 
 /* --- Portrait Tablets --- */
@@ -143,9 +141,9 @@ $text: #212529;
     }
 
     /* Roles styles */
-    .roles {
+    // .roles {
 
-    }
+    // }
 }
 
 /* --- Landscape Tablets --- */
@@ -166,9 +164,9 @@ $text: #212529;
     }
 
     /* Roles styles */
-    .roles {
+    // .roles {
 
-    }
+    // }
 }
 
 /* ---  Small Laptops --- */
@@ -194,22 +192,22 @@ $text: #212529;
 
 }
 
-/* ---  Large Laptops --- */
-@media (min-width: 1440px) {
-    /* Team styles */
+// /* ---  Large Laptops --- */
+// @media (min-width: 1440px) {
+//     /* Team styles */
 
 
-    /* Roles styles */
+//     /* Roles styles */
 
-}
+// }
 
-/* ---  Desktops --- */
-@media (min-width: 2100px) {
-    /* Team styles */
+// /* ---  Desktops --- */
+// @media (min-width: 2100px) {
+//     /* Team styles */
 
 
-    /* Roles styles */
+//     /* Roles styles */
     
-}
+// }
 
 
