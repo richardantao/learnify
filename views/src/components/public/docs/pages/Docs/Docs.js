@@ -61,9 +61,9 @@ export default class Docs extends Component {
                                 <li>Automate repetitive planning</li>
                                 <li>Spend less time thinking and more time doing</li>
                                 <li>Have your paperless school planner with you wherever you go</li>
-                                <li>Build a roadmap of any career &ndash; find out what it will offer and what it takes to get there</li>
                                 <li>Share resources and insight with your local academic community</li>
                                 <li>Gain insight into courses you consider taking in the future</li>
+                                <li>Build a roadmap of any career &ndash; find out what it will offer and what it takes to get there</li>
                             </ul>
                         </div>
                         <div id="basics">
