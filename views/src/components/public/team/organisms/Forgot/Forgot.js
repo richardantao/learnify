@@ -54,7 +54,8 @@ class Forgot extends Component {
 
         resetPassword(email);
 
-        this.toggle();
+        
+        setTimeout(this.toggle(), 3000);
     };
 
     render() {
@@ -75,14 +76,14 @@ class Forgot extends Component {
                             <Input
                                 name="email"
                                 type="email"
-                                placeholder="Email.."
+                                placeholder="e.g. johndoe@example.com"
                                 value={email}
                                 onChange={this.handleChange}
                                 required
                             />
                         </ModalBody>
                         <ModalFooter>
-                            <Button type="submit">Submit</Button>
+                            <Button type="submit">Send Reset Token</Button>
                         </ModalFooter>
                     </Form>
                 </Modal>
