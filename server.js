@@ -68,6 +68,7 @@ app.use("/", require("./routes/team"));
 
 /* Fetch Client Side Rendering */
 app.get("*", (req, res) => {
+	res.set("Cache-Control", "no-cache");
 	res.sendFile(path.join(__dirname, "views/build/index.html"));
 });
 
