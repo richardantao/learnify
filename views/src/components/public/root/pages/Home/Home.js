@@ -28,10 +28,6 @@ class Home extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-        alert("Forms are now stable. If you have visited this website before, clear your browser cache to load the working versions of the forms.");
-    };
-
     componentDidUpdate(prevProps) {
         const { beta, error } = this.props;
 
