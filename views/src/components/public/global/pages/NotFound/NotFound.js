@@ -10,7 +10,8 @@ const NotFound = () => {
     return (
         <>
             <Helmet>
-                <meta name="description" content="The resource you requested could not be found"/>
+                <meta name="description" content="The resource you requested could not be found on Learnify"/>
+                <meta name="keywords" content="error, not found, lost, misplaced, 404"/>
                 <title>404 Error</title>
             </Helmet>
             <main className="not-found" role="main">

@@ -10,6 +10,9 @@ const History = props => {
     return (
         <>
             <Helmet>
+                <meta name="description" content=""/>
+                <meta name="keywords" content=""/>
+                <link rel="canonical" href="https://learnify.ca/blog/history"/>
                 <title>Learnify | Blog</title>
             </Helmet>
             <div id="public">

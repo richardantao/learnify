@@ -117,9 +117,9 @@ class Contact extends Component {
         return (
             <>
                 <Helmet>
-                    <meta name="application-name" content="Learnify"/>
                     <meta name="description" content="Learnify helps you organize your academic life with our intuitive all-in-one web application"/>
-                    <meta name="keywords" content="Learnify, homework, app, study app, homework app, university app, planner, study planner, highschool"/>
+                    <meta name="keywords" content="Learnify, message, contact, customer, service, support, send, homework, study, planner, academics"/>
+                    <link rel="canonical" href="https://learnify.ca/contact"/>
                     <title>Learnify | Contact Us</title>
                 </Helmet>
                 <div id="public">

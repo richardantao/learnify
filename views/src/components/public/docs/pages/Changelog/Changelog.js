@@ -84,6 +84,9 @@ class Changelog extends Component {
         return(
             <>
                 <Helmet>
+                    <meta name="description" content="Learnify's publics highlights new features, performance improvements, and bug fixes"/>
+                    <meta name="keywords" content="Learnify, docs, version, beta, changelog, public"/>
+                    <link rel="canonical" href="https://learnify.ca/docs/changelog"/>
                     <title>Learnify | Changelog</title>
                 </Helmet>
                 <div id="public">

@@ -10,6 +10,9 @@ const Habits = props => {
     return (
         <>
             <Helmet>
+                <meta name="description" content=""/>
+                <meta name="keywords" content=""/>
+                <link rel="canonical" href="https://learnify.ca/blog/habits"/>
                 <title>Learnify | Blog</title>
             </Helmet>
             <div id="public">

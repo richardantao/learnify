@@ -44,6 +44,9 @@ export default class Terms extends Component {
         return (
             <>
                 <Helmet>
+                    <meta name="description" content="Learnify's offical Terms of Service."/>
+                    <meta name="keywords" content="Learnify, docs, terms, service, bound, agreement"/>
+                    <link rel="canonical" href="https://learnify.ca/docs/terms"/>
                     <title>Learnify | Terms of Service</title>
                 </Helmet>
                 <div id="public">

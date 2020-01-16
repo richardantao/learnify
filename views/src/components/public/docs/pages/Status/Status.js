@@ -41,7 +41,9 @@ export default class Status extends Component {
         return (
             <>
                 <Helmet>
-                    <meta name="description" content=""/>
+                    <meta name="description" content="Learnify's system status logs."/>
+                    <meta name="keywords" content="Learnify, status, system, logs, maintenance"/>
+                    <link rel="canonical" href="https://learnify.ca/docs/status"/>
                     <title>Learnify | System Status</title>
                 </Helmet>
                 <div id="public">

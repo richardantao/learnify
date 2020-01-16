@@ -41,6 +41,9 @@ export default class Docs extends Component {
         return (
             <>
                 <Helmet>
+                    <meta name="description" content="Learnify's official documentation. Learn what Learnify is and why you should use it."/>
+                    <meta name="keywords" content="Learnify, docs, why, start, use, features, planner, academics, tasks, assessments, courses, manage"/>
+                    <link rel="canonical" href="https://learnify.ca/docs"/>
                     <title>Learnify | Docs</title>
                 </Helmet>
                 <div id="public">

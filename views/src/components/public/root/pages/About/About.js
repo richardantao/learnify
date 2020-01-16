@@ -15,6 +15,9 @@ const About = () => {
     return (
         <>
             <Helmet>
+                <meta name="description" content="Learn about Learnify's mission, values, and meet the team."/>
+                <meta name="keywords" content="about us, Learnify, Richard Antao, team, mission, values, students, meet"/>
+                <link rel="canonical" href="https://learnify.ca/about"/>
                 <title>Learnify | About Us</title>
             </Helmet>
             <div id="public">

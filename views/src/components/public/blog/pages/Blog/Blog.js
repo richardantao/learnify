@@ -20,6 +20,9 @@ const Blog = props => {
     return (
         <>
             <Helmet>
+                <meta name="description" content="Learnify's hosts our insights, ideas, and achievements on our blog."/>
+                <meta name="keywords" content="Learnify, blog, posts, ideas, achivement, change, insights"/>
+                <link rel="canonical" href="https://learnify.ca/blog"/>
                 <title>Learnify | Blog</title>
             </Helmet>
             <div id="public">

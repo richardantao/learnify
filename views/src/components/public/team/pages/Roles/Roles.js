@@ -86,7 +86,9 @@ class Roles extends Component {
         return (
             <>
                 <Helmet>
-                    <meta name="" content=""/>
+                    <meta name="description" content="See open positions and join the team at Learnify."/>
+                    <meta name="keyowrds" content="team, career, learnify, university, western, jobs, join"/>
+                    <link rel="canonical" href="https://learnify.ca/team/roles"/>
                     <title>Learnify | Roles</title>
                 </Helmet>  
                 <div id="public">

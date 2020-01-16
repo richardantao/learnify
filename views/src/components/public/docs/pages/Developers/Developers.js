@@ -41,7 +41,9 @@ export default class Developers extends Component {
         return (
             <>
                 <Helmet>
-                    <meta name="description" content=""/>
+                    <meta name="description" content="Learnify's public API documentation"/>
+                    <meta name="keywords" content="Learnify, documentations, docs, API, developers, public"/>
+                    <link rel="canonical" href="https://learnify.ca/docs/developers"/>
                     <title>Learnify | Developers</title>
                 </Helmet>
                 <div id="public">

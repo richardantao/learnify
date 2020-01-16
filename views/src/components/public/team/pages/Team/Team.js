@@ -7,7 +7,6 @@ import Footer from "../../../global/organisms/Footer";
 import { Button } from "reactstrap";
 
 import Loadable from "react-loadable";
-import Loading from "../../../global/organisms/Loading";
 
 import background from "./team-min.jpg"
 import "../../Team.scss";
@@ -22,6 +21,9 @@ const Team = props => {
     return (
         <>
             <Helmet>
+                <meta name="description" content="Join the team at Learnify."/>
+                <meta name="keywords" content="team, Learnify, Canada, homework, study, app, join, careers, jobs"/>
+                <link rel="canonical" href="https://learnify.ca/team"/>
                 <title>Learnify | Team</title>
             </Helmet>
             <div id="public">

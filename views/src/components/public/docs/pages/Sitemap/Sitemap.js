@@ -41,6 +41,9 @@ export default class Sitemap extends Component {
         return (
             <>
                 <Helmet>
+                    <meta name="description" content="Learnify's sitemap."/>
+                    <meta name="keywords" content="Learnify, sitemap, breadcrumbs"/>
+                    <link rel="canonical" href="https://learnify.ca/docs/sitemap"/>
                     <title>Learnify | Sitemap</title>
                 </Helmet>
                 <div id="public">

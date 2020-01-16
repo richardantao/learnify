@@ -110,8 +110,6 @@ class Home extends Component {
         return (
             <>
                 <Helmet>    
-                    <meta name="description" content="Sign up for Learnify's Beta program"/>
-                    <meta name="keywords" content="Learnify, homework, app, study app, homework app, university app, planner, study planner, highschool, Western University, Ontario, Waterloo University, London, Ontario, Canada"/>
                     <title>Learnify</title>
                 </Helmet>
                 <div id="public">

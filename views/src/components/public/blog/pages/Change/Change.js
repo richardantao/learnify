@@ -10,6 +10,9 @@ const Change = () => {
     return (
         <>
             <Helmet>
+                <meta name="description" content=""/>
+                <meta name="keywords" content=""/>
+                <link rel="canonical" href="https://learnify.ca/blog/change"/>
                 <title>Learnify | Blog</title>
             </Helmet>
             <div id="public">

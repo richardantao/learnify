@@ -43,6 +43,9 @@ export default class Cookies extends Component {
         return (
             <>
                 <Helmet>
+                    <meta name="description" description="Learnify's offical cookie policy."/>
+                    <meta name="keywords" content="Learnify, cookies, cookie, policy, data, personal"/>
+                    <link rel="canonical" href="https://learnify.ca/docs/cookies"/>
                     <title>Learnify | Cookies</title>
                 </Helmet>
                 <div id="public">
