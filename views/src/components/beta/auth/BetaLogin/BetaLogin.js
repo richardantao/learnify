@@ -32,6 +32,33 @@ class BetaLogin extends Component {
         const { clearErrors } = this.props;
         
         clearErrors();
+
+        /* Facebook SDK */
+        
+        // initialize FB SDK
+        window.fbAsyncInit = function() {
+            FB.init({
+            appId      : "571380723442823",
+            cookie     : true,
+            xfbml      : true,
+            version    : "5.0"
+            });
+            
+            FB.AppEvents.logPageView();   
+            
+            // check user's login status
+            FB.getLoginStatus(function(response) {
+                statusChangeCallback(response);
+            }).bind(this);
+        }.bind(this);
+
+        (function(d, s, id){
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) {return;}
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, "script", "facebook-jssdk"));
     };
 
     componentDidUpdate(prevProps) {
@@ -70,10 +97,15 @@ class BetaLogin extends Component {
     };
     
     render() {
-       return(
+       return (
            <Fragment>
                <Helmet>
-                   <title>My Learnify | Sign In</title>
+                    <meta name="description" content="Signin to the Beta Learnify app."/>
+                    <meta name="keywords" content="Learnify, beta, signin, login, auth"/>
+                    <meta name="google-signin-client_id" content="1040228589350-rh2pv9s8pqeo3qrqutgvqt1pbng7g4s8.apps.googleusercontent.com"></meta>
+                    <link rel="canonical" href="https://learnify.ca/beta/signin"/>
+                    <title>My Learnify | Sign In</title>
+                    <script src="https://apis.google.com/js/platform.js" async defer></script>
                </Helmet>
                     <div id="login">
                             {
@@ -108,6 +140,10 @@ class BetaLogin extends Component {
                             </FormGroup>
                             <FormGroup>
                                 <a href="forget.html" className="forgot">Forgot password?</a>
+                            </FormGroup>
+                            <FormGroup>
+                                <div class="fb-login-button" data-size="medium" data-auto-logout-link="true" data-onlogin="checkLoginState();"></div>
+                                <div class="g-signin2" data-onsuccess="onSignIn"></div>
                             </FormGroup>
                         </Form>
                         <div className="create">
