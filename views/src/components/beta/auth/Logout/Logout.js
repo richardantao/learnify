@@ -6,21 +6,29 @@ import PropTypes from "prop-types";
 
 import Button from "../Button";
 
-import "./LogoutButton.scss";
+import "./Logout.scss";
 
-class LogoutButton extends Component {
-    state = {
-
-    };
-    
+class Logout extends Component {
     static propTypes = {
         isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         logout: PropTypes.func.isRequired
-    }
+    };
+
+    handleAllLogouts = e => {
+        const { logout } = this.props;
+
+        logout();
+        googleSignOut(); 
+    };
+
+    googleSignOut = () => {
+        const auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut();   
+    };
     
     render() {
-        return <Button href="#" onClick={this.props.logout}>Sign Out</Button>
+        return <Button href="#signout" onClick={this.handleAllLogouts}>Sign Out</Button>
     };
 };
 
@@ -31,5 +39,5 @@ const mapStateToProps = state => ({
 
 mapDispatchToProps = { logout };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogoutButton);
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);
 
