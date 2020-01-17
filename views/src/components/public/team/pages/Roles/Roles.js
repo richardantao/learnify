@@ -159,6 +159,7 @@ class Roles extends Component {
                                                     <li>Client&ndash;side &mdash; React built UIs; State managed with Redux</li>
                                                     <li>Server&ndash;side &mdash; Web API built with Express in the Node environment</li>
                                                     <li>Database &mdash; MongoDB; Modelled with Mongoose</li>
+                                                    <li>Caching &mdash; Improving API performance with Redis</li>
                                                 </ul>
                                             </div>
                                             <div>
@@ -175,6 +176,7 @@ class Roles extends Component {
                                                     <li>Understanding of accessibility and security compliance</li>
                                                     <li>An active Github account and a demonstrated competency with version control</li>
                                                     <li>Experience with a cloud platform such as AWS or GCP is a plus</li>
+                                                    <li>Experience with Redis is not required but is a major plus as we are looking to extend our tech stack with Redis caching</li>
                                                 </ul>
                                             </div>
                                             <div>
