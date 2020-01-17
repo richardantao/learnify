@@ -12,18 +12,20 @@ const app = express();
 const host = process.env.HOST || "http://localhost";
 const port = process.env.PORT;
 const env = process.env.NODE_ENV || "development";
-// const corsOptions = [`https://learnify.ca:${port}`, `https://www.learnify.ca:${port}`];
+const corsOptions = ["https://learnify.ca", "https://www.learnify.ca"];
 require("./config/db");
 
 /* --- Middleware --- */
-app.use(cors(/*{ origin: (origin, callback) => {
-	if(corsOptions.indexOf(origin) !== -1) {
-		callback(null, true);
-	} else {
-		console.log("Not allowed by CORS")
-		callback(new Error("Not allowed by CORS"));
-	};
-}}*/));
+app.use(cors({ 
+	origin: (origin, callback) => {
+		if(corsOptions.indexOf(origin) !== -1) {
+			callback(null, true);
+		} else {
+			console.log("Not allowed by CORS");
+			callback(new Error("Not allowed by CORS"));
+		};
+	}
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(compression());
