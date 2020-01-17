@@ -40,6 +40,7 @@
     "forever": "^2.0.0",
     "helmet": "^3.21.2",
     "jsonwebtoken": "^8.5.1",
+    "logrocket": "^1.0.6",
     "migrate": "^1.6.2",
     "moment": "^2.24.0",
     "mongodb": "^3.5.0",
