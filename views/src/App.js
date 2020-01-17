@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { Route, Switch, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import LogRocket from "logrocket";
 
 /* --- Redux --- */
 import { Provider } from "react-redux";
@@ -23,6 +24,7 @@ class App extends Component {
 	};
 
 	componentDidMount() {
+		LogRocket.init("desbiw/learnify");
 		store.dispatch(loadUser());
 	};
 
