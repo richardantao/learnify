@@ -7,14 +7,11 @@ const validation = require("../middleware/validation/assessments");
 // create assessment
 router.post("/assessments", /*auth,*/ validation, controller.create);
 
-// get all the assessments
-router.get("/assessments", /*auth,*/ controller.readAll);
-
 // get all the assessments in a term
-router.get("/terms/:termId/assessments", /*auth,*/ controller.filterByTerm);
+router.get("/terms/:termId/assessments", /*auth,*/ controller.read);
 
 // get all the assessments for a course
-router.get("/courses/:courseId/assessments", /*auth,*/ controller.filterByCourse);
+router.get("/courses/:courseId/assessments", /*auth,*/ controller.filter);
 
 // get one assessment
 router.get("/assessments/:assessmentId", /*auth,*/ controller.edit);

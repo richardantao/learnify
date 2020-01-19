@@ -6,11 +6,9 @@ const validation = require("../middleware/validation/tasks");
 
 router.post("/tasks", /*auth,*/ validation, controller.create);
 
-router.get("/tasks", /*auth,*/ controller.readAll)
+router.get("/terms/:termId/tasks", /*auth,*/ controller.read);
 
-router.get("/terms/:termId/tasks", /*auth,*/ controller.filterByTerm);
-
-router.get("/courses/:courseId/tasks", auth, controller.filterByCourse);
+router.get("/courses/:courseId/tasks", auth, controller.filter);
 
 router.get("/tasks/:taskId", /*auth,*/ controller.edit);
 
