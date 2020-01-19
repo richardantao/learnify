@@ -14,6 +14,7 @@ const port = process.env.PORT;
 const env = process.env.NODE_ENV || "development";
 const corsOptions = ["https://learnify.ca", "https://www.learnify.ca"];
 require("./config/db");
+require("./config/cache");
 
 /* --- Middleware --- */
 app.use(cors({ 
