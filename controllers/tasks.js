@@ -6,10 +6,14 @@ const ObjectId = require("mongodb").ObjectId;
 const Task = require("../models/Tasks");
 const Course = require("../models/Courses");
 
+const redis = require("../config/cache");
+
 exports.create = (req, res) => {
     const { course, title, type, deadline, completion, description } = req.body;
 
-    const matchTerm = (callback) => {
+    const redisKey = JSON.stringify();
+
+    const matchTerm = callback => {
         Course.find({ _id: course }, {
             term: 1,
             _id: 0
@@ -21,7 +25,7 @@ exports.create = (req, res) => {
                     message: "Could not find term"
                 });
             } else {
-                callback(null, term);
+                callback(null, term[0]);
             };
         })
         .catch(err => {
@@ -34,7 +38,7 @@ exports.create = (req, res) => {
     const createTask = (term, callback) => {
         Task.create({
             _id: ObjectId(),
-            term: term[0].term,
+            term: term.term,
             course,
             title,
             type,
@@ -43,10 +47,7 @@ exports.create = (req, res) => {
             description
         })
         .then(task => {
-            callback(null, { 
-                message: "New task created",
-                task 
-            });
+            callback(null, task);
         })
         .catch(err => {
             return res.status(500).json({
@@ -55,9 +56,20 @@ exports.create = (req, res) => {
         });
     };
 
+    const cacheResults = (task, callback) => {
+        redis.del(redisKey);
+        redis.setex(JSON.stringify(task._id), 3600, JSON.stringify(task));
+
+        callback(null, {
+            task,
+            message: "New task created"
+        });
+    };
+
     async.waterfall([
         matchTerm,
-        createTask
+        createTask,
+        cacheResults
     ], (err, results) => {
         if(err) {
             return res.status(500).json({
@@ -69,136 +81,200 @@ exports.create = (req, res) => {
     });     
 };
 
-exports.readAll = (req, res) => {
-    // const { _id = req.user}
-
-    Task.find({  }, {
-        course: 1,
-        title: 1,
-        type: 1,
-        deadline: 1,
-        completion: 1,
-        description: 1
-    })
-    .populate("course", [ "title" ])
-    .sort({ deadline: 1 })
-    .then(tasks => {
-        if(tasks.length === 0) {
-            return res.status(404).json({
-                message: ""
-            });
-        } else {
-            return res.status(200).json(tasks);
-        };
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
-    });
-};
-
-exports.filterByTerm = (req, res) => {
+exports.read = (req, res) => {
     const { termId } = req.params;
 
+    const redisKey = JSON.stringify();
 
-    Task.find({ term: termId }, {
-        course: 1,
-        title: 1,
-        type: 1,
-        deadline: 1,
-        completion: 1,
-        description: 1
-    })
-    .populate("course", [ "title" ])
-    .sort({ deadline: 1 })
-    .then(tasks => {
-        if(tasks.length === 0) {
-            return res.status(404).json({
-                message: "No tasks found"
+    const checkCache = callback => {
+        redis.get(redisKey, (err, cacheResults) => {
+            if(err) {
+                return res.status(500).json({
+                    message: err.message
+                });
+            } else if(cacheResults) {
+                callback(null, JSON.parse(cacheResults));
+            } else {
+                callback(null);
+            };
+        });
+    };
+
+    const queryDb = (cacheResults, callback) => {
+        if(cacheResults) {
+            callback(null, cacheResults);
+        } else {
+            Task.find({ term: termId }, {
+                course: 1,
+                title: 1,
+                type: 1,
+                deadline: 1,
+                completion: 1,
+                description: 1
+            })
+            .populate("course", [ "title" ])
+            .sort({ deadline: 1 })
+            .then(tasks => {
+                if(tasks.length === 0) {
+                    return res.status(404).json({
+                        message: "No tasks found"
+                    });
+                } else {
+                    redis.setex(redisKey, 3600, JSON.stringify(tasks));
+
+                   callback(null, tasks);
+                };
+            })
+            .catch(err => {
+                return res.status(500).json({
+                    message: err.message
+                });
+            });
+        };
+    };
+
+    async.waterfall([
+        checkCache,
+        queryDb
+    ], (err, results) => {
+        if(err) {
+            return res.status(500).json({
+                message: err.message
             });
         } else {
-            return res.status(200).json(tasks);
+            return res.status(200).json(results);
         };
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
     });
 };
 
-exports.filterByCourse = (req, res) => {
+exports.filter = (req, res) => {
     const { courseId } = req.params;
 
-    Task.find({ course: courseId }, {
-        course: 1,
-        title: 1,
-        type: 1,
-        deadline: 1,
-        completion: 1,
-        description: 1
-    })
-    .populate("course", [ "title" ])
-    .sort({ deadline: 1 })
-    .then(tasks => {
-        if(tasks.length === 0) {
-            return res.status(404).json({
-                message: "No tasks found"
+    const redisKey = JSON.stringify();
+
+    const checkCache = callback => {
+        redis.get(redisKey, (err, cacheResults) => {
+            if(err) {
+                return res.status(500).json({
+                    message: err.message
+                });
+            } else if (cacheResults) {
+                callback(null, JSON.parse(cacheResults));
+            } else {
+                callback(null);
+            };
+        });
+    };
+
+    const queryDb = (cacheResults, callback) => {
+        if(cacheResults) {
+            callback(null, cacheResults);
+        } else {
+            Task.find({ course: courseId }, {
+                course: 1,
+                title: 1,
+                type: 1,
+                deadline: 1,
+                completion: 1,
+                description: 1
+            })
+            .populate("course", [ "title" ])
+            .sort({ deadline: 1 })
+            .then(tasks => {
+                if(tasks.length === 0) {
+                    return res.status(404).json({
+                        message: "No tasks found"
+                    });
+                } else {
+                    redis.setex(redisKey, 3600, JSON.stringify(tasks));
+
+                    callback(null, tasks);
+                };
+            })
+            .catch(err => {
+                return res.status(500).json({
+                    message: err.message
+                });
+            });
+        };
+    };
+
+    async.waterfall([
+        checkCache,
+        queryDb
+    ], (err, results) => {
+        if(err) {
+            return res.status(500).json({
+                message: err.message
             });
         } else {
-            return res.status(200).json(tasks);
+            return res.status(200).json(results);
         };
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
     });
 };
 
 exports.edit = (req, res) => {
     const { taskId } = req.params;
     
-    const getTask = (callback) => {
-        Task.find({ _id: taskId }, {
-            course: 1,
-            title: 1,
-            type: 1,
-            deadline: 1,
-            completion: 1,
-            description: 1,
-            meta: 1
-        })
-        .populate("course", [ "title", "term" ])
-        .limit(1)
-        .then(task => {
-            if(task.length === 0) {
-                return res.status(404).json({
-                    message: "Task not found"
-                });
-            } else {
-                return callback(null, task);
-            };
-        })
-        .catch(err => {
-            if(err.kind === "ObjectId") {
-                return res.status(404).json({
-                    message: "Task not found"
-                });
-            } else {
+    const checkCache = callback => {
+        redis.get(JSON.stringify(taskId), (err, cacheResult) => {
+            if(err) {
                 return res.status(500).json({
                     message: err.message
                 });
+            } else if(cacheResult) {
+                callback(null, JSON.parse(cacheResult));
+            } else {
+                callback(null);
             };
         });
     };
 
+    const queryDb = (cacheResult, callback) => {
+        if(cacheResult) {
+            callback(null, cacheResult);
+        } else {
+            Task.find({ _id: taskId }, {
+                course: 1,
+                title: 1,
+                type: 1,
+                deadline: 1,
+                completion: 1,
+                description: 1,
+                meta: 1
+            })
+            .populate("course", [ "title", "term" ])
+            .limit(1)
+            .then(task => {
+                if(task.length === 0) {
+                    return res.status(404).json({
+                        message: "Task not found"
+                    });
+                } else {
+                    redis.setex(task[0]._id, 3600, task[0]);
+
+                    callback(null, task[0]);
+                };
+            })
+            .catch(err => {
+                if(err.kind === "ObjectId") {
+                    return res.status(404).json({
+                        message: "Task not found"
+                    });
+                } else {
+                    return res.status(500).json({
+                        message: err.message
+                    });
+                };
+            });
+        };
+    };
+
     const getCourseOptions = (task, callback) => {
         Course.find({ 
-            term: task[0].course.term[0],
+            term: task.course.term,
             title: {
-                $ne: task[0].course.title
+                $ne: task.course.title
             }
         }, {
             title: 1
@@ -207,7 +283,7 @@ exports.edit = (req, res) => {
         .then(options => {
             if(options.length === 0) {
                 return res.status(404).json({
-
+                    message: "No task options found"
                 });
             } else {
                 callback(null, { task, options });
@@ -216,12 +292,13 @@ exports.edit = (req, res) => {
         .catch(err => {
             return res.status(500).json({
                 message: err.message
-            })
+            });
         });
     };
 
     async.waterfall([
-        getTask,
+        checkCache, 
+        queryDb,
         getCourseOptions
     ], (err, results) => {
         if(err) {
@@ -238,6 +315,8 @@ exports.update = (req, res) => {
     const { taskId } = req.params;
     const { course, title, type, deadline, completion, description, createdAt } = req.body;
 
+    const redisKey = JSON.stringify();
+
     const matchTerm = (callback) => {
         Course.find({ _id: course }, {
             term: 1,
@@ -250,7 +329,7 @@ exports.update = (req, res) => {
                     message: "Could not find term"
                 });
             } else {
-                callback(null, term);
+                callback(null, term[0]);
             };
         })
         .catch(err => {
@@ -262,7 +341,7 @@ exports.update = (req, res) => {
 
     const updateTask = (term, callback) => {
         const task = {
-            term: term[0].term[0],
+            term: term.term,
             course,
             title, 
             type, 
@@ -278,16 +357,13 @@ exports.update = (req, res) => {
         Task.updateOne({ _id: taskId }, {
             $set: task
         })
-        .then(revisedTask => {
-            if(!revisedTask) {
+        .then(task => {
+            if(!task) {
                 return res.status(404).json({
                     message: "Task not found"
                 }); 
             } else {
-                callback(null, {
-                    message: "Your task has been updated",
-                    task
-                });
+                callback(null, task);
             };
         })
         .catch(err => {
@@ -303,9 +379,18 @@ exports.update = (req, res) => {
         });
     };
 
+    const updateCache = (task, callback) => {
+        redis.del(redisKey);
+
+        redis.setex(task._id, 3600, task);
+
+        callback(null, { message: "Task updated" });
+    };
+
     async.waterfall([
         matchTerm,
-        updateTask
+        updateTask,
+        updateCache
     ], (err, results) => {
         if(err) {
             return res.status(500).json({
@@ -320,26 +405,50 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const { taskId } = req.params;
 
-    Task.deleteOne({ _id: taskId })
-    .then(deletedTask => {
-        if(!deletedTask) {
-            return res.status(404).json({
-                message: "Task not found"
+    const redisKey = JSON.stringify();
+    
+    const clearCache = callback => {
+        redis.del(redisKey);
+        redis.del(JSON.stringify(taskId));
+
+        callback(null);
+    };
+
+    const deleteFromDb = callback => {
+        Task.deleteOne({ _id: taskId })
+        .then(deletedTask => {
+            if(!deletedTask) {
+                return res.status(404).json({
+                    message: "Task not found"
+                });
+            } else {
+                callback(null);
+            };
+        })
+        .catch(err => {
+            if(err.kind === "ObjectId" || err.name === "NotFound") {
+                return res.status(404).json({
+                    message: "Task not found"
+                });
+            } else {
+                return res.status(500).json({
+                    message: err.message
+                });
+            };
+        });
+    };
+
+    async.parallel([
+        clearCache,
+        deleteFromDb
+    ], (err, results) => {
+        if(err) {
+            return res.status(500).json({
+                message: err.message
             });
         } else {
             return res.status(200).json({
-                message: "Your task has been deleted"
-            });
-        };
-    })
-    .catch(err => {
-        if(err.kind === "ObjectId" || err.name === "NotFound") {
-            return res.status(404).json({
-                message: "Task not found"
-            });
-        } else {
-            return res.status(500).json({
-                message: err.message
+                message: "Task deleted"
             });
         };
     });
