@@ -1,3 +1,3 @@
 const should = require("chai").should;
 
-const Assessments = require("./Assessments.model");
+const Assessments = require("../../../api/models/Assessments");

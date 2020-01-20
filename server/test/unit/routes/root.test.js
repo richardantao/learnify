@@ -1,11 +1,10 @@
 process.env.NODE_ENV = "test";
 
-const mongoose = require("mongoose");
 const Beta = require("../../../api/models/Beta");
 
 let chai = require("chai");
-let chaiHttp = require('chai-http');
-let server = require("../server");
+let chaiHttp = require("chai-http");
+let server = require("../../../server");
 let should = chai.should();
 
 chai.use(chaiHttp);
