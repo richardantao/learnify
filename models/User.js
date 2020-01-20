@@ -40,11 +40,15 @@ const UserSchema = new Schema({
         onEmailList: { type: Boolean, default: true}
     },
     meta: {
-        membership: { type: String, default: "Basic", enum: ["Admin", "Alpha", "Basic", "Beta", "Delta", "Premium"] },
-        sessions: { type: Number, default: 0, min: 0 },
-        lastActiveAt: { type: Date, default: null },
-        createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
-        updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
+        app: {
+            membership: { type: String, default: "Basic", enum: ["Admin", "Alpha", "Basic", "Beta", "Delta", "Premium"] },
+            sessions: { type: Number, default: 0, min: 0 },
+            lastActiveAt: { type: Date, default: null }
+        },
+        user: {
+            createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
+            updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
+        }
 	}
 });
 
