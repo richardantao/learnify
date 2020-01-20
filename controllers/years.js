@@ -214,7 +214,6 @@ exports.update = (req, res) => {
 	const updateDb = callback => {
 		const update = {
 			_id: yearId,
-			user: _id,
 			title,
 			date: {
 				start,
@@ -254,8 +253,6 @@ exports.update = (req, res) => {
 	const updateCache = (year, callback) => {
 		redis.del(redisYearsKey);
 		redis.del(redisTermsKey);
-
-		delete year.user;
 
 		redis.setex(JSON.stringify(year._id), 3600, JSON.stringify(year));
 		
@@ -298,8 +295,8 @@ exports.delete = (req, res) => {
 
 	const deleteFromDb = callback => {
 		Year.deleteOne({ _id: yearId })
-		.then(deletedYear => {
-			if(!deletedYear) {
+		.then(year => {
+			if(!year) {
 				return res.status(404).json({
 					message: "Year not found"
 				});

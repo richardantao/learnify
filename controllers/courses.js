@@ -269,7 +269,6 @@ exports.update = (req, res) => {
 	const updateDb = callback => {
 		const course = {
 			_id: courseId,
-			user: _id,
 			term,
 			code,
 			title,
@@ -307,26 +306,12 @@ exports.update = (req, res) => {
 		});
 	};
 
-	const updateCache = (payload, callback) => {
+	const updateCache = (course, callback) => {
 		redis.del(redisCourseKey);
 		redis.del(redisAssessmentsReadKey);
 		redis.del(redisAssessmentsFilterKey);
 		redis.del(redisTasksReadKey);
 		redis.del(redisTasksFilterKey);
-
-		const course = {
-			_id: payload._id,
-			term: payload.term,
-			code: payload.code,
-			title: payload.title,
-			credit: payload.credit,
-			instructor: payload.instructor,
-			theme: payload.theme, 
-			meta: {
-				createdAt: payload.meta.createdAt,
-				updatedAt: payload.meta.updatedAt
-			}
-		};
 
 		redis.setex(JSON.stringify(course._id), 3600, JSON.stringify(course));
 
@@ -375,8 +360,8 @@ exports.delete = (req, res) => {
 	
 	const deleteFromDb = callback => {
 		Course.deleteOne({ _id: courseId})
-		.then(deletedCourse => {
-			if(!deletedCourse) {
+		.then(course => {
+			if(!course) {
 				return res.status(404).json({
 					message: "No course found"
 				});

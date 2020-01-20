@@ -40,7 +40,7 @@ exports.create = (req, res) => {
 		.populate("year", [ "title" ])
 		.limit(1)
 		.then(populatedTerm => {
-			callback(null, populatedTerm[0]);
+			return callback(null, populatedTerm[0]);
 		})
 		.catch(err => {
 			return res.status(500).json({
@@ -285,7 +285,6 @@ exports.update = (req, res) => {
 	
 	const updateDb = callback => {
 		const update = {
-			user: _id,
 			year,
 			title,
 			date: {
@@ -330,8 +329,6 @@ exports.update = (req, res) => {
 		redis.del(redisAssessmentsFilterKey);
 		redis.del(redisTasksReadKey);
 		redis.del(redisTasksFilterKey);
-
-		delete term.user;
 
 		redis.setex(JSON.stringify(term._id), 3600, JSON.stringify(term));
 

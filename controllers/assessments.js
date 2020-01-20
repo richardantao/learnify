@@ -459,8 +459,8 @@ exports.delete = (req, res) => {
 
     const deleteFromDb = callback => {
         Assessment.deleteOne({ _id: assessmentId })
-        .then(deletedAssessment => {
-            if(!deletedAssessment) {
+        .then(assessment => {
+            if(!assessment) {
                 return res.status(404).json({
                     message: "Assessment not found"
                 });
