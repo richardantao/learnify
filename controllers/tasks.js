@@ -9,9 +9,11 @@ const Course = require("../models/Courses");
 const redis = require("../config/cache");
 
 exports.create = (req, res) => {
+    const { _id } = req.user;
     const { course, title, type, deadline, completion, description } = req.body;
 
-    const redisKey = JSON.stringify();
+    const redisTasksReadKey = `${_id}:tasksRead`;
+    const redisTasksFilterKey = `${_id}:tasksFilter`;
 
     const matchTerm = callback => {
         Course.find({ _id: course }, {
@@ -25,7 +27,7 @@ exports.create = (req, res) => {
                     message: "Could not find term"
                 });
             } else {
-                callback(null, term[0]);
+                return callback(null, term[0]);
             };
         })
         .catch(err => {
@@ -47,7 +49,7 @@ exports.create = (req, res) => {
             description
         })
         .then(task => {
-            callback(null, task);
+            return callback(null, task);
         })
         .catch(err => {
             return res.status(500).json({
@@ -57,12 +59,13 @@ exports.create = (req, res) => {
     };
 
     const cacheResults = (task, callback) => {
-        redis.del(redisKey);
+        redis.del(redisTasksReadKey);
+        redis.del(redisTasksFilterKey);
         redis.setex(JSON.stringify(task._id), 3600, JSON.stringify(task));
 
         delete task.meta;
 
-        callback(null, {
+        return callback(null, {
             task,
             message: "New task created"
         });
@@ -86,7 +89,7 @@ exports.create = (req, res) => {
 exports.read = (req, res) => {
     const { termId } = req.params;
 
-    const redisKey = JSON.stringify();
+    const redisKey = `${_id}:tasksRead`;
 
     const checkCache = callback => {
         redis.get(redisKey, (err, cacheResults) => {
@@ -95,9 +98,9 @@ exports.read = (req, res) => {
                     message: err.message
                 });
             } else if(cacheResults) {
-                callback(null, JSON.parse(cacheResults));
+                return callback(null, JSON.parse(cacheResults));
             } else {
-                callback(null);
+                return callback(null);
             };
         });
     };
@@ -109,14 +112,10 @@ exports.read = (req, res) => {
             JSON.parse(cacheResults);
 
             const tasks = cacheResults.map(task => {
-                if(task.meta) {
-                    delete task.meta;
-                } else {
-                    return task;
-                };
+                delete task.meta;
             });
 
-            callback(null, tasks);
+            return callback(null, tasks);
         } else {
             Task.find({ term: termId }, {
                 course: 1,
@@ -124,7 +123,8 @@ exports.read = (req, res) => {
                 type: 1,
                 deadline: 1,
                 completion: 1,
-                description: 1
+                description: 1,
+                meta: 1
             })
             .populate("course", [ "title" ])
             .sort({ deadline: 1 })
@@ -137,14 +137,10 @@ exports.read = (req, res) => {
                     redis.setex(redisKey, 3600, JSON.stringify(payload));
 
                     const tasks = payload.map(task => {
-                        if(task.meta) {
-                            delete task.meta;
-                        } else {
-                            return task;
-                        };
+                        delete task.meta;
                     });
 
-                    callback(null, tasks);
+                    return callback(null, tasks);
                 };
             })
             .catch(err => {
@@ -170,9 +166,10 @@ exports.read = (req, res) => {
 };
 
 exports.filter = (req, res) => {
+    const { _id } = req.user;
     const { courseId } = req.params;
 
-    const redisKey = JSON.stringify();
+    const redisKey = `${_id}:tasksFilter`;
 
     const checkCache = callback => {
         redis.get(redisKey, (err, cacheResults) => {
@@ -181,9 +178,9 @@ exports.filter = (req, res) => {
                     message: err.message
                 });
             } else if (cacheResults) {
-                callback(null, cacheResults);
+                return callback(null, cacheResults);
             } else {
-                callback(null);
+                return callback(null);
             };
         });
     };
@@ -195,14 +192,10 @@ exports.filter = (req, res) => {
             JSON.parse(cacheResults);
 
             const tasks = cacheResults.map(task => {
-                if(task.meta) {
-                    delete task.meta;
-                } else {
-                    return task;
-                };
+                delete task.meta;
             });
 
-            callback(null, tasks);
+            return callback(null, tasks);
         } else {
             Task.find({ course: courseId }, {
                 course: 1,
@@ -210,7 +203,8 @@ exports.filter = (req, res) => {
                 type: 1,
                 deadline: 1,
                 completion: 1,
-                description: 1
+                description: 1,
+                meta: 1
             })
             .populate("course", [ "title" ])
             .sort({ deadline: 1 })
@@ -223,14 +217,10 @@ exports.filter = (req, res) => {
                     redis.setex(redisKey, 3600, JSON.stringify(payload));
 
                     const tasks = payload.map(task => {
-                        if(task.meta) {
-                            delete task.meta;
-                        } else {
-                            return task;
-                        };
+                        delete task.meta;
                     });
 
-                    callback(null, tasks);
+                    return callback(null, tasks);
                 };
             })
             .catch(err => {
@@ -276,7 +266,7 @@ exports.edit = (req, res) => {
         if(cacheResult) {
             redis.setex(JSON.stringify(taskId), 3600, cacheResults);
 
-            callback(null, JSON.parse(cacheResult));
+            return callback(null, JSON.parse(cacheResult));
         } else {
             Task.find({ _id: taskId }, {
                 course: 1,
@@ -297,7 +287,7 @@ exports.edit = (req, res) => {
                 } else {
                     redis.setex(JSON.stringify(task[0]._id), 3600, JSON.stringify(task[0]));
                     
-                    callback(null, task[0]);
+                    return callback(null, task[0]);
                 };
             })
             .catch(err => {
@@ -330,7 +320,7 @@ exports.edit = (req, res) => {
                     message: "No task options found"
                 });
             } else {
-                callback(null, { task, options });
+                return callback(null, { task, options });
             };
         })
         .catch(err => {
@@ -356,10 +346,12 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
+    const { _id } = req.user;
     const { taskId } = req.params;
     const { course, title, type, deadline, completion, description, createdAt } = req.body;
 
-    const redisKey = JSON.stringify();
+    const redisTasksReadKey = `${_id}:tasksRead`;
+    const redisTasksFilterKey = `${_id}:tasksFilter`;
 
     const matchTerm = (callback) => {
         Course.find({ _id: course }, {
@@ -373,7 +365,7 @@ exports.update = (req, res) => {
                     message: "Could not find term"
                 });
             } else {
-                callback(null, term[0]);
+                return callback(null, term[0]);
             };
         })
         .catch(err => {
@@ -407,7 +399,7 @@ exports.update = (req, res) => {
                     message: "Task not found"
                 }); 
             } else {
-                callback(null, task);
+                return callback(null, task);
             };
         })
         .catch(err => {
@@ -424,13 +416,14 @@ exports.update = (req, res) => {
     };
 
     const updateCache = (task, callback) => {
-        redis.del(redisKey);
+        redis.del(redisTasksReadKey);
+        redis.del(redisTasksFilterKey);
 
         redis.setex(JSON.stringify(task._id), 3600, JSON.stringify(task));
 
         delete task.meta;
 
-        callback(null, { 
+        return callback(null, { 
             message: "Task updated",
             task
         });
@@ -452,15 +445,18 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
+    const { _id } = req.user;
     const { taskId } = req.params;
 
-    const redisKey = JSON.stringify();
+    const redisTasksReadKey = `${_id}:tasksRead`;
+    const redisTasksFilterKey = `${_id}:tasksFilter`;
     
     const clearCache = callback => {
-        redis.del(redisKey);
+        redis.del(redisTasksReadKey);
+        redis.del(redisTasksFilterKey);
         redis.del(JSON.stringify(taskId));
 
-        callback(null);
+        return callback(null);
     };
 
     const deleteFromDb = callback => {
@@ -471,7 +467,7 @@ exports.delete = (req, res) => {
                     message: "Task not found"
                 });
             } else {
-                callback(null);
+                return callback(null);
             };
         })
         .catch(err => {

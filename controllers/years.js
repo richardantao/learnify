@@ -9,7 +9,8 @@ exports.create = (req, res) => {
 	// const { _id } = req.user;
 	const { title, start, end } = req.body;
 
-	const redisKey = JSON.stringify(); // _id:years 
+	const redisYearsKey = `${_id}:years`;
+	const redisTermsKey = `${_id}:terms`; 
 
 	const saveToDb = callback => {
 		Year.create({
@@ -21,8 +22,8 @@ exports.create = (req, res) => {
 				end
 			}
 		})
-		.then(payload => {
-			callback(null, payload);
+		.then(year => {
+			return callback(null, year);
 		})
 		.catch(err => {
 			return res.status(500).json({
@@ -31,31 +32,18 @@ exports.create = (req, res) => {
 		});
 	};
 
-	const cacheResults = (payload, callback) => {
-		redis.del(redisKey); // pass `${_id}:years` key
+	const cacheResults = (year, callback) => {
+		redis.del(redisYearsKey);
+		redis.del(redisTermsKey);
 
-		const year = {
-			_id: payload._id,
-			title: payload.title,
-			date: {
-				start: payload.date.start,
-				end: payload.date.end
-			},
-			meta: {
-				createdAt: payload.meta.createdAt,
-				updatedAt: payload.meta.updatedAt
-			}
-		};
+		delete year.user;
 
 		// cache payload
 		redis.setex(JSON.stringify(year._id), 3600, JSON.stringify(year));
 
-		// remove meta properties before sending payload
-		if(year.meta) {
-			delete year.meta;
-		};
+		delete year.meta;
 
-		callback(null, { 
+		return callback(null, { 
 			message: "New year created",
 			year
 		});
@@ -77,7 +65,7 @@ exports.create = (req, res) => {
 
 exports.read = (req, res) => {
 	// const { _id } = req.user;
-	const redisKey = JSON.stringify(); // key takes the form `${_id}:years` in production
+	const redisKey = `${_id}:years`;
 
 	const checkCache = callback => {
 		redis.get(redisKey, (err, cacheResults) => {
@@ -86,9 +74,9 @@ exports.read = (req, res) => {
 					message: err.message
 				});
 			} else if(cacheResults) {
-				callback(null, cacheResults);
+				return callback(null, cacheResults);
 			} else {
-				callback(null);
+				return callback(null);
 			};
 		});
 	};
@@ -97,7 +85,13 @@ exports.read = (req, res) => {
 		if(cacheResults) {
 			redis.setex(redisKey, 3600, cacheResults);
 
-			callback(null, JSON.parse(cacheResults));
+			JSON.parse(cacheResults);
+
+			const years = cacheResults.map(year => {
+				delete year.meta;
+			});
+
+			return callback(null, years);
 		} else {
 			Year.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
 				_id: 1,
@@ -115,14 +109,10 @@ exports.read = (req, res) => {
 					redis.setex(redisKey, 3600, JSON.stringify(payload));
 
 					const years = payload.map(year => {
-						if(year.meta) {
-							delete year.meta;
-						} else {
-							return year;
-						};
+						delete year.meta;
 					});
 
-					callback(null, years);
+					return callback(null, years);
 				};
 			})
 			.catch(err => {
@@ -157,9 +147,9 @@ exports.edit = (req, res) => {
 					message: err.message
 				});
 			} else if (cacheResults) {
-				callback(null, cacheResults);
+				return callback(null, cacheResults);
 			} else {
-				callback(null);
+				return callback(null);
 			};
 		});
 	};
@@ -168,7 +158,7 @@ exports.edit = (req, res) => {
 		if (cacheResults) {
 			redis.setex(JSON.stringify(yearId), 3600, cacheResults);
 
-			callback(null, JSON.parse(cacheResults));
+			return callback(null, JSON.parse(cacheResults));
 		} else {		
 			Year.find({ _id: yearId }, {
 				_id: 1,
@@ -185,7 +175,7 @@ exports.edit = (req, res) => {
 				} else {
 					redis.setex(JSON.stringify(year[0]._id), 3600, JSON.stringify(year[0]));
 
-					callback(null, year[0]);
+					return callback(null, year[0]);
 				};
 			})
 			.catch(err => {
@@ -217,14 +207,17 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
+	const { _id } = req.user; 
 	const { yearId } = req.params;
 	const { title, start, end, createdAt } = req.body;
 
-	const redisKey = JSON.stringify(); // key takes the form `${_id}:years` in production
+	const redisYearsKey = `${_id}:years`;
+	const redisTermsKey = `${_id}:terms`;
 
 	const updateDb = callback => {
 		const update = {
-			user,
+			_id: yearId,
+			user: _id,
 			title,
 			date: {
 				start,
@@ -245,7 +238,7 @@ exports.update = (req, res) => {
 					message: "Year not found"
 				});
 			} else {
-				callback(null, year);
+				return callback(null, year);
 			};
 		})
 		.catch(err => {
@@ -262,13 +255,16 @@ exports.update = (req, res) => {
 	};
 
 	const updateCache = (year, callback) => {
-		redis.del(redisKey);
+		redis.del(redisYearsKey);
+		redis.del(redisTermsKey);
+
+		delete year.user;
 
 		redis.setex(JSON.stringify(year._id), 3600, JSON.stringify(year));
 		
 		delete year.meta;
 
-		callback(null, {
+		return callback(null, {
 			message: "Your year has been updated",
 			year
 		});
@@ -289,15 +285,18 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
+	const { _id } = req.user;
 	const { yearId } = req.params;
 
-	const redisKey = JSON.stringify(); // key takes the form `${_id}:years` in production
+	const redisYearsKey = `${_id}:years`;
+	const redisTermsKey = `${_id}:terms`;
 
 	const clearCache = callback => {
 		redis.del(JSON.stringify(yearId));
-		redis.del(redisKey);
+		redis.del(redisYearsKey);
+		redis.del(redisTermsKey);
 
-		callback(null);
+		return callback(null);
 	};
 
 	const deleteFromDb = callback => {
@@ -308,7 +307,7 @@ exports.delete = (req, res) => {
 					message: "Year not found"
 				});
 			} else {
-				callback(null);
+				return callback(null);
 			};
 		})
 		.catch(err => {
@@ -334,7 +333,7 @@ exports.delete = (req, res) => {
 			});
 		} else {
 			return res.status(200).json({
-				message: "Your year has been deleted"
+				message: "Year deleted"
 			});
 		};
 	});

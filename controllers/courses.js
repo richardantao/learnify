@@ -9,12 +9,16 @@ const Term = require("../models/Terms");
 const redis = require("../config/cache");
 	
 exports.create = (req, res) => {
-	const redisKey = JSON.stringify(); // key takes the form `${_id}:courses` in production
+	const { _id } = req.user;
+	const { term, code, title, instructor, credit, theme } = req.body;
+
+	const redisCourseKey = `${_id}:courses`;
+	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
+	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
+	const redisTasksReadKey = `${_id}:tasksRead`;
+	const redisTasksFilterKey = `${_id}:tasksFilter`;
 
 	const saveToDb = callback => {
-		// const { _id } = req.user;
-		const { term, code, title, instructor, credit, theme } = req.body;
-
 		Course.create({
 			_id: ObjectId(),
 			user: ObjectId("5deb33a40039c4286179c4f1"),
@@ -26,7 +30,7 @@ exports.create = (req, res) => {
 			theme
 		})
 		.then(course => {
-			callback(null, course);
+			return callback(null, course);
 		})
 		.catch(err => {
 			return res.status(500).json({
@@ -36,7 +40,11 @@ exports.create = (req, res) => {
 	};
 
 	const cacheResults = (payload, callback) => {
-		redis.del(redisKey);
+		redis.del(redisCourseKey);
+		redis.del(redisAssessmentsReadKey);
+		redis.del(redisAssessmentsFilterKey);
+		redis.del(redisTasksReadKey);
+		redis.del(redisTasksFilterKey);
 
 		const course = {
 			_id: payload._id,
@@ -54,11 +62,9 @@ exports.create = (req, res) => {
 
 		redis.setex(JSON.stringify(course._id), 3600, JSON.stringify(course));
 
-		if(course.meta) {
-			delete course.meta;
-		}; 
-
-		callback(null, { 
+		delete course.meta;
+	
+		return callback(null, { 
 			course, 
 			message: "New course created"
 		});
@@ -79,9 +85,10 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
+	const { _id } = req.user;
 	const { termId } = req.params;
 
-	const redisKey = JSON.stringify();
+	const redisKey = `${_id}:courses`;
 
 	const checkCache = callback => {
 		redis.get(redisKey, (err, cacheResult) => {
@@ -90,9 +97,9 @@ exports.read = (req, res) => {
 					message: err.message
 				});
 			} else if(cacheResult) {
-				callback(null, cacheResult);
+				return callback(null, cacheResult);
 			} else {
-				callback(null);	
+				return callback(null);	
 			};
 		});
 	};
@@ -111,7 +118,7 @@ exports.read = (req, res) => {
 				};
 			});
 
-			callback(null, courses);
+			return callback(null, courses);
 		} else {
 			Course.find({ term: termId }, {
 				term: 1,
@@ -139,7 +146,7 @@ exports.read = (req, res) => {
 						};
 					});
 
-					callback(null, courses);
+					return callback(null, courses);
 				};
 			})
 			.catch(err => {
@@ -174,9 +181,9 @@ exports.edit = (req, res) => {
 					message: err.message
 				});
 			} else if(cacheResult) {
-				callback(null, JSON.parse(cacheResults));
+				return callback(null, JSON.parse(cacheResults));
 			} else {
-				callback(null);
+				return callback(null);
 			};
 		});
 	};
@@ -185,7 +192,7 @@ exports.edit = (req, res) => {
 		if(cacheResult) {
 			redis.setex(JSON.stringify(courseId), 3600, cacheResults);
 
-			callback(null, JSON.parse(cacheResults));
+			return callback(null, JSON.parse(cacheResults));
 		} else {
 			Course.find({ _id: courseId }, {
 				term: 1,
@@ -205,7 +212,7 @@ exports.edit = (req, res) => {
 				} else {
 					redis.setex(course[0]._id, 3600, JSON.stringify(course[0]));
 
-					callback(null, course[0]);
+					return callback(null, course[0]);
 				};
 			})
 			.catch(err => {
@@ -238,7 +245,7 @@ exports.edit = (req, res) => {
 					message: "Could not find your terms"
 				});
 			} else {
-				callback(null, { course, options });
+				return callback(null, { course, options });
 			};
 		})
 		.catch(err =>{
@@ -265,14 +272,19 @@ exports.edit = (req, res) => {
 
 exports.update = (req, res) => {
 	const { courseId } = req.params;
-	const { _id } = req.user; //
+	const { _id } = req.user;
 	const { term, code, title, credit, instructor, theme, createdAt } = req.body;
 
-	const redisKey = JSON.stringify();
+	const redisCourseKey = `${_id}:courses`;
+	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
+	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
+	const redisTasksReadKey = `${_id}:tasksRead`;
+	const redisTasksFilterKey = `${_id}:tasksFilter`;
 	
 	const updateDb = callback => {
 		const course = {
-			user,
+			_id: courseId,
+			user: _id,
 			term,
 			code,
 			title,
@@ -294,7 +306,7 @@ exports.update = (req, res) => {
 					message: "No course found"
 				});
 			} else {
-				callback(null, course);
+				return callback(null, course);
 			};
 		})
 		.catch(err => {
@@ -311,9 +323,14 @@ exports.update = (req, res) => {
 	};
 
 	const updateCache = (payload, callback) => {
-		redis.del(redisKey);
+		redis.del(redisCourseKey);
+		redis.del(redisAssessmentsReadKey);
+		redis.del(redisAssessmentsFilterKey);
+		redis.del(redisTasksReadKey);
+		redis.del(redisTasksFilterKey);
 
 		const course = {
+			_id: payload._id,
 			term: payload.term,
 			code: payload.code,
 			title: payload.title,
@@ -328,11 +345,9 @@ exports.update = (req, res) => {
 
 		redis.setex(course._id, 3600, JSON.stringify(course));
 
-		if(course.meta) {
-			delete course.meta;
-		}; 
+		delete course.meta; 
 
-		callback(null, {
+		return callback(null, {
 			course,
 			message: "Course updated"
 		});
@@ -355,13 +370,21 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 	const { courseId } = req.params;
 
-	const redisKey = JSON.stringify();
+	const redisCourseKey = `${_id}:courses`;
+	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
+	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
+	const redisTasksReadKey = `${_id}:tasksRead`;
+	const redisTasksFilterKey = `${_id}:tasksFilter`;
 
 	const clearCache = callback => {
-		redis.del(redisKey);
+		redis.del(redisCourseKey);
+		redis.del(redisAssessmentsReadKey);
+		redis.del(redisAssessmentsFilterKey);
+		redis.del(redisTasksReadKey);
+		redis.del(redisTasksFilterKey);
 		redis.del(JSON.stringify(courseId));
 
-		callback(null);
+		return callback(null);
 	};
 	
 	const deleteFromDb = callback => {
@@ -372,7 +395,7 @@ exports.delete = (req, res) => {
 					message: "No course found"
 				});
 			} else {
-				callback(null);
+				return callback(null);
 			};
 		})
 		.catch(err => {

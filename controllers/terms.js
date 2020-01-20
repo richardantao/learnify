@@ -9,15 +9,20 @@ const Year = require("../models/Years");
 const redis = require("../config/cache");
 	
 exports.create = (req, res) => {
-	const redisKey = JSON.stringify(); // key takes the form `${_id}:terms` in production
+	const { _id } = req.user;
+	const { year, title, start, end } = req.body;
+
+	const redisTermsKey = `${_id}:terms`;
+	const redisCoursesKey = `${_id}:courses`;
+	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
+	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
+	const redisTasksReadKey = `${_id}:tasksRead`;
+	const redisTasksFilterKey = `${_id}:tasksFilter`;
 
 	const saveToDb = callback => {
-		// const { _id } = req.user;
-		const { year, title, start, end } = req.body;
-
 		Term.create({
 			_id: ObjectId(),
-			user: ObjectId("5deb33a40039c4286179c4f1"), // pull from cache in production
+			user: ObjectId("5deb33a40039c4286179c4f1"),
 			year: ObjectId(year),
 			title,
 			date: {
@@ -26,7 +31,7 @@ exports.create = (req, res) => {
 			}
 		})
 		.then(prePopulatedTerm => {
-			callback(null, prePopulatedTerm);
+			return callback(null, prePopulatedTerm);
 		})
 		.catch(err => {
 			return res.status(500).json({
@@ -50,7 +55,12 @@ exports.create = (req, res) => {
 	};
 
 	const cacheResults = (populatedTerm, callback) => {
-		redis.del(redisKey);
+		redis.del(redisTermsKey);
+		redis.del(redisCoursesKey);
+		redis.del(redisAssessmentsReadKey);
+		redis.del(redisAssessmentsFilterKey);
+		redis.del(redisTasksReadKey);
+		redis.del(redisTasksFilterKey);
 
 		const term = {
 			_id: populatedTerm._id,
@@ -70,12 +80,10 @@ exports.create = (req, res) => {
 		};
 
 		redis.setex(JSON.stringify(term._id), 3600, JSON.stringify(term));
-
-		if(term.meta) {
-			delete term.meta;
-		};
-
-		callback(null, { 
+		
+		delete term.meta;
+	
+		return callback(null, { 
 			message: "New term created",
 			term
 		});
@@ -97,9 +105,10 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
+	const { _id } = req.user;
 	const { yearId } = req.params;
 
-	const redisKey = JSON.stringify(); // 
+	const redisKey = `${_id}:terms`;
 
 	const checkCache = callback => {
 		redis.get(redisKey, (err, cacheResults) => {
@@ -108,9 +117,9 @@ exports.read = (req, res) => {
 					message: err.message
 				});
 			} else if (cacheResults) {
-				callback(null, cacheResults);
+				return callback(null, cacheResults);
 			} else {
-				callback(null);
+				return callback(null);
 			};	
 		});
 	};	
@@ -122,14 +131,10 @@ exports.read = (req, res) => {
 			JSON.parse(cacheResults);
 
 			const terms = cacheResults.map(term => {
-				if(term.meta) {
-					delete term.meta;
-				} else {
-					return term;
-				};
+				delete term.meta;
 			});
 
-			callback(null, terms);
+			return callback(null, terms);
 		} else {
 			Term.find({ year: yearId }, {
 				_id: 1,
@@ -149,14 +154,10 @@ exports.read = (req, res) => {
 					redis.setex(redisKey, 3600, JSON.stringify(payload));
 
 					const terms = payload.map(term => {
-						if(term.meta) {
-							delete term.meta;
-						} else {
-							return term;
-						};
+						delete term.meta;
 					});
 
-					callback(null, terms);
+					return callback(null, terms);
 				};
 			})
 			.catch(err => {
@@ -191,9 +192,9 @@ exports.edit = (req, res) => {
 					message: err.message
 				});
 			} else if(cacheResultss) {
-				callback(null, JSON.parse(cacheResults));
+				return callback(null, cacheResults);
 			} else {
-				callback(null);
+				return callback(null);
 			};
 		});	
 	};
@@ -202,10 +203,9 @@ exports.edit = (req, res) => {
 		if(cacheResults) {
 			redis.setex(JSON.stringify(termId), 3600, cacheResults);
 
-			callback(null, JSON.parse(cacheResults));
+			return callback(null, JSON.parse(cacheResults));
 		} else {
 			Term.find({ _id: termId }, {
-				user: 1,
 				year: 1,
 				title: 1,
 				date: 1,
@@ -221,7 +221,7 @@ exports.edit = (req, res) => {
 				} else {
 					redis.setex(JSON.stringify(term[0]._id), 3600, JSON.stringify(term[0]));
 
-					callback(null, term[0]);
+					return callback(null, term[0]);
 				};
 			})
 			.catch(err => {
@@ -255,7 +255,7 @@ exports.edit = (req, res) => {
 					message: "Could not find your years"
 				});
 			} else {
-				callback(null, { term, options });
+				return callback(null, { term, options });
 			};
 		})
 		.catch(err =>{
@@ -281,14 +281,20 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
+	const { _id } = req.user;
 	const { termId } = req.params;
 	const { year, title, start, end, createdAt } = req.body;
 
-	const redisKey = JSON.stringify(); // key takes the form `${_id}:terms` in production
+	const redisTermsKey = `${_id}:terms`;
+	const redisCoursesKey = `${_id}:courses`;
+	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
+	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
+	const redisTasksReadKey = `${_id}:tasksRead`;
+	const redisTasksFilterKey = `${_id}:tasksFilter`;
 	
 	const updateDb = callback => {
 		const update = {
-			user,
+			user: _id,
 			year,
 			title,
 			date: {
@@ -310,7 +316,7 @@ exports.update = (req, res) => {
 					message: "Term not found"
 				});
 			} else {
-				callback(null, term);
+				return callback(null, term);
 			};
 		})
 		.catch(err => {
@@ -327,15 +333,20 @@ exports.update = (req, res) => {
 	};
 
 	const updateCache = (term, callback) => {
-		redis.del(redisKey);
+		redis.del(redisTermsKey);
+		redis.del(redisCoursesKey);
+		redis.del(redisAssessmentsReadKey);
+		redis.del(redisAssessmentsFilterKey);
+		redis.del(redisTasksReadKey);
+		redis.del(redisTasksFilterKey);
+
+		delete term.user;
 
 		redis.setex(JSON.stringify(term._id), 3600, JSON.stringify(term));
 
-		if(term.meta) {
-			delete term.meta;
-		};		
+		delete term.meta;			
 
-		callback(null, {
+		return callback(null, {
 			message: "Term updated",
 			term
 		});
@@ -358,13 +369,23 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 	const { termId } = req.params;
 
-	const redisKey = JSON.stringify(); // key takes the form `${_id}:terms` in production
+	const redisTermsKey = `${_id}:terms`;
+	const redisCoursesKey = `${_id}:courses`;
+	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
+	const redisAssessmentsReadKey = `${_id}:assessmentsFilter`;
+	const redisTasksReadKey = `${_id}:tasksRead`;
+	const redisTasksFilterKey = `${_id}:tasksFilter`;
 	
 	const clearCache = callback => {
-		redis.del(redisKey);
+		redis.del(redisTermsKey);
+		redis.del(redisCoursesKey);
+		redis.del(redisAssessmentsReadKey);
+		redis.del(redisAssessmentsFilterKey);
+		redis.del(redisTasksReadKey);
+		redis.del(redisTasksFilterKey);
 		redis.del(JSON.stringify(termId));
 
-		callback(null);
+		return callback(null);
 	};
 
 	const deleteFromDb = callback => {
@@ -375,7 +396,7 @@ exports.delete = (req, res) => {
 					message: "Term not found"
 				});
 			} else {
-				callback(null);
+				return callback(null);
 			};
 		})
 		.catch(err => {
