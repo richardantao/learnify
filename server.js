@@ -61,7 +61,6 @@ app.use("/api/v1/", require("./routes/assessments"));
 app.use("/api/v1/", require("./routes/tasks"));
 
 app.use("/api/v1/", require("./routes/search"));
-app.use("/api/v1/", require("./routes/integrations"));
 
 /* Root */
 app.use("/", require("./routes/root"));
