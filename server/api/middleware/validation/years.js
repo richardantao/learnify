@@ -16,14 +16,14 @@ module.exports = (req, res, next) => {
     sanitize(end).toDate().escape();
 
     if(start >= end) {
-        return res.status(422).json({
+        return res.status(400).json({
             message: "The start date must come before the end date"
         });
     };
 
 
     if(!errors.isEmpty()) {
-        return res.status(422).json({
+        return res.status(400).json({
             message: errors.message
         });
     } else {
