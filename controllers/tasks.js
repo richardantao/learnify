@@ -17,8 +17,8 @@ exports.create = (req, res) => {
 
     const matchTerm = callback => {
         Course.find({ _id: course }, {
-            term: 1,
-            _id: 0
+            _id: 0,
+            term: 1
         })
         .limit(1)
         .then(term => {
@@ -37,7 +37,7 @@ exports.create = (req, res) => {
         });
     };
 
-    const createTask = (term, callback) => {
+    const saveToDb = (term, callback) => {
         Task.create({
             _id: ObjectId(),
             term: term.term,
@@ -73,7 +73,7 @@ exports.create = (req, res) => {
 
     async.waterfall([
         matchTerm,
-        createTask,
+        saveToDb,
         cacheResults
     ], (err, results) => {
         if(err) {
@@ -375,7 +375,7 @@ exports.update = (req, res) => {
         });
     };
 
-    const updateTask = (term, callback) => {
+    const updateDb = (term, callback) => {
         const task = {
             term: term.term,
             course,
@@ -431,7 +431,7 @@ exports.update = (req, res) => {
 
     async.waterfall([
         matchTerm,
-        updateTask,
+        updateDb,
         updateCache
     ], (err, results) => {
         if(err) {
