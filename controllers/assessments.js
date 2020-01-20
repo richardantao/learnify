@@ -115,15 +115,12 @@ exports.read = (req, res) => {
 
     const queryDb = (cacheResults, callback) => {
         if(cacheResults) {
+            redis.setex(redisKey, 3600, cacheResults);
 
             JSON.parse(cacheResults);
 
             const assessments = cacheResults.map(assessment => {
-                if(assessment.meta) {
-                    delete assessment.meta;
-                } else {
-                    return assessment;
-                };
+                delete assessment.meta;
             });
 
             return callback(null, assessments);
@@ -147,11 +144,7 @@ exports.read = (req, res) => {
                     redis.setex(redisKey, 3600, JSON.stringify(payload));
 
                     const assessments = payload.map(assessment => {
-                        if(assessment.meta) {
-                            delete assessment.meta;
-                        } else {
-                            return assessment;
-                        };
+                        delete assessment.meta;
                     });
 
                     return callback(null, assessments);
@@ -268,7 +261,7 @@ exports.edit = (req, res) => {
                     message: err.message
                 });
             } else if(cacheResult) {
-                return callback(null, JSON.parse(cacheResult));
+                return callback(null, cacheResult);
             } else {
                 return callback(null);
             };

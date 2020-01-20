@@ -98,7 +98,7 @@ exports.read = (req, res) => {
                     message: err.message
                 });
             } else if(cacheResults) {
-                return callback(null, JSON.parse(cacheResults));
+                return callback(null, cacheResults);
             } else {
                 return callback(null);
             };
@@ -255,7 +255,7 @@ exports.edit = (req, res) => {
                     message: err.message
                 });
             } else if(cacheResult) {
-                callback(null, JSON.parse(cacheResult));
+                callback(null, cacheResult);
             } else {
                 callback(null);
             };

@@ -91,13 +91,13 @@ exports.read = (req, res) => {
 	const redisKey = `${_id}:courses`;
 
 	const checkCache = callback => {
-		redis.get(redisKey, (err, cacheResult) => {
+		redis.get(redisKey, (err, cacheResults) => {
 			if(err) {
 				return res.status(500).json({
 					message: err.message
 				});
-			} else if(cacheResult) {
-				return callback(null, cacheResult);
+			} else if(cacheResults) {
+				return callback(null, cacheResults);
 			} else {
 				return callback(null);	
 			};
@@ -180,8 +180,8 @@ exports.edit = (req, res) => {
 				return res.status(500).json({
 					message: err.message
 				});
-			} else if(cacheResult) {
-				return callback(null, JSON.parse(cacheResults));
+			} else if(cacheResults) {
+				return callback(null, cacheResults);
 			} else {
 				return callback(null);
 			};
@@ -210,7 +210,7 @@ exports.edit = (req, res) => {
 						message: "No course found" 
 					});
 				} else {
-					redis.setex(course[0]._id, 3600, JSON.stringify(course[0]));
+					redis.setex(JSON.stringify(course[0]._id), 3600, JSON.stringify(course[0]));
 
 					return callback(null, course[0]);
 				};
@@ -343,7 +343,7 @@ exports.update = (req, res) => {
 			}
 		};
 
-		redis.setex(course._id, 3600, JSON.stringify(course));
+		redis.setex(JSON.stringify(course._id), 3600, JSON.stringify(course));
 
 		delete course.meta; 
 

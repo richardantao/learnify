@@ -6,7 +6,7 @@ const ObjectId = require("mongodb").ObjectId;
 const redis = require("../config/cache");
 
 exports.create = (req, res) => {
-	// const { _id } = req.user;
+	const { _id } = req.user;
 	const { title, start, end } = req.body;
 
 	const redisYearsKey = `${_id}:years`;
@@ -64,7 +64,7 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
-	// const { _id } = req.user;
+	const { _id } = req.user;
 	const redisKey = `${_id}:years`;
 
 	const checkCache = callback => {
