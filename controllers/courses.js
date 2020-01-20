@@ -35,9 +35,28 @@ exports.create = (req, res) => {
 		});
 	};
 
-	const cacheResults = (course, callback) => {
+	const cacheResults = (payload, callback) => {
 		redis.del(redisKey);
+
+		const course = {
+			_id: payload._id,
+			term: payload.term,
+			code: payload.code,
+			title: payload.title,
+			instructor: payload.instructor,
+			credit: payload.credit,
+			theme: payload.theme,
+			meta: {
+				createdAt: payload.meta.createdAt,
+				updatedAt: payload.meta.updatedAt
+			}
+		}
+
 		redis.setex(JSON.stringify(course._id), 3600, JSON.stringify(course));
+
+		if(course.meta) {
+			delete course.meta;
+		}; 
 
 		callback(null, { 
 			course, 
@@ -71,33 +90,54 @@ exports.read = (req, res) => {
 					message: err.message
 				});
 			} else if(cacheResult) {
-				callback(null, JSON.parse(cacheResult));
+				callback(null, cacheResult);
 			} else {
 				callback(null);	
 			};
 		});
 	};
 
-	const queryDb = (cacheResult, callback) => {
-		if(cacheResult) {
-			callback(null, cacheResult);
+	const queryDb = (cacheResults, callback) => {
+		if(cacheResults) {
+			redis.setex(redisKey, 3600, cacheResults);
+
+			JSON.parse(cacheResults);
+
+			const courses = cacheResults.map(course => {
+				if(course.meta) {
+					delete course.meta;
+				} else {
+					return course;
+				};
+			});
+
+			callback(null, courses);
 		} else {
-			Course.find({ term: termId}, {
+			Course.find({ term: termId }, {
 				term: 1,
 				code: 1,
 				title: 1,
 				instructor: 1,
 				credit: 1,
+				meta: 1
 			})
 			.populate("term", [ "title" ])
 			.sort({ code: 1 })
-			.then(courses => {
-				if(courses.length === 0) {
+			.then(payload => {
+				if(payload.length === 0) {
 					return res.status(404).json({
 						message: "No courses were found"
 					});
 				} else {
-					redis.setex(redisKey, 3600, courses);
+					redis.setex(redisKey, 3600, JSON.stringify(payload));
+
+					const courses = payload.map(course => {
+						if(course.meta) {
+							delete course.meta;
+						} else {
+							return course;
+						};
+					});
 
 					callback(null, courses);
 				};
@@ -143,7 +183,9 @@ exports.edit = (req, res) => {
 
 	const queryDb = (cacheResults, callback) => {
 		if(cacheResult) {
-			callback(null, cacheResults);
+			redis.setex(JSON.stringify(courseId), 3600, cacheResults);
+
+			callback(null, JSON.parse(cacheResults));
 		} else {
 			Course.find({ _id: courseId }, {
 				term: 1,
@@ -223,12 +265,14 @@ exports.edit = (req, res) => {
 
 exports.update = (req, res) => {
 	const { courseId } = req.params;
+	const { _id } = req.user; //
 	const { term, code, title, credit, instructor, theme, createdAt } = req.body;
 
 	const redisKey = JSON.stringify();
 	
 	const updateDb = callback => {
 		const course = {
+			user,
 			term,
 			code,
 			title,
@@ -266,10 +310,27 @@ exports.update = (req, res) => {
 		});
 	};
 
-	const updateCache = (course, callback) => {
+	const updateCache = (payload, callback) => {
 		redis.del(redisKey);
 
-		redis.setex(course._id, 3600, course);
+		const course = {
+			term: payload.term,
+			code: payload.code,
+			title: payload.title,
+			credit: payload.credit,
+			instructor: payload.instructor,
+			theme: payload.theme, 
+			meta: {
+				createdAt: payload.meta.createdAt,
+				updatedAt: payload.meta.updatedAt
+			}
+		};
+
+		redis.setex(course._id, 3600, JSON.stringify(course));
+
+		if(course.meta) {
+			delete course.meta;
+		}; 
 
 		callback(null, {
 			course,

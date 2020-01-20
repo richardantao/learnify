@@ -21,8 +21,8 @@ exports.create = (req, res) => {
 				end
 			}
 		})
-		.then(year => {
-			callback(null, year);
+		.then(payload => {
+			callback(null, payload);
 		})
 		.catch(err => {
 			return res.status(500).json({
@@ -31,9 +31,29 @@ exports.create = (req, res) => {
 		});
 	};
 
-	const cacheResult = (year, callback) => {
+	const cacheResults = (payload, callback) => {
 		redis.del(redisKey); // pass `${_id}:years` key
+
+		const year = {
+			_id: payload._id,
+			title: payload.title,
+			date: {
+				start: payload.date.start,
+				end: payload.date.end
+			},
+			meta: {
+				createdAt: payload.meta.createdAt,
+				updatedAt: payload.meta.updatedAt
+			}
+		};
+
+		// cache payload
 		redis.setex(JSON.stringify(year._id), 3600, JSON.stringify(year));
+
+		// remove meta properties before sending payload
+		if(year.meta) {
+			delete year.meta;
+		};
 
 		callback(null, { 
 			message: "New year created",
@@ -43,7 +63,7 @@ exports.create = (req, res) => {
 
 	async.waterfall([
 		saveToDb,
-		cacheResult
+		cacheResults
 	], (err, results) => {
 		if(err) {
 			return res.status(500).json({
@@ -66,7 +86,7 @@ exports.read = (req, res) => {
 					message: err.message
 				});
 			} else if(cacheResults) {
-				callback(null, JSON.parse(cacheResults));
+				callback(null, cacheResults);
 			} else {
 				callback(null);
 			};
@@ -75,20 +95,32 @@ exports.read = (req, res) => {
 
 	const queryDb = (cacheResults, callback) => {
 		if(cacheResults) {
-			callback(null, cacheResults);
+			redis.setex(redisKey, 3600, cacheResults);
+
+			callback(null, JSON.parse(cacheResults));
 		} else {
 			Year.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
+				_id: 1,
 				title: 1,
-				date: 1
+				date: 1,
+				meta: 1
 			})
 			.sort({ "date.start": -1 })
-			.then(years => {
-				if(years.length === 0) {
+			.then(payload => {
+				if(payload.length === 0) {
 					return res.status(404).json({
 						message: "No years were found"
 					});
 				} else {
-					redis.setex(redisKey, 3600, JSON.stringify(years));
+					redis.setex(redisKey, 3600, JSON.stringify(payload));
+
+					const years = payload.map(year => {
+						if(year.meta) {
+							delete year.meta;
+						} else {
+							return year;
+						};
+					});
 
 					callback(null, years);
 				};
@@ -119,22 +151,24 @@ exports.edit = (req, res) => {
 	const { yearId } = req.params;
 
 	const checkCache = callback => {
-		redis.get(JSON.stringify(yearId), (err, cacheResult) => {
+		redis.get(JSON.stringify(yearId), (err, cacheResults) => {
 			if(err) {
 				return res.status(500).json({
 					message: err.message
 				});
-			} else if (cacheResult) {
-				callback(null, JSON.parse(cacheResult));
+			} else if (cacheResults) {
+				callback(null, cacheResults);
 			} else {
 				callback(null);
 			};
 		});
 	};
 
-	const queryDb = (cacheResult, callback) => {
-		if (cacheResult) {
-			callback(null, cacheResult);
+	const queryDb = (cacheResults, callback) => {
+		if (cacheResults) {
+			redis.setex(JSON.stringify(yearId), 3600, cacheResults);
+
+			callback(null, JSON.parse(cacheResults));
 		} else {		
 			Year.find({ _id: yearId }, {
 				_id: 1,
@@ -149,9 +183,9 @@ exports.edit = (req, res) => {
 						message: "Year not found"
 					});
 				} else {
-					redis.setex(JSON.stringify(year._id), 3600, JSON.stringify(year));
+					redis.setex(JSON.stringify(year[0]._id), 3600, JSON.stringify(year[0]));
 
-					callback(null, year);
+					callback(null, year[0]);
 				};
 			})
 			.catch(err => {
@@ -190,6 +224,7 @@ exports.update = (req, res) => {
 
 	const updateDb = callback => {
 		const update = {
+			user,
 			title,
 			date: {
 				start,
@@ -228,7 +263,10 @@ exports.update = (req, res) => {
 
 	const updateCache = (year, callback) => {
 		redis.del(redisKey);
+
 		redis.setex(JSON.stringify(year._id), 3600, JSON.stringify(year));
+		
+		delete year.meta;
 
 		callback(null, {
 			message: "Your year has been updated",

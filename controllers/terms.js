@@ -51,7 +51,29 @@ exports.create = (req, res) => {
 
 	const cacheResults = (populatedTerm, callback) => {
 		redis.del(redisKey);
-		redis.setex(JSON.stringify(populatedTerm._id), 3600, JSON.stringify(populatedTerm));
+
+		const term = {
+			_id: populatedTerm._id,
+			year: {
+				_id: populatedTerm.year._id,
+				title: populatedTerm.year._id
+			},
+			title: populatedTerm.title,
+			date: {
+				start: populatedTerm.date.start,
+				end: populatedTerm.date.end
+			},
+			meta: {
+				createdAt: populatedTerm.meta.createdAt,
+				updatedAt: populatedTerm.meta.updatedAt,
+			}
+		};
+
+		redis.setex(JSON.stringify(term._id), 3600, JSON.stringify(term));
+
+		if(term.meta) {
+			delete term.meta;
+		};
 
 		callback(null, { 
 			message: "New term created",
@@ -77,7 +99,7 @@ exports.create = (req, res) => {
 exports.read = (req, res) => {
 	const { yearId } = req.params;
 
-	const redisKey = JSON.stringify();
+	const redisKey = JSON.stringify(); // 
 
 	const checkCache = callback => {
 		redis.get(redisKey, (err, cacheResults) => {
@@ -86,7 +108,7 @@ exports.read = (req, res) => {
 					message: err.message
 				});
 			} else if (cacheResults) {
-				callback(null, JSON.parse(cacheResults));
+				callback(null, cacheResults);
 			} else {
 				callback(null);
 			};	
@@ -95,21 +117,44 @@ exports.read = (req, res) => {
 
 	const queryDb = (cacheResults, callback) => {
 		if(cacheResults) {
-			callback(null, cacheResults);
+			redis.setex(redisKey, 3600, cacheResults);
+
+			JSON.parse(cacheResults);
+
+			const terms = cacheResults.map(term => {
+				if(term.meta) {
+					delete term.meta;
+				} else {
+					return term;
+				};
+			});
+
+			callback(null, terms);
 		} else {
 			Term.find({ year: yearId }, {
+				_id: 1,
+				year: 1,
 				title: 1,
-				date: 1
+				date: 1,
+				meta: 1
 			})
 			.populate("year", [ "title" ])
 			.sort({ "date.start": -1})
-			.then(terms => {
-				if(terms.length === 0) {
+			.then(payload => {
+				if(payload.length === 0) {
 					return res.status(404).json({
 						message: "No terms were found"
 					});
 				} else {
-					redis.setex(redisKey, 3600, JSON.stringify(terms));
+					redis.setex(redisKey, 3600, JSON.stringify(payload));
+
+					const terms = payload.map(term => {
+						if(term.meta) {
+							delete term.meta;
+						} else {
+							return term;
+						};
+					});
 
 					callback(null, terms);
 				};
@@ -155,13 +200,16 @@ exports.edit = (req, res) => {
 
 	const queryDb = (cacheResults, callback) => {
 		if(cacheResults) {
-			callback(null, cacheResults);
+			redis.setex(JSON.stringify(termId), 3600, cacheResults);
+
+			callback(null, JSON.parse(cacheResults));
 		} else {
 			Term.find({ _id: termId }, {
 				user: 1,
 				year: 1,
 				title: 1,
-				date: 1
+				date: 1,
+				meta: 1
 			})
 			.populate("year", [ "title" ])
 			.limit(1)
@@ -197,6 +245,7 @@ exports.edit = (req, res) => {
 				$ne: term.title
 			}
 		}, {
+			_id: 1,
 			title: 1
 		})
 		.sort({ "date.start": -1 })
@@ -239,6 +288,7 @@ exports.update = (req, res) => {
 	
 	const updateDb = callback => {
 		const update = {
+			user,
 			year,
 			title,
 			date: {
@@ -280,6 +330,10 @@ exports.update = (req, res) => {
 		redis.del(redisKey);
 
 		redis.setex(JSON.stringify(term._id), 3600, JSON.stringify(term));
+
+		if(term.meta) {
+			delete term.meta;
+		};		
 
 		callback(null, {
 			message: "Term updated",

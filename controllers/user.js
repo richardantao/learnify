@@ -5,37 +5,73 @@ const moment = require("moment");
 // import model
 const User = require("../models/User");
 
-exports.index = (req, res) => {
-	
-};
+const redis = require("../config/cache");
 
 exports.editProfile = (req, res) => {
 	const { _id } = req.user[0];
 
-	User.find({ _id }, {
-		"name": 1,
-		"email.address": 1,
-		"location": 1
-	})
-	.limit(1)
-	.then(profile => {
-		if(!profile) {
-			return res.status(404).json({
-				message: "Your profile credentials were not found by the server"
+	const checkCache = callback => {
+		redis.get(_id, (err, cacheResults) => {
+			if(err) {
+				return res.status(500).json({
+					message: err.message
+				});
+			} else if(cacheResults) {
+				callback(null, cacheResults);
+			} else {
+				callback(null);
+			};
+		});
+	};
+
+	const queryDb = (cacheResults, callback) => {
+		if(cacheResults) {
+			redis.setex(JSON.stringify(_id), 3600, cacheResults);
+
+			callback(null, JSON.parse(cacheResults));
+		} else {
+			User.find({ _id }, {
+				"name": 1,
+				"email.address": 1,
+				"location": 1,
+				"meta": 1
+			})
+			.limit(1)
+			.then(profile => {
+				if(!profile) {
+					return res.status(404).json({
+						message: "Your profile credentials were not found by the server"
+					});
+				} else {
+					redis.setex(JSON.stringify(_id), 3600, JSON.stringify(profile[0]));
+
+					callback(null, profile[0]);
+				};
+			})
+			.catch(err => {
+				return res.status(500).json({
+					message: err.message
+				});
+			});
+		};
+	};
+
+	async.waterfall([
+		checkCache,
+		queryDb
+	], (err, results) => {
+		if(err) {
+			return res.status(500).json({
+				message: err.message
 			});
 		} else {
-			return res.status(200).json(profile);
-		};
-	})
-	.catch(err => {
-		return res.status(500).json({
-			message: err.message || "An error occurred on the server while processing your request"
-		});
+			return res.status(200).json(results);
+		}
 	});
 };
 
 exports.updateProfile = (req, res) => {
-	const { _id } = req.user[0];
+	// const { _id } = req.user[0];
 	const { first, last, email, country, region, institution, school } = req.body; 
 
 	User.updateOne({ _id }, {
@@ -58,14 +94,14 @@ exports.updateProfile = (req, res) => {
 			}
 		}
 	})
-	.then(revisedUser => {
-		if(!revisedUser) {
+	.then(user => {
+		if(!user) {
 			return res.status(404).json({
 				message: "The credentials you attempted to update were not received by the server"
 			});
 		} else {
-			return res.status(200).json(revisedUser);
-		}
+			return res.status(200).json(user);
+		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId") {
@@ -76,7 +112,7 @@ exports.updateProfile = (req, res) => {
 			return res.status(500).json({
 				message: err.message || "An error occurred on the server while updating your profile"
 			});
-		}
+		};
 	});
 };
 

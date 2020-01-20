@@ -67,7 +67,14 @@ exports.create = (req, res) => {
         redis.del(redisKey);
         redis.setex(JSON.stringify(assessment._id), 3600, JSON.stringify(assessment));
 
-        callback(null, { message: "New assessment created" });
+        if(assessment.meta) {
+			delete assessment.meta;
+		}; 
+
+        callback(null, { 
+            assessment,
+            message: "New assessment created" 
+        });
     };
 
     async.waterfall([
@@ -97,7 +104,7 @@ exports.read = (req, res) => {
                     message: err.message
                 });
             } else if(cacheResults) {
-                callback(null, JSON.parse(cacheResults));
+                callback(null, cacheResults);
             } else {
                 callback(null);
             };
@@ -106,7 +113,18 @@ exports.read = (req, res) => {
 
     const queryDb = (cacheResults, callback) => {
         if(cacheResults) {
-            callback(null, cacheResults);
+
+            JSON.parse(cacheResults);
+
+            const assessments = cacheResults.map(assessment => {
+                if(assessment.meta) {
+                    delete assessment.meta;
+                } else {
+                    return assessment;
+                };
+            });
+
+            callback(null, assessments);
         } else {
             Assessment.find({ term: termId }, {
                 course: 1,
@@ -117,13 +135,21 @@ exports.read = (req, res) => {
             })
             .populate("course", [ "title" ])
             .sort({ "date.start": 1 })
-            .then(assessments => {
-                if(assessments.length === 0) {
+            .then(payload => {
+                if(payload.length === 0) {
                     return res.status(404).json({
                         message: "No assessments found"
                     });
                 } else {
-                    redis.setex(redisKey, 3600, JSON.stringify(assessments));
+                    redis.setex(redisKey, 3600, JSON.stringify(payload));
+
+                    const assessments = payload.map(assessment => {
+                        if(assessment.meta) {
+                            delete assessment.meta;
+                        } else {
+                            return assessment;
+                        };
+                    });
 
                     callback(null, assessments);
                 };
@@ -162,7 +188,7 @@ exports.filter = (req, res) => {
                     message: err.message
                 });
             } else if(cacheResults) {
-                callback(null, JSON.parse(cacheResults));
+                callback(null, cacheResults);
             } else {
                 callback(null);
             };
@@ -171,7 +197,19 @@ exports.filter = (req, res) => {
 
     const queryDb = (cacheResults, callback) => {
         if(cacheResults) {
-            callback(null, cacheResults);
+            redis.setex(redisKey, 3600, cacheResults);
+
+            JSON.parse(cacheResults);
+
+            const assessments = cacheResults.map(assessment => {
+                if(assessment.meta) {
+                    delete assessment.meta;
+                } else {
+                    return assessment;
+                };
+            });
+
+            callback(null, assessments);
         } else {
             Assessment.find({ course: courseId }, {
                 course: 1,
@@ -182,13 +220,21 @@ exports.filter = (req, res) => {
             })
             .populate("course", [ "title" ])
             .sort({ "date.start": 1 })
-            .then(assessments => {
-                if(assessments.length === 0) {
+            .then(payload => {
+                if(payload.length === 0) {
                     return res.status(404).json({
                         message: "No assessments found"
                     });
                 } else {
-                    redis.setex(redisKey, 3600, JSON.stringify(assessments));
+                    redis.setex(redisKey, 3600, JSON.stringify(payload));
+
+                    const assessments = payload.map(assessment => {
+                        if(assessment.meta) {
+                            delete assessment.meta;
+                        } else {
+                            return assessment;
+                        };
+                    });
 
                    callback(null, assessments);
                 };
@@ -232,9 +278,11 @@ exports.edit = (req, res) => {
         });
     };
 
-    const queryDb = (cacheResult, callback) => {
-        if(cacheResult) {
-            callback(null, cacheResult);
+    const queryDb = (cacheResults, callback) => {
+        if(cacheResults) {
+            redis.setex(JSON.stringify(assessmentId), 3600, cacheResults);
+
+            callback(null, JSON.parse(cacheResults));
         } else {
             Assessment.find({ _id: assessmentId }, {
                 course: 1,
@@ -377,7 +425,9 @@ exports.update = (req, res) => {
 
     const updateCache = (assessment, callback) => {
         redis.del(redisKey);
-        redis.setex(JSON.stringify(assessment), 3600, JSON.stringify(assessment));
+        redis.setex(JSON.stringify(assessment._id), 3600, JSON.stringify(assessment));
+
+        delete assessment.meta;
 
         callback(null, {
             assessment,

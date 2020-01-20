@@ -60,6 +60,8 @@ exports.create = (req, res) => {
         redis.del(redisKey);
         redis.setex(JSON.stringify(task._id), 3600, JSON.stringify(task));
 
+        delete task.meta;
+
         callback(null, {
             task,
             message: "New task created"
@@ -102,7 +104,19 @@ exports.read = (req, res) => {
 
     const queryDb = (cacheResults, callback) => {
         if(cacheResults) {
-            callback(null, cacheResults);
+            redis.setex(redisKey, 3600, cacheResults);
+
+            JSON.parse(cacheResults);
+
+            const tasks = cacheResults.map(task => {
+                if(task.meta) {
+                    delete task.meta;
+                } else {
+                    return task;
+                };
+            });
+
+            callback(null, tasks);
         } else {
             Task.find({ term: termId }, {
                 course: 1,
@@ -114,15 +128,23 @@ exports.read = (req, res) => {
             })
             .populate("course", [ "title" ])
             .sort({ deadline: 1 })
-            .then(tasks => {
-                if(tasks.length === 0) {
+            .then(payload => {
+                if(payload.length === 0) {
                     return res.status(404).json({
                         message: "No tasks found"
                     });
                 } else {
-                    redis.setex(redisKey, 3600, JSON.stringify(tasks));
+                    redis.setex(redisKey, 3600, JSON.stringify(payload));
 
-                   callback(null, tasks);
+                    const tasks = payload.map(task => {
+                        if(task.meta) {
+                            delete task.meta;
+                        } else {
+                            return task;
+                        };
+                    });
+
+                    callback(null, tasks);
                 };
             })
             .catch(err => {
@@ -159,7 +181,7 @@ exports.filter = (req, res) => {
                     message: err.message
                 });
             } else if (cacheResults) {
-                callback(null, JSON.parse(cacheResults));
+                callback(null, cacheResults);
             } else {
                 callback(null);
             };
@@ -168,7 +190,19 @@ exports.filter = (req, res) => {
 
     const queryDb = (cacheResults, callback) => {
         if(cacheResults) {
-            callback(null, cacheResults);
+            redis.setex(redisKey, 3600, cacheResults);
+
+            JSON.parse(cacheResults);
+
+            const tasks = cacheResults.map(task => {
+                if(task.meta) {
+                    delete task.meta;
+                } else {
+                    return task;
+                };
+            });
+
+            callback(null, tasks);
         } else {
             Task.find({ course: courseId }, {
                 course: 1,
@@ -180,13 +214,21 @@ exports.filter = (req, res) => {
             })
             .populate("course", [ "title" ])
             .sort({ deadline: 1 })
-            .then(tasks => {
-                if(tasks.length === 0) {
+            .then(payload => {
+                if(payload.length === 0) {
                     return res.status(404).json({
                         message: "No tasks found"
                     });
                 } else {
-                    redis.setex(redisKey, 3600, JSON.stringify(tasks));
+                    redis.setex(redisKey, 3600, JSON.stringify(payload));
+
+                    const tasks = payload.map(task => {
+                        if(task.meta) {
+                            delete task.meta;
+                        } else {
+                            return task;
+                        };
+                    });
 
                     callback(null, tasks);
                 };
@@ -232,7 +274,9 @@ exports.edit = (req, res) => {
 
     const queryDb = (cacheResult, callback) => {
         if(cacheResult) {
-            callback(null, cacheResult);
+            redis.setex(JSON.stringify(taskId), 3600, cacheResults);
+
+            callback(null, JSON.parse(cacheResult));
         } else {
             Task.find({ _id: taskId }, {
                 course: 1,
@@ -251,8 +295,8 @@ exports.edit = (req, res) => {
                         message: "Task not found"
                     });
                 } else {
-                    redis.setex(task[0]._id, 3600, task[0]);
-
+                    redis.setex(JSON.stringify(task[0]._id), 3600, JSON.stringify(task[0]));
+                    
                     callback(null, task[0]);
                 };
             })
@@ -382,9 +426,14 @@ exports.update = (req, res) => {
     const updateCache = (task, callback) => {
         redis.del(redisKey);
 
-        redis.setex(task._id, 3600, task);
+        redis.setex(JSON.stringify(task._id), 3600, JSON.stringify(task));
 
-        callback(null, { message: "Task updated" });
+        delete task.meta;
+
+        callback(null, { 
+            message: "Task updated",
+            task
+        });
     };
 
     async.waterfall([
