@@ -3,44 +3,30 @@ const moment = require("moment");
 const ObjectId = require("mongodb").ObjectId;
 
 // model
+const Course = require("../models/Courses");
 const Term = require("../models/Terms");
-const Year = require("../models/Years");
 
-const redis = require("../config/cache");
+const redis = require("../../config/cache");
 	
 exports.create = (req, res) => {
 	const { _id } = req.user;
-	const { year, title, start, end } = req.body;
+	const { term, code, title, instructor, credit, theme } = req.body;
 
-	const redisTermsKey = `${_id}:terms`;
+	const redisCourseKey = `${_id}:courses`;
 
 	const saveToDb = callback => {
-		Term.create({
+		Course.create({
 			_id: ObjectId(),
 			user: ObjectId("5deb33a40039c4286179c4f1"),
-			year: ObjectId(year),
+			term,
+			code,
 			title,
-			date: {
-				start,
-				end
-			}
+			instructor,
+			credit,
+			theme
 		})
-		.then(prePopulatedTerm => {
-			return callback(null, prePopulatedTerm);
-		})
-		.catch(err => {
-			return res.status(500).json({
-				message: err.message
-			});
-		});
-	};
-
-	const populatePreCache = (prePopulatedTerm, callback) => {
-		Term.find({ _id: prePopulatedTerm._id })
-		.populate("year", [ "title" ])
-		.limit(1)
-		.then(populatedTerm => {
-			return callback(null, populatedTerm[0]);
+		.then(course => {
+			return callback(null, course);
 		})
 		.catch(err => {
 			return res.status(500).json({
@@ -49,39 +35,35 @@ exports.create = (req, res) => {
 		});
 	};
 
-	const cacheResults = (populatedTerm, callback) => {
-		redis.del(redisTermsKey);
+	const cacheResults = (payload, callback) => {
+		redis.del(redisCourseKey);
 
-		const term = {
-			_id: populatedTerm._id,
-			year: {
-				_id: populatedTerm.year._id,
-				title: populatedTerm.year._id
-			},
-			title: populatedTerm.title,
-			date: {
-				start: populatedTerm.date.start,
-				end: populatedTerm.date.end
-			},
+		const course = {
+			_id: payload._id,
+			term: payload.term,
+			code: payload.code,
+			title: payload.title,
+			instructor: payload.instructor,
+			credit: payload.credit,
+			theme: payload.theme,
 			meta: {
-				createdAt: populatedTerm.meta.createdAt,
-				updatedAt: populatedTerm.meta.updatedAt,
+				createdAt: payload.meta.createdAt,
+				updatedAt: payload.meta.updatedAt
 			}
-		};
+		}
 
-		redis.setex(JSON.stringify(term._id), 3600, JSON.stringify(term));
-		
-		delete term.meta;
+		redis.setex(JSON.stringify(course._id), 3600, JSON.stringify(course));
+
+		delete course.meta;
 	
 		return callback(null, { 
-			message: "New term created",
-			term
+			course, 
+			message: "New course created"
 		});
 	};
 
 	async.waterfall([
-		saveToDb,
-		populatePreCache,
+		saveToDb, 
 		cacheResults
 	], (err, results) => {
 		if(err) {
@@ -89,16 +71,16 @@ exports.create = (req, res) => {
 				message: err.message
 			});
 		} else {
-			return res.status(201).json(results);
+			return res.status(500).json(results);
 		};
 	});
 };
 
 exports.read = (req, res) => {
 	const { _id } = req.user;
-	const { yearId } = req.params;
+	const { termId } = req.params;
 
-	const redisKey = `${_id}:terms`;
+	const redisKey = `${_id}:courses`;
 
 	const checkCache = callback => {
 		redis.get(redisKey, (err, cacheResults) => {
@@ -106,13 +88,13 @@ exports.read = (req, res) => {
 				return res.status(500).json({
 					message: err.message
 				});
-			} else if (cacheResults) {
+			} else if(cacheResults) {
 				return callback(null, cacheResults);
 			} else {
-				return callback(null);
-			};	
+				return callback(null);	
+			};
 		});
-	};	
+	};
 
 	const queryDb = (cacheResults, callback) => {
 		if(cacheResults) {
@@ -120,34 +102,35 @@ exports.read = (req, res) => {
 
 			JSON.parse(cacheResults);
 
-			const terms = cacheResults.map(term => {
-				delete term.meta;
+			const courses = cacheResults.map(course => {
+				delete course.meta;
 			});
 
-			return callback(null, terms);
+			return callback(null, courses);
 		} else {
-			Term.find({ year: yearId }, {
-				_id: 1,
-				year: 1,
+			Course.find({ term: termId }, {
+				term: 1,
+				code: 1,
 				title: 1,
-				date: 1,
+				instructor: 1,
+				credit: 1,
 				meta: 1
 			})
-			.populate("year", [ "title" ])
-			.sort({ "date.start": -1})
+			.populate("term", [ "title" ])
+			.sort({ code: 1 })
 			.then(payload => {
 				if(payload.length === 0) {
 					return res.status(404).json({
-						message: "No terms were found"
+						message: "No courses were found"
 					});
 				} else {
 					redis.setex(redisKey, 3600, JSON.stringify(payload));
 
-					const terms = payload.map(term => {
-						delete term.meta;
+					const courses = payload.map(course => {
+						delete course.meta;
 					});
 
-					return callback(null, terms);
+					return callback(null, courses);
 				};
 			})
 			.catch(err => {
@@ -157,7 +140,7 @@ exports.read = (req, res) => {
 			});
 		};
 	};
-
+	
 	async.waterfall([
 		checkCache,
 		queryDb
@@ -173,79 +156,80 @@ exports.read = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-	const { termId } = req.params;
-
+	const { courseId } = req.params;
+	
 	const checkCache = callback => {
-		redis.get(JSON.stringify(termId), (err, cacheResults) => {
+		redis.get(JSON.stringify(courseId), (err, cacheResults) => {
 			if(err) {
 				return res.status(500).json({
 					message: err.message
 				});
-			} else if(cacheResultss) {
+			} else if(cacheResults) {
 				return callback(null, cacheResults);
 			} else {
 				return callback(null);
 			};
-		});	
+		});
 	};
 
 	const queryDb = (cacheResults, callback) => {
-		if(cacheResults) {
-			redis.setex(JSON.stringify(termId), 3600, cacheResults);
+		if(cacheResult) {
+			redis.setex(JSON.stringify(courseId), 3600, cacheResults);
 
 			return callback(null, JSON.parse(cacheResults));
 		} else {
-			Term.find({ _id: termId }, {
-				year: 1,
+			Course.find({ _id: courseId }, {
+				term: 1,
+				code: 1,
 				title: 1,
-				date: 1,
+				instructor: 1,
+				credit: 1,
 				meta: 1
 			})
-			.populate("year", [ "title" ])
+			.populate("term", [ "title", "year" ])
 			.limit(1)
-			.then(term => {
-				if(term.length === 0) {
+			.then(course => {
+				if(course.length === 0) {
 					return res.status(404).json({
-						message: "Term not found" 
+						message: "No course found" 
 					});
 				} else {
-					redis.setex(JSON.stringify(term[0]._id), 3600, JSON.stringify(term[0]));
+					redis.setex(JSON.stringify(course[0]._id), 3600, JSON.stringify(course[0]));
 
-					return callback(null, term[0]);
+					return callback(null, course[0]);
 				};
 			})
 			.catch(err => {
 				if(err.kind === "ObjectId") {
 					return res.status(404).json({
-						message: "Term not found" 
+						message: "No course found" 
 					});
 				} else {
 					return res.status(500).json({
-						message: err.message
+						message: err.message 
 					});
 				};
 			});
 		};
 	};
 
-	const getYearOptions = (term, callback) => {
-		Year.find({ 
-			user: term.user,
+	const getTermOptions = (course, callback) => {
+		Term.find({ 
+			year: course.term.year,
 			title: {
-				$ne: term.title
+				$ne: course.term.title
 			}
 		}, {
-			_id: 1,
 			title: 1
 		})
 		.sort({ "date.start": -1 })
 		.then(options => {
 			if(options.length === 0) {
 				return res.status(404).json({
-					message: "Could not find your years"
+					message: "Could not find your terms"
 				});
 			} else {
-				return callback(null, { term, options });
+				return callback(null, { course, options });
 			};
 		})
 		.catch(err =>{
@@ -258,7 +242,7 @@ exports.edit = (req, res) => {
 	async.waterfall([
 		checkCache,
 		queryDb,
-		getYearOptions
+		getTermOptions
 	], (err, results) => {
 		if(err) {
 			return res.status(500).json({
@@ -267,52 +251,52 @@ exports.edit = (req, res) => {
 		} else {
 			return res.status(200).json(results);
 		};
-	});
+	});	
 };
 
 exports.update = (req, res) => {
+	const { courseId } = req.params;
 	const { _id } = req.user;
-	const { termId } = req.params;
-	const { year, title, start, end, createdAt } = req.body;
+	const { term, code, title, credit, instructor, theme, createdAt } = req.body;
 
 	// add class keys when class models are finalized
-	const redisTermsKey = `${_id}:terms`;
-	const redisCoursesKey = `${_id}:courses`;
+	const redisCourseKey = `${_id}:courses`;
 	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
 	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
 	const redisTasksReadKey = `${_id}:tasksRead`;
 	const redisTasksFilterKey = `${_id}:tasksFilter`;
 	
 	const updateDb = callback => {
-		const update = {
-			year,
+		const course = {
+			_id: courseId,
+			term,
+			code,
 			title,
-			date: {
-				start,
-				end
-			},
+			credit,
+			instructor,
+			theme, 
 			meta: {
 				createdAt,
 				updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-			}	
-		};
+			}
+		}
 	
-		Term.updateOne({ _id: termId }, {
-			$set: update
+		Course.updateOne({ _id: courseId }, {
+			$set: course
 		})
-		.then(term => {
-			if(term.length === 0) {
+		.then(course => {
+			if(!course) {
 				return res.status(404).json({
-					message: "Term not found"
+					message: "No course found"
 				});
 			} else {
-				return callback(null, term);
+				return callback(null, course);
 			};
 		})
 		.catch(err => {
 			if(err.kind === "ObjectId") {
 				return res.status(404).json({
-					message: "Term not found"
+					message: "No course found"
 				});
 			} else {
 				return res.status(500).json({
@@ -322,21 +306,20 @@ exports.update = (req, res) => {
 		});
 	};
 
-	const updateCache = (term, callback) => {
-		redis.del(redisTermsKey);
-		redis.del(redisCoursesKey);
+	const updateCache = (course, callback) => {
+		redis.del(redisCourseKey);
 		redis.del(redisAssessmentsReadKey);
 		redis.del(redisAssessmentsFilterKey);
 		redis.del(redisTasksReadKey);
 		redis.del(redisTasksFilterKey);
 
-		redis.setex(JSON.stringify(term._id), 3600, JSON.stringify(term));
+		redis.setex(JSON.stringify(course._id), 3600, JSON.stringify(course));
 
-		delete term.meta;			
+		delete course.meta; 
 
 		return callback(null, {
-			message: "Term updated",
-			term
+			course,
+			message: "Course updated"
 		});
 	};
 
@@ -355,34 +338,32 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-	const { termId } = req.params;
+	const { courseId } = req.params;
 
 	// add class keys when class models are finalized
-	const redisTermsKey = `${_id}:terms`;
-	const redisCoursesKey = `${_id}:courses`;
+	const redisCourseKey = `${_id}:courses`;
 	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
-	const redisAssessmentsReadKey = `${_id}:assessmentsFilter`;
+	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
 	const redisTasksReadKey = `${_id}:tasksRead`;
 	const redisTasksFilterKey = `${_id}:tasksFilter`;
-	
+
 	const clearCache = callback => {
-		redis.del(redisTermsKey);
-		redis.del(redisCoursesKey);
+		redis.del(redisCourseKey);
 		redis.del(redisAssessmentsReadKey);
 		redis.del(redisAssessmentsFilterKey);
 		redis.del(redisTasksReadKey);
 		redis.del(redisTasksFilterKey);
-		redis.del(JSON.stringify(termId));
+		redis.del(JSON.stringify(courseId));
 
 		return callback(null);
 	};
-
+	
 	const deleteFromDb = callback => {
-		Term.deleteOne({ _id: termId })
-		.then(deletedTerm => {
-			if(!deletedTerm) {
+		Course.deleteOne({ _id: courseId})
+		.then(course => {
+			if(!course) {
 				return res.status(404).json({
-					message: "Term not found"
+					message: "No course found"
 				});
 			} else {
 				return callback(null);
@@ -391,7 +372,7 @@ exports.delete = (req, res) => {
 		.catch(err => {
 			if(err.kind === "ObjectId" || err.name === "NotFound") {
 				return res.status(404).json({
-					message: "Term not found"
+					message: "No course found"
 				});
 			} else {
 				return res.status(500).json({
@@ -410,8 +391,8 @@ exports.delete = (req, res) => {
 				message: err.message
 			});
 		} else {
-			return res.status(200).json({
-				message: "Term deleted"
+			return res.status(500).json({
+				message: "Course deleted"
 			});
 		};
 	});

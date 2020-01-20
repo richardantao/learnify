@@ -33,7 +33,7 @@ app.use(compression());
 
 if (env === "production") {
 	app.use(helmet());
-	app.use(express.static(path.join(__dirname, "views/build")));
+	app.use(express.static(path.join(__dirname, "../client/build")));
 	logger((tokens, req, res) => {
 		return [
 		  tokens.method(req, res),
@@ -49,29 +49,29 @@ if (env === "production") {
 
 /* --- Routes --- */
 /* Beta  */
-app.use("/api/v1/", require("./routes/auth"));
-app.use("/api/v1/cron", require("./routes/cron"));
-app.use("/api/v1/", require("./routes/users"));
+app.use("/api/v1/", require("./api/routes/auth"));
+app.use("/api/v1/cron", require("./api/routes/cron"));
+app.use("/api/v1/", require("./api/routes/users"));
 
-app.use("/api/v1/", require("./routes/years"));
-app.use("/api/v1/", require("./routes/terms"));
-app.use("/api/v1/", require("./routes/courses"));
-app.use("/api/v1/", require("./routes/classes"));
-app.use("/api/v1/", require("./routes/assessments"));
-app.use("/api/v1/", require("./routes/tasks"));
+app.use("/api/v1/", require("./api/routes/years"));
+app.use("/api/v1/", require("./api/routes/terms"));
+app.use("/api/v1/", require("./api/routes/courses"));
+app.use("/api/v1/", require("./api/routes/classes"));
+app.use("/api/v1/", require("./api/routes/assessments"));
+app.use("/api/v1/", require("./api/routes/tasks"));
 
-app.use("/api/v1/", require("./routes/search"));
+app.use("/api/v1/", require("./api/routes/search"));
 
 /* Root */
-app.use("/", require("./routes/root"));
+app.use("/", require("./api/routes/root"));
 
 /* Team */
-app.use("/", require("./routes/team"));
+app.use("/", require("./api/routes/team"));
 
 /* Fetch Client Side Rendering */
 app.get("*", (req, res) => {
 	res.set("Cache-Control", "no-cache");
-	res.sendFile(path.join(__dirname, "views/build/index.html"));
+	res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 /* --- Bootup --- */

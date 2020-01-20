@@ -3,7 +3,7 @@ const moment = require("moment");
 const Year = require("../models/Years");
 const ObjectId = require("mongodb").ObjectId;
 
-const redis = require("../config/cache");
+const redis = require("../../config/cache");
 
 exports.create = (req, res) => {
 	const { _id } = req.user;

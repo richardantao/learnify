@@ -5,7 +5,7 @@ const moment = require("moment");
 // import model
 const User = require("../models/User");
 
-const redis = require("../config/cache");
+const redis = require("../../config/cache");
 
 exports.editProfile = (req, res) => {
 	const { _id } = req.user;

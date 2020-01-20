@@ -7,7 +7,7 @@ const Course = require("../models/Courses");
 const Assessment = require("../models/Assessments");
 
 // cache
-const redis = require("../config/cache");
+const redis = require("../../config/cache");
 
 exports.create = (req, res) => {
     const { _id } = req.user;

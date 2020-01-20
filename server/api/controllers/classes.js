@@ -5,7 +5,7 @@ const ObjectId = require("mongodb").ObjectId;
 const Class = require("../models/Classes");
 const Course = require("../models/Courses");
 
-const redis = require("../config/cache");
+const redis = require("../../config/cache");
 
 exports.create = (req, res) => {
     const { _id } = req.user;

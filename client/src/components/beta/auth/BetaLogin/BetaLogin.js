@@ -38,12 +38,12 @@ class BetaLogin extends Component {
         // initialize FB SDK
         window.fbAsyncInit = function() {
             FB.init({
-            appId      : "571380723442823",
-            cookie     : true,
-            xfbml      : true,
-            version    : "5.0"
+                appId      : "571380723442823",
+                cookie     : true,
+                xfbml      : true,
+                version    : "5.0"
             });
-            
+                
             FB.AppEvents.logPageView();   
             
             // check user's login status
