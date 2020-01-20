@@ -16,7 +16,7 @@ redisClient.hkeys("", (err, replies) => {
     if (err) {
         console.log(err);
     } else {
-        console.log(replies.length + "replies:");
+        console.log(replies.length + " replies:");
 
         replies.forEach((reply, i) => {
             console.log("    " + i + ": " + reply);
