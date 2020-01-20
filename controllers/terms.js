@@ -13,11 +13,6 @@ exports.create = (req, res) => {
 	const { year, title, start, end } = req.body;
 
 	const redisTermsKey = `${_id}:terms`;
-	const redisCoursesKey = `${_id}:courses`;
-	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
-	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
-	const redisTasksReadKey = `${_id}:tasksRead`;
-	const redisTasksFilterKey = `${_id}:tasksFilter`;
 
 	const saveToDb = callback => {
 		Term.create({
@@ -56,11 +51,6 @@ exports.create = (req, res) => {
 
 	const cacheResults = (populatedTerm, callback) => {
 		redis.del(redisTermsKey);
-		redis.del(redisCoursesKey);
-		redis.del(redisAssessmentsReadKey);
-		redis.del(redisAssessmentsFilterKey);
-		redis.del(redisTasksReadKey);
-		redis.del(redisTasksFilterKey);
 
 		const term = {
 			_id: populatedTerm._id,
@@ -285,6 +275,7 @@ exports.update = (req, res) => {
 	const { termId } = req.params;
 	const { year, title, start, end, createdAt } = req.body;
 
+	// add class keys when class models are finalized
 	const redisTermsKey = `${_id}:terms`;
 	const redisCoursesKey = `${_id}:courses`;
 	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
@@ -369,6 +360,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 	const { termId } = req.params;
 
+	// add class keys when class models are finalized
 	const redisTermsKey = `${_id}:terms`;
 	const redisCoursesKey = `${_id}:courses`;
 	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;

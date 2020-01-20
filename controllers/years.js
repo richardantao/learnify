@@ -10,7 +10,6 @@ exports.create = (req, res) => {
 	const { title, start, end } = req.body;
 
 	const redisYearsKey = `${_id}:years`;
-	const redisTermsKey = `${_id}:terms`; 
 
 	const saveToDb = callback => {
 		Year.create({
@@ -34,11 +33,9 @@ exports.create = (req, res) => {
 
 	const cacheResults = (year, callback) => {
 		redis.del(redisYearsKey);
-		redis.del(redisTermsKey);
 
 		delete year.user;
 
-		// cache payload
 		redis.setex(JSON.stringify(year._id), 3600, JSON.stringify(year));
 
 		delete year.meta;

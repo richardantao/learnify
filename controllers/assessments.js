@@ -399,8 +399,8 @@ exports.update = (req, res) => {
         Assessment.updateOne({ _id: assessmentId }, {
             $set: assessment
         })
-        .then(revisedAssessment => {
-            if(revisedAssessment.length === 0) {
+        .then(assessment => {
+            if(assessment.length === 0) {
                 return res.status(404).json({
                     message: "No assessment found"
                 });

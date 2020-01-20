@@ -13,10 +13,6 @@ exports.create = (req, res) => {
 	const { term, code, title, instructor, credit, theme } = req.body;
 
 	const redisCourseKey = `${_id}:courses`;
-	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
-	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
-	const redisTasksReadKey = `${_id}:tasksRead`;
-	const redisTasksFilterKey = `${_id}:tasksFilter`;
 
 	const saveToDb = callback => {
 		Course.create({
@@ -41,10 +37,6 @@ exports.create = (req, res) => {
 
 	const cacheResults = (payload, callback) => {
 		redis.del(redisCourseKey);
-		redis.del(redisAssessmentsReadKey);
-		redis.del(redisAssessmentsFilterKey);
-		redis.del(redisTasksReadKey);
-		redis.del(redisTasksFilterKey);
 
 		const course = {
 			_id: payload._id,
@@ -111,11 +103,7 @@ exports.read = (req, res) => {
 			JSON.parse(cacheResults);
 
 			const courses = cacheResults.map(course => {
-				if(course.meta) {
-					delete course.meta;
-				} else {
-					return course;
-				};
+				delete course.meta;
 			});
 
 			return callback(null, courses);
@@ -139,11 +127,7 @@ exports.read = (req, res) => {
 					redis.setex(redisKey, 3600, JSON.stringify(payload));
 
 					const courses = payload.map(course => {
-						if(course.meta) {
-							delete course.meta;
-						} else {
-							return course;
-						};
+						delete course.meta;
 					});
 
 					return callback(null, courses);
@@ -275,6 +259,7 @@ exports.update = (req, res) => {
 	const { _id } = req.user;
 	const { term, code, title, credit, instructor, theme, createdAt } = req.body;
 
+	// add class keys when class models are finalized
 	const redisCourseKey = `${_id}:courses`;
 	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
 	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
@@ -370,6 +355,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 	const { courseId } = req.params;
 
+	// add class keys when class models are finalized
 	const redisCourseKey = `${_id}:courses`;
 	const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
 	const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
