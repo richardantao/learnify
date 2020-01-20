@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const controller = require("../controllers/classes");
-
 const auth = require("../middleware/auth");
 const validation = require("../middleware/validation/classes");
+const controller = require("../controllers/classes");
 
 router.post("/classes", /*auth,*/ validation, controller.create);
 

@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const controller = require("../controllers/tasks");
-
 const auth = require("../middleware/auth");
 const validation = require("../middleware/validation/tasks");
+const controller = require("../controllers/tasks");
 
 router.post("/tasks", /*auth,*/ validation, controller.create);
 

@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const controller = require("../controllers/user");
-
 const auth = require("../middleware/auth");
 const validation = require("../middleware/validation/user");
+const controller = require("../controllers/user");
 
 router.get("/profile", /*auth,*/ controller.editProfile);
 

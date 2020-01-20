@@ -1,7 +1,6 @@
 const router = require("express").Router()
-const controller = require("../controllers/root");
-
 const validation = require("../middleware/validation/root");
+const controller = require("../controllers/root");
 
 router.post("/invite", validation.invite, controller.invite);
 

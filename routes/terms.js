@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const controller = require("../controllers/terms");
-
 const auth = require("../middleware/auth");
 const validation = require("../middleware/validation/terms");
+const controller = require("../controllers/terms");
 
 // create a new term
 router.post("/terms", auth, validation, controller.create);

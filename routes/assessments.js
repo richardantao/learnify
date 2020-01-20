@@ -1,8 +1,7 @@
 const router = require("express").Router();
-const controller = require("../controllers/assessments");
-
 const auth = require("../middleware/auth");
 const validation = require("../middleware/validation/assessments");
+const controller = require("../controllers/assessments");
 
 // create assessment
 router.post("/assessments", /*auth,*/ validation, controller.create);

@@ -1,7 +1,6 @@
 const router = require("express").Router();
-const controller = require("../controllers/search");
-
 const auth = require("../middleware/auth");
+const controller = require("../controllers/search");
 
 router.get("/", /*auth,*/ controller.search);
 
