@@ -1,7 +1,7 @@
 const redis = require("redis");
-const host = process.env.REDIS_LABS_HOST_DEV;
-const port = process.env.REDIS_LABS_PORT_DEV;
-const password = process.env.REDIS_LABS_PASSWORD_DEV;
+const host = process.env.REDIS_LABS_HOST;
+const port = process.env.REDIS_LABS_PORT;
+const password = process.env.REDIS_LABS_PASSWORD;
 
 const redisClient = redis.createClient({ host, port });
 
