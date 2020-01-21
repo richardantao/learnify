@@ -10,8 +10,7 @@ const BetaSchema = new Schema({
     meta: {
         createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
     }
-},
-{ 
+}, { 
   versionKey: false 
 });
 

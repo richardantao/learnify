@@ -12,6 +12,8 @@ const BugSchema = new Schema({
     createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
     updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
     resolved: { type: Boolean, default: false }
+}, {
+    versionKey: false
 });
 
 module.exports = model("bugs", BugSchema);

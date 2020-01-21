@@ -18,6 +18,8 @@ const OrganizationSchema = new Schema({
         createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
 		updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
     }
+}, {
+    versionKey: false
 });
 
 OrganizationSchema.post("deleteOne", document => {

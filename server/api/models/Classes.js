@@ -21,6 +21,8 @@ const ClassSchema = new Schema({
 	    createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
         updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
     }
+}, {
+    versionKey: false
 });
 
 module.exports = model("classes", ClassSchema);

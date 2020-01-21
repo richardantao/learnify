@@ -26,6 +26,8 @@ const CourseSchema = new Schema({
 		createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
 		updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
 	}
+}, {
+	versionKey: false
 });
 
 CourseSchema.post("deleteOne", document => {

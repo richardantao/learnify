@@ -9,6 +9,8 @@ const SessionSchema = new Schema({
         createdAt: {type: Date, default: moment().startOf("minute").format("MMMM Do YYYY, HH:mm a")},
         updated: {type: Date, default: moment().startOf("minute").format("MMMM Do YYYY, HH:mm a")}
     }
+}, {
+    versionKey: false
 });
 
 module.exports = SessionSchema;
