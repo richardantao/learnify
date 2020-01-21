@@ -24,8 +24,6 @@ redisClient.hkeys("", (err, replies) => {
         replies.forEach((reply, i) => {
             console.log("    " + i + ": " + reply);
         });
-
-        redisClient.quit();
     };  
 });
 
