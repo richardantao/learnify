@@ -1,8 +1,8 @@
-const dotenv = require("dotenv").config();
+require("dotenv").config();
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
-const mongoDB = process.env.DB_PROD;
+const mongoDB = process.env.MONGO_ATLAS_DEV;
 
 const options = {
     useCreateIndex: true,
@@ -31,7 +31,7 @@ mongoose.connect(mongoDB, options)
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error: "));
 db.once("open", () => {
-  console.log(`Connected to Database`);
+  console.log(`Mongo Atlas connection is open`);
 });
 
 module.exports = db;
