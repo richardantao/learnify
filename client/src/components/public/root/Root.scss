@@ -148,7 +148,7 @@ $border-line: #E1E1E1;
 /* Contact styles */
 .contact {
     &-background {
-        height: 500px;
+        height: 620px;
         object-fit: cover;
         opacity: 0.67;
         position: relative;
@@ -158,7 +158,7 @@ $border-line: #E1E1E1;
 
     &-pitch {
         position: absolute;
-            left: 5%;
+            left: 10%;
             top: 10%;
         width: 80%;
 
