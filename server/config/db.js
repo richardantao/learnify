@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
-const mongoDB = process.env.MONGO_ATLAS_DEV;
+const mongoDB = process.env.DB_URL;
 
 const options = {
     useCreateIndex: true,
