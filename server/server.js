@@ -12,7 +12,7 @@ const app = express();
 const host = process.env.HOST || "http://localhost";
 const port = process.env.PORT;
 const env = process.env.NODE_ENV || "development";
-const corsOptions = ["https://learnify.ca", "https://www.learnify.ca", "http://localhost"];
+// const corsOptions = ["https://learnify.ca", "https://www.learnify.ca", "http://localhost"];
 require("./config/db");
 require("./config/cache");
 
@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: false }));
 
 if (env === "production") {
 	app.use(helmet());
-	app.use(cors({ 
+	app.use(cors(/*{ 
 		origin: (origin, callback) => {
 			if(corsOptions.indexOf(origin) !== -1) {
 				callback(null, true);
@@ -31,7 +31,7 @@ if (env === "production") {
 				callback(new Error("Not allowed by CORS"));
 			};
 		}
-	}));
+	}*/));
 	app.use(express.static(path.join(__dirname, "../client/build")));
 	app.use(compression());
 	logger((tokens, req, res) => {
