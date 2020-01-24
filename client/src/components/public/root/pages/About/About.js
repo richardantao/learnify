@@ -11,7 +11,7 @@ import TeamCard from "../../templates/TeamCard/TeamCard";
 import richardantao from "./richardantao-min.png";
 import "../../Root.scss";
 
-const About = () => {
+const About = props => {
     return (
         <>
             <Helmet>
@@ -23,9 +23,10 @@ const About = () => {
             <div id="public">
                 <Header/>
                 <main className="root about" role="main">
-                    <h1>About Us</h1>
-                    <br/>
-                    <section>
+                    <header className="banner" role="banner">
+                        <h1>About Us</h1>
+                    </header>
+                    <section className="about-mission">
                         <h2>Mission</h2>
                         <p>
                             At Learnify, we believe in the transformational power of education. It is through accessible and engaging education that we can solve 
@@ -38,9 +39,8 @@ const About = () => {
                         <p>
                             Our mission is to provide a platform that enables students everywhere to be the best version of themselves.
                         </p>
-                        <br/>
                     </section>
-                    <section>
+                    <section className="about-values">
                         <h2>Values</h2>
                         <h4>Trust</h4>
                         <p>
@@ -64,7 +64,6 @@ const About = () => {
                             Innovation sparks new solutions to existing problems, 
                             giving access to more people, everywhere.
                         </p>
-                        <br/>
                     </section>
                     <section className="about-team">
                         <h2>Meet the Team</h2>
@@ -73,23 +72,11 @@ const About = () => {
                             alt="Headshot of Richard Antao"
                             person="Richard Antao"
                             title="Founder"
-                            description="Richard is currently responsible for marketing, 
-                            finance, strategy, and software development. 
-                            He is in his final year of Integrated Engineering
+                            description=" Richard is in his final year of Integrated Engineering
                             at Western University. Aside from school and Learnify, 
                             Richard is an avid reader, enjoys going to the gym, and is
                             passionate about space, psychology, finance, and transport phenomena."
                         />
-
-                        {/* <TeamCard
-                            src=""
-                            alt="Unknown headshot"
-                            person="You?"
-                            title="Various positions"
-                            description={<div>
-                                Visit <a href="https://team.learnify.ca">https://team.learnify.ca</a> for open positions.
-                            </div>}
-                        /> */}
                     </section>
                 </main>
                 <Footer/>

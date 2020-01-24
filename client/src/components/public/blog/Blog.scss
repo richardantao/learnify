@@ -11,12 +11,12 @@ $border-line: #E1E1E1;
 .blog {
     background: $background;
     border-bottom: $border-line 1px solid;
-    border-top: $border-line 1px solid;
-
-    h1, div {
-        margin: 0 2%;
-    }
+    border-top: $border-line 1px solid;   
     
+    .banner {
+        margin-top: 2rem;
+        text-align: center;
+    }
         
     h1 {
       font-size: 2rem;
@@ -25,27 +25,30 @@ $border-line: #E1E1E1;
     #pitch {
       font-size: 1rem;
       font-weight: 400;
-      margin-bottom: 2.5%;
+      margin: 0 auto;
+    //   margin-bottom: 2.5%;
       width: 95%;
     }
     
-    #posts {
-      display: grid;
+    &-posts {
+        display: grid;
           grid-template-columns: 100%;
           grid-template-rows: 425px /*400px 400px*/;
+        margin: 0 5%;
     }
 }
 
 /* Blog post styles */
 .posts {
-
+    border-bottom: $border-line 1px solid;
+    border-top: $border-line 1px solid;
 }
 
 /* ---  Landscape Mobile --- */
 @media (min-width: 576px) {
     /* Blog styles */
     .blog {
-        #posts {
+        &-posts {
             grid-template-columns: 50% 50%;
                 grid-template-rows: 475px /*475px*/;
         }
@@ -63,7 +66,7 @@ $border-line: #E1E1E1;
 
     /* Blog post styles */
     .posts {
-    
+        
     }
 }
 
@@ -71,12 +74,18 @@ $border-line: #E1E1E1;
 @media (min-width: 768px) {
     /* Blog styles */
     .blog {
+        .banner {
+            margin-bottom: 1rem;
+            margin-top: 2.5rem;
+        }
+        
         #pitch {
             font-size: 1.25rem;
         }
                 
         h1 {
             font-size: 2rem;
+            margin-bottom: 1rem;
         }
     
         h2 {
@@ -85,8 +94,8 @@ $border-line: #E1E1E1;
     }
 
     /* Blog post styles */
-    .posts {
-    
+    &-posts {
+       
     }
 }
 
@@ -98,7 +107,7 @@ $border-line: #E1E1E1;
             // width: 58%;
         }
 
-        #posts {
+        &-posts {
             display: grid;
                 grid-template-columns: 33% 33% 33%;
                 grid-template-rows: 475px /*475px 475px*/;
@@ -107,25 +116,29 @@ $border-line: #E1E1E1;
     }
 
     // /* Blog post styles */
-    // .posts {
+    // &-posts {
     
     // }
 }
 
 // /* ---  Small Laptops --- */
-// @media (min-width: 1200px) {   
+@media (min-width: 1200px) {   
 //     /* Blog styles */
-//     .blog {
-//         #posts {
+    .blog {
+
+        h1 {
+            font-size: 2.5rem;
+        }
+//         &-posts {
 //             // height: 1450px;
 //         }   
-//     }
+    }
     
 //     /* Blog post styles */
-//     .posts {
+//     &-posts {
     
 //     }
-// }
+}
 
 /* ---  Large Laptops --- */
 @media (min-width: 1440px) {
@@ -143,16 +156,48 @@ $border-line: #E1E1E1;
     }
     
     // /* Blog post styles */
-    // .posts {
-    
-    // }
+    .posts {
+
+        header {
+            margin: 3rem;
+
+            .blog-header {
+                color: $primary-color;
+            }
+
+            h1, h2 { 
+                text-align: center;
+            }   
+
+            .banner {
+                width: 100%;
+                z-index: 0;
+            }
+        }
+
+        article {
+            // background-color: $background;
+            font-size: 1.5rem;
+            margin: 12rem;
+
+            section {
+                margin-bottom: 4rem;
+            }
+            // position: relative;
+            //     bottom: 300px;
+
+            h3 {
+                margin: 1rem auto 0.5rem auto;
+            }
+        }
+    }
 }
 
 /* ---  Desktops --- */
 @media (min-width: 2100px) {
     /* Blog styles */
     .blog {
-        min-height: 1200px;
+        min-height: 1150px;
 
         h1 {
             font-size: 5rem;
@@ -164,7 +209,9 @@ $border-line: #E1E1E1;
     }
 
     // /* Blog post styles */
-    // .posts {
-    
-    // }
+    .posts {
+        article {
+            font-size: 2rem;
+        }
+    }
 }

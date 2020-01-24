@@ -5,56 +5,57 @@ $background: #FAFAFA;
 $form-background: #F1F1F1;
 $border-line: #E1E1E1;
 
-
 #public {
     .about {
         /* --- Portrait Mobile --- */
         .card {
-            margin: 1rem auto;
-            width: 85%;  
+            width: 100%;  
             
             .headshot {
                 height: auto;
                 width: 100%;
+            }
+
+            > *:not(img) {
+                margin: 1rem;
             }
         }
 
         /* --- Landscape Mobile --- */
         @media (min-width: 576px) {
             .card {
-                margin: 1rem auto;
-                width: 66%;   
+                width: 50%;   
             }
         }
         
         /* --- Portrait Tablets --- */
         @media (min-width: 768px) {
-    
+            .card {
+                width: 100%;   
+            }
         }
 
         /* --- Landscape Tablets --- */
         @media (min-width: 992px) {
             .card {
-                width: 70%;   
+                width: 75%;   
             }
         }
 
         /* --- Small Laptops --- */
-        @media (min-width: 1200px) {
-            .card {
-                width: 80%;   
-            }
-        }
+        // @media (min-width: 1200px) {
+
+        // }
 
         /* --- Large Laptops --- */
-        @media (min-width: 1440px) {
+        // @media (min-width: 1440px) {
             
-        }
+        // }
 
         /* --- Desktops --- */
-        @media (min-width: 2100px) {
+        // @media (min-width: 2100px) {
             
-        }
+        // }
     }
 }
 

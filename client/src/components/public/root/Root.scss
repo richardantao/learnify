@@ -119,29 +119,24 @@ $border-line: #E1E1E1;
         margin: 0 1rem;
     }
 
+    .banner {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
     p {
         font-size: 1.1rem;
+    }
+
+    &-mission, &-values, &-team {
+        margin: 1rem 2.5rem 1.33rem 2.5rem;
     }
 
     &-team {
         display: grid;
             grid-template-columns: 100%;
-            grid-template-rows: 50px 650px;
+            grid-template-rows: 50px 560px;
             grid-gap: 0;
-    }
-
-    .headshot {
-        height: auto;
-        width: 100%;
-    }
-
-    .card {
-        margin: 1rem auto;
-        width: 85%;   
-    
-        > *:not(img) {
-            margin: 1rem;
-        }
     }
 }
 
@@ -272,13 +267,12 @@ $border-line: #E1E1E1;
 
     /* About styles */
     .about {
-        &-team {        
-            grid-template-rows: 50px 620px;
+        &-mission, &-values, &-team {
+            margin: 1rem 3rem 1.33rem 3rem;
         }
 
-        .card {
-            margin: 1rem auto;
-            width: 50%;   
+        &-team {        
+            grid-template-rows: 50px 550px;
         }
     }
 
@@ -346,18 +340,17 @@ $border-line: #E1E1E1;
 
     /* About styles */
     .about {
+        &-mission, &-values, &-team {
+            margin: 1rem 4rem 1.67rem 4rem;
+        }
+
         &-team {
             grid-template-columns: 50% 50%;
-            grid-template-rows: 50px 650px;
+            grid-template-rows: 50px 540px;
 
             h2 {
                 grid-column-end: span 2;
             }
-        }
-
-        .card {
-            margin: 1rem auto;
-            width: 80%;   
         }
     }
 
@@ -420,16 +413,20 @@ $border-line: #E1E1E1;
 
     /* About styles */
     .about {
+        .banner {
+            margin-top: 2.5rem;
+        }
+        
+        &-mission, &-values, &-team {
+            margin: 1rem 5rem 2rem 5rem;
+        }
+
         &-team {
-            grid-template-rows: 50px 600px;
+            grid-template-rows: 50px 525px;
 
             h2 {
                 grid-column-end: span 3;
             }
-        }
-
-        .card {
-            width: 70%;   
         }
     }
 
@@ -454,7 +451,6 @@ $border-line: #E1E1E1;
             right: 0.5rem;
         }
     }
-
 }
 
 /* --- Small Laptops --- */
@@ -493,10 +489,6 @@ $border-line: #E1E1E1;
     .about {
         &-team {
             grid-template-columns: 33% 33% 33%;
-        }
-
-        .card {
-            width: 80%;   
         }
     }
 
@@ -572,28 +564,24 @@ $border-line: #E1E1E1;
     /* About styles */
     .about {
         h1 {
-            font-size: 2.75rem;
+            font-size: 3.5rem;
         }
 
         h2 {
-            font-size: 2.25rem;
+            font-size: 2.5rem;
         }
 
         h4 {
-            font-size: 1.67rem;
+            font-size: 2rem;
         }
 
         p {
-            font-size: 1.33rem;
+            font-size: 1.5rem;
         }
 
         &-team {
             grid-template-columns: 33% 33% 33%;
-            grid-template-rows: 50px 725px;
-        }
-
-        .card {
-            width: 80%;   
+            grid-template-rows: 75px 700px;
         }
     }
 
@@ -621,9 +609,6 @@ $border-line: #E1E1E1;
     /* Home styles */
     .home {
         &-pitch {
-            // left: 15%;
-            // top: 25%;
-            // width: 33%;
 
             h1 {
                 font-size: 4rem;
@@ -662,28 +647,24 @@ $border-line: #E1E1E1;
     /* About styles */
     .about {
         h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
         }
 
         h2 {
-            font-size: 3rem;
+            font-size: 3.33rem;
         }
 
         h4 {
-            font-size: 2.25rem;
+            font-size: 2.5rem;
         }
 
         p {
-            font-size: 2rem;
+            font-size: 2.25rem;
         }
 
         &-team {
             grid-template-columns: 33% 33% 33%;
-            grid-template-rows: 50px 1000px;
-        }
-
-        .card {
-            width: 75%;   
+            grid-template-rows: 75px 1000px;
         }
     }
 

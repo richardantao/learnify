@@ -12,6 +12,10 @@ $border-line: #E1E1E1;
       margin-bottom: 5%;
       min-height: 400px;
       width: 100%;
+
+      > *:not(img) {
+        margin-left: 2%;
+      }
   
       .thumbnail {
         height: 250px;

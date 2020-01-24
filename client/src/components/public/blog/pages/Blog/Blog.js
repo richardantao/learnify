@@ -28,11 +28,15 @@ const Blog = props => {
             <div id="public">
                 <Header/>
                 <main className="blog" role="main">
-                    <h1>Blog</h1>
+                    <header className="banner" role="banner">
+                        <h1>Blog</h1>
+                    </header>
                     <div id="pitch">
-                        At Learnify, we're crazy about helping students achieve their very best. We use this blog to collect our insights, ideas, and achievements.
+                        <p>
+                            At Learnify, we're crazy about helping students achieve their very best. We use this blog to collect our insights, ideas, and achievements.
+                        </p>
                     </div>
-                    <div id="posts">
+                    <article className="blog-posts" role="document">
                         {/* <BlogCard
                             src={calling}
                             alt="Don't Find a Career, Find a Calling"
@@ -111,7 +115,7 @@ const Blog = props => {
                             date="Coming Soon"
                             text="What drives us forward at Learnify."
                         />
-                    </div>
+                    </article>
                 </main>
                 <Footer/>
             </div>
