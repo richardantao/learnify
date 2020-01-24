@@ -21,17 +21,11 @@ const options = {
 }
 
 mongoose.connect(mongoDB, options)
-.then(() =>  {
-  console.log("Connected to Mongo Atlas");
-})
-.catch(err => {
-  console.error(err);
-});
+.then(() => console.log("Connected to Mongo Atlas"))
+.catch(err => console.error(err));
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error: "));
-db.once("open", () => {
-  console.log(`Mongo Atlas connection is open`);
-});
+db.once("open", () => console.log(`Mongo Atlas connection is open`));
 
 module.exports = db;
