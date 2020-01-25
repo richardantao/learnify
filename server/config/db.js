@@ -2,7 +2,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
-const mongoDB = process.env.DB_URL;
+const mongoDB = process.env.DB_DEV;
 
 const options = {
     useCreateIndex: true,
@@ -21,11 +21,17 @@ const options = {
 }
 
 mongoose.connect(mongoDB, options)
-.then(() => console.log("Connected to Mongo Atlas"))
-.catch(err => console.error(err));
+.then(() =>  {
+  console.log("Connected to Mongo Atlas");
+})
+.catch(err => {
+  console.error(err);
+});
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error: "));
-db.once("open", () => console.log(`Mongo Atlas connection is open`));
+db.once("open", () => {
+  console.log(`Connected to Database`);
+});
 
 module.exports = db;
