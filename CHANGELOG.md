@@ -17,7 +17,8 @@
 * Dashboard counters
 
 
-## v0.1.0 - 04-10-2019
+## v1.0.0-beta - -2020
+* Launched MVP
+
+## v0.1.0 - 01-01-2019
 * Inital dev version
-* Coming Soon page active on GCP
-* Structure of app has been created 
