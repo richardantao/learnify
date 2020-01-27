@@ -18,7 +18,7 @@ class Counter extends Component {
 	componentDidMount() {
 		
 		// count instances on loaded
-		this.props.countData();
+		// this.props.countData();
 	};
 
 	render() {
@@ -43,7 +43,7 @@ class Counter extends Component {
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
+	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error
 });
 
