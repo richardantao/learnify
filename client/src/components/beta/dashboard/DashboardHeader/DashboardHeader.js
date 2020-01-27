@@ -48,22 +48,35 @@ class DashboardHeader extends Component {
 
     render() {
         const { open } = this.state;
+        const { classCount, taskCount, assessmentCount } = this.props; 
 
         return (
             <Fragment>
                 <Col className="dashboard-header">
                     <h3>Today</h3>
                     <DateDisplay/>
-                    <Counter type="Classes" count="5"/>
+                    { classCount === 1 ? (
+                        <Counter type="Class" count={classCount}/>
+                    ): 
+                        <Counter type="Classes" count={classCount}/>
+                    }
                 </Col>
                 <Col className="dashboard-header">
                     <h3>Tasks</h3>
                     <Button onClick={this.newTaskModal}><FontAwesomeIcon icon={faPlus}/> New Task</Button>
-                    <Counter type="Tasks" count="3"/>
+                    { taskCount === 1 ? (
+                        <Counter type="Task" count={taskCount}/>
+                    ): 
+                        <Counter type="Tasks" count={taskCount}/>
+                    }
                 </Col>
                 <Col className="dashboard-header">
                     <h3>Assessments</h3>
-                    <Counter type="Assessments" count="2"/>
+                    { assessmentCount === 1 ? (
+                        <Counter type="Assessment" count={assessmentCount}/>
+                    ): 
+                        <Counter type="Assessments" count={assessmentCount}/>
+                    }
                 </Col>
 
                 { open ? (
