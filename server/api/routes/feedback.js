@@ -3,14 +3,14 @@ const auth = require("../middleware/auth");
 const validation = require("../middleware/validation/feedback");
 const controller = require("../controllers/feedback");
 
-router.post("", /*auth,*/ validation, controller.create);
+router.post("/", /*auth,*/ validation, controller.create);
 
-router.get("", /*auth,*/ validation, controller.read);
+router.get("/", /*auth,*/ controller.read);
 
-router.get("", /*auth,*/ validation, controller.edit);
+router.get("/:feedbackId", /*auth,*/ controller.edit);
 
-router.put("", /*auth,*/ validation, controller.update);
+router.put("/:feedbackId", /*auth,*/ validation, controller.update);
 
-router.delete("", /*auth,*/ validation, controller.delete);
+router.delete("/:feedbackId", /*auth,*/ controller.delete);
 
 module.exports = router;
