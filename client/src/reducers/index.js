@@ -1,21 +1,68 @@
 import { combineReducers } from "redux";
+import Loadable from "react-loadable";
 
-// auth 
-// import authReducer from "./auth/auth";
-import errorReducer from "./auth/errors";
+/* --- Auth Reducers --- */
+// const authReducer = Loadable({
+//     loader: () => import(/* webpackChunkName: "authReducer" */ "./auth/auth"),
+//     loading: () => null
+// });
 
-// beta
-import yearReducer from "./beta/years";
-import termReducer from "./beta/terms";
-import courseReducer from "./beta/courses";
-import classReducer from "./beta/classes";
-import assessmentReducer from "./beta/assessments";
-import taskReducer from "./beta/tasks";
-import integrationReducer from "./beta/integrations";
+const errorReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "errorReducer" */ "./auth/errors"),
+    loading: () => null
+});
 
-// root
-import betaReducer from "./root/beta";
-import contactReducer from "./root/contact";
+/* --- Beta App Reducers --- */
+const yearReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "yearReducer" */ "./beta/years"),
+    loading: () => null
+});
+
+const termReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "termReducer" */ "./beta/terms"),
+    loading: () => null
+});
+
+const courseReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "courseReducer" */ "./beta/courses"),
+    loading: () => null
+});
+
+const classReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "classReducer" */ "./beta/classes"),
+    loading: () => null
+});
+
+const assessmentReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "assessmentReducer" */ "./beta/assessments"),
+    loading: () => null
+});
+
+const taskReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "taskReducer" */ "./beta/tasks"),
+    loading: () => null
+});
+
+const bugReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "bugReducer" */ "./beta/bugs"),
+    loading: () => null
+});
+
+const feedbackReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "feedbackReducer" */ "./beta/feedback"),
+    loading: () => null
+});
+
+/* --- Public Reducers --- */
+const betaReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "betaReducer" */ "./root/beta"),
+    loading: () => null
+});
+
+const contactReducer = Loadable({
+    loader: () => import(/* webpackChunkName: "contactReducer" */ "./root/contact"),
+    loading: () => null
+});
 
 export default combineReducers({
     // auth: authReducer,
@@ -26,7 +73,8 @@ export default combineReducers({
     classes: classReducer,
     assessment: assessmentReducer,
     task: taskReducer,
-    integration: integrationReducer,
     beta: betaReducer,
-    contact: contactReducer
+    contact: contactReducer,
+    bug: bugReducer,
+    feedback: feedbackReducer
 });
