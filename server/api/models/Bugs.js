@@ -6,7 +6,7 @@ const moment = require("moment");
 const BugSchema = new Schema({
     _id: Schema.Types.ObjectId,
     user: { type: Schema.Types.ObjectId, ref: "users" },
-    where: { type: Array, required: true },
+    where: { type: String, required: true },
     type: { type: String, required: true },
     message: { type: String, required: true },
     createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
