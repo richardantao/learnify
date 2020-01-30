@@ -8,6 +8,7 @@
   },
   "scripts": {
     "client": "cd ../client && npm start",
+    "debug": "DEBUG=express:* node server.js",
     "dev": "concurrently \"nodemon server.js\" \"cd ../client && npm start\"",
     "deploy": "NODE_ENV=production cd ../ gcloud app deploy",
     "server": "nodemon server.js",
