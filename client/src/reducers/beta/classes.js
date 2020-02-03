@@ -1,5 +1,5 @@
 import { 
-    LOADING_CLASSES, FETCH_CLASSES, 
+    LOADING_CLASSES, FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
     NEW_CLASS, CREATE_CLASS, 
     EDIT_CLASS, UPDATE_CLASS, DELETE_CLASS 
 } from "../../actions/types";
@@ -17,12 +17,6 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: true
             };
-        case FETCH_CLASSES:
-            return {
-                ...state,
-                loading: false,
-                classes: action.payload
-            };
         case NEW_CLASS: 
             return {
                 ...state,
@@ -35,18 +29,26 @@ export default (state = initialState, action) => {
                 loading: false,
                 classes: [...state.classes, action.payload]
             };
+        case FETCH_CLASSES_BY_TERM:
+        case FETCH_CLASSES_BY_COURSE:
+            return {
+                ...state,
+                loading: false,
+                classes: action.payload
+            };
+        
         case EDIT_CLASS:
             return {
                 ...state,
                 loading: false,
-                parents: action.payload.parent,
                 classes: state.classes.map(Class => {
                     if(Class._id !== action._id) {
                         return Class;
                     } else return {
                         Class: action.payload
                     };
-                })
+                }),
+                courses: action.payload.options
             };
         case UPDATE_CLASS:
             return {

@@ -1,12 +1,13 @@
 import { 
-    LOADING_YEARS, FETCH_YEARS, 
+    LOADING_YEARS, 
     NEW_YEAR, CREATE_YEAR, 
+    FETCH_YEARS, 
     EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
 } from "../../actions/types";
 
 const initialState = {
-    years: [],
-    loading: false
+    loading: false,
+    years: []
 };
 
 export default (state = initialState, action) => {

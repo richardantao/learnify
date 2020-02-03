@@ -6,8 +6,8 @@ import {
 
 const initialState = {
     loading: false,
-    parents: [],
-    courses: []
+    courses: [],
+    terms: []
 };
 
 export default (state = initialState, action) => {
@@ -17,23 +17,23 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: true
             };
-        case FETCH_COURSES:
-            return {
-                ...state,
-                loading: false,
-                courses: action.payload                
-            };
         case NEW_COURSE: 
             return {
                 ...state,
                 loading: false,
-                parents: action.payload
+                terms: action.payload
             };  
         case CREATE_COURSE:
             return {
                 ...state,
                 loading: false,
                 courses: [...state.courses, action.payload]
+            };
+        case FETCH_COURSES:
+            return {
+                ...state,
+                loading: false,
+                courses: action.payload                
             };
         case EDIT_COURSE:
             return {
@@ -54,12 +54,13 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 courses: state.courses.map(course => {
-                    const { term, code, title, credit, instructor, theme } = action.payload;
+                    const { _id, term, code, title, credit, instructor, theme } = action.payload;
                     if(course._id === action._id) {
                         return course;
                     } else return {
                         ...state.courses,
                         course: {
+                            _id,
                             term,
                             code,
                             title,

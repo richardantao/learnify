@@ -6,8 +6,8 @@ import {
 
 const initialState = {
     loading: false,
-    parents: [],
-    tasks: []
+    tasks: [],
+    courses: []
 };
 
 export default (state = initialState, action) => {
@@ -17,29 +17,24 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: true
             };
-        case FETCH_TASKS:
-            return {
-                ...state,
-                loading: false,
-                tasks: action.payload
-            };
-        case FETCH_PAST_TASKS:
-            return {
-                ...state,
-                loading: false,
-                tasks: action.payload
-            };
         case NEW_TASK:
             return {
                 ...state,
                 loading: false,
-                parents: action.payload
+                courses: action.payload
             };
         case CREATE_TASK:
             return {
                 ...state,
                 loading: false,
                 tasks: [...state.tasks, action.payload]
+            };
+        case FETCH_TASKS:    
+        case FETCH_PAST_TASKS:
+            return {
+                ...state,
+                loading: false,
+                tasks: action.payload
             };
         case EDIT_TASK:
             return {
@@ -53,7 +48,8 @@ export default (state = initialState, action) => {
                     } else return {
                         task: action.payload
                     };
-                })
+                }),
+                courses: action.payload.options
             };
         case UPDATE_TASK:
             return {
@@ -67,6 +63,7 @@ export default (state = initialState, action) => {
                     } else return {
                         ...state.tasks,
                         task: {
+                            _id,
                             course, 
                             title, 
                             type, 

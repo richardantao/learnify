@@ -17,12 +17,6 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: true
             };
-        case FETCH_TERMS:
-            return {
-                ...state,
-                loading: false,
-                terms: action.payload
-            };
         case NEW_TERM:
             return {
                 ...state,
@@ -34,6 +28,12 @@ export default (state = initialState, action) => {
                 ...state,
                 terms: [...state.terms, action.payload],
                 loading: false
+            };
+        case FETCH_TERMS:
+            return {
+                ...state,
+                loading: false,
+                terms: action.payload
             };
         case EDIT_TERM:
             return {
@@ -54,12 +54,13 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 terms: state.terms.map(term => {
-                    const { year, title, start, end } = action.payload;
+                    const { _id, year, title, start, end } = action.payload;
                     if(term._id !== action._id) {
                         return term;
                     } else return {
                         ...state.terms,
                         term: {
+                            _id,
                             year,
                             title,
                             date: {
