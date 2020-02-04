@@ -1,0 +1,75 @@
+/* --- Colour Palette --- */
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background-color: #FAFAFA;
+$form-background: #F9F9F9;
+$border-line: #E1E1E1;
+$text: #212529;
+
+/* --- Portrait Mobile --- */
+.counter {
+	color: #C3C5C9;
+		right: 3%;
+		top: 10%;
+}
+
+circle {
+	fill: transparent;
+	stroke: #C3C5C9;
+}
+
+.counter-index {
+	position: absolute;
+		left: 50%;
+    	top: 40%; 
+	transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+}
+
+.counter-index h6:first-child {
+	font-size: 2.75em;
+}
+
+.counter-type h6:first-child {
+	font-size: 0.9em;
+}
+
+.counter-type {
+	position: absolute;
+		left: 50%;
+    	top: 67%; 
+	transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+}
+
+/* --- Landscape Mobile --- */
+@media (min-width: 576px) {
+
+};
+
+/* --- Portrait Tablets --- */
+@media (min-width: 768px) {
+
+}
+
+/* --- Landscape Tablets --- */
+@media (min-width: 992px) {
+
+}
+
+/* --- Small Laptops --- */
+@media (min-width: 1200px) {
+
+}
+
+/* --- Large Laptops --- */
+@media (min-width: 1440px) {
+
+}
+
+/* --- Desktops --- */
+@media (min-width: 2100px) {
+
+}
