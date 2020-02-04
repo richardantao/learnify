@@ -1,14 +1,16 @@
 import React from "react";
-import Button from "reactstrap/button";
+import { Button as Btn } from "reactstrap";
 
 const Button = props => {
     return (
-        <Button 
+        <Btn 
             href={props.href}
             className={props.class}
+            type={props.type}
+            onClick={props.onClick}
         >   
-            {props.text}
-        </Button>
+            {props.content}
+        </Btn>
     );
 };  
 
