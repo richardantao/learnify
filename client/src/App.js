@@ -52,7 +52,6 @@ class App extends Component {
 					<Route name="calendar" path="/beta/calendar" component={Calendar}/>
 					<Route name="academics" path="/beta/academics" component={Academics}/>
 					<Route name="planner" path="/beta/planner" component={Planner}/>
-					<Route name="search" path="/beta/search" component={Search}/>
 					<Route name="settings" path="/beta/settings" component={Settings}/>
 					<Route name="help" path="/beta/help" component={Help}/>
 
