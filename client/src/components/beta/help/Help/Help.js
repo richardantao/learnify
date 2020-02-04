@@ -1,53 +1,47 @@
-import React, { Component } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
-
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
 
 import { Button, Col, Row } from "reactstrap";
 
-import Nav from "../../global/Nav";
+import AuthNav from "../../global/AuthNav";
+import AppNav from "../../global/AppNav";
 import Header from "../../global/Header";
+import HelpHeader from "../HelpHeader";
 
 import "./Help.scss";
 
-export default class Help extends Component {
-	componentDidMount() {
-		
-	};
-
-	componentDidUpdate(prevProps) {
-
-	};
-
-	render() {
-		return (
-			<>
-				<Helmet>
-					<title>My Learnify | Help</title>
-				</Helmet>
-				<div id="beta">
-					<Nav />
-					<div id="help">
-						<Row className="header">
-							<Col>
-								<Header header="Help"/> 
-							</Col>
-							<Col>
+const Help = props => {
+	return (
+		<>
+			<Helmet>
+				<meta name="description" content=""/>
+				<meta name="keywords" content="Help, FAQ"/>
+				<title>My Learnify | Help</title>
+			</Helmet>
+			<div id="beta">
+				<AuthNav/>
+				<AppNav />
+				<div id="help">
+					<Row className="header">
+						<Col>
+							<Header header="Help"/> 
+						</Col>
+						<Col>
+							
+						</Col>
+					</Row>
+					<Row className="body">
+						<Col>
+							<div>
+								<h2>Frequently Asked Questions</h2>
 								
-							</Col>
-						</Row>
-						<Row className="body">
-							<Col>
-								<div>
-									<h2>Frequently Asked Questions</h2>
-									
-								</div>
-							</Col>
-						</Row>
-					</div>
+							</div>
+						</Col>
+					</Row>
 				</div>
-			</>
-		);
-	};
+			</div>
+		</>
+	);
 };
+
+export default Help;
