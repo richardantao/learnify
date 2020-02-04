@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet";
 
 import { Row } from "reactstrap";
 
-import AuthNav from "../../global/AuthNav";
-import AppNav from "../../global/AppNav";
-import CalendarHeader from "../CalendarHeader";
+import AuthNav from "../../organisms/AuthNav";
+import AppNav from "../../organisms/AppNav";
+import CalendarHeader from "../../organisms/CalendarHeader";
 
 import Loadable from "react-loadable";
 import Loading from "../../../public/global/organisms/Loading";
@@ -88,25 +88,25 @@ export default class Calendar extends Component {
 };
 
 const CalendarMonth = Loadable({
-	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../CalendarMonth"),
+	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../../organisms/CalendarMonth"),
 	loading: Loading, 
 	delay: 300
 });
 
 const CalendarWeek = Loadable({
-	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../CalendarWeek"),
+	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../../organisms/CalendarWeek"),
 	loading: Loading,
 	delay: 300
 });
 
 const CalendarDay = Loadable({
-	loader: () => import(/* webpackChunkName: "CalendarDay" */ "../CalendarDay"),
+	loader: () => import(/* webpackChunkName: "CalendarDay" */ "../../organisms/CalendarDay"),
 	loading: Loading,
 	delay: 300
 });
 
 const CalendarAgenda = Loadable({
-	loader: () => import(/* webpackChunkName: "CalendarAgenda" */ "../CalendarAgenda"),
+	loader: () => import(/* webpackChunkName: "CalendarAgenda" */ "../../organisms/CalendarAgenda"),
 	loading: Loading,
 	delay: 300
 });

@@ -1,20 +1,20 @@
-import React, { Component } from "./node_modules/react";
-import { Helmet } from "./node_modules/react-helmet";
+import React, { Component } from "react";
+import { Helmet } from "react-helmet";
 
-import { connect } from "./node_modules/react-redux";
-import PropTypes from "./node_modules/prop-types";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import { FontAwesomeIcon } from "./node_modules/@fortawesome/react-fontawesome";
-import { faEdit } from "./node_modules/@fortawesome/free-solid-svg-icons";
-import { Button, Col, Row } from "./node_modules/reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { Button, Col, Row } from "reactstrap";
 
-import AuthNav from "../../../global/AuthNav";
-import AppNav from "../../../global/AppNav";
-import Header from "../../../global/Header";
-import Years from "../../../years/Years";
-import Terms from "../../../terms/Terms";
-import Courses from "../../../courses/Courses";
-import Classes from "../../../classes/Classes/Classes";
+import AuthNav from "../../organisms/AuthNav";
+import AppNav from "../../organisms/AppNav";
+import Header from "../../organisms/Header";
+import Years from "../../years/Years";
+import Terms from "../../terms/Terms";
+import Courses from "../../courses/Courses";
+import Classes from "../../classes/Classes/Classes";
 
 import Loadable from "react-loadable";
 
@@ -113,31 +113,31 @@ class Academics extends Component {
 
 
 const YearEditModal = Loadable({
-	loader: import(/* webpackChunkName: "YearEditModal" */ "../../../years/YearEditModal"),
+	loader: import(/* webpackChunkName: "YearEditModal" */ "../../years/YearEditModal"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const YearNewModal = Loadable({
-	loader: import(/* webpackChunkName: "YearNewModal" */ "../../../years/YearNewModal"),
+	loader: import(/* webpackChunkName: "YearNewModal" */ "../../years/YearNewModal"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const TermNewModal = Loadable({
-	loader: import(/* webpackChunkName: "TermNewModal" */ "../../../terms/TermNewModal"),
+	loader: import(/* webpackChunkName: "TermNewModal" */ "../../terms/TermNewModal"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const CourseNewModal = Loadable({
-	loader: import(/* webpackChunkName: "CourseNewModal" */ "../../../courses/CourseNewModal"),
+	loader: import(/* webpackChunkName: "CourseNewModal" */ "../../courses/CourseNewModal"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const ClassNewModal = Loadable({
-	loader: import(/* webpackChunkName: "ClassNewModal" */ "../../../classes/ClassNewModal"),
+	loader: import(/* webpackChunkName: "ClassNewModal" */ "../../classes/ClassNewModal"),
 	loading: () => <div></div>,
 	delay: 300
 });

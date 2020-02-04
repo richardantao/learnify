@@ -3,10 +3,10 @@ import { Helmet } from "react-helmet";
 
 import { Button, Col, Row } from "reactstrap";
 
-import AuthNav from "../../global/AuthNav";
-import AppNav from "../../global/AppNav";
-import Header from "../../global/Header";
-import HelpHeader from "../HelpHeader";
+import AuthNav from "../../organisms/AuthNav";
+import AppNav from "../../organisms/AppNav";
+import Header from "../../organisms/global/Header";
+import HelpHeader from "../../organisms/help/HelpHeader";
 
 import "./Help.scss";
 

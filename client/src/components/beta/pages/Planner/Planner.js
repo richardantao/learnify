@@ -1,19 +1,19 @@
-import React, { Component } from "./node_modules/react";
-import { Helmet } from "./node_modules/react-helmet";
+import React, { Component } from "react";
+import { Helmet } from "react-helmet";
 
-import { connect } from "./node_modules/react-redux";
-import PropTypes from "./node_modules/prop-types";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
-import { Col, Row, Button } from "./node_modules/reactstrap";
+import { Col, Row, Button } from "reactstrap";
 
-import AuthNav from "../../../global/AuthNav";
-import AppNav from "../../../global/AppNav";
-import Header from "../../../global/Header";
-import Tasks from "../../../tasks/Tasks";
-import Assessments from "../../../assessments/Assessments";
+import AuthNav from "../../organisms/AuthNav";
+import AppNav from "../../organisms/AppNav";
+import Header from "../../organisms/Header";
+import Tasks from "../../tasks/Tasks";
+import Assessments from "../../assessments/Assessments";
 
 import Loadable from "react-loadable";
-import Loading from "../../../../public/global/organisms/Loading";
+import Loading from "../../../public/global/organisms/Loading";
 
 import "./Planner.scss";
 
@@ -79,13 +79,13 @@ class Planner extends Component {
 };
 
 const TaskNewModal = Loadable({
-    loader: () => import(/* webpackChunkName: "TaskNewModal" */ "../../../tasks/TaskNewModal"),
+    loader: () => import(/* webpackChunkName: "TaskNewModal" */ "../../tasks/TaskNewModal"),
     loading: () => <Loading/>,
     delay: 300
 });
 
 const AssessmentNewModal = Loadable({
-    loader: () => import(/* webpackChunkName: "AssessmentNewModal" */ "../../../assessments/AssessmentNewModal"),
+    loader: () => import(/* webpackChunkName: "AssessmentNewModal" */ "../../assessments/AssessmentNewModal"),
     loading: () => <Loading/>,
     delay: 300
 });

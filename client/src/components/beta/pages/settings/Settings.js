@@ -2,19 +2,19 @@ import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
-import { logout } from "../../../../../actions/auth/auth";
+import { logout } from "../../../../actions/auth/auth";
 import PropTypes from "prop-types";
 
 import { Button, Container, Col, Row } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebookSquare, faLinkedin, faInstagram, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
-import AuthNav from "../../../global/AuthNav";
-import AppNav from "../../../global/AppNav";
-import Header from "../../../global/Header";
+import AuthNav from "../../organisms/AuthNav";
+import AppNav from "../../organisms/AppNav";
+import Header from "../../organisms/DashboardHeader";
 
 import Loadable from "react-loadable";
-import Loading from "../../../../public/global/organisms/Loading";
+import Loading from "../../../public/global/organisms/Loading";
 
 import "./Settings.scss";
 
@@ -123,19 +123,19 @@ class Settings extends Component {
 };
 
 const Profile = Loadable({
-	loader: () => import(/* webpackChunkName: "Profile" */ "../Profile"),
+	loader: () => import(/* webpackChunkName: "Profile" */ "../../organisms/settings/Profile"),
 	loading: Loading,
 	delay: 300
 });
 
 const Password = Loadable({
-	loader: () => import(/* webpackChunkName: "Password" */ "../Password"),
+	loader: () => import(/* webpackChunkName: "Password" */ "../../organisms/settings/Password"),
 	loading: Loading,
 	delay: 300
 });
 
 const Preference = Loadable({
-	loader: () => import(/* webpackChunkName: "Preference" */ "../Preference"),
+	loader: () => import(/* webpackChunkName: "Preference" */ "../../organisms/settings/Preference"),
 	loading: Loading,
 	delay: 300
 });
