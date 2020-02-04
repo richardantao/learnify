@@ -1,11 +1,11 @@
 import React from "react";
-import { Row } from "reactstrap";
+import { Col } from "reactstrap";
 
 const List = props => {
     return (
-        <Row>
-            
-        </Row>
+        <Col id={props.id} className={props.class}>
+            {props.data}
+        </Col>
     );
 };
 

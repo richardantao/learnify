@@ -1,0 +1,55 @@
+#beta {
+	
+	/* ---  Portait Mobile --- */
+	h1 {
+		position: absolute;
+			left: 5%;
+			top: 20%;
+	}
+	
+	.header a {
+		float: right;
+		margin-right: 2.5%;
+		position: relative;
+			top: 25%;
+	}
+
+	/* ---  Landscape Mobile --- */
+	@media (min-width: 576px) {
+	
+	}
+	
+	/* ---  Portait Tablets --- */
+	@media (min-width: 768px) {
+	
+	}
+	
+
+	/* ---  Landscape Tablets --- */
+	@media (min-width: 992px) {
+	
+	}
+
+	/* --- Small Laptops --- */
+	@media (min-width: 1200px) {
+		h1 {
+			left: 5%;
+			top: 20%;
+		}
+		
+		.header a {
+			margin-right: 2.5%;
+			top: 25%;
+		}
+	}
+	
+	/* --- Large Laptops --- */
+	@media (min-width: 1440px) {
+		
+	}
+
+	/* --- Desktops --- */
+	@media (min-width: 2100px) {
+		
+	}
+}
