@@ -96,6 +96,7 @@ exports.create = (req, res) => {
 exports.read = (req, res) => {
     const { _id } = req.user;
     const { termId } = req.params;
+    const { current } = req.query;
 
     const redisKey = `${_id}:assessmentsRead`;
 
@@ -117,10 +118,11 @@ exports.read = (req, res) => {
         if(cacheResults) {
             redis.setex(redisKey, 3600, cacheResults);
 
-            JSON.parse(cacheResults);
+            const payload = JSON.parse(cacheResults);
 
-            const assessments = cacheResults.map(assessment => {
+            const assessments = payload.map(assessment => {
                 delete assessment.meta;
+                return assessment;
             });
 
             return callback(null, assessments);
@@ -145,6 +147,7 @@ exports.read = (req, res) => {
 
                     const assessments = payload.map(assessment => {
                         delete assessment.meta;
+                        return assessment;
                     });
 
                     return callback(null, assessments);
@@ -175,6 +178,7 @@ exports.read = (req, res) => {
 exports.filter = (req, res) => {
     const { _id } = req.user;
     const { courseId } = req.params;
+    const { current } = req.query;
 
     const redisKey = `${_id}:assessmentsFilter`;
 
@@ -196,10 +200,11 @@ exports.filter = (req, res) => {
         if(cacheResults) {
             redis.setex(redisKey, 3600, cacheResults);
 
-            JSON.parse(cacheResults);
+            const payload = JSON.parse(cacheResults);
 
-            const assessments = cacheResults.map(assessment => {
+            const assessments = payload.map(assessment => {
                 delete assessment.meta;
+                return assessment;
             });
 
             return callback(null, assessments);

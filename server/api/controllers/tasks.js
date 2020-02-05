@@ -88,6 +88,7 @@ exports.create = (req, res) => {
 
 exports.read = (req, res) => {
     const { termId } = req.params;
+    const { current } = req.query;
 
     const redisKey = `${_id}:tasksRead`;
 
@@ -109,10 +110,11 @@ exports.read = (req, res) => {
         if(cacheResults) {
             redis.setex(redisKey, 3600, cacheResults);
 
-            JSON.parse(cacheResults);
+            const payload = JSON.parse(cacheResults);
 
-            const tasks = cacheResults.map(task => {
+            const tasks = payload.map(task => {
                 delete task.meta;
+                return task;
             });
 
             return callback(null, tasks);
@@ -138,6 +140,7 @@ exports.read = (req, res) => {
 
                     const tasks = payload.map(task => {
                         delete task.meta;
+                        return task;
                     });
 
                     return callback(null, tasks);
@@ -168,6 +171,7 @@ exports.read = (req, res) => {
 exports.filter = (req, res) => {
     const { _id } = req.user;
     const { courseId } = req.params;
+    const { current } = req.query;
 
     const redisKey = `${_id}:tasksFilter`;
 
@@ -189,10 +193,11 @@ exports.filter = (req, res) => {
         if(cacheResults) {
             redis.setex(redisKey, 3600, cacheResults);
 
-            JSON.parse(cacheResults);
+            const payload = JSON.parse(cacheResults);
 
-            const tasks = cacheResults.map(task => {
+            const tasks = payload.map(task => {
                 delete task.meta;
+                return task;
             });
 
             return callback(null, tasks);
@@ -353,10 +358,10 @@ exports.update = (req, res) => {
     const redisTasksReadKey = `${_id}:tasksRead`;
     const redisTasksFilterKey = `${_id}:tasksFilter`;
 
-    const matchTerm = (callback) => {
+    const matchTerm = callback => {
         Course.find({ _id: course }, {
-            term: 1,
-            _id: 0
+            _id: 0,
+            term: 1
         })
         .limit(1)
         .then(term => {
