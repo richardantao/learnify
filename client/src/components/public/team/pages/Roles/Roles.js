@@ -10,7 +10,7 @@ import Footer from "../../../global/organisms/Footer";
 import Loadable from "react-loadable";
 import Loading from "../../../global/organisms/Loading";
 
-import { Badge, Collapse, Card, CardBody, ListGroup, ListGroupItem } from "reactstrap";
+import { Collapse, Card, CardBody, ListGroup, ListGroupItem } from "reactstrap";
 
 import "../../Team.scss";
 
@@ -108,7 +108,7 @@ class Roles extends Component {
                             <ListGroupItem id="backend">
                                 <h4>
                                     <a href="#backend" onClick={this.toggleBackend} className="accordion roles-title">
-                                        Backend Node Developer { Date.now() < new Date("2020-02-04T00:00-0400") ? <Badge color="primary">New</Badge>: null}
+                                        Backend Node Developer
                                     </a>
                                 </h4>                            
                                 <Collapse isOpen={openBackend}>
@@ -212,7 +212,7 @@ class Roles extends Component {
                             <ListGroupItem id="creator">
                                 <h4>
                                     <a href="#creator" onClick={this.toggleCreator} className="accordion roles-title">
-                                        Content Creator { Date.now() < new Date("2020-02-04T00:00-0400") ? <Badge color="primary">New</Badge>: null}
+                                        Content Creator
                                     </a>
                                 </h4>
                                 <Collapse isOpen={openCreator}>
@@ -288,7 +288,7 @@ class Roles extends Component {
                             <ListGroupItem id="designer">
                                 <h4>
                                     <a href="#designer" onClick={this.toggleDesigner} className="accordion roles-title">
-                                        Visual Designer { Date.now() < new Date("2020-02-04T00:00-0400") ? <Badge color="primary">New</Badge>: null}
+                                        Visual Designer
                                     </a>
                                 </h4>
                                 <Collapse isOpen={openDesigner}>
@@ -385,7 +385,7 @@ class Roles extends Component {
                             <ListGroupItem id="frontend">
                                 <h4>
                                     <a href="#frontend" onClick={this.toggleFrontend} className="accordion roles-title">
-                                        Frontend React Developer { Date.now() < new Date("2020-02-04T00:00-0400")  ? <Badge color="primary">New</Badge>: null }
+                                        Frontend React Developer 
                                     </a>
                                 </h4>
                                 <Collapse isOpen={openFrontend}>
@@ -481,7 +481,7 @@ class Roles extends Component {
                             <ListGroupItem id="marketer">
                                 <h4>
                                     <a href="#marketer" onClick={this.toggleMarketer} className="accordion roles-title">
-                                        Marketing Specialist { Date.now() < new Date("2020-02-04T00:00-0400") ? <Badge color="primary">New</Badge>: null}
+                                        Marketing Specialist
                                     </a>
                                 </h4>
                                 <Collapse isOpen={openMarketer}>
