@@ -1,41 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-	faTachometerAlt, faCalendarAlt, faTasks, faGraduationCap,
-	faUniversity, faSearch, faCog, faQuestionCircle
-} from "@fortawesome/free-solid-svg-icons";
+/* Icons */
+import FaTachometerAlt from "../../icons/FaTachometerAlt";
+import FaCalendarAlt from "../../icons/FaCalendarAlt";
+import FaTasks from "../../icons/FaTasks";
+import FaUniversity from "../../icons/FaUniversity";
+
+/* Atoms */
 import { Button } from "reactstrap";
+import Logo from "../../atoms/Logo";
 
 import logo from "./learnify-min.png";
 import "./AppNav.scss";
 
-const AppNav = () => {
+export default () => {
 	return ( 
-		<>
-			<nav id="app-nav" role="navigation">
-				<a href="/beta/dashboard">
-					<img src={logo} className="logo" alt="Leanrnfy Logo"/>
-				</a>
-				<Button href="/beta/dashboard">
-					<FontAwesomeIcon icon={faTachometerAlt}/>
-				</Button>
-				<Button href="/beta/calendar">
-					<FontAwesomeIcon icon={faCalendarAlt}/>
-				</Button>
-				<Button href="/beta/academics">
-					<FontAwesomeIcon icon={faUniversity}/>
-				</Button>
-				<Button href="/beta/planner">
-					<FontAwesomeIcon icon={faTasks}/>
-				</Button>
-				{/* <Button href="/search">
-					<FontAwesomeIcon icon={faSearch}/>
-				</Button> */}
-
-			</nav>
-		</>
+		<nav id="app-nav" role="navigation">
+			<Logo href="/beta/dashboard" src={logo} alt="Learnify Logo"/>			
+			<Button type="button" href="/beta/dashboard" content={<FaTachometerAlt/>} />
+			<Button type="button" href="/beta/calendar" content={<FaCalendarAlt/>} />
+			<Button type="button" href="/beta/academics" content={<FaUniversity/>} />
+			<Button type="button" href="/beta/planner" content={<FaTasks/>} />
+		</nav>
 	);
 };
-
-export default AppNav;

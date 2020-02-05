@@ -1,32 +1,27 @@
-import React, { Component } from "react";
+import React from "react";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCog, faQuestionCircle, faBell } from "@fortawesome/free-solid-svg-icons";
+/* Icons */
+import FaCog from "../../icons/FaCog";
+import FaQuestionCircle from "../../icons/FaQuestionCircle";
+import FaBell from "../../icons/FaBell";
 
-import { Button } from "reactstrap";
+/* Atoms */
+import Button from "../../atoms/Button";
 
 import Search from "../global/Search";
 
 import "./AuthNav.scss";
 
-const AuthNav = props => {
+export default ({ userName }) => {
     return (
         <nav id="auth-nav" role="navigation">
             <Search/>
-            <Button href="/beta/help">
-                <FontAwesomeIcon icon={faQuestionCircle}/>
-            </Button>
-            <Button href="/beta/settings">
-                <FontAwesomeIcon icon={faCog}/>
-            </Button>
-            <Button href="/beta/notifcations">
-                <FontAwesomeIcon icon={faBell}/>
-            </Button>
+            <Button type="button" href="/beta/help" content={<FaQuestionCircle/>} />
+            <Button type="button" href="/beta/settings" content={<FaCog/>} />
+            <Button type="button" href="/beta/notifcations" content={<FaBell/>} />
             <span>
-                *User's first name*
+                {userName}
             </span>
         </nav>
     );
 };
-
-export default AuthNav;
