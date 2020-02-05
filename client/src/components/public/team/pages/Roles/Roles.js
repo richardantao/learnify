@@ -20,8 +20,7 @@ class Roles extends Component {
         openCreator: false,
         openDesigner: false,
         openFrontend: false,
-        openMarketer: false//,
-        // openSwift: false
+        openMarketer: false
     };
 
     static propTypes = {
@@ -69,14 +68,6 @@ class Roles extends Component {
 
         this.setState({
             openMarketer: !openMarketer
-        });
-    };
-
-    toggleSwift = () => {
-        const { openSwift } = this.state;
-
-        this.setState({
-            openSwift: !openSwift
         });
     };
 
@@ -568,11 +559,6 @@ class Roles extends Component {
                                     </Card>
                                 </Collapse>
                             </ListGroupItem>
-                            {/* <ListGroupItem>
-                                <div>
-                                    <Button onClick={this.toggleSwift}>Mobile Developer</Button>
-                                </div> 
-                            </ListGroupItem> */}
                         </ListGroup>
                     </main>  
                     <Footer/>
@@ -611,12 +597,6 @@ const Marketer = Loadable({
     loading: Loading,
     delay: 300
 });
-
-// const Swift = Loadable({
-//     loader: () => import(/* webpackChunkName: "Swift" */ "../../organisms/Swift"),
-//     loading: Loading,
-//     delay: 300
-// });
 
 const mapStateToProps = state => ({
     error: state.error
