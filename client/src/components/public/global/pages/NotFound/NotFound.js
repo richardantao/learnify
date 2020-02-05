@@ -21,7 +21,7 @@ const NotFound = () => {
                 </p>
 
                 <a href="/">Go back to Public Homepage</a>
-                <a href="/dashboard">Go back to App Dashboard</a>
+                <a href="/beta/dashboard">Go back to App Dashboard</a>
             </main>
         </>
     );  
