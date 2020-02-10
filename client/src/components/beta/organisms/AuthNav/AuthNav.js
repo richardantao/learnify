@@ -8,7 +8,7 @@ import FaBell from "../../icons/FaBell";
 /* Atoms */
 import Button from "../../atoms/Button";
 
-import Search from "../global/Search";
+import Search from "../../molecules/Search";
 
 import "./AuthNav.scss";
 

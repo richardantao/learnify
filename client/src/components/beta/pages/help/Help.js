@@ -5,12 +5,12 @@ import { Button, Col, Row } from "reactstrap";
 
 import AuthNav from "../../organisms/AuthNav";
 import AppNav from "../../organisms/AppNav";
-import Header from "../../organisms/global/Header";
+import Header from "../../organisms/Header";
 import HelpHeader from "../../organisms/help/HelpHeader";
 
 import "./Help.scss";
 
-const Help = props => {
+export default ({  }) => {
 	return (
 		<>
 			<Helmet>
@@ -43,5 +43,3 @@ const Help = props => {
 		</>
 	);
 };
-
-export default Help;

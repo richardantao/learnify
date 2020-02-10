@@ -1,11 +1,11 @@
 import React from "react";
-import { Alert } from "reactstrap";
+import { Alert as Alrt} from "reactstrap";
 
 const Alert = props => {
     return (
-        <Alert color={props.color}>
+        <Alrt color={props.color}>
             {props.message}
-        </Alert>
+        </Alrt>
     );
 };
 

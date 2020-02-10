@@ -1,7 +1,16 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
+/* Redux Operations */
 import { connect } from "react-redux";
+import { 
+    fetchAssessmentsByTerm, fetchPastAssessmentsByTerm, 
+    fetchAssessmentsByCourse, fetchPastAssessmentsByCourse
+} from "../../../../actions/beta/assessments";
+import { 
+    fetchTasksByTerm, fetchPastTasksByTerm,
+    fetchTasksByCourse, fetchPastTasksByCourse
+} from "../../../../actions/beta/tasks";
 import PropTypes from "prop-types";
 
 import { Col, Row, Button } from "reactstrap";
@@ -9,8 +18,12 @@ import { Col, Row, Button } from "reactstrap";
 import AuthNav from "../../organisms/AuthNav";
 import AppNav from "../../organisms/AppNav";
 import Header from "../../organisms/Header";
-import Tasks from "../../tasks/Tasks";
-import Assessments from "../../assessments/Assessments";
+
+/* Atoms */
+import Data from "../../atoms/Data";
+
+/* Organisms */
+import List from "../../organisms/List";
 
 import Loadable from "react-loadable";
 import Loading from "../../../public/global/organisms/Loading";
@@ -19,18 +32,60 @@ import "./Planner.scss";
 
 class Planner extends Component {
     state = {
-
+        message: null,
+        filter: false
     };
 
     static propTypes = {
-        // isAuthenticated: PropTypes.bool
-        error: PropTypes.object.isRequired
+        // isAuthenticated: PropTypes.bool,
+        error: PropTypes.object.isRequired,
+        task: PropTypes.object.isRequired,
+        assessment: PropTypes.object.isRequired,
+        fetchTasksByTerm: PropTypes.func.isRequired,
+        fetchPastTasksByTerm: PropTypes.func.isRequired,
+        fetchTasksByCourse: PropTypes.func.isRequired,
+        fetchPastTasksByCourse: PropTypes.func.isRequired,
+        fetchAssessmentsByTerm: PropTypes.func.isRequired,
+        fetchPastAssessmentsByTerm: PropTypes.func.isRequired,
+        fetchAssessmentsByCourse: PropTypes.func.isRequired,
+        fetchPastAssessmentsByCourse: PropTypes.func.isRequired
+    };
+
+    componentDidMount() {
+        this.readItems();
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        const { error } = this.props;
+
+        if(error !== prevProps.error) {
+            if(error.id === "") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });
+            };
+        };
+    };
+
+    readItems = termId => {
+        const { fetchTasksByTerm, fetchAssessmentsByTerm } = this.state;
+
+        fetchTasksByTerm(termId);
+        fetchAssessmentsByTerm(termId);
+    };
+
+    toggleFilter = () => {
+        const { filter } = this.state;
+
+        this.setState({ filter: !filter });
     };
 
     render() {
-        const { } = this.props;
-
-        const courseOptions = {  };
+        const { 
+            task: { tasks },
+            assessment: { assessments }
+        } = this.props;
+        const { filter } = this.state;
         
         return (
             <>
@@ -60,16 +115,45 @@ class Planner extends Component {
                         <Row className="body tasks-body"> 
                             <Col>
                                 <h2>Tasks</h2>
-                                <TaskNewModal/>
+                                <TaskNew/>
                             </Col>
                             <Col>
                                 <h2>Assessments</h2>
-                                <AssessmentNewModal/>
+                                <AssessmentNew/>
                             </Col>
                         </Row>
                         <Row>
-                            <Tasks/>
-                            <Assessments/>
+                            <List
+                                id="tasks"
+                                class="tasks-list"
+                                data={tasks.map(({ _id, title, course, type, deadline }) => (
+                                    <Data
+                                        key={_id}
+                                        title={title}
+                                        parent={course}
+                                        info={type}
+                                        where={deadline}
+                                        edit={null}
+                                        terminate={null}       
+                                    />
+                                ))}
+                            />
+                            <List
+                                id="assessments"
+                                class="assessments-list"
+                                data={assessments.map(({ _id, title, course, type, date }) => (
+                                    <Data
+                                        key={_id}
+                                        className="assessment-data"
+                                        title={title}
+                                        parent={course}
+                                        info={type}
+                                        where={date}
+                                        edit={null}
+                                        terminate={null}
+                                    />
+                                ))}
+                            />
                         </Row>
                     </div>
                 </div>
@@ -78,14 +162,14 @@ class Planner extends Component {
     };
 };
 
-const TaskNewModal = Loadable({
-    loader: () => import(/* webpackChunkName: "TaskNewModal" */ "../../tasks/TaskNewModal"),
+const TaskNew = Loadable({
+    loader: () => import(/* webpackChunkName: "TaskNew" */ "../../reactors/TaskNew"),
     loading: () => <Loading/>,
     delay: 300
 });
 
-const AssessmentNewModal = Loadable({
-    loader: () => import(/* webpackChunkName: "AssessmentNewModal" */ "../../assessments/AssessmentNewModal"),
+const AssessmentNew = Loadable({
+    loader: () => import(/* webpackChunkName: "AssessmentNew" */ "../../reactors/AssessmentNew"),
     loading: () => <Loading/>,
     delay: 300
 });
@@ -95,6 +179,11 @@ const mapStateToProps = state => ({
     error: state.error,
 });
 
-const mapDispatchToProps = { };
+const mapDispatchToProps = { 
+    fetchAssessmentsByTerm, fetchPastAssessmentsByTerm, 
+    fetchAssessmentsByCourse, fetchPastAssessmentsByCourse,
+    fetchTasksByTerm, fetchPastTasksByTerm,
+    fetchTasksByCourse, fetchPastTasksByCourse
+};
 
 export default connect (mapStateToProps, mapDispatchToProps)(Planner);
