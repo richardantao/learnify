@@ -1,16 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Empty.scss";
 
-export default class Empty extends Component {    
-    componentDidMount() {
-        
-    }
+export default ({  }) => {
+    return (
+        <svg>
 
-    render() {
-        return (
-            <svg>
-
-            </svg>
-        );
-    };
+        </svg>
+    );
 };

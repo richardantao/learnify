@@ -1,17 +1,15 @@
 import React from "react";
-import { Button as Btn } from "reactstrap";
+import { Button } from "reactstrap";
 
-const Button = props => {
+export default props => {
     return (
-        <Btn 
+        <Button 
             href={props.href}
             className={props.class}
             type={props.type}
             onClick={props.onClick}
         >   
             {props.content}
-        </Btn>
+        </Button>
     );
-};  
-
-export default Button;
+}; 

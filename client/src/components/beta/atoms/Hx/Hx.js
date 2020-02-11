@@ -1,6 +1,6 @@
 import React from "react";
 
-const Hx = ({ level, title }) => { 
+export default ({ level, title }) => { 
     return (
         <>
             {  level === 1 ? (
@@ -18,5 +18,3 @@ const Hx = ({ level, title }) => {
         </>
     );
 };
-
-export default Hx; 

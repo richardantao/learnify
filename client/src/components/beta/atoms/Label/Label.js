@@ -1,9 +1,7 @@
 import React from "react";
 
-import Label from "reactstrap/label";
+import { Label } from "reactstrap";
 
-const Label = props => {
-    return <Label for={props.for}>{props.label}</Label>
+export default props => {
+    return <Label for={props.for}>{props.content}</Label>
 };
-
-export default Label;
