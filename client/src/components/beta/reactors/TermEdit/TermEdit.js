@@ -28,6 +28,7 @@ class TermEdit extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
+        term: PropTypes.object.isRequired,
         updateTerm: PropTypes.func.isRequired,
         deleteTerm: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired

@@ -26,8 +26,9 @@ class TaskEditModal extends Component {
     };
 
     static propTypes = {
-        isAuthenticated: PropTypes.bool,
+        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
+        task: PropTypes.object.isRequired,
         editTask: PropTypes.func.isRequired,
         updateTask: PropTypes.func.isRequired,
         deleteTask: PropTypes.func.isRequired,

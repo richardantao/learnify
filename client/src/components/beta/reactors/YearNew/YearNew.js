@@ -29,6 +29,7 @@ class YearNew extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
+        year: PropTypes.object.isRequired,
         createYear: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
@@ -158,6 +159,7 @@ class YearNew extends Component {
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
+    year: state.year
 });
 
 const mapDispatchToProps = { createYear, clearErrors };

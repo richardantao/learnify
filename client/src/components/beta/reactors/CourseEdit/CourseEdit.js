@@ -31,6 +31,7 @@ class CourseEdit extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
+        course: PropTypes.object.isRequired,
         updateCourse: PropTypes.func.isRequired,
         deleteCourse: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired

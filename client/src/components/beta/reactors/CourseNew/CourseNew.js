@@ -28,6 +28,7 @@ class CourseNew extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
+        course: PropTypes.object.isRequired,
         newCourse: PropTypes.func.isRequired,
         createCourse: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired

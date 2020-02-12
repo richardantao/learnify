@@ -28,6 +28,7 @@ class TermNew extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
+        term: PropTypes.object.isRequired,
         newTerm: PropTypes.func.isRequired,
         createTerm: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired

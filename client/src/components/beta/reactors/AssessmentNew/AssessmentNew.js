@@ -22,6 +22,7 @@ class AssessmentNew extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.func,
         error: PropTypes.object.isRequired,
+        assessment: PropTypes.object.isRequired,
         newAssessment: PropTypes.func.isRequired,
         createAssessment: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired

@@ -29,6 +29,7 @@ class TaskNew extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
+        task: PropTypes.object.isRequired,
         newTask: PropTypes.func.isRequired,
         createTask: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired

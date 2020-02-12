@@ -21,6 +21,7 @@ class ClassEdit extends Component {
 
     static propTypes = {
         error: PropTypes.object.isRequired,
+        classes: PropTypes.object.isRequired,
         updateClass: PropTypes.func.isRequired,
         deleteClass: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired

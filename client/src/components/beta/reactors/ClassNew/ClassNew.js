@@ -18,6 +18,7 @@ class ClassNew extends Component {
 
     static propsTypes = {
         error: PropTypes.object.isRequired,
+        classes: PropTypes.object.isRequired,
         newClass: PropTypes.func.isRequired,
         createClass: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired

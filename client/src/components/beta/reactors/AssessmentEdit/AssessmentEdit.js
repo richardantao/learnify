@@ -20,6 +20,7 @@ class AssessmentEdit extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
+        assessment: PropTypes.object.isRequired,
         updateAssessment: PropTypes.func.isRequired,
         deleteAssessment: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
