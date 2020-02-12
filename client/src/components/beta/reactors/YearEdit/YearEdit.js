@@ -11,9 +11,7 @@ import {
     Form, FormGroup, Label, Input
 } from "reactstrap";
 
-import "./YearEditModal.scss";
-
-class YearEditModal extends Component {
+class YearEdit extends Component {
     state = {
         modal: false,
         _id: "",
@@ -35,13 +33,9 @@ class YearEditModal extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            this.setState({
-                message: error.message.message
-            });
+            this.setState({ message: error.message.message });
         } else {
-            this.setState({
-                message: null
-            });
+            this.setState({ message: null });
         };
     };
 
@@ -51,15 +45,11 @@ class YearEditModal extends Component {
 
         clearErrors();
 
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleSubmit = e => {
@@ -132,7 +122,8 @@ class YearEditModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 />
-
+                            </FormGroup>
+                            <FormGroup>
                                 <Label for="start">Start Date</Label>
                                 <Input
                                     name="start"
@@ -171,4 +162,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { updateYear, deleteYear, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(YearEditModal);
+export default connect(mapStateToProps, mapDispatchToProps)(YearEdit);

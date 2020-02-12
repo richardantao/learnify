@@ -5,16 +5,16 @@ import { newAssessment, createAssessment } from "../../../../actions/beta/assess
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+/* Atoms */
+import Icon from "../../atoms/Icon";
+
 import { 
     Modal, ModalHeader, ModalBody, 
     Form, FormGroup, Label, Input, Button, ModalFooter 
 } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import "./AssessmentNewModal.scss";
-
-class AssessmentNewModal extends Component {
+class AssessmentNew extends Component {
     state = {
         modal: false
     };
@@ -85,17 +85,13 @@ class AssessmentNewModal extends Component {
     render() {
         const { modal, title, course, type, location, start, end, weight, score } = this.state;
         const {
-            // assessment: { courses }
+            assessment: { courses }
         } = this.props;
-
-        // const courseOptions = courses.map(course => {
-
-        // });
 
         return (
             <>
                 <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faPlus}/> New Assessment
+                    <Icon icon={faPlus}/> New Assessment
                 </Button>
 
                 <Modal isOpen={modal} toggle={this.toggle}>
@@ -119,7 +115,13 @@ class AssessmentNewModal extends Component {
                                     value={course}
                                     onChange={this.handleChange}
                                     required
-                                />
+                                >
+                                    {courses.map(({ _id, title }) => {
+                                        <option key={_id} value={JSON.stringify(title)}>
+                                            {title}
+                                        </option>
+                                    })}    
+                                </Input>
                             </FormGroup>
                             <FormGroup>
                                 <Label for="type">Type</Label>
@@ -184,11 +186,12 @@ class AssessmentNewModal extends Component {
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
+    assessment: state.assessment
 });
 
 const mapDispatchToProps = { newAssessment, createAssessment, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AssessmentNewModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AssessmentNew);
 
 

@@ -5,16 +5,15 @@ import { newCourse, createCourse } from "../../../../actions/beta/courses";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+import Icon from "../../atoms/Icon";
+
 import { 
     Modal, ModalHeader, ModalBody, ModalFooter, 
     Form, FormGroup, Label, Input, Button 
 } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import "./CourseNewModal.scss";
-
-class CourseNewModal extends Component {
+class CourseNew extends Component {
     state = {
         modal: false,
         code: "",
@@ -44,11 +43,13 @@ class CourseNewModal extends Component {
         const { error, isAuthenticated } = this.props;
 
         if(error !== prevProps.error) {
-            this.setState({
-                message: ""
-            });
+            if(error.id === "") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: "" });
+            };
         } else {
-
+            this.setState({ message: null });
         };
     };
 
@@ -56,17 +57,12 @@ class CourseNewModal extends Component {
         const { clearErrors } = this.props;
         const { modal } = this.state;
 
-        this.setState({
-            modal: !modal
-        });
-
         clearErrors();
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleCancel = () => {
@@ -102,24 +98,13 @@ class CourseNewModal extends Component {
     render() {
         const { modal, code, term, title, credit, instructor, theme, message } = this.state;
         const { 
-            course: {
-                terms
-            }
+            course: { terms }
         } = this.props;
-
-        const termOptions = terms.map(({ _id, title }) => {
-            // <option 
-            //     key={_id} 
-            //     value={JSON.stringify(title)}
-            // >
-            //     {title}
-            // </option>
-        });
 
         return (
             <>
                 <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faPlus}/> New Course
+                    <Icon icon={faPlus}/> New Course
                 </Button>
 
                 <Modal isOpen={modal} toggle={this.toggle}>
@@ -135,17 +120,12 @@ class CourseNewModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    {termOptions}
+                                    {terms.map(({ _id, title }) => {
+                                        <option key={_id} value={JSON.stringify(title)}>
+                                            {title}
+                                        </option>
+                                    })}
                                 </Input>
-
-                                <Label for="title">Title</Label>
-                                <Input
-                                    name="title"
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                    required
-                                />
 
                                 <Label for="code">Code</Label>
                                 <Input
@@ -155,7 +135,19 @@ class CourseNewModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="title">Title</Label>
+                                <Input
+                                    name="title"
+                                    type="text"
+                                    value={title}
+                                    onChange={this.handleChange}
+                                    required
+                                />
 
+                            </FormGroup>
+                            <FormGroup>
                                 <Label for="credit">Credit</Label>
                                 <Input
                                     name="credit"
@@ -172,7 +164,8 @@ class CourseNewModal extends Component {
                                     value={instructor}
                                     onChange={this.handleChange}
                                 />
-
+                            </FormGroup>
+                            <FormGroup>
                                 <Label for="theme">Theme</Label>
                                 <Input
                                     name="theme"
@@ -183,8 +176,8 @@ class CourseNewModal extends Component {
                                 /> {/* Use selected options */}
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Create Course</Button>
+                                <Button type="button" onClick={this.handleCancel} className="">Cancel</Button>
+                                <Button type="submit" className="">Create Course</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>
@@ -196,9 +189,10 @@ class CourseNewModal extends Component {
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
+    course: state.course
 });
 
 const mapDispatchToProps = { newCourse, createCourse, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseNewModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CourseNew);

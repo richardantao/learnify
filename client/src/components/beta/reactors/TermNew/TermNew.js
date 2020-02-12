@@ -5,17 +5,17 @@ import { newTerm, createTerm } from "../../../../actions/beta/terms";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+/* Atoms */
+import Icon from "../../atoms/Icon";
+
 import { 
     Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter, 
     Form, FormGroup, Label, Input
 } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import "./TermNewModal.scss";
-
-class TermNewModal extends Component {
+class TermNew extends Component {
     state = {
         modal: false,
         year: "",
@@ -33,8 +33,6 @@ class TermNewModal extends Component {
         clearErrors: PropTypes.func.isRequired
     };
     
-    // this won't work since the button renders with the Academics component; 
-    // define a function that will fetch the parent options on rendering of the modal
     componentDidMount() {
         const { newTerm } = this.props;
 
@@ -45,13 +43,13 @@ class TermNewModal extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            this.setState({
-               message: error.message.message 
-            });
+            if(error.id === "") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({});
+            };
         } else {
-            this.setState({
-                message: null
-            });
+            this.setState({ message: null });
         };
     };
 
@@ -61,15 +59,11 @@ class TermNewModal extends Component {
 
         clearErrors();
 
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleSubmit = e => {
@@ -95,7 +89,6 @@ class TermNewModal extends Component {
     };
 
     handleCancel = () => {
-        // reset state
         this.setState({
             year: "",
             title: "",
@@ -112,15 +105,11 @@ class TermNewModal extends Component {
         const { 
             term: { years }
         } = this.props;
-
-        const yearOptions = years.map(year => {
-            
-        }); 
-
+ 
         return (
             <>
                 <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faPlus}/> New Term
+                    <Icon icon={faPlus}/> New Term
                 </Button>
 
                 <Modal isOpen={modal} toggle={this.toggle}>
@@ -140,7 +129,9 @@ class TermNewModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
-                                {yearOptions}    
+                                    {years.map(({ _id, title }) => {
+                                        <option key={_id}>{title}</option>
+                                    })}    
                                 </Input>
 
                                 <Label for="title">Title</Label>
@@ -151,7 +142,8 @@ class TermNewModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 />
-
+                            </FormGroup>
+                            <FormGroup>
                                 <Label for="start">Start Date</Label>
                                 <Input
                                     name="start"
@@ -170,11 +162,11 @@ class TermNewModal extends Component {
                                     required
                                 />
                             </FormGroup>
-                            <ModalFooter>
-                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Create Term</Button>
-                            </ModalFooter> 
                         </ModalBody>
+                        <ModalFooter>
+                            <Button type="button" onClick={this.handleCancel}>Cancel</Button>
+                            <Button type="submit">Create Term</Button>
+                        </ModalFooter> 
                     </Form>
                 </Modal>
             </>
@@ -184,9 +176,10 @@ class TermNewModal extends Component {
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
+    term: state.term
 });
 
 const mapDispatchToProps = { newTerm, createTerm, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TermNewModal);
+export default connect(mapStateToProps, mapDispatchToProps)(TermNew);

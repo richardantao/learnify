@@ -5,17 +5,17 @@ import { updateCourse, deleteCourse } from "../../../../actions/beta/courses";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+import Icon from "../../atoms/Icon";
+
 import { 
     Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter, 
     Form, FormGroup, Label, Input
 } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
-import "./CourseEditModal.scss";
 
-class CourseEditModal extends Component {
+class CourseEdit extends Component {
     state = {
         modal: false,
         _id: "", 
@@ -114,13 +114,16 @@ class CourseEditModal extends Component {
     render() {
         const { modal, _id, code, term, title, credit, instructor, theme, message } = this.state;
         const { 
-            course: { courses } 
+            course: { 
+                courses,
+                terms 
+            } 
         } = this.props;
 
         return (
             <>
                 <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faEdit}/>
+                    <Icon icon={faEdit}/>
                 </Button>
 
                 <Modal isOpen={modal} toggle={this.toggle}>
@@ -141,11 +144,66 @@ class CourseEditModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 />
+
+                                <Label for="term">Term</Label>
+                                <Input
+                                    name="term"
+                                    type="select"
+                                    value={term}
+                                    onChange={this.handleChange}
+                                    required
+                                >
+                                    {terms.map(({ _id, title }) => {
+                                        <option key={_id} value={JSON.stringify(title)}>
+                                            {title}
+                                        </option>
+                                    })}
+                                </Input>
+
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="title">Title</Label>
+                                <Input
+                                    name="title"
+                                    type="text"
+                                    value={title}
+                                    onChange={this.handleChange}
+                                    required
+                                />  
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="credit">Credit</Label>
+                                <Input
+                                    name="credit"
+                                    type="number"
+                                    value={credit}
+                                    onChange={this.handleChange}
+                                    required
+                                />
+
+                                <Label for="instructor">Instructor</Label>
+                                <Input
+                                    name="instructor"
+                                    type="text"
+                                    value={instructor}
+                                    onChange={this.handleChange}
+                                    required
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="theme">Theme</Label>
+                                <Input
+                                    name="theme"
+                                    type=""
+                                    value={theme}
+                                    onChange={this.handleChange}
+                                    required
+                                />
                             </FormGroup>
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Course</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Save Changes</Button>
+                                <Button type="submit">Update Course</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>
@@ -163,5 +221,5 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { updateCourse, deleteCourse, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseEditModal);
+export default connect(mapStateToProps, mapDispatchToProps)(CourseEdit);
 

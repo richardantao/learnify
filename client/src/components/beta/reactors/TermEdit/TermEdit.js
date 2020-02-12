@@ -5,17 +5,17 @@ import { updateTerm, deleteTerm } from "../../../../actions/beta/terms";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+/* Atoms */
+import Icon from "../../atoms/Icon";
+
 import { 
     Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter, 
     Form, FormGroup, Label, Input
 } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
-import "./TermEditModal.scss";
-
-class TermEditModal extends Component {
+class TermEdit extends Component {
     state = {
         modal: false,
         _id: "",
@@ -108,7 +108,7 @@ class TermEditModal extends Component {
     };
 
     render() {
-        const { modal, _id, title, start, end, message } = this.state;
+        const { modal, message } = this.state;
         const { 
             term: { 
                 terms,
@@ -116,14 +116,10 @@ class TermEditModal extends Component {
             } 
         } = this.props;
 
-        const yearOptions = years.map(year => {
-            
-        });
-
         return (
             <>
                 <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faEdit}/>
+                    <Icon icon={faEdit}/>
                 </Button>
 
                 <Modal isOpen={modal} toggle={this.toggle}>
@@ -137,8 +133,18 @@ class TermEditModal extends Component {
                             ): null }
                             <FormGroup>
                                 <Label for="year">Year</Label>
-                                <Input>
-                                    {yearOptions}
+                                <Input
+                                    name=""
+                                    type=""
+                                    value={}
+                                    onChange={this.handleChange}
+                                    required
+                                >
+                                    {years.map(({ _id, title }) => {
+                                        <option key={_id} value={JSON.stringify(title)}>
+                                            {title}
+                                        </option>
+                                    })}
                                 </Input>
 
                                 <Label for="title">Title</Label>
@@ -154,7 +160,7 @@ class TermEditModal extends Component {
                                 <Input
                                     name="start"
                                     type="date"
-                                    value={terms.start}
+                                    value={terms.date.start}
                                     onChange={this.handleChange}
                                     required
                                 />
@@ -163,13 +169,13 @@ class TermEditModal extends Component {
                                 <Input
                                     name="end"
                                     type="date"
-                                    value={terms.end}
+                                    value={terms.date.end}
                                     onChange={this.handleChange}
                                     required
                                 />
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Term</Button>
+                                <Button type="button" onClick={this.handleDelete.bind(terms._id)}>Delete Term</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                                 <Button type="submit">Update Term</Button>
                             </ModalFooter>
@@ -189,5 +195,5 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { updateTerm, deleteTerm, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TermEditModal);
+export default connect(mapStateToProps, mapDispatchToProps)(TermEdit);
 

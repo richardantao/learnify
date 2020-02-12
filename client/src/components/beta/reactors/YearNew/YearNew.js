@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 
+/* Redux Operations */
 import { connect } from "react-redux";
 import { createYear } from "../../../../actions/beta/years";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+/* Atoms */
+import Icon from "../../atoms/Icon";
+
+/* */
 import { 
-    Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input, Button, Alert 
+    Alert, Button,
+    Modal, ModalHeader, ModalBody, ModalFooter,
+    Form, FormGroup, Label, Input
 } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import "./YearNewModal.scss";
-
-class YearNewModal extends Component {
+class YearNew extends Component {
     state = {
         modal: false,
         title: "",
@@ -30,17 +33,21 @@ class YearNewModal extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
+    componentDidMount() {
+
+    };
+
     componentDidUpdate(prevProps) {
-        const { error } = this.props;
+        const { error, /* isAuthenticated */ } = this.props;
 
         if(error !== prevProps.error) {
-            this.setState({
-                message: error.message.message
-            });
+            if(error.id === "") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: ""})
+            };
         } else {
-            this.setState({
-                message: null
-            });
+            this.setState({ message: null });
         };
     };
 
@@ -49,10 +56,7 @@ class YearNewModal extends Component {
         const { modal } = this.state;
 
         clearErrors();
-
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
@@ -84,7 +88,8 @@ class YearNewModal extends Component {
         this.setState({
             title: "",
             start: "",
-            end: ""
+            end: "",
+            message: null
         });
 
         this.toggle();
@@ -95,12 +100,14 @@ class YearNewModal extends Component {
 
         return (
             <>
-                <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faPlus}/> New Academic Year
+                <Button href="/beta/academics/new-year" type="button" onClick={this.toggle}>
+                    <Icon icon={faPlus}/> New Academic Year
                 </Button>
-                
+
                 <Modal isOpen={modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>New Year</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>
+                        Create Year
+                    </ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
                             {  message === "Year Created" ? (
@@ -136,23 +143,23 @@ class YearNewModal extends Component {
                                     required
                                 />
                             </FormGroup>
-                            <ModalFooter>
-                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Create Year</Button>
-                            </ModalFooter>
                         </ModalBody>
+                        <ModalFooter>
+                            <Button type="button" className="" onClick={this.handleCancel}>Cancel</Button>
+                            <Button type="submit" className="">Create Year</Button>
+                        </ModalFooter>
                     </Form>
                 </Modal>
-            </>  
+            </>
         );
     };
 };
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
 });
 
 const mapDispatchToProps = { createYear, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(YearNewModal);
+export default connect(mapStateToProps, mapDispatchToProps)(YearNew);

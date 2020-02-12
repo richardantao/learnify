@@ -5,11 +5,13 @@ import { editTask, updateTask, deleteTask } from "../../../../actions/beta/tasks
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+/* Atoms */
+import Icon from '../../atoms/Icon';
+
 import { 
     Modal, ModalHeader, ModalBody, ModalFooter, 
     Form, FormGroup, Label, Input, Button 
 } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 class TaskEditModal extends Component {
@@ -103,15 +105,17 @@ class TaskEditModal extends Component {
 
     render() {
         const { modal, title, course, type, deadline, completion, description } = this.state;
-
-        const courses = courses.map(({ _id, course }) => (
-            <option key={_id} value={course}>{course}</option>
-        ));
+        const {
+            task: { 
+                tasks,
+                courses 
+            }
+        } = this.props;
 
         return (
             <>
                 <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faEdit}/>
+                    <Icon icon={faEdit}/>
                 </Button>
 
                 <Modal isOpen={modal} toggle={this.toggle}>
@@ -124,7 +128,7 @@ class TaskEditModal extends Component {
                                     name="title" 
                                     type="text"
                                     placeholder="" 
-                                    value=""
+                                    value={title}
                                     onChange={this.handleChange}
                                     required
                                 />
@@ -137,7 +141,11 @@ class TaskEditModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    {courses}
+                                    {courses.map(({ _id, course }) => (
+                                        <option key={_id} value={JSON.stringify(course)}>
+                                            {course}
+                                        </option>
+                                    ))}
                                 </Input>
 
                                 <Label for="type">Type</Label>
@@ -189,8 +197,9 @@ class TaskEditModal extends Component {
 };
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    // isAuthenticated: state.auth.isAuthenticated,
+    error: state.error,
+    task: state.task
 });
 
 const mapDispatchToProps = { editTask, updateTask, deleteTask, clearErrors };

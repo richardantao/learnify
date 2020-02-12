@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { editAssessment, updateAssessment, deleteAssessment } from "../../../../actions/beta/assessments";
+import { updateAssessment, deleteAssessment } from "../../../../actions/beta/assessments";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
@@ -12,9 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
-import "./AssessmentEditModal.scss";
-
-class AssessmentEditModal extends Component {
+class AssessmentEdit extends Component {
     state = {
         modal: false
     };
@@ -22,23 +20,26 @@ class AssessmentEditModal extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
-        editAssessment: PropTypes.func.isRequired,
         updateAssessment: PropTypes.func.isRequired,
         deleteAssessment: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        const { editAssessment } = this.props;
         
-        editAssessment();
     };
 
     componentDidUpdate(prevProps) {
         const { error, isAuthenticated } = this.props; 
 
         if(error !== prevProps.error) {
-            
+            if(error.id === "") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: "" });
+            };
+        } else {
+            this.setState({ message: null });
         };
     };
 
@@ -47,16 +48,11 @@ class AssessmentEditModal extends Component {
         const { modal } = this.state;
 
         clearErrors();
-
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        }); 
+        this.setState({ [e.target.name]: e.target.value }); 
     };
 
     handleSubmit = e => {
@@ -72,7 +68,9 @@ class AssessmentEditModal extends Component {
         // pass updated object to action function
         updateAssessment(assessment);
 
-        this.toggle();
+        setTimeout(() => {
+            this.toggle();
+        }, 2000);
     };
 
     handleCancel = () => {
@@ -94,12 +92,11 @@ class AssessmentEditModal extends Component {
     render() {
         const { modal, title, course, type, start, end, location, weight, score } = this.state;
         const { 
-            assessment: { courses }
+            assessment: { 
+                assessments,
+                courses 
+            }
         } = this.props;
-
-        const courseOptions = courses.map(course => {
-
-        });
 
         return (
             <>
@@ -127,14 +124,18 @@ class AssessmentEditModal extends Component {
                                     value={course}
                                     onChange={this.handleChange}
                                 >
-                                    {courseOptions}    
+                                    {courses.map(({ _id, title }) => {
+                                        <option key={_id} value={JSON.stringify(title)}>
+                                            {title}
+                                        </option>
+                                    })}    
                                 </Input>
                             </FormGroup>
                             <FormGroup>
                                 
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleDelete.bind(this)}>Delete Assessment</Button>
+                                <Button type="button" onClick={this.handleDelete.bind(assessments._id)}>Delete Assessment</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                                 <Button type="submit">Save Assessment</Button>
                             </ModalFooter>
@@ -148,9 +149,10 @@ class AssessmentEditModal extends Component {
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
+    assessment: state.assessment
 });
 
-const mapDispatchToProps = { editAssessment, updateAssessment, deleteAssessment, clearErrors };
+const mapDispatchToProps = { updateAssessment, deleteAssessment, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AssessmentEditModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AssessmentEdit);

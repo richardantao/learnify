@@ -5,16 +5,17 @@ import { newTask, createTask } from "../../../../actions/beta/tasks";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+/* Atoms */
+import Icon from "../../atoms/Icon";
+
 import { 
     Modal, ModalHeader, ModalBody, ModalFooter, 
     Form, FormGroup, Label, Input, Button 
 } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-import "./TaskNewModal.scss";
 
-class TaskNewModal extends Component {
+class TaskNew extends Component {
     state = {
         modal: false,
         title: "",
@@ -26,18 +27,17 @@ class TaskNewModal extends Component {
     }
 
     static propTypes = {
-        error: PropTypes.object.isRequired,
         // isAuthenticated: PropTypes.bool,
+        error: PropTypes.object.isRequired,
         newTask: PropTypes.func.isRequired,
         createTask: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
-    }
+    };
 
     
     componentDidMount() {
         const { newTask } = this.props;
 
-        // Get courses for selection upon rendering of modal
         newTask();
     };
 
@@ -47,15 +47,11 @@ class TaskNewModal extends Component {
 
         clearErrors();
 
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
-        this.setState({ 
-            [e.target.name]: e.target.value 
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleCancel = e => {
@@ -82,8 +78,9 @@ class TaskNewModal extends Component {
         // Add item via createTask action
         createTask(task);
       
-        // Close modal
-        this.toggle();
+        setTimeout(() => {
+            this.toggle();
+        }, 2000);
     };
     
     render() {
@@ -92,14 +89,10 @@ class TaskNewModal extends Component {
             task: { courses }
         } = this.props;
 
-        const courseOptions = courses.map(course => {
-
-        });
-
         return (
             <>
                 <Button onClick={this.toggle}>
-                    <FontAwesomeIcon icon={faPlus}/> New Task
+                    <Icon icon={faPlus}/> New Task
                 </Button>
 
                 <Modal isOpen={modal} toggle={this.toggle}>
@@ -123,7 +116,11 @@ class TaskNewModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    {courseOptions}
+                                    {courses.map(({ _id, title }) => {
+                                        <option key={_id} value={JSON.stringify(title)}>
+                                            {title}
+                                        </option>
+                                    })}
                                 </Input>
                             </FormGroup>
                             <FormGroup className="modal-body">
@@ -178,4 +175,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { newTask, createTask, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskNewModal);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskNew);
