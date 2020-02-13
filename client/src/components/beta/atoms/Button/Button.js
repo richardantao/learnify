@@ -1,15 +1,14 @@
 import React from "react";
 import { Button } from "reactstrap";
 
-export default props => {
+export default ({ href, className, type, content }) => {
     return (
         <Button 
-            href={props.href}
-            className={props.class}
-            type={props.type}
-            onClick={props.onClick}
+            href={href}
+            className={className}
+            type={type}
         >   
-            {props.content}
+            {content}
         </Button>
     );
 }; 
