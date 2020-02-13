@@ -1,92 +1,115 @@
 import { 
-    LOADING_CLASSES, FETCH_CLASSES, 
+    LOADING_CLASSES, 
     NEW_CLASS, CREATE_CLASS, 
+    FETCH_CLASSES_FOR_DASH, FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
     EDIT_CLASS, UPDATE_CLASS, DELETE_CLASS 
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
-export const setLoading = () => {
-    return {
-        type: LOADING_CLASSES
-    };
-};
-
-export const fetchClasses = termId => dispatch => {
-    dispatch(setLoading());
-    
-    axios.get(`http://localhost:8080/v1/terms/${termId}/classes`)
-    .then(res => dispatch({ 
-        type: FETCH_CLASSES,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.data, err.status)
-    ));
-};
-
-export const editClass = _id => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get(`http://localhost:8080/v1/class/${_id}`, tokenConfig(getState))
-    .then(res => dispatch({ 
-        type: EDIT_CLASS,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.data, err.status)
-    ));
-};
+export const setLoading = () => { return { type: LOADING_CLASSES } };
 
 export const newClass = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`http://localhost:8080/v1/terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/courses`, tokenConfig(getState))
     .then(res => dispatch({ 
         type: NEW_CLASS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const createClass = newClass => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("http://localhost:8080/v1/classes", newClass, tokenConfig(getState))
+    axios.post("/api/v1/classes", newClass, tokenConfig(getState))
     .then(res => dispatch({ 
         type: CREATE_CLASS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
+    ));
+};
+
+export const fetchClassesForDash = termId => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.get(`/api/v1/terms/${termId}/classes?`, tokenConfig(getState)) // add query parameters
+    .then(res => dispatch({
+        type: FETCH_CLASSES_FOR_DASH,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status)
+    ));
+};
+
+export const fetchClassesByTerm = termId => (dispatch, getState) => {
+    dispatch(setLoading());
+    
+    axios.get(`/api/v1/terms/${termId}/classes`, tokenConfig(getState))
+    .then(res => dispatch({ 
+        type: FETCH_CLASSES_BY_TERM,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status)
+    ));
+};
+
+export const fetchClassesByCourse = courseId => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.get(`/api/v1/courses/${courseId}/classes`, tokenConfig(getState))
+    .then(res => dispatch({
+        type: FETCH_CLASSES_BY_COURSE,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status)
+    ));
+};
+
+export const editClass = _id => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.get(`/api/v1/classes/${_id}`, tokenConfig(getState))
+    .then(res => dispatch({ 
+        type: EDIT_CLASS,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const updateClass = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`http://localhost:8080/v1/classes/${_id}`, tokenConfig(getState))
+    axios.put(`/api/v1/classes/${_id}`, tokenConfig(getState))
     .then(res => dispatch({ 
         type: UPDATE_CLASS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const deleteClass = _id => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.delete(`http://localhost:8080/v1/classes/${_id}`, tokenConfig(getState))
+    axios.delete(`/api/v1/classes/${_id}`, tokenConfig(getState))
     .then(res => dispatch({ 
         type: DELETE_CLASS,
         payload: _id
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };

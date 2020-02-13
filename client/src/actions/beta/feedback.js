@@ -7,11 +7,7 @@ import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
-export const setLoading = () => {
-    return {
-        type: LOADING_FEEDBACK
-    };
-};
+export const setLoading = () => { return { type: LOADING_FEEDBACK } };
 
 export const createBug = bug => (dispatch, getState => {
     dispatch(setLoading());
@@ -22,18 +18,18 @@ export const createBug = bug => (dispatch, getState => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 });
 
 export const fetchfeedback = () => (dispatch, getState) => {
-    axios.get("/api/v1/feedback", bug, tokenConfig(getState))
+    axios.get("/api/v1/feedback", tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_FEEDBACK,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
@@ -44,7 +40,7 @@ export const editBug = id => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
@@ -55,7 +51,7 @@ export const updateBug = (id, bug) => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
@@ -66,6 +62,6 @@ export const deleteBug = id => (dispatch, getState) => {
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };

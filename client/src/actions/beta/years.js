@@ -1,6 +1,6 @@
 import { 
     LOADING_YEARS, FETCH_YEARS, 
-    NEW_YEAR, CREATE_YEAR, 
+    CREATE_YEAR, 
     EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
 } from "../types";
 import { tokenConfig } from "../auth/auth";
@@ -13,79 +13,65 @@ export const setLoading = () => {
     };
 };
 
-// deprecated ?
-// export const newYear = () => (dispatch, getState) => {
-//     dispatch(setLoading());
-
-//     axios.get("", tokenConfig(getState))
-//     .then(res => dispatch({
-//         type: NEW_YEAR, 
-//         payload: res.data
-//     }))
-//     .catch(err => dispatch(
-//         returnErrors(err.data, err.status)
-//     ));
-// };
-
 export const createYear = year => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("http://localhost:8080/v1/years", year/*, tokenConfig(getState)*/)
+    axios.post("/api/v1/years", year, tokenConfig(getState))
     .then(res => dispatch({
         type: CREATE_YEAR, 
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const fetchYears = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get("http://localhost:8080/v1/years"/*, tokenConfig(getState)*/)
+    axios.get("/api/v1/years", tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_YEARS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const editYear = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`http://localhost:8080/v1/years/${_id}`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/years/${_id}`, tokenConfig(getState))
     .then(res => dispatch({
         type: EDIT_YEAR,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const updateYear = (_id, year) => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.put(`http://localhost:8080/v1/years/${_id}`, year/*, tokenConfig(getState)*/)
+    axios.put(`/api/v1/years/${_id}`, year, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_YEAR,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const deleteYear = _id => (dispatch, getState) => {
-    axios.delete(`http://localhost:8080/v1/years/${_id}`/*, tokenConfig(getState)*/)
+    axios.delete(`/api/v1/years/${_id}`, tokenConfig(getState))
     .then(res => dispatch({
         type: DELETE_YEAR,
         payload: _id
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };

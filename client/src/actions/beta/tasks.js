@@ -16,50 +16,52 @@ export const setLoading = () => {
 export const newTask = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`http://localhost:8080/v1terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/courses`, tokenConfig(getState))
     .then(res => dispatch({
         type: NEW_TASK,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const createTask = task => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("http://localhost:8080/v1/task", task, tokenConfig(getState))
+    axios.post("/api/v1/task", task, tokenConfig(getState))
     .then(res => dispatch({
         type: CREATE_TASK,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
-export const fetchTasks = () => (dispatch, getState) => {
-    axios.get("http://localhost:8080/v1/tasks", tokenConfig(getState))
+export const fetchTasksForDash = termId => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.get(`/api/v1/terms/${termId}/tasks/?current=true&limit=true`, tokenConfig(getState)) // add query parameters
     .then(res => dispatch({
-        type: FETCH_TASKS,
+        // type: FETCH_TASKS, 
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const fetchTasksByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`http://localhost:8080/v1/terms/${termId}/tasks`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_TASKS, 
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
@@ -67,46 +69,46 @@ export const fetchTasksByTerm = termId => (dispatch, getState) => {
 export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`http://localhost:8080/v1/terms/${termId}/tasks`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_PAST_TASKS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const fetchTasksByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`http://localhost:8080/v1/courses/${courseId}/tasks`, tokenConfig(getState))
+    axios.get(`/api/v1/courses/${courseId}/tasks?current=true&limit=false`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_TASKS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`http://localhost:8080/v1/courses/${courseId}/tasks`, tokenConfig(getState))
+    axios.get(`/api/v1/courses/${courseId}/tasks?current=false&limit=false`, tokenConfig(getState))
     .then(res => dispatch({
         type: FETCH_PAST_TASKS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const editTask = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`http://localhost:8080/v1/tasks/${_id}`, tokenConfig(getState))
+    axios.get(`/api/v1/tasks/${_id}`, tokenConfig(getState))
     .then(res => {
         dispatch({
             type: EDIT_TASK,
@@ -114,27 +116,27 @@ export const editTask = _id => (dispatch, getState) => {
         });
     })
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
 export const updateTask = (_id, task) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`http://localhost:8080/v1/tasks/${_id}`, task, tokenConfig(getState))
+    axios.put(`/api/v1/tasks/${_id}`, task, tokenConfig(getState))
     .then(res => dispatch({
         type: UPDATE_TASK,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.data, err.status))
+        returnErrors(err.res.data, err.res.status))
     );
 };
 
 export const deleteTask = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`http://localhost:8080/v1/tasks/${_id}`, tokenConfig(getState))
+    axios.delete(`/api/v1/tasks/${_id}`, tokenConfig(getState))
     .then(res => {
         dispatch({
             type: DELETE_TASK,
@@ -142,7 +144,7 @@ export const deleteTask = _id => (dispatch, getState) => {
         });
     })
     .catch(err => dispatch(
-        returnErrors(err.data, err.status)
+        returnErrors(err.res.data, err.res.status)
     ));
 };
 
