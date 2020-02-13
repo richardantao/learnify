@@ -6,8 +6,8 @@ import {
 
 const initialState = {
     loading: false,
-    parents: [],
-    terms: []
+    terms: [],
+    years: []
 };
 
 export default (state = initialState, action) => {
@@ -21,13 +21,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                terms: action.payload
+                years: action.payload
             };
         case CREATE_TERM:
             return {
                 ...state,
-                terms: [...state.terms, action.payload],
-                loading: false
+                loading: false,
+                terms: [...state.terms, action.payload]
             };
         case FETCH_TERMS:
             return {
@@ -40,7 +40,9 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 terms: state.terms.map(term => {
-                    if(term._id !== action._id) {
+                    const { _id } = action.payload; 
+
+                    if(term._id !== _id) {
                         return {
                             ...state.terms
                         }
@@ -55,7 +57,8 @@ export default (state = initialState, action) => {
                 loading: false,
                 terms: state.terms.map(term => {
                     const { _id, year, title, start, end } = action.payload;
-                    if(term._id !== action._id) {
+
+                    if(term._id !== _id) {
                         return term;
                     } else return {
                         ...state.terms,

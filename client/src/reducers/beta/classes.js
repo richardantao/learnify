@@ -6,8 +6,8 @@ import {
 
 const initialState = {
     loading: false,
-    parents: [],
-    classes: []
+    classes: [],
+    courses: []
 };
 
 export default (state = initialState, action) => {

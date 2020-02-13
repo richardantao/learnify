@@ -42,27 +42,30 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 assessments: state.assessments.map(assessment => {
-                    if(assessment._id !== action._id) {
+                    const { _id } = action.payload;
+
+                    if(assessment._id !== _id) {
                         return assessment;
                     } else return {
                         assessment: action.payload
                     };
-                }),
-                courses: action.payload.options
+                })
             };
         case UPDATE_ASSESSMENT:
             return {
                 ...state,
                 loading: false,
                 assessments: state.assessments.map(assessment => {
-                    const { _id, course, title, type, start, end, location, weight, score } = action.payload;
-                    if(assessment._id !== action._id) {
+                    const { _id, term, course, title, type, start, end, location, weight, score } = action.payload;
+                    
+                    if(assessment._id !== _id) {
                         return assessment;
                     } else {
                         return {
                             ...state.assessments,
                             assessment: {
                                 _id,
+                                term,
                                 course,
                                 title,
                                 type,

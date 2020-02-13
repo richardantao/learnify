@@ -41,22 +41,23 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 tasks: state.tasks.map(task => {
-                    if(task._id !== action.payload._id) {
+                    const { _id } = action.payload;
+
+                    if(task._id !== _id) {
                         return {
                             ...state.tasks
                         };
                     } else return {
                         task: action.payload
                     };
-                }),
-                courses: action.payload.options
+                })
             };
         case UPDATE_TASK:
             return {
                 ...state,
                 loading: false,
                 tasks: state.tasks.map(task => {
-                    const { _id, course, title, type, deadline, completion, description } = action.payload;
+                    const { _id, term, course, title, type, deadline, completion, description } = action.payload;
                     
                     if(task._id !== _id) {
                         return task;
@@ -64,6 +65,7 @@ export default (state = initialState, action) => {
                         ...state.tasks,
                         task: {
                             _id,
+                            term,
                             course, 
                             title, 
                             type, 

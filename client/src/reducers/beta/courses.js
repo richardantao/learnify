@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                terms: action.payload
+                terms: action.payload,
             };  
         case CREATE_COURSE:
             return {
@@ -40,7 +40,9 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 courses: state.courses.map(course => {
-                    if(course._id === action._id) {
+                    const { _id } = action.payload;
+                    
+                    if(course._id === _id) {
                         return {
                             ...state.courses
                         }
@@ -54,13 +56,15 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 courses: state.courses.map(course => {
-                    const { _id, term, code, title, credit, instructor, theme } = action.payload;
-                    if(course._id === action._id) {
+                    const { _id, year, term, code, title, credit, instructor, theme } = action.payload;
+                    
+                    if(course._id === _id) {
                         return course;
                     } else return {
                         ...state.courses,
                         course: {
                             _id,
+                            year,
                             term,
                             code,
                             title,

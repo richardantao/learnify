@@ -1,6 +1,6 @@
 import { 
     LOADING_YEARS, 
-    NEW_YEAR, CREATE_YEAR, 
+    CREATE_YEAR, 
     FETCH_YEARS, 
     EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
 } from "../../actions/types";
@@ -16,12 +16,6 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: true
-            };
-        case NEW_YEAR:
-            return {
-                ...state,
-                loading: false,
-                years: action.payload
             };
         case CREATE_YEAR:
             return {
@@ -40,7 +34,9 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false,
                 years: state.years.map(year => {
-                    if(year._id !== action._id) {
+                    const { _id } = action.payload;
+
+                    if(year._id !== _id) {
                         return {
                             ...state.years
                         }
@@ -55,11 +51,13 @@ export default (state = initialState, action) => {
                 loading: false,
                 years: state.years.map(year => {
                     const { _id, title, start, end } = action.payload;
+
                     if(year._id !== _id) {
                         return year;
                     } else return {
                         ...state.years,
                         year: {
+                            _id,
                             title,
                             date: {
                                 start,
