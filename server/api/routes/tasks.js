@@ -5,9 +5,9 @@ const controller = require("../controllers/tasks");
 
 router.post("/tasks", /*auth,*/ validation, controller.create);
 
-router.get("/terms/:termId/tasks?current", /*auth,*/ controller.read);
+router.get("/terms/:termId/tasks?current&limit", /*auth,*/ controller.read);
 
-router.get("/courses/:courseId/tasks?current", auth, controller.filter);
+router.get("/courses/:courseId/tasks?current&limit", auth, controller.filter);
 
 router.get("/tasks/:taskId", /*auth,*/ controller.edit);
 

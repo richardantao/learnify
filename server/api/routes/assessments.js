@@ -7,10 +7,10 @@ const controller = require("../controllers/assessments");
 router.post("/assessments", /*auth,*/ validation, controller.create);
 
 // get all the assessments in a term
-router.get("/terms/:termId/assessments?current", /*auth,*/ controller.read);
+router.get("/terms/:termId/assessments?current&limit", /*auth,*/ controller.read);
 
 // get all the assessments for a course
-router.get("/courses/:courseId/assessments?current", /*auth,*/ controller.filter);
+router.get("/courses/:courseId/assessments?current&limit", /*auth,*/ controller.filter);
 
 // get one assessment
 router.get("/assessments/:assessmentId", /*auth,*/ controller.edit);
