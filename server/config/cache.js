@@ -12,7 +12,7 @@ redisClient.on("error", err => {
 });
 
 redisClient.on("connect", function() {
-    console.log("Redis client connected");
+    console.log("Connected to Redis client");
 });
 
 redisClient.hkeys("", (err, replies) => {
