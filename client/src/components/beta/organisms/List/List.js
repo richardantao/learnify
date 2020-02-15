@@ -1,12 +1,15 @@
 import React from "react";
 import { Col } from "reactstrap";
+import Empty from "../../atoms/Empty";
 
-const List = props => {
+export default ({ id, className, data, empty }) => {
     return (
-        <Col id={props.id} className={props.class}>
-            {props.data}
-        </Col>
+        <>
+            { data ? (
+                <Col id={id} className={className}>
+                    {data}
+                </Col>   
+            ): <Empty empty={empty}/>}
+        </>
     );
 };
-
-export default List;
