@@ -16,7 +16,6 @@ const Class = require("./Classes");
 
 const CourseSchema = new Schema({
 	_id: Schema.Types.ObjectId,
-	year: { type: Schema.Types.ObjectId, ref: "years", required: true },
 	term: [ { type: Schema.Types.ObjectId, ref: "terms", required: true } ],
 	code: { type: String, required: true },
 	title: { type: String, required: true },
