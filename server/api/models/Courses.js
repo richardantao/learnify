@@ -12,6 +12,7 @@ const moment = require("moment");
 
 const Assessment = require("./Assessments");
 const Task = require("./Tasks");
+const Class = require("./Classes");
 
 const CourseSchema = new Schema({
 	_id: Schema.Types.ObjectId,
@@ -42,7 +43,7 @@ CourseSchema.post("deleteOne", document => {
 				assessments.map(assessment => {
 					Assessment.findOneAndDelete({ _id: assessment._id});
 				});
-				callback(null, assessments);
+				return callback(null, { assessments: true });
 			})
 		},
 		tasks: callback => {
@@ -53,8 +54,19 @@ CourseSchema.post("deleteOne", document => {
 				tasks.map(task => {
 					Task.findOneAndDelete({ _id: task._id });
 				});
-				callback(null, tasks);
+				return callback(null, { tasks: true });
 			})
+		},
+		classes: callback => {
+			Class.find({ course: courseId }, {
+				_id: 1
+			})
+			.then(classes => {
+				classes.map(classe => {
+					Class.findOneAndDelete({ _id: classe._id });
+				});
+				return callback(null, { classes: true });
+			});
 		}
 	}, (err, results) => {
 		if(err) {
