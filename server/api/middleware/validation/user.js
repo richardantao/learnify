@@ -1,44 +1,44 @@
-const { check, sanitize, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 exports.profile = (req, res, next) => {
     const errors = validationResult(req);
     const { first, last, email, country, region, institution, school } = req.body;
     
-    check(first, "First name had an invalid input")
+    body(first, "First name had an invalid input")
         .exists().withMessage("First name is a required field")
-        .isAlphanumeric().withMessage("First name can only contain letters and numbers");
+        .isAlphanumeric().withMessage("First name can only contain letters and numbers")
+        .escape();
     
-    check(last, "Last name had an invalid input")
+    body(last, "Last name had an invalid input")
         .exists().withMessage("Last name is a required field")
-        .isAlphanumeric().withMessage("Last name can only contain letters and numbers");
+        .isAlphanumeric().withMessage("Last name can only contain letters and numbers")
+        .escape();
     
-    check(email, "Email had an invalid input")
+    body(email, "Email had an invalid input")
         .exists().withMessage("Email is a required field")
-        .isEmail().withMessage("Email must be a valid email address");
+        .isEmail().withMessage("Email must be a valid email address")
+        .escape()
+        .normalizeEmail();
     
-    check(country, "Country had an invalid input")
+    body(country, "Country had an invalid input")
         .optional()
-        .isAlpha().withMessage("Country can only contain letters");
+        .isAlpha().withMessage("Country can only contain letters")
+        .escape();
     
-    check(region, "Region had an invalid input")
+    body(region, "Region had an invalid input")
         .optional()
-        .isAlpha().withMessage("Province/state can only contain letters");
+        .isAlpha().withMessage("Province/state can only contain letters")
+        .escape();
     
-    check(institution, "Institution had an invalid input")
+    body(institution, "Institution had an invalid input")
         .optional()
-        .isAlpha().withMessage("Institution can only contain letters");
+        .isAlpha().withMessage("Institution can only contain letters")
+        .escape();
     
-    check(school, "School had an invalid input")
+    body(school, "School had an invalid input")
         .optional()
-        .isAlpha().withMessage("School can only contain letters");
-
-    sanitize(first).escape();
-    sanitize(last).escape();
-    sanitize(email).escape().normalizeEmail();
-    sanitize(country).escape();
-    sanitize(region).escape();
-    sanitize(institution).escape();
-    sanitize(school).escape();
+        .isAlpha().withMessage("School can only contain letters")
+        .escape();
 
     if(!errors.isEmpty()) {
         return res.status().json({
@@ -51,31 +51,30 @@ exports.profile = (req, res, next) => {
 
 exports.password = (req, res, next) => {
     const errors = validationResult(req);
-    const { current, confirm } = req.body;
+    const { current, change, confirm } = req.body;
 
-    if (req.body.new !== confirm) {
+    if (change !== confirm) {
         return res.status(422).json({
             message: "The confirmation does not match your new password"
         });
     };
 
-    check(current, "Current password is invalid")
+    body(current, "Current password is invalid")
         .exists().withMessage("Current password is a required field")
-        .isLength({ min: 8, max: 128 }).withMessage("Your password must be between 8 and 128 characters");
+        .isLength({ min: 8, max: 128 }).withMessage("Your password must be between 8 and 128 characters")
+        .escape();
     
-    check(req.body.new, "New password had an invalid input")
-        .exists().withMessage("New password is a required field");
+    body(change, "New password had an invalid input")
+        .exists().withMessage("New password is a required field")
+        .escape();
     
-    check(confirm, "Confirm password had an invalid password")
-        .exists().withMessage("Confirm password is a required field");
-
-    sanitize(current).escape();
-    sanitize(req.body.new).escape();
-    sanitize(confirm).escape();
+    body(confirm, "Confirm password had an invalid password")
+        .exists().withMessage("Confirm password is a required field")
+        .escape();
 
     if(!errors.isEmpty()) {
-        return res.status().json({
-            message: errors.message
+        return res.status(400).json({
+            message: errors.msg
         });
     } else {
         return next();
@@ -86,38 +85,25 @@ exports.preferences = (req, res, next) => {
     const errors = validationResult(req);
     const { startDay, startTime, defaultDuration, defaultCalendar } = req.body;
 
-    check(startDay, "Start day had an invalid input")
-        .exists().withMessage("Start day is a required field");
+    body(startDay, "Start day had an invalid input")
+        .exists().withMessage("Start day is a required field")
+        .escape();
     
-    check(startTime, "Start time had an invalid input")
-        .exists().withMessage("Start time is a required field");
+    body(startTime, "Start time had an invalid input")
+        .exists().withMessage("Start time is a required field")
+        .escape();
     
-    check(defaultDuration, "Default duration had an invalid input")
-        .exists().withMessage("Default class time is a required field");
+    body(defaultDuration, "Default duration had an invalid input")
+        .exists().withMessage("Default class time is a required field")
+        .escape();
 
-    check(defaultCalendar, "Default calendar had an invalid input")
-        .exists().withMessage("Default calendar view is a required field");
-
-    sanitize(startDay).escape();
-    sanitize(startTime).escape();
-    sanitize(defaultDuration).escape();
-    sanitize(defaultCalendar).escape();
+    body(defaultCalendar, "Default calendar had an invalid input")
+        .exists().withMessage("Default calendar view is a required field")
+        .escape();
 
     if(!errors.isEmpty()) {
-        return res.status().json({
-            message: errors.message
-        });
-    } else {
-        return next();
-    };
-};
-
-exports.integration = (req, res, next) => {
-    const errors = validationResult(req);
-
-    if(!errors.isEmpty()) {
-        return res.status().json({
-            message: errors.message
+        return res.status(400).json({
+            message: errors.msg
         });
     } else {
         return next();

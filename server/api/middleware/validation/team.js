@@ -1,60 +1,60 @@
-const { check, sanitize, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 exports.tech = (req, res, next) => {
     const error = validationResult(req);
     const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = req.body;
 
-    check(first, "First name had an invalid input")
+    body(first, "First name had an invalid input")
         .exists().withMessage("First name is a required field")
         .isAlphanumeric().withMessage("First name field can only contain letters and numbers");
 
-    check(last, "Last name had an invalid input")
+    body(last, "Last name had an invalid input")
         .exists().withMessage("Last name is a required field")
-        .isAlphanumeric().withMessage("Last name field can only contain letters and numbers");
+        .isAlphanumeric().withMessage("Last name field can only contain letters and numbers")
+        .escape();
     
-    check(email, "Email had an invalid input")
+    body(email, "Email had an invalid input")
         .exists().withMessage("Email is a required field")
-        .isEmail().withMessage("Email must be a valid email address");
+        .isEmail().withMessage("Email must be a valid email address")
+        .escape()
+        .normalizeEmail();
     
-    check(city, "City had an invalid input")
+    body(city, "City had an invalid input")
         .exists().withMessage("City is a required field")
-        .isAlpha().withMessage("City field can only contain letters");
+        .isAlpha().withMessage("City field can only contain letters")
+        .escape();
 
-    check(strategy, "First 'Tell Us About Yourself' answer had an invalid input")
+    body(strategy, "First 'Tell Us About Yourself' answer had an invalid input")
         .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+        .escape();
 
-    check(help, "Second 'Tell Us About Yourself' answer had an invalid input")
+    body(help, "Second 'Tell Us About Yourself' answer had an invalid input")
         .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+        .escape();
 
-    check(importance, "Third 'Tell Us About Yourself' answer had an invalid input")
+    body(importance, "Third 'Tell Us About Yourself' answer had an invalid input")
         .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+        .escape();
 
-    check(resume, "Resume had an invalid input")
+    body(resume, "Resume had an invalid input")
         .exists().withMessage("You must include a link to your resume with your application")
+        .escape();
 
-    check(portfolio, "Github had an invalid input")
-        .exists().withMessage("Github is a required field");
+    body(portfolio, "Github had an invalid input")
+        .exists().withMessage("Github is a required field")
+        .escape();
 
-    check(linkedin, "LinkedIn had an invalid input")
-        .exists().withMessage("LinkedIn is a required field");
+    body(linkedin, "LinkedIn had an invalid input")
+        .exists().withMessage("LinkedIn is a required field")
+        .escape();
 
-    check(other, "Other had an invalid input")
-        .optional();
-
-    sanitize(first).escape();
-    sanitize(last).escape();
-    sanitize(email).escape().normalizeEmail();
-    sanitize(city).escape();
-    sanitize(strategy).escape();
-    sanitize(help).escape();
-    sanitize(importance).escape();
-    sanitize(portfolio).escape();
-    sanitize(linkedin).escape();
-    sanitize(other).escape();
+    body(other, "Other had an invalid input")
+        .optional()
+        .escape();
 
     if(!error.isEmpty()) {
-        return res.status(422).json({
-            message: error.message
+        return res.status(400).json({
+            message: error.msg
         });
     } else {
         return next();
@@ -65,57 +65,58 @@ exports.nontech = (req, res, next) => {
     const error = validationResult(req);
     const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = req.body;
 
-    check(first, "First name had an invalid input")
+    body(first, "First name had an invalid input")
         .exists().withMessage("First name is a required field")
-        .isAlphanumeric().withMessage("First name field can only contain letters and numbers");
+        .isAlphanumeric().withMessage("First name field can only contain letters and numbers")
+        .escape();
 
-    check(last, "Last name had an invalid input")
+    body(last, "Last name had an invalid input")
         .exists().withMessage("Last name is a required field")
-        .isAlphanumeric().withMessage("Last name field can only contain letters and numbers");
+        .isAlphanumeric().withMessage("Last name field can only contain letters and numbers")
+        .escape();
     
-    check(email, "Email had an invalid input")
+    body(email, "Email had an invalid input")
         .exists().withMessage("Email is a required field")
-        .isEmail().withMessage("Email must be a valid email address");
-    
-    check(city, "City had an invalid input")
+        .isEmail().withMessage("Email must be a valid email address")
+        .escape()
+        .normalizeEmail();
+
+    body(city, "City had an invalid input")
         .exists().withMessage("City is a required field")
-        .isAlpha().withMessage("City field can only contain letters");
+        .isAlpha().withMessage("City field can only contain letters")
+        .escape();
     
-        check(strategy, "First 'Tell Us About Yourself' answer had an invalid input")
+        body(strategy, "First 'Tell Us About Yourself' answer had an invalid input")
         .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+        .escape();
 
-    check(help, "Second 'Tell Us About Yourself' answer had an invalid input")
+    body(help, "Second 'Tell Us About Yourself' answer had an invalid input")
         .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+        .escape();
 
-    check(importance, "Third 'Tell Us About Yourself' answer had an invalid input")
+    body(importance, "Third 'Tell Us About Yourself' answer had an invalid input")
         .exists().withMessage("The 'Tell Us About Yourself' questions are required fields")
+        .escape();
 
-    check(resume, "Resume had an invalid input")
+    body(resume, "Resume had an invalid input")
         .exists().withMessage("You must attach a link to your resume with your application")
+        .escape();
 
-    check(portfolio, "Portfolio had an invalid input")
-        .optional();
+    body(portfolio, "Portfolio had an invalid input")
+        .optional()
+        .escape();
 
-    check(linkedin, "LinkedIn had an invalid input")
-        .optional();
+    body(linkedin, "LinkedIn had an invalid input")
+        .optional()
+        .escape();
 
-    check(other, "Other had an invalid input")
-        .optional();
-
-    sanitize(first).escape();
-    sanitize(last).escape();
-    sanitize(email).escape().normalizeEmail();
-    sanitize(city).escape();
-    sanitize(strategy).escape();
-    sanitize(help).escape();
-    sanitize(importance).escape();
-    sanitize(portfolio).escape();
-    sanitize(linkedin).escape();
-    sanitize(other).escape();
+    body(other, "Other had an invalid input")
+        .optional()
+        .escape();
 
     if(!error.isEmpty()) {
-        return res.status(422).json({
-            message: error.message
+        return res.status(400).json({
+            message: error.msg
         });
     } else {
         return next();

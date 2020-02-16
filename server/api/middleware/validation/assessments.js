@@ -1,65 +1,72 @@
-const { check, sanitize, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 const Course = require("../../models/Courses");
 
-const validation = (req, res, next) => {
+module.exports = (req, res, next) => {
     const error = validationResult(req);
     const { course, title, type, start, end, location, weight, score } = req.body;
 
-    check(course, "There was an error linking your assessment to a course")
+    body(course, "There was an error linking your assessment to a course")
         .exists().withMessage("There was an error linking your assessment to a course")
-        .isMongoId().withMessage("There was an error linking your assessment to a course");
+        .isMongoId().withMessage("There was an error linking your assessment to a course")
+        .escape()
+        .toString();
     
-    check(title, "Title had an invalid input")
+    body(title, "Title had an invalid input")
         .exists().withMessage("Assessment title is a required field")
-        .isAlphanumeric().withMessage("");
+        .isAlphanumeric().withMessage("")
+        .escape()
+        .toString();
     
-    check(type, "Type had an invalid input")
+    body(type, "Type had an invalid input")
         .exists().withMessage("Type is a required field")
-        .isAlphanumeric().withMessage("Type can only contain letters and numbers");
+        .isAlphanumeric().withMessage("Type can only contain letters and numbers")
+        .escape()
+        .toString();
 
-    check(start, "Start date received an invalid date")
-        .exists().withMessage("Start date is a required field");
+    body(start, "Start date received an invalid date")
+        .exists().withMessage("Start date is a required field")
+        .escape()
+        .toDate()
 
-    check(end, "End date had an invalid input")
+    body(end, "End date had an invalid input")
         .optional()
+        .escape()
+        .toDate();
 
-    check(location, "Location had an invalid input")
+    body(location, "Location had an invalid input")
         .optional()
-        .isAlphanumeric().withMessage("Location can only contain letters and numbers");
+        .isAlphanumeric().withMessage("Location can only contain letters and numbers")
+        .escape()
+        .toString();
 
-    check(weight, "Weight had an invalid input")
+    body(weight, "Weight had an invalid input")
         .optional()
-        .isNumeric().withMessage("Weight must be a numerical value");
+        .isNumeric().withMessage("Weight must be a numerical value")
+        .escape()
+        .toFloat();
 
-    check(score, "Score had an invalid input")
+    body(score, "Score had an invalid input")
         .optional()
-        .isNumeric().withMessage("Score must be a numerical value");
-
-    sanitize(course).escape().toString();
-    sanitize(title).escape().toString();
-    sanitize(type).escape().toString();
-    sanitize(start).escape().toDate();
-    sanitize(end).escape().toDate();
-    sanitize(location).escape().toString();
-    sanitize(weight).escape().toFloat();
-    sanitize(score).escape().toFloat();
+        .isNumeric().withMessage("Score must be a numerical value")
+        .escape()
+        .toFloat();
 
     if(weight > 100 || weight < 0) {
-        return res.status(422).json({
+        return res.status(400).json({
             message: "Weight must be a percentage between 0 and 100"
         });
     };
     
     if(score > 100 || score < 0) {
-        return res.status(422).json({
+        return res.status(400).json({
             message: "Score must a percentage between 0 and 100 "
         });
     };
 
     if(!error.isEmpty()) {
-        return res.status(422).json({
-            message: error.message
+        return res.status(400).json({
+            message: error.msg
         });
     } else {
         Course.find({ _id: course }, { 
@@ -83,5 +90,3 @@ const validation = (req, res, next) => {
         });
     };
 };
-
-module.exports = validation;

@@ -1,63 +1,59 @@
-const { check, sanitize, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 const User = require("../../models/User");
 
-/* Yet to finish */
-const validate = (req, res, next) => {
+module.exports = (req, res, next) => {
     const errors = validationResult(req);
-    const { Id, Title, title, start, end, frequency, by, interval, location, description } = req.body;
+    const { course, title, start, end, frequency, by, interval, location, description } = req.body;
 
-    check(Id, "");
+    body(course, "An error occurred while linking your class to a course")
+        .exists().withMessage("Your class wasn't linked to a course")
+        .isMongoId().withMessage("An error occurred while linking your class to a course")
+        .escape();
 
-    check(Title, "Course Title had an invalid input")
-        .exists().withMessage("")
-        .isAlphanumeric().withMessage("");
+    body(title, "Title had an invalid input")
+        .exists().withMessage()
+        .escape();
 
-    check(title, "Class Title had an invalid input")
-        .exists().withMessage();
+    body(start, "Start Date had an invalid input")
+        .exists().withMessage()
+        .escape()
+        .toDate();
 
-    check(start, "Class Start Date had an invalid input")
-        .exists().withMessage();
+    body(end, "End Date had an invalid input")
+        .exists().withMessage()
+        .escape()
+        .toDate();
 
-    check(end, "Class End Date had an invalid input")
-        .exists().withMessage();
+    body(frequency, "Frequency had an invalid input")
+        .exists().withMessage()
+        .escape();
 
-    check(frequency, "Class Frequency had an invalid input")
-        .exists().withMessage();
-
-    check(by, "Class __ had an invalid input")
+    body(by, "By had an invalid input")
         .optional()
-        .isNumeric().withMessage("Class __ must be a numerical value");
+        .isNumeric().withMessage("By must be a numerical value")
+        .escape();
 
-    check(interval, "Class Interval had an invalid input")
+    body(interval, "Interval had an invalid input")
         .optional()
-        .isNumeric().withMessage(""); 
+        .isNumeric().withMessage("")
+        .escape();
 
-    check(location, "Class Location had an invalid input")
+    body(location, "Location had an invalid input")
         .optional()
-        .isAlpha().withMessage(""); 
+        .isAlpha().withMessage("")
+        .escape();
 
-    check(description, "Class Description had an invalid input")
+    body(description, "Description had an invalid input")
         .optional()
-        .isAlphanumeric().withMessage("Class Description can only contain letters and numbers"); 
-
-    sanitize(Title).escape();
-    sanitize(title).escape();
-    sanitize(start).escape().toDate();
-    sanitize(end).escape().toDate();
-    sanitize(frequency).escape();
-    sanitize(by).escape();
-    sanitize(interval).escape();
-    sanitize(location).escape();
-    sanitize(description).escape();
-
+        .isAlphanumeric().withMessage("Description can only contain letters and numbers")
+        .escape();
+        
     if(!errors.isEmpty()) {
-        return res.status(422).json({
-            message: errors.message
+        return res.status(400).json({
+            message: errors.msg
         });
     } else {
         return next();
     };
 };
-
-module.exports = validate;

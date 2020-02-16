@@ -1,15 +1,13 @@
-const { check, sanitize, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 module.exports = (req, res, next) => {
     const errors = validationResult(req);
 
-    check();
-
-    sanitize();
+    body();
 
     if(!errors.isEmpty()) {
         return res.status(400).json({
-            message: errors
+            message: errors.msg
         });
     } else {
         return next();
