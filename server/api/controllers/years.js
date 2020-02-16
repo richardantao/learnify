@@ -137,7 +137,9 @@ exports.delete = (req, res) => {
 				message: "Year not found"
 			});
 		} else {
-			return callback(null);
+			return res.status(200).json({
+				message: "Year deleted"
+			});
 		};
 	})
 	.catch(err => {
