@@ -3,7 +3,7 @@ const model = require("mongoose").model;
 
 const moment = require("moment");
 
-const TaskSchema = new Schema({
+module.exports = model("tasks", new Schema({
 	_id: Schema.Types.ObjectId,
 	term: { type: Schema.Types.ObjectId, ref: "terms", required: true },
 	course: { type: Schema.Types.ObjectId, ref: "courses", required: true },
@@ -18,6 +18,4 @@ const TaskSchema = new Schema({
 	}
 }, {
 	versionKey: false
-});
-
-module.exports = model("tasks", TaskSchema);
+}));

@@ -3,7 +3,7 @@ const model = require("mongoose").model;
 
 const moment = require("moment");
 
-const BugSchema = new Schema({
+module.exports = model("bugs", new Schema({
     _id: Schema.Types.ObjectId,
     user: { type: Schema.Types.ObjectId, ref: "users" },
     where: { type: String, required: true },
@@ -12,6 +12,4 @@ const BugSchema = new Schema({
     createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
     updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
     resolved: { type: Boolean, default: false }
-});
-
-module.exports = model("bugs", BugSchema);
+}));

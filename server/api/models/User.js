@@ -62,6 +62,8 @@ UserSchema.post("findByIdAndDelete", document => {
         years.map(year => {
             Year.findOneAndDelete({ _id: year._id })
         });
+        
+        return;
     })
     .catch(err => {
         sgMail.setApiKey(sendGridKey);

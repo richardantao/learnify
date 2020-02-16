@@ -3,7 +3,7 @@ const model = require("mongoose").model;
 
 const moment = require("moment");
 
-const BlogSchema = new Schema({
+module.exports = model("blog", new Schema({
     _id: Schema.Types.ObjectId,
     name: { type: String, required: true },
     email: { type: String, required: true },
@@ -13,6 +13,4 @@ const BlogSchema = new Schema({
 	}
 }, {
     versionKey: false
-});
-
-module.exports = model("blog", BlogSchema);
+}) );

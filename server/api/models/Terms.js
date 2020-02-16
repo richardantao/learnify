@@ -5,7 +5,7 @@ const model = require("mongoose").model;
 
 const moment = require("moment");
 
-const sgMail = require('@sendgrid/mail');
+const sgMail = require("@sendgrid/mail");
 const user = process.env.AUTH_EMAIL;
 const sendGridKey = process.env.SENDGRID_API_KEY;
 
@@ -13,7 +13,6 @@ const Course = require("./Courses");
 
 const TermSchema = new Schema({
 	_id: Schema.Types.ObjectId,
-	year: { type: Schema.Types.ObjectId, ref: "years", required: true },
 	title: { type: String, required: true },
   	date: {
 		start: { type: Date, required: true },
@@ -27,12 +26,11 @@ const TermSchema = new Schema({
 	versionKey: false
 });
 
-// all children 
 TermSchema.post("deleteOne", document => {
 	const termId = document._id;
 
-	Course.find({ term: termId }, { // needs to target both term ids if there are more than 1
-		_id
+	Course.find({ term: termId }, {
+		_id: 1
 	})
 	.then(courses => {
 		courses.map(course => {
