@@ -3,26 +3,28 @@ const moment = require("moment");
 const ObjectId = require("mongodb").ObjectId;
 
 // model
-const Term = require("../models/Terms");
 const Year = require("../models/Years");
 
 const redis = require("../../config/cache");
 	
 exports.create = (req, res) => {
-	const { _id } = req.user;
+	// const { _id } = req.user;
+	const _id = ObjectId("5deb33a40039c4286179c4f1");
 	const { year, title, start, end } = req.body;
 
 	const redisTermsKey = `${_id}:terms`;
 
 	const saveToDb = callback => {
-		Term.create({
-			_id: ObjectId(),
-			user: ObjectId("5deb33a40039c4286179c4f1"),
-			year: ObjectId(year),
-			title,
-			date: {
-				start,
-				end
+		Year.updateOne({ _id: year }, {
+			$push: {
+				terms: {
+					_id: ObjectId(),
+					title,
+					date: {
+						start,
+						end
+					}
+				}
 			}
 		})
 		.then(prePopulatedTerm => {
@@ -36,10 +38,17 @@ exports.create = (req, res) => {
 	};
 
 	const populatePreCache = (prePopulatedTerm, callback) => {
+		Year.find({ "term._id": prePopulatedTerm }, {
+			"_id": 1,
+			"title": 1,
+			"": 1
+		})
+
 		Term.find({ _id: prePopulatedTerm._id })
 		.populate("year", [ "title" ])
 		.limit(1)
 		.then(populatedTerm => {
+			console.log(populatedTerm[0]);
 			return callback(null, populatedTerm[0]);
 		})
 		.catch(err => {
@@ -49,25 +58,25 @@ exports.create = (req, res) => {
 		});
 	};
 
-	const cacheResults = (populatedTerm, callback) => {
+	const cacheResults = (term, callback) => {
 		redis.del(redisTermsKey);
 
-		const term = {
-			_id: populatedTerm._id,
-			year: {
-				_id: populatedTerm.year._id,
-				title: populatedTerm.year._id
-			},
-			title: populatedTerm.title,
-			date: {
-				start: populatedTerm.date.start,
-				end: populatedTerm.date.end
-			},
-			meta: {
-				createdAt: populatedTerm.meta.createdAt,
-				updatedAt: populatedTerm.meta.updatedAt,
-			}
-		};
+		// const term = {
+		// 	_id: populatedTerm._id,
+		// 	year: {
+		// 		_id: populatedTerm.year._id,
+		// 		title: populatedTerm.year.title
+		// 	},
+		// 	title: populatedTerm.title,
+		// 	date: {
+		// 		start: populatedTerm.date.start,
+		// 		end: populatedTerm.date.end
+		// 	},
+		// 	meta: {
+		// 		createdAt: populatedTerm.meta.createdAt,
+		// 		updatedAt: populatedTerm.meta.updatedAt,
+		// 	}
+		// };
 
 		redis.setex(JSON.stringify(term._id), 3600, JSON.stringify(term));
 		
@@ -95,7 +104,8 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
-	const { _id } = req.user;
+	// const { _id } = req.user;
+	const { _id } = ObjectId("5deb33a40039c4286179c4f1");
 	const { yearId } = req.params;
 
 	const redisKey = `${_id}:terms`;
@@ -115,13 +125,14 @@ exports.read = (req, res) => {
 	};	
 
 	const queryDb = (cacheResults, callback) => {
-		if(cacheResults) {
+		if(cacheResults.length > 0) {
 			redis.setex(redisKey, 3600, cacheResults);
 
 			JSON.parse(cacheResults);
 
 			const terms = cacheResults.map(term => {
 				delete term.meta;
+				return term;
 			});
 
 			return callback(null, terms);
@@ -145,6 +156,7 @@ exports.read = (req, res) => {
 
 					const terms = payload.map(term => {
 						delete term.meta;
+						return term;
 					});
 
 					return callback(null, terms);
@@ -181,7 +193,7 @@ exports.edit = (req, res) => {
 				return res.status(500).json({
 					message: err.message
 				});
-			} else if(cacheResultss) {
+			} else if(cacheResults) {
 				return callback(null, cacheResults);
 			} else {
 				return callback(null);
@@ -193,7 +205,9 @@ exports.edit = (req, res) => {
 		if(cacheResults) {
 			redis.setex(JSON.stringify(termId), 3600, cacheResults);
 
-			return callback(null, JSON.parse(cacheResults));
+			const term = JSON.parse(cacheResults);
+
+			return callback(null, term);
 		} else {
 			Term.find({ _id: termId }, {
 				year: 1,

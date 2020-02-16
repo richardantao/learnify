@@ -49,7 +49,7 @@ exports.register = (req, res) => {
                 });
             } else {
                 console.log(email + " does not exist in the database")
-                callback(null, email);
+                return callback(null, email);
             };
         })
         .catch(err => {
@@ -71,7 +71,7 @@ exports.register = (req, res) => {
                 } else {
                     password = hash;
                     console.log("The user's hashed password is " + hash);
-                    callback(null, email, hash);
+                    return callback(null, email, hash);
                 };
             });
         });
@@ -92,13 +92,12 @@ exports.register = (req, res) => {
         })
         .then(registeredUser => {
             console.log("New registered user: " + registeredUser)
-            callback(null, registeredUser);
+            return callback(null, registeredUser);
         })
         .catch(err => {
             console.log(err);
 
             return res.status(500).json({
-                success: false,
                 message: err.messsage
             });
         });
@@ -134,7 +133,7 @@ exports.register = (req, res) => {
 
         sgMail.send(mailOptions);
 
-        callback(null, { message: "Account registered. Email verification send to " + mailOptions.to + "." });
+        return callback(null, { message: "Account registered. Email verification send to " + mailOptions.to + "." });
     };
 
     // run series of functions above
@@ -225,7 +224,7 @@ exports.verifyEmail = (req, res) => {
                     message: "We were unable to find a valid token. Your token my have expired."
                 });
             } else {
-                callback(null, matchedToken);
+                return callback(null, matchedToken);
             };
         })
         .catch(err => {
@@ -244,7 +243,7 @@ exports.verifyEmail = (req, res) => {
             }
         })
         .then(() => {
-            callback(null, { message: "Your account has been verified. Please login." })
+            return callback(null, { message: "Your account has been verified. Please login." })
         })
         .catch(err => {
             return res.status(500).json({
@@ -448,6 +447,4 @@ exports.signout = (req, res) => {
         message: "You have successfully logged out",
         token: null
     });  
-
-    // return res.redirect(301, "https://learnify.ca");
 };

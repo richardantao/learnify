@@ -5,11 +5,9 @@ const ObjectId = require("mongodb").ObjectId;
 const Class = require("../models/Classes");
 const Course = require("../models/Courses");
 
-const redis = require("../../config/cache");
 
 exports.create = (req, res) => {
-    const { _id } = req.user;
-    const { course, } = req.body;
+    const { course, title, start, end, frequency, by, interval, location, description } = req.body;
 
     const matchTerm = callback => {
         Course.find({ _id: course }, {
@@ -23,7 +21,7 @@ exports.create = (req, res) => {
                     message: "Could not find term"
                 });
             } else {
-                return callback(null, term[0]);
+                return callback(null, term[0].term);
             };
         })
         .catch(err => {
@@ -33,9 +31,21 @@ exports.create = (req, res) => {
         });
     };
 
-    const saveToDb = (term, callback) => {
+    const createClass = (term, callback) => {
         Class.create({
-
+            _id: ObjectId(),
+            term,
+            course,
+            title,
+            date: {
+                start,
+                end
+            },
+            frequency,
+            by,
+            interval,
+            location,
+            description
         })
         .then(classes => {
             return callback(null, classes);
@@ -47,18 +57,9 @@ exports.create = (req, res) => {
         });
     };
 
-    const cacheResults = (classes, callback) => {
-        redis.setex(JSON.stringify(classes._id), 3600, JSON.stringify(classes));
-
-        delete classes.meta;
-
-        return callback(null, classes);
-    };
-
     async.waterfall([
         matchTerm,
-        saveToDb,
-        cacheResults
+        createClass,
     ], (err, results) => {
         if(err) {
             return res.status(500).json({
@@ -70,126 +71,108 @@ exports.create = (req, res) => {
     });
 };
 
-// define with along with other bulk GETs
+// will get all the classes in a specified term
 exports.read = (req, res) => {
-    const { _id } = req.user;
+    const { termId } = req.params;
 
-    const redisKey = `${_id}:classes`;
+    Class.find({ term: termId }, {
+        _id: 1,
+        course: 1,
+        title: 1,
+        date: 1
+    })
+    .then(classes => {
+        if(classes.length === 0) {
+            return res.status(404).json({
+                message: "Classes not found"
+            }); 
+        } else {
+            redis.setex(redisKey, 3600, JSON.stringify(payload));
 
-    const checkCache = callback => {
-        redis.get(redisKey, (err, cacheResults) => {
-            if(err) {
-                return res.status(500).json({
-                    message: err.message
-                }); 
-            } else if(cacheResults) {
-                return callback(null, cacheResults);    
-            } else {
-                return callback(null);
-            };
+            return callback(null, classes);
+        };
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message
         });
-    };
+    });
+};
 
-    const queryDb = (cacheResults, callback) => {
-        if(cacheResults) {
-
-        } else {
-            Class.find({  }, {
-
-            })
-            .then(payload => {
-                if(payload.length === 0) {
-                    return res.status(404).json({
-                        message: "Classes not found"
-                    }); 
-                } else {
-                    redis.setex(redisKey, 3600, JSON.stringify(payload));
-
-                    const classes = payload.map(classes => {
-                        delete classes.modifiedPaths;
-                    });
-
-                    return callback(null, classes);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({
-                    message: err.message
-                });
-            });
-        };
-    };
-
-    async.waterfall([
-        checkCache,
-        queryDb
-    ], (err, results) => {
-        if(err) {
-            return res.status(500).json({
-                message: err.message
+exports.filter = (req, res) => {
+    const { courseId }  = req.params;
+   
+    Class.find({ course: courseId }, {
+        _id: 1,
+        course: 1,
+        title: 1,
+        date: 1,
+    })
+    .then(classes => {
+        if(classes.length > 0) {
+            return res.status(404).json({
+                message: "No classes found"
             });
         } else {
-            return res.status(200).json(results);
+            redis.setex(redisKey, 3600, JSON.stringify(classes));
+
+            return callback(null, classes);
         };
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message
+        });
     });
 };
 
 exports.edit = (req, res) => {
-    const classId = req.params;
+    const { classId }  = req.params;
 
-    const checkCache = callback => {
-        redis.get(redisKey, (err, cacheResults) => {
-            if(err) {
-                return res.status(500).json({
-                    message: err.message
-                }); 
-            } else if(cacheResults) {
-                return callback(null, cacheResults);    
+    const getClass = callback => {
+        Class.find({ _id: classId }, {
+            _id: 1,
+            term: 1,
+            course: 1,
+            title: 1,
+            date: 1,
+            frequency: 1,
+            by: 1,
+            interval: 1,
+            location: 1,
+            description: 1,
+            meta: 1
+        })
+        .then(classes => {
+            if(classes.length === 0) {
+                return res.status(404).json({
+                    message: "Class not found"
+                });
             } else {
-                return callback(null);
+                return callback(null, classes);
             };
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            });
         });
     };
 
-    const queryDb = (cacheResults, callback) => {
-        if(cacheResults) {
-            redis.setex(JSON.stringify(classId), 3600, cacheResults);
-
-            const classes = JSON.parse(cacheResults);
-
-            delete classes.meta;
-
-            return callback(null, classes);
-        } else {
-            Class.find({  }, {
-
-            })
-            .then(classes => {
-                if(classes.length === 0) {
-                    return res.status(404).json({
-                        message: "Class not found"
-                    });
-                } else {
-                    redis.setex(JSON.stringify(classId), 3600, classes);
-
-                    delete classes.meta;
-
-                    return callback(null, classes);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({
-                    message: err.message
-                });
-            });
-        };
-    };
-
-    const getCourseOptions = (classes, callback) => {
-        Course.find({ }, {
-
+    const fetchCourseOptions = (classes, callback) => {
+        Course.find({ term: termId }, {
+            _id: 1,
+            course: 1
         })
-        .then()
+        .then(options => {
+            if(options.length === 0) {
+                return res.status(404).json({
+                    message: "No course options found"
+                }); 
+            } else {
+                return callback(null, { classes, options });
+            };
+        })
         .catch(err => {
             return res.status(500).json({
                 message: err.message
@@ -198,9 +181,8 @@ exports.edit = (req, res) => {
     };
 
     async.waterfall([
-        checkCache,
-        queryDb,
-        getCourseOptions
+        getClass,
+        fetchCourseOptions
     ], (err, results) => {
         if(err) {
             return res.status(500).json({
@@ -213,24 +195,72 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const { _id } = req.user;
+    const { classId } = req.params;
+    const { course, title, start, end, frequency, by, interval, location, description, createdAt } = req.body;
 
     const matchTerm = callback => {
-        
+        Course.find({ _id: course }, {
+            _id: 0,
+            term: 1,
+        })
+        .limit(1)
+        .then(term => {
+            if(!term) {
+                return res.status(404).json({
+                    message: "No terms found"
+                });
+            } else {
+                return callback(null, term[0].term);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            });
+        }); 
     };
 
-    const updateDb = (term, callback) => {
-
-    };
-
-    const updateCache = (classes, callback) => {
-
+    const updateClass = (term, callback) => {
+        Class.updateOne({ _id: classId }, {
+            $set: {
+                _id,
+                term,
+                course,
+                title,
+                date: {
+                    start,
+                    end
+                },
+                frequency,
+                by,
+                interval,
+                location,
+                description,
+                meta: {
+                    createdAt,
+                    updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
+                }
+            }
+        })
+        .then(classes => {
+            if(!classes) {
+                return res.status(404).json({
+                    message: err.message
+                });
+            } else {
+                return callback(null, classes);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
+            });
+        });
     };
 
     async.waterfall([
         matchTerm,
-        updateDb,
-        updateCache
+        updateClass
     ], (err, results) => {
         if(err) {
             return res.status(500).json({
@@ -243,50 +273,26 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    // const { _id } = req.user;
     const classId = req.params;
     
-    const clearCache = callback => {
-        redis.del(JSON.stringify(classId));
-
-        return callback(null);
-    };
-
-    const deleteFromDb = callback => {
-        Class.deleteOne({ _id: classId })
-        .then(deletedClass => {
-            if(!deletedClass) {
-                return res.status(404).json({
-                    message: "Class not found"
-                });
-            } else {
-                return callback(null);
-            };
-        })
-        .catch(err => {
-            if(err.kind === "ObjectId" || err.name === "NotFound") {
-                return res.status(404).json({
-                    message: "Class not found"
-                });
-            } else {
-                return res.status(500).json({
-                    message: err.message
-                });
-            };
-        });
-    };
-
-    async.parallel([
-        clearCache,
-        deleteFromDb
-    ], (err, results) => {
-        if(err) {
-            return res.status(500).json({
-                message: err.message
+    Class.deleteOne({ _id: classId })
+    .then(deletedClass => {
+        if(!deletedClass) {
+            return res.status(404).json({
+                message: "Class not found"
             });
         } else {
-            return res.status(200).json({
-                message: "Class deleted"
+            return callback(null);
+        };
+    })
+    .catch(err => {
+        if(err.kind === "ObjectId" || err.name === "NotFound") {
+            return res.status(404).json({
+                message: "Class not found"
+            });
+        } else {
+            return res.status(500).json({
+                message: err.message
             });
         };
     });

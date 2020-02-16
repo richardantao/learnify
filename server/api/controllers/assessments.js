@@ -7,14 +7,9 @@ const Course = require("../models/Courses");
 const Assessment = require("../models/Assessments");
 
 // cache
-const redis = require("../../config/cache");
 
 exports.create = (req, res) => {
-    const { _id } = req.user;
     const { course, title, type, start, end, location, weight, score } = req.body;
-
-    const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
-    const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
 
     const matchTerm = callback => {
         Course.find({ _id: course }, {
@@ -28,7 +23,7 @@ exports.create = (req, res) => {
                     message: "Could not find term"
                 });
             } else {
-                return callback(null, term[0]);
+                return callback(null, term[0].term);
             };
         })
         .catch(err => {
@@ -38,10 +33,10 @@ exports.create = (req, res) => {
         });
     };
 
-    const saveToDb = (term, callback) => {
+    const createAssessment = (term, callback) => {
         Assessment.create({
             _id: ObjectId(),
-            term: term.term,
+            term,
             course,
             title,
             type,
@@ -65,23 +60,9 @@ exports.create = (req, res) => {
         });
     };
 
-    const cacheResults = (assessment, callback) => {
-        redis.del(redisAssessmentsReadKey);
-        redis.del(redisAssessmentsFilterKey);
-        redis.setex(JSON.stringify(assessment._id), 3600, JSON.stringify(assessment));
-      
-        delete assessment.meta;	 
-
-        return callback(null, { 
-            assessment,
-            message: "New assessment created" 
-        });
-    };
-
     async.waterfall([
         matchTerm,
-        saveToDb,
-        cacheResults
+        createAssessment
     ], (err, results) => {
         if(err) {
             return res.status(500).json({
@@ -93,32 +74,28 @@ exports.create = (req, res) => {
     });
 };
 
+// WIP
 exports.read = (req, res) => {
-    const { _id } = req.user;
     const { termId } = req.params;
     const { current } = req.query;
-
-    const redisKey = `${_id}:assessmentsRead`;
-
-    const checkCache = callback => {
-        redis.get(redisKey, (err, cacheResults) => {
-            if(err) {
-                return res.status(500).json({
-                    message: err.message
-                });
-            } else if(cacheResults) {
-                return callback(null, cacheResults);
-            } else {
-                return callback(null);
-            };
-        });
-    };
-
-    const queryDb = (cacheResults, callback) => {
-        if(cacheResults) {
-            redis.setex(redisKey, 3600, cacheResults);
-
-            const payload = JSON.parse(cacheResults);
+    
+    Assessment.find({ term: termId }, {
+        course: 1,
+        title: 1,
+        type: 1,
+        date: 1,
+        location: 1,
+        meta: 1
+    })
+    .populate("course", [ "title" ])
+    .sort({ "date.start": 1 })
+    .then(payload => {
+        if(payload.length === 0) {
+            return res.status(404).json({
+                message: "No assessments found"
+            });
+        } else {
+            redis.setex(redisKey, 3600, JSON.stringify(payload));
 
             const assessments = payload.map(assessment => {
                 delete assessment.meta;
@@ -126,190 +103,85 @@ exports.read = (req, res) => {
             });
 
             return callback(null, assessments);
-        } else {
-            Assessment.find({ term: termId }, {
-                course: 1,
-                title: 1,
-                type: 1,
-                date: 1,
-                location: 1,
-                meta: 1
-            })
-            .populate("course", [ "title" ])
-            .sort({ "date.start": 1 })
-            .then(payload => {
-                if(payload.length === 0) {
-                    return res.status(404).json({
-                        message: "No assessments found"
-                    });
-                } else {
-                    redis.setex(redisKey, 3600, JSON.stringify(payload));
-
-                    const assessments = payload.map(assessment => {
-                        delete assessment.meta;
-                        return assessment;
-                    });
-
-                    return callback(null, assessments);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({
-                    message: err.message
-                });
-            });
         };
-    };
-
-    async.waterfall([
-        checkCache,
-        queryDb
-    ], (err, results) => {
-        if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
-        } else {
-            return res.status(200).json(results);
-        };
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message
+        });
     });
 };
 
+// WIP
 exports.filter = (req, res) => {
-    const { _id } = req.user;
     const { courseId } = req.params;
     const { current } = req.query;
 
-    const redisKey = `${_id}:assessmentsFilter`;
-
-    const checkCache = callback => {
-        redis.get(redisKey, (err, cacheResults) => {
-            if(err) {
-                return res.status(500).json({
-                    message: err.message
-                });
-            } else if(cacheResults) {
-                return callback(null, cacheResults);
-            } else {
-                return callback(null);
-            };
+    Assessment.find({ 
+        course: courseId,
+        "date.start": {
+            filter: Date.now()
+        } 
+    }, {
+        course: 1,
+        title: 1,
+        type: 1,
+        date: 1,
+        location: 1,
+        meta: 1
+    })
+    .populate("course", [ "title" ])
+    .sort({ "date.start": 1 })
+    .then(assessments => {
+        if(assessments.length === 0) {
+            return res.status(404).json({
+                message: "No assessments found"
+            });
+        } else {
+            return res.status(200).json(assessments);
+        };
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message
         });
-    };
-
-    const queryDb = (cacheResults, callback) => {
-        if(cacheResults) {
-            redis.setex(redisKey, 3600, cacheResults);
-
-            const payload = JSON.parse(cacheResults);
-
-            const assessments = payload.map(assessment => {
-                delete assessment.meta;
-                return assessment;
-            });
-
-            return callback(null, assessments);
-        } else {
-            Assessment.find({ course: courseId }, {
-                course: 1,
-                title: 1,
-                type: 1,
-                date: 1,
-                location: 1,
-                meta: 1
-            })
-            .populate("course", [ "title" ])
-            .sort({ "date.start": 1 })
-            .then(payload => {
-                if(payload.length === 0) {
-                    return res.status(404).json({
-                        message: "No assessments found"
-                    });
-                } else {
-                    redis.setex(redisKey, 3600, JSON.stringify(payload));
-
-                    const assessments = payload.map(assessment => {
-                        delete assessment.meta;
-                    });
-
-                   return callback(null, assessments);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({
-                    message: err.message
-                });
-            });
-        };
-    };
-
-    async.waterfall([
-        checkCache,
-        queryDb
-    ], (err, results) => {
-        if(err) {  
-            return res.status(500).json({
-                message: err.message
-            });
-        } else {
-            return res.status(200).json(results);
-        };
     });
 };
 
 exports.edit = (req, res) => {
     const { assessmentId } = req.params;
-    
-    const checkCache = callback => {
-        redis.get(JSON.stringify(assessmentId), (err, cacheResult) => {
-            if(err) {
-                return res.status(500).json({
-                    message: err.message
+
+    const getAssessment = callback => {
+        Assessment.find({ _id: assessmentId }, {
+            course: 1,
+            title: 1,
+            type: 1,
+            date: 1,
+            location: 1,
+            grade: 1,
+            meta: 1
+        })
+        .populate("course", [ "title", "term" ])
+        .limit(1)
+        .then(assessment => {
+            if(assessment.length === 0) {
+                return res.status(404).json({
+                    message: "Assessment not found"
                 });
-            } else if(cacheResult) {
-                return callback(null, cacheResult);
             } else {
-                return callback(null);
+                redis.setex(JSON.stringify(assessment[0]._id), 3600, JSON.stringify(assessment[0]));
+
+                return callback(null, assessment[0]);
             };
-        });
-    };
-
-    const queryDb = (cacheResults, callback) => {
-        if(cacheResults) {
-            redis.setex(JSON.stringify(assessmentId), 3600, cacheResults);
-
-            return callback(null, JSON.parse(cacheResults));
-        } else {
-            Assessment.find({ _id: assessmentId }, {
-                course: 1,
-                title: 1,
-                type: 1,
-                date: 1,
-                location: 1,
-                grade: 1,
-                meta: 1
-            })
-            .populate("course", [ "title", "term" ])
-            .limit(1)
-            .then(assessment => {
-                if(assessment.length === 0) {
-                    return res.status(404).json({
-                        message: "Assessment not found"
-                    });
-                } else {
-                    redis.setex(JSON.stringify(assessment[0]._id), 3600, JSON.stringify(assessment[0]));
-
-                    return callback(null, assessment[0]);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({
-                    message: err.message
-                });
+        })
+        .catch(err => {
+            return res.status(500).json({
+                message: err.message
             });
-        };
-    };
+        });
+    };   
 
-    const getCourseOptions = (assessment, callback) => {
+    const fetchCourseOptions = (assessment, callback) => {
         Course.find({ 
             term: assessment.course.term,
             title: {
@@ -336,9 +208,8 @@ exports.edit = (req, res) => {
     };
 
     async.waterfall([
-        checkCache,
-        queryDb,
-        getCourseOptions
+        getAssessment,
+        fetchCourseOptions
     ], (err, results) => {
         if(err) {
             return res.status(500).json({
@@ -351,12 +222,8 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const { _id } = req.user;
     const { assessmentId } = req.params;
     const { course, title, type, start, end, location, weight, score, createdAt } = req.body;
-
-    const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
-    const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
 
     const matchTerm = (callback) => {
         Course.find({ _id: course }, {
@@ -370,7 +237,7 @@ exports.update = (req, res) => {
                     message: "Could not find term"
                 });
             } else {
-                return callback(null, term[0]);
+                return callback(null, term[0].term);
             };
         })
         .catch(err => {
@@ -380,32 +247,30 @@ exports.update = (req, res) => {
         });
     };
 
-    const updateDb = (term, callback) => {
-        const assessment = {
-            term: term.term,
-            course,
-            title,
-            type,
-            date: {
-                start,
-                end
-            }, 
-            location,
-            grade: {
-                weight,
-                score
-            },
-            meta: {
-                createdAt,
-                updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-            }
-        };
-    
+    const updateAssessment = (term, callback) => {
         Assessment.updateOne({ _id: assessmentId }, {
-            $set: assessment
+            $set: {
+                term,
+                course,
+                title,
+                type,
+                date: {
+                    start,
+                    end
+                }, 
+                location,
+                grade: {
+                    weight,
+                    score
+                },
+                meta: {
+                    createdAt,
+                    updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
+                }
+            }
         })
         .then(assessment => {
-            if(assessment.length === 0) {
+            if(!assessment) {
                 return res.status(404).json({
                     message: "No assessment found"
                 });
@@ -420,23 +285,9 @@ exports.update = (req, res) => {
         });
     };
 
-    const updateCache = (assessment, callback) => {
-        redis.del(redisAssessmentsReadKey);
-        redis.del(redisAssessmentsFilterKey);
-        redis.setex(JSON.stringify(assessment._id), 3600, JSON.stringify(assessment));
-
-        delete assessment.meta;
-
-        callback(null, {
-            assessment,
-            message: "Assessment updated"
-        })
-    };
-
     async.waterfall([
         matchTerm,
-        updateDb,
-        updateCache
+        updateAssessment
     ], (err, results) => {
         if(err) {
             return res.status(500).json({
@@ -451,47 +302,21 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const { assessmentId } = req.params;
 
-    const redisAssessmentsReadKey = `${_id}:assessmentsRead`;
-    const redisAssessmentsFilterKey = `${_id}:assessmentsFilter`;
-
-    const clearCache = callback => {
-        redis.del(redisAssessmentsReadKey);
-        redis.del(redisAssessmentsFilterKey);
-        redis.del(JSON.stringify(assessmentId));
-
-        return callback(null);
-    };
-
-    const deleteFromDb = callback => {
-        Assessment.deleteOne({ _id: assessmentId })
-        .then(assessment => {
-            if(!assessment) {
-                return res.status(404).json({
-                    message: "Assessment not found"
-                });
-            } else {
-                return callback(null);
-            };
-        })
-        .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
-        });
-    };
-
-    async.parallel([
-        clearCache,
-        deleteFromDb
-    ], (err, results) => {
-        if(err) {
-            return res.status(500).json({
-                message: err.message
+    Assessment.deleteOne({ _id: assessmentId })
+    .then(assessment => {
+        if(!assessment) {
+            return res.status(404).json({
+                message: "Assessment not found"
             });
         } else {
             return res.status(200).json({
-                message: "Assessment deleted"
+                message: err.message
             });
         };
+    })
+    .catch(err => {
+        return res.status(500).json({
+            message: err.message
+        });
     });
 };
