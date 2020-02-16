@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const Schema = require("mongoose").Schema;
-const model = require("mongoose").model;
 
 const moment = require("moment");
 
@@ -75,5 +74,5 @@ TermSchema.post("deleteOne", document => {
 	});
 });
 
-module.exports = model("terms", TermSchema);
+module.exports = TermSchema;
 	
