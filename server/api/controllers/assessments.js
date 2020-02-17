@@ -41,8 +41,8 @@ exports.create = (req, res) => {
             title,
             type,
             date: {
-                start,
-                end
+                start: moment(start, "YYYY-MM-DD, hh:mm"),
+                end: moment(end, "YYYY-MM-DD, hh:mm"),
             },
             location,
             grade: {
@@ -255,8 +255,8 @@ exports.update = (req, res) => {
                 title,
                 type,
                 date: {
-                    start,
-                    end
+                start: moment(start, "YYYY-MM-DD, hh:mm"),
+                end: moment(end, "YYYY-MM-DD, hh:mm")
                 }, 
                 location,
                 grade: {

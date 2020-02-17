@@ -32,7 +32,7 @@ exports.create = (req, res) => {
             course,
             title,
             type,
-            deadline,
+            deadline: moment(deadline, "YYYY-MM-DD, hh:mm"),
             completion,
             description
         })
@@ -242,7 +242,7 @@ exports.update = (req, res) => {
                 course,
                 title, 
                 type, 
-                deadline, 
+                deadline: moment(deadline, "YYYY-MM-DD, hh:mm"), 
                 completion, 
                 description,
                 meta: {

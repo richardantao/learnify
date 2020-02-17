@@ -1,4 +1,3 @@
-const async = require("async");
 const moment = require("moment");
 
 const Year = require("../models/Years");
@@ -13,17 +12,18 @@ exports.create = (req, res) => {
 		user: ObjectId("5deb33a40039c4286179c4f1"), // get from cookie in production
 		title,
 		date: {
-			start,
-			end
+			start: moment(start, "YYYY-MM-DD"),
+			end: moment(end, "YYYY-MM-DD")
 		}
 	})
 	.then(year => {
-		return res.status(201).json(year);
+		return res.status(201).json({ 
+			year, 
+			message: "Year created" 
+		});
 	})
 	.catch(err => {
-		return res.status(500).json({
-			message: err.message
-		});
+		return res.status(500).json({ message: err.message });
 	});
 };
 
@@ -39,16 +39,14 @@ exports.read = (req, res) => {
 	.then(years => {
 		if(years.length === 0) {
 			return res.status(404).json({
-				message: "No years were found"
+				message: "No years found"
 			});
 		} else {
 			return res.status(200).json(years);
 		};
 	})
 	.catch(err => {
-		return res.status(500).json({
-			message: err.message
-		});
+		return res.status(500).json({ message: err.message });
 	});
 	
 };
@@ -60,27 +58,21 @@ exports.edit = (req, res) => {
 		_id: 1,
 		title: 1,
 		date: 1,
-		meta: 1
+		"meta.createdAt": 1
 	})
 	.limit(1)
 	.then(year => {
 		if(year.length === 0) {
-			return res.status(404).json({
-				message: "Year not found"
-			});
+			return res.status(404).json({ message: "Year not found" });
 		} else {
 			return res.status(200).json(year[0]);
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId") {
-			return res.status(404).json({
-				message: "Year not found"
-			});
+			return res.status(404).json({ message: "Year not found" });
 		} else {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		};
 	});
 };
@@ -96,8 +88,8 @@ exports.update = (req, res) => {
 		$set: {
 			title,
 			date: {
-				start,
-				end
+				start: moment(start, "YYYY-MM-DD"),
+				end: moment(end, "YYYY-MM-DD")
 			},
 			meta: {
 				createdAt,
@@ -111,7 +103,7 @@ exports.update = (req, res) => {
 				message: "Year not found"
 			});
 		} else {
-			return res.status(200).json(year);
+			return res.status(200).json({ message: "Year updated" });
 		};
 	})
 	.catch(err => {
@@ -120,9 +112,7 @@ exports.update = (req, res) => {
 				message: "Year not found"
 			});
 		} else {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		};
 	});
 };
@@ -133,13 +123,9 @@ exports.delete = (req, res) => {
 	Year.deleteOne({ _id: yearId })
 	.then(year => {
 		if(!year) {
-			return res.status(404).json({
-				message: "Year not found"
-			});
+			return res.status(404).json({ message: "Year not found" });
 		} else {
-			return res.status(200).json({
-				message: "Year deleted"
-			});
+			return res.status(200).json({ message: "Year deleted" });
 		};
 	})
 	.catch(err => {
@@ -148,9 +134,7 @@ exports.delete = (req, res) => {
 				message: "The server was unable to find the selected academic year"
 			});
 		} else {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		};
 	});
 };
