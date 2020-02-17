@@ -25,9 +25,7 @@ exports.register = (req, res, next) => {
         .escape();
 
     if(!errors.isEmpty()) {
-        return res.status(400).json({
-            message: errors.msg
-        });
+        return res.status(400).json({ message: errors.msg });
     } else {
         return next();
     };
@@ -48,9 +46,7 @@ exports.signin = (req, res, next) => {
         .escape();
 
     if(!errors.isEmpty()) {
-        return res.status(400).json({
-            message: errors.message
-        });
+        return res.status(400).json({ message: errors.message });
     } else {
         return next();
     };
@@ -60,9 +56,7 @@ exports.signout = (req, res, next) => {
     const errors = validationResult(req);
 
     if(!errors.isEmpty()) {
-        return res.status(400).json({
-            message: "Validation failed. Please try again"
-        });
+        return res.status(400).json({ message: "Validation failed. Please try again" });
     } else {
         return next();
     };

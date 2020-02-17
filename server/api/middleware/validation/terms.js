@@ -1,23 +1,24 @@
 const { body, validationResult } = require("express-validator"); 
+const moment = require("moment");
 
-const Term = require("../../models/Terms");
+const Year = require("../../models/Years");
 
 module.exports =  (req, res, next) => {
     const errors = validationResult(req);
     const { year, title, start, end } = req.body;
 
-    check(title, "Title had an invalid input")
+    body(title, "Title had an invalid input")
         .exists().withMessage("Title is a required field")
         .isAlphanumeric().withMessage("Title can only contain letters and numbers")
         .escape();
     
-    check(start, "Start date had an invalid input")
+    body(start, "Start date had an invalid input")
         .exists().withMessage("Start date is a required field")
         .isAlphanumeric().withMessage("Title can only contain letters and numbers")
         .escape()
         .toDate();
     
-    check(end, "End date had an invalid input")
+    body(end, "End date had an invalid input")
         .exists().withMessage("End date is a required field")
         .isAlphanumeric().withMessage("Title can only contain letters and numbers")
         .escape()
@@ -28,14 +29,14 @@ module.exports =  (req, res, next) => {
             message: errors.msg
         });
     } else {
-        // check if terms dates are within the years date
-        Term.find({ year }, {
+        // body if terms dates are within the years date
+        Year.find({ _id: year }, {
+            _id: 0,
             date: 1
         })
         .limit(1)
         .then(yearRange => {
-            // if the term start date is earlier that the year start date OR term end date is after the year end date 
-            if(yearRange[0].start > start || yearRange[0].end < end) {
+            if(moment(yearRange[0].date.start, "YYYY-MM-DD") > moment(start, "YYYY-MM-DD") || moment(yearRange[0].date.end, "YYYY-MM-DD") < moment(end, "YYYY-MM-DD")) {
                 return res.status(400).json({
                     message: "The start and end date must be inside the dates of the year you have selected"
                 });

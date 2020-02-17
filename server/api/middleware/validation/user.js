@@ -41,9 +41,7 @@ exports.profile = (req, res, next) => {
         .escape();
 
     if(!errors.isEmpty()) {
-        return res.status().json({
-            message: errors.message
-        });
+        return res.status().json({ message: errors.msg });
     } else {
         return next();
     };
@@ -54,9 +52,7 @@ exports.password = (req, res, next) => {
     const { current, change, confirm } = req.body;
 
     if (change !== confirm) {
-        return res.status(422).json({
-            message: "The confirmation does not match your new password"
-        });
+        return res.status(400).json({ message: "The confirmation does not match your new password" });
     };
 
     body(current, "Current password is invalid")
@@ -73,9 +69,7 @@ exports.password = (req, res, next) => {
         .escape();
 
     if(!errors.isEmpty()) {
-        return res.status(400).json({
-            message: errors.msg
-        });
+        return res.status(400).json({ message: errors.msg });
     } else {
         return next();
     };
@@ -102,9 +96,7 @@ exports.preferences = (req, res, next) => {
         .escape();
 
     if(!errors.isEmpty()) {
-        return res.status(400).json({
-            message: errors.msg
-        });
+        return res.status(400).json({ message: errors.msg });
     } else {
         return next();
     };

@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const moment = require("moment");
 
 const Course = require("../../models/Courses");
 
@@ -75,8 +76,8 @@ module.exports = (req, res, next) => {
         .populate("term", [ "date" ])
         .limit(1)
         .then(termRange => {
-            if(termRange[0].term.date.start > start || termRange[0].term.date.end < end) {
-                return res.status(422).json({
+            if(moment(termRange[0].term.date.start, "YYYY-MM-DD") > moment(start, "YYYY-MM-DD") || moment(termRange[0].term.date.end, "YYYY-MM-DD") < moment(end, "YYYY-MM-DD")) {
+                return res.status(400).json({
                     message: "The assessment date must be inside the date of the term your course is in"
                 });
             } else {

@@ -1,4 +1,5 @@
 const { body, validationResult } = require("express-validator");
+const moment = require("moment");
 
 module.exports = (req, res, next) => {
     const errors = validationResult(req);
@@ -18,16 +19,12 @@ module.exports = (req, res, next) => {
         .toDate()
         .escape();
 
-    if(start >= end) {
-        return res.status(400).json({
-            message: "The start date must come before the end date"
-        });
+    if(moment(start, "YYYY-MM-DD") >= moment(end, "YYYY-MM-DD")) {
+        return res.status(400).json({ message: "The start date must come before the end date" });
     };
     
     if(!errors.isEmpty()) {
-        return res.status(400).json({
-            message: errors.msg
-        });
+        return res.status(400).json({ message: errors.msg });
     } else {
         return next();
     };

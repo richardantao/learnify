@@ -46,9 +46,7 @@ exports.contact = (req, res, next) => {
         .escape();
 
     if(!error.isEmpty()) {
-        return res.status(400).json({
-            message: error.msg
-        });
+        return res.status(400).json({ message: error.msg });
     } else {
         return next();
     };
