@@ -19,17 +19,13 @@ exports.create = (req, res) => {
         .limit(1)
         .then(term => {
             if(term.length === 0) {
-                return res.status(404).json({
-                    message: "Could not find term"
-                });
+                return res.status(404).json({ message: "Could not find terms" });
             } else {
                 return callback(null, term[0].term);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -54,9 +50,7 @@ exports.create = (req, res) => {
             return callback(null, assessment);
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -65,9 +59,7 @@ exports.create = (req, res) => {
         createAssessment
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(201).json(results);
         };
@@ -89,26 +81,15 @@ exports.read = (req, res) => {
     })
     .populate("course", [ "title" ])
     .sort({ "date.start": 1 })
-    .then(payload => {
-        if(payload.length === 0) {
-            return res.status(404).json({
-                message: "No assessments found"
-            });
+    .then(assessments => {
+        if(assessments.length === 0) {
+            return res.status(404).json({ message: "Assessments not found" });
         } else {
-            redis.setex(redisKey, 3600, JSON.stringify(payload));
-
-            const assessments = payload.map(assessment => {
-                delete assessment.meta;
-                return assessment;
-            });
-
             return callback(null, assessments);
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     });
 };
 
@@ -134,17 +115,13 @@ exports.filter = (req, res) => {
     .sort({ "date.start": 1 })
     .then(assessments => {
         if(assessments.length === 0) {
-            return res.status(404).json({
-                message: "No assessments found"
-            });
+            return res.status(404).json({ message: "Assessments not found" });
         } else {
             return res.status(200).json(assessments);
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     });
 };
 
@@ -158,26 +135,19 @@ exports.edit = (req, res) => {
             type: 1,
             date: 1,
             location: 1,
-            grade: 1,
-            meta: 1
+            grade: 1
         })
         .populate("course", [ "title", "term" ])
         .limit(1)
         .then(assessment => {
             if(assessment.length === 0) {
-                return res.status(404).json({
-                    message: "Assessment not found"
-                });
+                return res.status(404).json({ message: "Assessment not found" });
             } else {
-                redis.setex(JSON.stringify(assessment[0]._id), 3600, JSON.stringify(assessment[0]));
-
                 return callback(null, assessment[0]);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };   
 
@@ -193,17 +163,13 @@ exports.edit = (req, res) => {
         .sort({ title: 1 })
         .then(options => {
             if(options.length === 0) {
-                return res.status(404).json({
-                    message: "Course options not found"
-                });
+                return res.status(404).json({ message: "Course options not found" });
             } else {
-                callback(null, { assessment, options });
+                return callback(null, { assessment, options });
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -212,9 +178,7 @@ exports.edit = (req, res) => {
         fetchCourseOptions
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(200).json(results);
         };
@@ -223,7 +187,7 @@ exports.edit = (req, res) => {
 
 exports.update = (req, res) => {
     const { assessmentId } = req.params;
-    const { course, title, type, start, end, location, weight, score, createdAt } = req.body;
+    const { course, title, type, start, end, location, weight, score } = req.body;
 
     const matchTerm = (callback) => {
         Course.find({ _id: course }, {
@@ -233,17 +197,13 @@ exports.update = (req, res) => {
         .limit(1)
         .then(term => {
             if(term.length === 0) {
-                return res.status(404).json({
-                    message: "Could not find term"
-                });
+                return res.status(404).json({ message: "Terms not found" });
             } else {
                 return callback(null, term[0].term);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -262,26 +222,18 @@ exports.update = (req, res) => {
                 grade: {
                     weight,
                     score
-                },
-                meta: {
-                    createdAt,
-                    updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
                 }
             }
         })
         .then(assessment => {
             if(!assessment) {
-                return res.status(404).json({
-                    message: "No assessment found"
-                });
+                return res.status(404).json({ message: "No assessment found" });
             } else {
                 return callback(null, assessment);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -290,9 +242,7 @@ exports.update = (req, res) => {
         updateAssessment
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(200).json(results);
         };
@@ -305,18 +255,12 @@ exports.delete = (req, res) => {
     Assessment.deleteOne({ _id: assessmentId })
     .then(assessment => {
         if(!assessment) {
-            return res.status(404).json({
-                message: "Assessment not found"
-            });
+            return res.status(404).json({ message: "Assessment not found" });
         } else {
-            return res.status(200).json({
-                message: err.message
-            });
+            return res.status(200).json({ message: err.message });
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     });
 };

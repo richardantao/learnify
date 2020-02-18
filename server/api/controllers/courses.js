@@ -1,11 +1,9 @@
 const async = require("async");
-const moment = require("moment");
 const ObjectId = require("mongodb").ObjectId;
 
 // model
 const Course = require("../models/Courses");
 const Term = require("../models/Terms");
-
 	
 exports.create = (req, res) => {
 	const { term, code, title, instructor, credit, theme } = req.body;
@@ -15,19 +13,19 @@ exports.create = (req, res) => {
 		term,
 		code,
 		title,
-		instructor,
 		credit,
+		instructor,
 		theme
 	})
 	.then(course => {
-		return res.status(201).json(course);
+		return res.status(201).json({
+			course,
+			message: "Course created"
+		});
 	})
 	.catch(err => {
-		return res.status(500).json({
-			message: err.message
-		});
+		return res.status(500).json({ message: err.message });
 	});
-
 };
 
 exports.read = (req, res) => {
@@ -45,17 +43,13 @@ exports.read = (req, res) => {
 	.sort({ code: 1 })
 	.then(courses => {
 		if(courses.length === 0) {
-			return res.status(404).json({
-				message: "No courses were found"
-			});
+			return res.status(404).json({ message: "No courses found" });
 		} else {
 			return res.status(200).json(courses);
 		};
 	})
 	.catch(err => {
-		return res.status(500).json({
-			message: err.message
-		});
+		return res.status(500).json({ message: err.message });
 	});
 };
 
@@ -69,57 +63,42 @@ exports.edit = (req, res) => {
 			title: 1,
 			instructor: 1,
 			credit: 1,
-			meta: 1
+			theme: 1
 		})
 		.populate("term", [ "title", "year" ])
 		.limit(1)
 		.then(course => {
 			if(course.length === 0) {
-				return res.status(404).json({
-					message: "No course found" 
-				});
+				return res.status(404).json({ message: "Course not found" });
 			} else {
-				redis.setex(JSON.stringify(course[0]._id), 3600, JSON.stringify(course[0]));
-
 				return callback(null, course[0]);
 			};
 		})
 		.catch(err => {
-			if(err.kind === "ObjectId") {
-				return res.status(404).json({
-					message: "No course found" 
-				});
-			} else {
-				return res.status(500).json({
-					message: err.message 
-				});
-			};
+			return res.status(500).json({ message: err.message });
 		});
 	};
 
 	const fetchTermOptions = (course, callback) => {
 		Term.find({ 
-			year: course.term.year,
+			year: course.term[0].year,
 			title: {
-				$ne: course.term.title
+				$ne: course.term[0].title
 			}
 		}, {
+			_id: 1,
 			title: 1
 		})
 		.sort({ "date.start": -1 })
 		.then(options => {
 			if(options.length === 0) {
-				return res.status(404).json({
-					message: "Could not find your terms"
-				});
+				return res.status(404).json({ message: "Could not find terms" });
 			} else {
 				return callback(null, { course, options });
 			};
 		})
 		.catch(err =>{
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		});
 	};
 
@@ -128,9 +107,7 @@ exports.edit = (req, res) => {
 		fetchTermOptions
 	], (err, results) => {
 		if(err) {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		} else {
 			return res.status(200).json(results);
 		};
@@ -139,7 +116,7 @@ exports.edit = (req, res) => {
 
 exports.update = (req, res) => {
 	const { courseId } = req.params;
-	const { term, code, title, credit, instructor, theme, createdAt } = req.body;
+	const { term, code, title, credit, instructor, theme } = req.body;
 	
 	Course.updateOne({ _id: courseId }, {
 		$set: {
@@ -149,32 +126,18 @@ exports.update = (req, res) => {
 			title,
 			credit,
 			instructor,
-			theme, 
-			meta: {
-				createdAt,
-				updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-			}
+			theme
 		}
 	})
 	.then(course => {
 		if(!course) {
-			return res.status(404).json({
-				message: "No course found"
-			});
+			return res.status(404).json({ message: "No course found" });
 		} else {
-			return res.status(200).json(course);
+			return res.status(200).json({ message: "Course updated" });
 		};
 	})
-	.catch(err => {
-		if(err.kind === "ObjectId") {
-			return res.status(404).json({
-				message: "No course found"
-			});
-		} else {
-			return res.status(500).json({
-				message: err.message
-			});
-		};
+	.catch(err => {		
+		return res.status(500).json({ message: err.message });
 	});
 };
 
@@ -184,24 +147,16 @@ exports.delete = (req, res) => {
 	Course.deleteOne({ _id: courseId })
 	.then(course => {
 		if(!course) {
-			return res.status(404).json({
-				message: "No course found"
-			});
+			return res.status(404).json({ message: "Course not found" });
 		} else {
-			return res.status(200).json({
-				message: "Course deleted"
-			});
+			return res.status(200).json({ message: "Course deleted" });
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId" || err.name === "NotFound") {
-			return res.status(404).json({
-				message: "No course found"
-			});
+			return res.status(404).json({ message: "Course not found" });
 		} else {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		};
 	});
 };

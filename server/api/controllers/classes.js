@@ -5,7 +5,6 @@ const ObjectId = require("mongodb").ObjectId;
 const Class = require("../models/Classes");
 const Course = require("../models/Courses");
 
-
 exports.create = (req, res) => {
     const { course, title, start, end, frequency, by, interval, location, description } = req.body;
 
@@ -17,17 +16,13 @@ exports.create = (req, res) => {
         .limit(1)
         .then(term => {
             if(term.length === 0) {
-                return res.status(404).json({
-                    message: "Could not find term"
-                });
+                return res.status(404).json({ message: "Could not find term" });
             } else {
                 return callback(null, term[0].term);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -38,8 +33,8 @@ exports.create = (req, res) => {
             course,
             title,
             date: {
-                start,
-                end
+                start: moment(start, "YYYY-MM-DD, hh:mm"),
+                end: moment(end, "YYYY-MM-DD, hh:mm")
             },
             frequency,
             by,
@@ -51,9 +46,7 @@ exports.create = (req, res) => {
             return callback(null, classes);
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -62,9 +55,7 @@ exports.create = (req, res) => {
         createClass,
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(201).json(results);
         };
@@ -83,19 +74,13 @@ exports.read = (req, res) => {
     })
     .then(classes => {
         if(classes.length === 0) {
-            return res.status(404).json({
-                message: "Classes not found"
-            }); 
+            return res.status(404).json({ message: "Classes not found" }); 
         } else {
-            redis.setex(redisKey, 3600, JSON.stringify(payload));
-
             return callback(null, classes);
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     });
 };
 
@@ -110,19 +95,13 @@ exports.filter = (req, res) => {
     })
     .then(classes => {
         if(classes.length > 0) {
-            return res.status(404).json({
-                message: "No classes found"
-            });
+            return res.status(404).json({ message: "No classes found" });
         } else {
-            redis.setex(redisKey, 3600, JSON.stringify(classes));
-
             return callback(null, classes);
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     });
 };
 
@@ -140,22 +119,17 @@ exports.edit = (req, res) => {
             by: 1,
             interval: 1,
             location: 1,
-            description: 1,
-            meta: 1
+            description: 1
         })
         .then(classes => {
             if(classes.length === 0) {
-                return res.status(404).json({
-                    message: "Class not found"
-                });
+                return res.status(404).json({ message: "Class not found" });
             } else {
                 return callback(null, classes);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -166,17 +140,13 @@ exports.edit = (req, res) => {
         })
         .then(options => {
             if(options.length === 0) {
-                return res.status(404).json({
-                    message: "No course options found"
-                }); 
+                return res.status(404).json({ message: "No course options found" }); 
             } else {
                 return callback(null, { classes, options });
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -185,9 +155,7 @@ exports.edit = (req, res) => {
         fetchCourseOptions
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(200).json(results);
         };
@@ -196,7 +164,7 @@ exports.edit = (req, res) => {
 
 exports.update = (req, res) => {
     const { classId } = req.params;
-    const { course, title, start, end, frequency, by, interval, location, description, createdAt } = req.body;
+    const { course, title, start, end, frequency, by, interval, location, description } = req.body;
 
     const matchTerm = callback => {
         Course.find({ _id: course }, {
@@ -206,17 +174,13 @@ exports.update = (req, res) => {
         .limit(1)
         .then(term => {
             if(!term) {
-                return res.status(404).json({
-                    message: "No terms found"
-                });
+                return res.status(404).json({ message: "Terms not found" });
             } else {
                 return callback(null, term[0].term);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         }); 
     };
 
@@ -228,33 +192,25 @@ exports.update = (req, res) => {
                 course,
                 title,
                 date: {
-                    start,
-                    end
+                    start: moment(start, "YYYY-MM-DD, hh:mm"),
+                    end: moment(end, "YYYY-MM-DD, hh:mm"),
                 },
                 frequency,
                 by,
                 interval,
                 location,
-                description,
-                meta: {
-                    createdAt,
-                    updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-                }
+                description
             }
         })
         .then(classes => {
             if(!classes) {
-                return res.status(404).json({
-                    message: err.message
-                });
+                return res.status(404).json({ message: "Class not found" });
             } else {
                 return callback(null, classes);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -263,9 +219,7 @@ exports.update = (req, res) => {
         updateClass
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(200).json(results);
         };
@@ -278,22 +232,16 @@ exports.delete = (req, res) => {
     Class.deleteOne({ _id: classId })
     .then(deletedClass => {
         if(!deletedClass) {
-            return res.status(404).json({
-                message: "Class not found"
-            });
+            return res.status(404).json({ message: "Class not found" });
         } else {
-            return callback(null);
+            return res.status(200).json({ message: "Class deleted" });
         };
     })
     .catch(err => {
         if(err.kind === "ObjectId" || err.name === "NotFound") {
-            return res.status(404).json({
-                message: "Class not found"
-            });
+            return res.status(404).json({ message: "Class not found" });
         } else {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         };
     });
 };

@@ -25,9 +25,7 @@ exports.create = (req, res) => {
 		});
 	})	
 	.catch(err => {
-		return res.status(500).json({
-			message: err.message
-		});
+		return res.status(500).json({ message: err.message });
 	});
 };
 
@@ -43,17 +41,13 @@ exports.read = (req, res) => {
 	.sort({ "date.start": -1 }) 
 	.then(terms => {
 		if(terms.length === 0) {
-			return res.status(404).json({
-				message: "Terms not found"
-			});
+			return res.status(404).json({ message: "No terms found" });
 		} else {
 			return res.status(200).json(terms);
 		};
 	})
 	.catch(err => {
-		return res.status(500).json({
-			message: err.message
-		});
+		return res.status(500).json({ message: err.message });
 	});
 };
 
@@ -67,29 +61,22 @@ exports.edit = (req, res) => {
 			_id: 1,
 			year: 1,
 			title: 1,
-			date: 1,
-			"meta.createdAt": 1
+			date: 1
 		})
 		.populate("year", [ "title" ])
 		.limit(1)
 		.then(term => {
 			if(term.length === 0) {
-				return res.status(404).json({
-					message: "Term not found" 
-				});
+				return res.status(404).json({ message: "Term not found" });
 			} else {
 				return callback(null, term[0]);
 			};
 		})
 		.catch(err => {
 			if(err.kind === "ObjectId") {
-				return res.status(404).json({
-					message: "Term not found" 
-				});
+				return res.status(404).json({ message: "Term not found" });
 			} else {
-				return res.status(500).json({
-					message: err.message
-				});
+				return res.status(500).json({ message: err.message });
 			};
 		});
 	};
@@ -107,17 +94,13 @@ exports.edit = (req, res) => {
 		.sort({ "date.start": -1 })
 		.then(options => {
 			if(options.length === 0) {
-				return res.status(404).json({
-					message: "Years not found"
-				});
+				return res.status(404).json({ message: "Years not found" });
 			} else {
 				return callback(null, { term, options });
 			};
 		})
 		.catch(err =>{
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		});
 	};
 
@@ -126,9 +109,7 @@ exports.edit = (req, res) => {
 		fetchYearOptions
 	], (err, results) => {
 		if(err) {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		} else {
 			return res.status(200).json(results);
 		};
@@ -137,7 +118,7 @@ exports.edit = (req, res) => {
 
 exports.update = (req, res) => {
 	const { termId } = req.params;
-	const { year, title, start, end, createdAt } = req.body;
+	const { year, title, start, end } = req.body;
 
 	Term.updateOne({ _id: termId }, {
 		$set: {
@@ -146,33 +127,21 @@ exports.update = (req, res) => {
 			date: {
 				start: moment(start, "YYYY-MM-DD"),
 				end: moment(end, "YYYY-MM-DD"),
-			},
-			meta: {
-				createdAt,
-				updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-			}	
+			}
 		}
 	})
 	.then(term => {
 		if(term.length === 0) {
-			return res.status(404).json({
-				message: "Term not found"
-			});
+			return res.status(404).json({ message: "Term not found" });
 		} else {
-			return res.status(200).json({
-				message: "Term updated"
-			});
+			return res.status(200).json({ message: "Term updated" });
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId") {
-			return res.status(404).json({
-				message: "Term not found"
-			});
+			return res.status(404).json({ message: "Term not found" });
 		} else {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		};
 	});
 	
@@ -184,24 +153,16 @@ exports.delete = (req, res) => {
 	Term.deleteOne({ _id: termId })
 	.then(deletedTerm => {
 		if(!deletedTerm) {
-			return res.status(404).json({
-				message: "Term not found"
-			});
+			return res.status(404).json({ message: "Term not found" });
 		} else {
-			return res.status(200).json({
-				message: "Term deleted"
-			});
+			return res.status(200).json({ message: "Term deleted" });
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId" || err.name === "NotFound") {
-			return res.status(404).json({
-				message: "Term not found"
-			});
+			return res.status(404).json({ message: "Term not found" });
 		} else {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		};
 	});
 };

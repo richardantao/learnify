@@ -38,9 +38,7 @@ exports.read = (req, res) => {
 	.sort({ "date.start": -1 })
 	.then(years => {
 		if(years.length === 0) {
-			return res.status(404).json({
-				message: "No years found"
-			});
+			return res.status(404).json({ message: "No years found" });
 		} else {
 			return res.status(200).json(years);
 		};
@@ -48,7 +46,6 @@ exports.read = (req, res) => {
 	.catch(err => {
 		return res.status(500).json({ message: err.message });
 	});
-	
 };
 
 exports.edit = (req, res) => {
@@ -57,8 +54,7 @@ exports.edit = (req, res) => {
 	Year.find({ _id: yearId }, {
 		_id: 1,
 		title: 1,
-		date: 1,
-		"meta.createdAt": 1
+		date: 1
 	})
 	.limit(1)
 	.then(year => {
@@ -82,7 +78,7 @@ exports.update = (req, res) => {
 	const _id = ObjectId("5deb33a40039c4286179c4f1"); // testing
 
 	const { yearId } = req.params;
-	const { title, start, end, createdAt } = req.body;
+	const { title, start, end } = req.body;
 
 	Year.updateOne({ _id: yearId }, {
 		$set: {
@@ -90,27 +86,19 @@ exports.update = (req, res) => {
 			date: {
 				start: moment(start, "YYYY-MM-DD"),
 				end: moment(end, "YYYY-MM-DD")
-			},
-			meta: {
-				createdAt,
-				updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
 			}
 		}
 	})
 	.then(year => {
 		if(year.length === 0) {
-			return res.status(404).json({
-				message: "Year not found"
-			});
+			return res.status(404).json({ message: "Year not found" });
 		} else {
 			return res.status(200).json({ message: "Year updated" });
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId") {
-			return res.status(404).json({
-				message: "Year not found"
-			});
+			return res.status(404).json({ message: "Year not found" });
 		} else {
 			return res.status(500).json({ message: err.message });
 		};

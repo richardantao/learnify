@@ -19,9 +19,7 @@ exports.create = (req, res) => {
             return callback(term[0].term);
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -40,9 +38,7 @@ exports.create = (req, res) => {
             return callback(null, task);
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -51,9 +47,7 @@ exports.create = (req, res) => {
         createTask
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(201).json(results);
         };
@@ -70,31 +64,19 @@ exports.read = (req, res) => {
         type: 1,
         deadline: 1,
         completion: 1,
-        description: 1,
-        meta: 1
+        description: 1
     })
     .populate("course", [ "title" ])
     .sort({ deadline: 1 })
-    .then(payload => {
-        if(payload.length === 0) {
-            return res.status(404).json({
-                message: "No tasks found"
-            });
+    .then(tasks => {
+        if(tasks.length === 0) {
+            return res.status(404).json({ message: "Tasks not found" });
         } else {
-            redis.setex(redisKey, 3600, JSON.stringify(payload));
-
-            const tasks = payload.map(task => {
-                delete task.meta;
-                return task;
-            });
-
             return res.status(200).json(tasks);
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     });
 };
 
@@ -114,62 +96,49 @@ exports.filter = (req, res) => {
     })
     .populate("course", [ "title" ])
     .sort({ deadline: 1 })
-    .then(payload => {
-        if(payload.length === 0) {
-            return res.status(404).json({
-                message: "No tasks found"
-            });
+    .then(tasks => {
+        if(tasks.length === 0) {
+            return res.status(404).json({ message: "No tasks found" });
         } else {
             return res.status(200).json(tasks);
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     });
 };
 
 exports.edit = (req, res) => {
     const { taskId } = req.params;
 
-    const fetchTask = callback => {
+    const getTask = callback => {
         Task.find({ _id: taskId }, {
             course: 1,
             title: 1,
             type: 1,
             deadline: 1,
             completion: 1,
-            description: 1,
-            meta: 1
+            description: 1
         })
         .populate("course", [ "title", "term" ])
         .limit(1)
         .then(task => {
             if(task.length === 0) {
-                return res.status(404).json({
-                    message: "Task not found"
-                });
-            } else {
-                redis.setex(JSON.stringify(task[0]._id), 3600, JSON.stringify(task[0]));
-                
+                return res.status(404).json({ message: "Task not found" });
+            } else {                
                 return callback(null, task[0]);
             };
         })
         .catch(err => {
             if(err.kind === "ObjectId") {
-                return res.status(404).json({
-                    message: "Task not found"
-                });
+                return res.status(404).json({ message: "Task not found" });
             } else {
-                return res.status(500).json({
-                    message: err.message
-                });
+                return res.status(500).json({ message: err.message });
             };
         });
     };
     
-    const getCourseOptions = (task, callback) => {
+    const fetchCourseOptions = (task, callback) => {
         Course.find({ 
             term: task.course.term,
             title: {
@@ -181,28 +150,22 @@ exports.edit = (req, res) => {
         .sort({ title: 1 })
         .then(options => {
             if(options.length === 0) {
-                return res.status(404).json({
-                    message: "No task options found"
-                });
+                return res.status(404).json({ message: "No task options found" });
             } else {
                 return callback(null, { task, options });
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
     async.waterfall([
-        fetchTask,
-        getCourseOptions
+        getTask,
+        fetchCourseOptions
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(200).json(results);
         };
@@ -211,7 +174,7 @@ exports.edit = (req, res) => {
 
 exports.update = (req, res) => {
     const { taskId } = req.params;
-    const { course, title, type, deadline, completion, description, createdAt } = req.body;
+    const { course, title, type, deadline, completion, description } = req.body;
 
     const matchTerm = callback => {
         Course.find({ _id: course }, {
@@ -221,17 +184,13 @@ exports.update = (req, res) => {
         .limit(1)
         .then(term => {
             if(term.length === 0) {
-                return res.status(404).json({
-                    message: "Could not find term"
-                });
+                return res.status(404).json({ message: "Term not found" });
             } else {
                 return callback(null, term[0].term);
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -244,31 +203,21 @@ exports.update = (req, res) => {
                 type, 
                 deadline: moment(deadline, "YYYY-MM-DD, hh:mm"), 
                 completion, 
-                description,
-                meta: {
-                    createdAt,
-                    updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-                }   
+                description
             }
         })
         .then(task => {
             if(!task) {
-                return res.status(404).json({
-                    message: "Task not found"
-                }); 
+                return res.status(404).json({ message: "Task not found" }); 
             } else {
                 return callback(null, task);
             };
         })
         .catch(err => {
             if(err.kind === "ObjectId") {
-                return res.status(404).json({
-                    message: "Task not found"
-                }); 
+                return res.status(404).json({ message: "Task not found" }); 
             } else {
-                return res.status(500).json({
-                    message: err.message
-                });
+                return res.status(500).json({ message: err.message});
             };
         });
     };
@@ -278,9 +227,7 @@ exports.update = (req, res) => {
         updateTask
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(200).json(results);
         };
@@ -293,24 +240,16 @@ exports.delete = (req, res) => {
     Task.deleteOne({ _id: taskId })
     .then(task => {
         if(!task) {
-            return res.status(404).json({
-                message: "Task not found"
-            });
+            return res.status(404).json({ message: "Task not found" });
         } else {
-            return res.status(200).json({
-                message: "Task deleted"
-            });
+            return res.status(200).json({ message: "Task deleted" });
         };
     })
     .catch(err => {
         if(err.kind === "ObjectId" || err.name === "NotFound") {
-            return res.status(404).json({
-                message: "Task not found"
-            });
+            return res.status(404).json({ message: "Task not found" });
         } else {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         };
     });
 };
