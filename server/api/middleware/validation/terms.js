@@ -25,11 +25,10 @@ module.exports =  (req, res, next) => {
         .toDate();
 
     if(!errors.isEmpty()) {
-        return res.status(400).json({
-            message: errors.msg
-        });
+        return res.status(400).json({ message: errors.msg });
+    } else if(moment(start, "YYYY-MM-DD") >= moment(end, "YYYY-MM-DD")) {
+        return res.status(400).json({ message: "Start date must come before End date" });
     } else {
-        // body if terms dates are within the years date
         Year.find({ _id: year }, {
             _id: 0,
             date: 1
@@ -45,9 +44,7 @@ module.exports =  (req, res, next) => {
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };    
 };
