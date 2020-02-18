@@ -13,11 +13,7 @@ const YearSchema = new Schema({
 	date: {
 		start: { type: Date, required: true },
 		end: { type: Date, required: true }
-    },
-	meta: {
-		createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
-		updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
-	}
+    }
 }, {
     versionKey: false
 });

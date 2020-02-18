@@ -3,16 +3,12 @@ require("dotenv").config();
 const Schema = require("mongoose").Schema;
 const model = require("mongoose").model;
 
-const sgMail = require('@sendgrid/mail');
-const user = process.env.AUTH_EMAIL;
-const sendGridKey = process.env.SENDGRID_API_KEY;
-
 const async = require("async");
 const moment = require("moment");
 
+const Class = require("./Classes");
 const Assessment = require("./Assessments");
 const Task = require("./Tasks");
-const Class = require("./Classes");
 
 const CourseSchema = new Schema({
 	_id: Schema.Types.ObjectId,
@@ -28,6 +24,59 @@ const CourseSchema = new Schema({
 	}
 }, {
 	versionKey: false
+});
+
+CourseSchema.post("updateOne", document => {
+	const course = document._id;
+	const term = document.term;
+	
+	async.parallel({
+		classes: callback => {
+			Class.updateMany({ course }, {
+				$set: {
+					term
+				}
+			})
+			.then(() => {
+				return callback(null, { classes: true });
+			})
+			.catch(err => {
+				new Error(err);
+			});
+		},
+		assessments: callback => {
+			Assessment.updateMany({ course }, {
+				$set: {
+					term
+				}
+			})
+			.then(() => {
+				return callback(null, { assessments: true });
+			})
+			.catch(err => {
+				new Error(err);
+			});
+		},
+		tasks: callback => {
+			Task.updateMany({ course }, {
+				$set: {
+					term
+				}
+			})
+			.then(() => {
+				return callback(null, { tasks: true });
+			})
+			.catch(err => {
+				new Error(err);
+			});
+		}
+	}, (err, results) => {
+		if(err) {
+			new Error(err);
+		} else {
+			console.log(results);
+		};
+	});	
 });
 
 CourseSchema.post("deleteOne", document => {
@@ -63,7 +112,7 @@ CourseSchema.post("deleteOne", document => {
 					})
 					.catch(err => {
 						new Error(err);
-					})
+					});
 				});
 				
 				return callback(null, { tasks: true });
@@ -88,32 +137,7 @@ CourseSchema.post("deleteOne", document => {
 		}
 	}, (err, results) => {
 		if(err) {
-			sgMail.setApiKey(sendGridKey);
-        
-			const mailOptions = {
-				from: user,
-				to: user,
-				subject: "Cascade Error: Deleting Course children",
-				html: `<!DOCTYPE HTML>
-				<html lang="en">
-					<head>
-						<meta charset="utf-8">
-						<style>
-							p {
-								font-size: 1.5em;
-							}
-						</style>
-					</head>
-					<body>
-						<p>	
-							${err.message}
-						</p>
-					</body>
-				</html>
-				`
-			};
-	
-			sgMail.send(mailOptions);
+			new Error(err);
 		} else {
 			console.log(`The following documents have been deleted: ${results}`);
 		};
@@ -121,4 +145,3 @@ CourseSchema.post("deleteOne", document => {
 });
 
 module.exports = model("courses", CourseSchema);
-	

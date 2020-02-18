@@ -3,8 +3,6 @@ const model = require("mongoose").model;
 
 const moment = require("moment");
 
-const ApplicantSchema = 
-
 module.exports = model("applicants", new Schema({
   _id: Schema.Types.ObjectId,
   first: { type: String, required: true },
@@ -19,10 +17,7 @@ module.exports = model("applicants", new Schema({
   portfolio: String,
   linkedin: String,
   other: String,
-  meta: {
-    createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
-    updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
-  }
+  date: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
 }, { 
   versionKey: false 
 }));

@@ -54,32 +54,7 @@ OrganizationSchema.post("deleteOne", document => {
         }
     }, (err, results) => {
         if(err) {
-            sgMail.setApiKey(sendGridKey);
-        
-            const mailOptions = {
-                from: user,
-                to: user,
-                subject: "Cascade Error: Deleting Organization's children",
-                html: `<!DOCTYPE HTML>
-                <html lang="en">
-                    <head>
-                        <meta charset="utf-8">
-                        <style>
-                            p {
-                                font-size: 1.5em;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <p>	
-                            ${err.message}
-                        </p>
-                    </body>
-                </html>
-                `
-            };
-
-            sgMail.send(mailOptions);
+            new Error(err);
         } else {
 			console.log(`The following documents have been deleted: ${results}`);
         };

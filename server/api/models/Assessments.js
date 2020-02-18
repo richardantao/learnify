@@ -5,7 +5,7 @@ const moment = require("moment");
 
 module.exports = model("assessments", new Schema({
 	_id: Schema.Types.ObjectId,
-	term: { type: Schema.Types.ObjectId, ref: "terms", required: true },
+	term: [ { type: Schema.Types.ObjectId, ref: "terms", required: true } ],
 	course: { type: Schema.Types.ObjectId, ref: "courses", required: true },
 	title: { type: String, required: true },
   	type: { type: String, required: true },
@@ -17,10 +17,6 @@ module.exports = model("assessments", new Schema({
 	grade: {
 		weight: { type: Number, min: [0, ""], max: [100, ""] },
   		score: { type: Number, min: [0, ""], max: [100, ""] }
-	},
-	meta: {
-		createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
-		updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
 	}
 }, {
 	versionKey: false
