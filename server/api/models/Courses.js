@@ -40,7 +40,13 @@ CourseSchema.post("deleteOne", document => {
 			})
 			.then(assessments => {
 				assessments.map(assessment => {
-					Assessment.findOneAndDelete({ _id: assessment._id});
+					Assessment.findOneAndDelete({ _id: assessment._id})
+					.then(() => {
+						return;
+					})
+					.catch(err => {
+						new Error(err);
+					});
 				});
 				return callback(null, { assessments: true });
 			})
@@ -51,8 +57,15 @@ CourseSchema.post("deleteOne", document => {
 			})
 			.then(tasks => {
 				tasks.map(task => {
-					Task.findOneAndDelete({ _id: task._id });
+					Task.findOneAndDelete({ _id: task._id })
+					.then(() => {
+						return;
+					})
+					.catch(err => {
+						new Error(err);
+					})
 				});
+				
 				return callback(null, { tasks: true });
 			})
 		},
@@ -62,7 +75,13 @@ CourseSchema.post("deleteOne", document => {
 			})
 			.then(classes => {
 				classes.map(classe => {
-					Class.findOneAndDelete({ _id: classe._id });
+					Class.findOneAndDelete({ _id: classe._id })
+					.then(() => {
+						return;
+					})
+					.catch(err => {
+						new Error(err);
+					});
 				});
 				return callback(null, { classes: true });
 			});
