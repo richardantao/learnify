@@ -27,7 +27,7 @@ module.exports =  (req, res, next) => {
     if(!errors.isEmpty()) {
         return res.status(400).json({ message: errors.msg });
     } else if(moment(start, "YYYY-MM-DD") >= moment(end, "YYYY-MM-DD")) {
-        return res.status(400).json({ message: "Start date must come before End date" });
+        return res.status(400).json({ message: "Start date must come before end date" });
     } else {
         Year.find({ _id: year }, {
             _id: 0,
@@ -37,7 +37,7 @@ module.exports =  (req, res, next) => {
         .then(yearRange => {
             if(moment(yearRange[0].date.start, "YYYY-MM-DD") > moment(start, "YYYY-MM-DD") || moment(yearRange[0].date.end, "YYYY-MM-DD") < moment(end, "YYYY-MM-DD")) {
                 return res.status(400).json({
-                    message: "The start and end date must be inside the dates of the year you have selected"
+                    message: "The start and end date must be inbetween the dates of the year you have selected"
                 });
             } else {
                 return next();
