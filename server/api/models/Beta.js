@@ -11,5 +11,5 @@ module.exports = model("beta", new Schema({
       createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
   }
 }, { 
-versionKey: false 
+  versionKey: false 
 }));

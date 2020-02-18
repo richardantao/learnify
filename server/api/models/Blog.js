@@ -13,4 +13,4 @@ module.exports = model("blog", new Schema({
 	}
 }, {
     versionKey: false
-}) );
+}));

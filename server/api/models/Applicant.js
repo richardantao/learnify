@@ -20,9 +20,9 @@ module.exports = model("applicants", new Schema({
   linkedin: String,
   other: String,
   meta: {
-  createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
-  updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
-}
+    createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
+    updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
+  }
 }, { 
   versionKey: false 
 }));

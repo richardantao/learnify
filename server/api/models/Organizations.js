@@ -1,11 +1,8 @@
 const Schema = require("mongoose").Schema;
 const model = require("mongoose").model;
 
+const async = require("async");
 const moment = require("moment");
-
-const sgMail = require("@sendgrid/mail");
-const user = process.env.AUTH_EMAIL;
-const sendGridKey = process.env.SENDGRID_API_KEY;
 
 const Group = require("./Groups");
 const Course = require("./Courses");
@@ -21,6 +18,12 @@ const OrganizationSchema = new Schema({
     }
 }, {
     versionKey: false
+});
+
+OrganizationSchema.post("updateOne", document => {
+    const organizationId = document._id;
+
+    
 });
 
 OrganizationSchema.post("deleteOne", document => {
