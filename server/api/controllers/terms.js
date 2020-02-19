@@ -32,12 +32,7 @@ exports.create = (req, res) => {
 exports.read = (req, res) => {
 	const { yearId } = req.params;
 
-	Term.find({ year: yearId }, {
-		_id: 1, 
-		year: 1,
-		title: 1,
-		date: 1
-	})
+	Term.find({ year: yearId })
 	.sort({ "date.start": -1 }) 
 	.then(terms => {
 		if(terms.length === 0) {
@@ -57,12 +52,7 @@ exports.edit = (req, res) => {
 	const { termId } = req.params;
 
 	const getTerm = callback => {
-		Term.find({ _id: termId }, {
-			_id: 1,
-			year: 1,
-			title: 1,
-			date: 1
-		})
+		Term.find({ _id: termId })
 		.populate("year", [ "title" ])
 		.limit(1)
 		.then(term => {
@@ -99,7 +89,7 @@ exports.edit = (req, res) => {
 				return callback(null, { term, options });
 			};
 		})
-		.catch(err =>{
+		.catch(err => {
 			return res.status(500).json({ message: err.message });
 		});
 	};
@@ -120,7 +110,7 @@ exports.update = (req, res) => {
 	const { termId } = req.params;
 	const { year, title, start, end } = req.body;
 
-	Term.updateOne({ _id: termId }, {
+	Term.findOneandUpdate({ _id: termId }, {
 		$set: {
 			year,
 			title,

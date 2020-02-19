@@ -5,7 +5,8 @@ module.exports = (req, res, next) => {
     const errors = validationResult(req);
     const { title, start, end } = req.body;
 
-    body(title, "Title field received an invalid input").isAlphanumeric().withMessage("The title can only include letters and numbers")
+    body(title, "Title field received an invalid input")
+        .isAlphanumeric().withMessage("The title can only include letters and numbers")
         .isLength({ min: 3, max: undefined }).withMessage("The title must be at least 3 characters")
         .escape();
         
@@ -15,7 +16,7 @@ module.exports = (req, res, next) => {
         .escape();
 
     body(end, "End date field received an invalid input")
-        .exists().withMessage("The end date is a required field")
+        .exists().withMessage("End date is a required field")
         .toDate()
         .escape();
 

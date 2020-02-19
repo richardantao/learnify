@@ -32,14 +32,11 @@ exports.read = (req, res) => {
 	const { termId } = req.params;
 
 	Course.find({ term: termId }, {
-		term: 1,
 		code: 1,
 		title: 1,
 		instructor: 1,
-		credit: 1,
-		meta: 1
+		credit: 1
 	})
-	.populate("term", [ "title" ])
 	.sort({ code: 1 })
 	.then(courses => {
 		if(courses.length === 0) {
@@ -65,7 +62,7 @@ exports.edit = (req, res) => {
 			credit: 1,
 			theme: 1
 		})
-		.populate("term", [ "title", "year" ])
+		.populate("term", [ "title" ])
 		.limit(1)
 		.then(course => {
 			if(course.length === 0) {

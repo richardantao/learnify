@@ -156,7 +156,7 @@ exports.update = (req, res) => {
         resolved
     };  
 
-    Bug.updateOne({ _id: bugId }, {
+    Bug.findOneandUpdate({ _id: bugId }, {
         $set: update
     })
     .then(bug => {

@@ -13,8 +13,8 @@ exports.create = (req, res) => {
 
     const matchTerm = callback => {
         Course.find({ _id: course }, {
-            term: 1,
-            _id: 0
+            _id: 0,
+            term: 1
         })
         .limit(1)
         .then(term => {
@@ -76,8 +76,7 @@ exports.read = (req, res) => {
         title: 1,
         type: 1,
         date: 1,
-        location: 1,
-        meta: 1
+        location: 1
     })
     .populate("course", [ "title" ])
     .sort({ "date.start": 1 })
@@ -108,8 +107,7 @@ exports.filter = (req, res) => {
         title: 1,
         type: 1,
         date: 1,
-        location: 1,
-        meta: 1
+        location: 1
     })
     .populate("course", [ "title" ])
     .sort({ "date.start": 1 })
@@ -208,7 +206,7 @@ exports.update = (req, res) => {
     };
 
     const updateAssessment = (term, callback) => {
-        Assessment.updateOne({ _id: assessmentId }, {
+        Assessment.findOneandUpdate({ _id: assessmentId }, {
             $set: {
                 term,
                 course,

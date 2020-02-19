@@ -178,7 +178,7 @@ exports.signin = (req, res) => {
                     message: "Wrong password. Try again or click Forgot Password to reset it."
                 });
             } else {
-                User.updateOne({ _id: user._id }, {
+                User.findOneandUpdate({ _id: user._id }, {
                     $set: {
                         meta: {
                             sessions: {
@@ -235,7 +235,7 @@ exports.verifyEmail = (req, res) => {
     };
 
     const setToVerified = (matchedToken, callback) => {
-        User.updateOne({ "email.token": matchedToken }, {
+        User.findOneandUpdate({ "email.token": matchedToken }, {
             $set: {
                 email: {
                     verified: true
@@ -274,7 +274,7 @@ exports.resendEmailVerification = (req, res) => {
     const newToken = crypto.randomBytes(16).toString("hex");
 
     // set the new token for the user with the requested email
-    User.updateOne({ "email.address": email }, {
+    User.findOneandUpdate({ "email.address": email }, {
         $set: {
             email: {
                 token: newToken
@@ -419,7 +419,7 @@ exports.resetPassword = (req, res) => {
                         message: err.message
                     });
                 } else {
-                    User.updateOne({ "password.token": token }, {
+                    User.findOneandUpdate({ "password.token": token }, {
                         $set: {
                             password: {
                                 hash

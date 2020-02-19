@@ -19,7 +19,8 @@ const YearSchema = new Schema({
 });
 
 // Data Integrity Update
-YearSchema.post("updateOne", document => {
+YearSchema.post("findOneAndUpdate", document => {
+    console.log(document);
     const yearId = document._id;
     const yearStart = moment(document.date.start, "YYYY-MM-DD");
     const yearEnd = moment(document.date.end, "YYYY-MM-DD");
@@ -49,6 +50,7 @@ YearSchema.post("updateOne", document => {
                     }
                 })
                 .then(term => {
+                    console.log(term);
                     return term;
                 })
                 .catch(err => {

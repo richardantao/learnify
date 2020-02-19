@@ -67,7 +67,7 @@ exports.edit = (req, res) => {
 exports.update = (req, res) => {
     const { } = req.body;
 
-    Feedback.updateOne({ }, {
+    Feedback.findOneandUpdate({ }, {
         $set: {
 
         }

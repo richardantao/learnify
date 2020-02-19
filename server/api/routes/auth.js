@@ -3,7 +3,7 @@ const auth = require("../middleware/auth");
 const validate = require("../middleware/validation/auth");
 const controller = require("../controllers/auth");
 
-router.get("/user", /*auth,*/ validate.user, controller.user);
+router.get("/user", /*auth,*/ controller.user);
 
 router.post("/register", validate.register, controller.register);
 

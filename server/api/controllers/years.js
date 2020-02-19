@@ -33,7 +33,7 @@ exports.read = (req, res) => {
 	Year.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
 		_id: 1,
 		title: 1,
-		date: 1,
+		date: 1
 	})
 	.sort({ "date.start": -1 })
 	.then(years => {
@@ -74,13 +74,10 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
-	// const { _id } = req.user; 
-	const _id = ObjectId("5deb33a40039c4286179c4f1"); // testing
-
 	const { yearId } = req.params;
 	const { title, start, end } = req.body;
 
-	Year.updateOne({ _id: yearId }, {
+	Year.findOneAndUpdate({ _id: yearId }, {
 		$set: {
 			title,
 			date: {
@@ -88,18 +85,24 @@ exports.update = (req, res) => {
 				end: moment(end, "YYYY-MM-DD")
 			}
 		}
+	}, {
+		returnNewDocument: true
 	})
 	.then(year => {
-		if(year.length === 0) {
+		if(!year) {
 			return res.status(404).json({ message: "Year not found" });
 		} else {
-			return res.status(200).json({ message: "Year updated" });
+			return res.status(200).json({ 
+				year,
+				message: "Year updated" 
+			});
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId") {
 			return res.status(404).json({ message: "Year not found" });
 		} else {
+			console.log(err);
 			return res.status(500).json({ message: err.message });
 		};
 	});
@@ -119,7 +122,7 @@ exports.delete = (req, res) => {
 	.catch(err => {
 		if(err.kind === "ObjectId" || err.name === "NotFound") {
 			return res.status(404).json({
-				message: "The server was unable to find the selected academic year"
+				message: "Year not found"
 			});
 		} else {
 			return res.status(500).json({ message: err.message });

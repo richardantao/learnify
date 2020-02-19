@@ -1,8 +1,6 @@
 const Schema = require("mongoose").Schema;
 const model = require("mongoose").model;
 
-const moment = require("moment");
-
 module.exports = model("tasks", new Schema({
 	_id: Schema.Types.ObjectId,
 	term: [ { type: Schema.Types.ObjectId, ref: "terms", required: true } ],

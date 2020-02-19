@@ -185,7 +185,7 @@ exports.update = (req, res) => {
     };
 
     const updateClass = (term, callback) => {
-        Class.updateOne({ _id: classId }, {
+        Class.findOneandUpdate({ _id: classId }, {
             $set: {
                 _id,
                 term,

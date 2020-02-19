@@ -260,7 +260,7 @@ TermSchema.post("updateOne", document => {
 	});	
 });
 
-TermSchema.post("deleteOne", document => {
+TermSchema.post("deleteMany" || "deleteOne", document => {
 	const termId = document._id;
 
 	Course.find({ term: termId }, {
@@ -274,11 +274,11 @@ TermSchema.post("deleteOne", document => {
 						term: termId
 					}
 				});
-				console.log(`Course with id ${course._id} deleted`);
 			} else {	
 				Course.findOneAndDelete({ _id: course._id });
-				console.log(`Course with id ${course._id} deleted`);
 			};
+
+			console.log(`Course with id ${course._id} deleted`);
 		});
 	})
 	.catch(err => {

@@ -16,6 +16,7 @@ exports.create = (req, res) => {
         })
         .limit(1)
         .then(term => {
+            console.log("Found matching term: " + term[0].term)
             return callback(term[0].term);
         })
         .catch(err => {
@@ -26,7 +27,7 @@ exports.create = (req, res) => {
     const createTask = (term, callback) => {
         Task.create({
             _id: ObjectId(),
-            term: term,
+            term,
             course,
             title,
             type,
@@ -35,6 +36,7 @@ exports.create = (req, res) => {
             description
         })
         .then(task => {
+            console.log("Created task: " + task);
             return callback(null, task);
         })
         .catch(err => {
@@ -91,8 +93,7 @@ exports.filter = (req, res) => {
         type: 1,
         deadline: 1,
         completion: 1,
-        description: 1,
-        meta: 1
+        description: 1
     })
     .populate("course", [ "title" ])
     .sort({ deadline: 1 })
@@ -195,7 +196,7 @@ exports.update = (req, res) => {
     };
 
     const updateTask = (term, callback) => {
-        Task.updateOne({ _id: taskId }, {
+        Task.findOneandUpdate({ _id: taskId }, {
             $set: {
                 term,
                 course,
