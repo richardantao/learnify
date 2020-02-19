@@ -111,19 +111,17 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 	const { yearId } = req.params;
 
-	Year.deleteOne({ _id: yearId })
+	Year.findOneandDelete({ _id: yearId })
 	.then(year => {
 		if(!year) {
 			return res.status(404).json({ message: "Year not found" });
 		} else {
-			return res.status(200).json({ message: "Year deleted" });
+			return res.status(200).json({ message: "Year delete" });
 		};
 	})
 	.catch(err => {
 		if(err.kind === "ObjectId" || err.name === "NotFound") {
-			return res.status(404).json({
-				message: "Year not found"
-			});
+			return res.status(404).json({ message: "Year not found" });
 		} else {
 			return res.status(500).json({ message: err.message });
 		};

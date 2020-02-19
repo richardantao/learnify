@@ -227,7 +227,10 @@ exports.update = (req, res) => {
             if(!assessment) {
                 return res.status(404).json({ message: "No assessment found" });
             } else {
-                return callback(null, assessment);
+                return callback(null, {
+                    assessment,
+                    message: "Assessment updated"
+                });
             };
         })
         .catch(err => {
@@ -250,12 +253,12 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const { assessmentId } = req.params;
 
-    Assessment.deleteOne({ _id: assessmentId })
+    Assessment.findOneAndDelete({ _id: assessmentId })
     .then(assessment => {
         if(!assessment) {
             return res.status(404).json({ message: "Assessment not found" });
         } else {
-            return res.status(200).json({ message: err.message });
+            return res.status(200).json({ message: "Assessment deleted" });
         };
     })
     .catch(err => {

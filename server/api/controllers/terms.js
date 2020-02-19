@@ -121,10 +121,13 @@ exports.update = (req, res) => {
 		}
 	})
 	.then(term => {
-		if(term.length === 0) {
+		if(!term) {
 			return res.status(404).json({ message: "Term not found" });
 		} else {
-			return res.status(200).json({ message: "Term updated" });
+			return res.status(200).json({ 
+				term,
+				message: "Term updated" 
+			});
 		};
 	})
 	.catch(err => {
@@ -140,9 +143,9 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 	const { termId } = req.params;
 
-	Term.deleteOne({ _id: termId })
-	.then(deletedTerm => {
-		if(!deletedTerm) {
+	Term.findOneAndDelete({ _id: termId })
+	.then(term => {
+		if(!term) {
 			return res.status(404).json({ message: "Term not found" });
 		} else {
 			return res.status(200).json({ message: "Term deleted" });

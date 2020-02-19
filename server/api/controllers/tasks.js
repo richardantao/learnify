@@ -211,7 +211,10 @@ exports.update = (req, res) => {
             if(!task) {
                 return res.status(404).json({ message: "Task not found" }); 
             } else {
-                return callback(null, task);
+                return callback(null, { 
+                    task,
+                    message: "Task updated"
+                });
             };
         })
         .catch(err => {
@@ -238,7 +241,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const { taskId } = req.params;
 
-    Task.deleteOne({ _id: taskId })
+    Task.findOneAndDelete({ _id: taskId })
     .then(task => {
         if(!task) {
             return res.status(404).json({ message: "Task not found" });

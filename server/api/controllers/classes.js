@@ -206,7 +206,10 @@ exports.update = (req, res) => {
             if(!classes) {
                 return res.status(404).json({ message: "Class not found" });
             } else {
-                return callback(null, classes);
+                return callback(null, { 
+                    classes,
+                    message: "Class updated"
+                });
             };
         })
         .catch(err => {
@@ -229,7 +232,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const classId = req.params;
     
-    Class.deleteOne({ _id: classId })
+    Class.findOneAndDelete({ _id: classId })
     .then(deletedClass => {
         if(!deletedClass) {
             return res.status(404).json({ message: "Class not found" });

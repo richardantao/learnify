@@ -115,7 +115,7 @@ exports.update = (req, res) => {
 	const { courseId } = req.params;
 	const { term, code, title, credit, instructor, theme } = req.body;
 	
-	Course.updateOne({ _id: courseId }, {
+	Course.findOneAndUpdate({ _id: courseId }, {
 		$set: {
 			_id: courseId,
 			term,
@@ -130,7 +130,10 @@ exports.update = (req, res) => {
 		if(!course) {
 			return res.status(404).json({ message: "No course found" });
 		} else {
-			return res.status(200).json({ message: "Course updated" });
+			return res.status(200).json({ 
+				course,
+				message: "Course updated" 
+			});
 		};
 	})
 	.catch(err => {		
@@ -141,7 +144,7 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
 	const { courseId } = req.params;
 
-	Course.deleteOne({ _id: courseId })
+	Course.findOneAndDelete({ _id: courseId })
 	.then(course => {
 		if(!course) {
 			return res.status(404).json({ message: "Course not found" });
