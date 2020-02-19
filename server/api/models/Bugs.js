@@ -6,7 +6,7 @@ const moment = require("moment");
 module.exports = model("bugs", new Schema({
     _id: Schema.Types.ObjectId,
     user: { type: Schema.Types.ObjectId, ref: "users" },
-    where: { type: String, required: true },
+    where: [ { type: String, required: true } ],
     type: { type: String, required: true },
     message: { type: String, required: true },
     meta: {
