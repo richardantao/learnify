@@ -27,7 +27,7 @@
   "homepage": "https://github.com/richardantao/learnify#readme",
   "dependencies": {
     "@google-cloud/storage": "^4.3.1",
-    "@sendgrid/mail": "^6.5.2",
+    "@sendgrid/mail": "^6.5.3",
     "async": "^3.1.0",
     "axios": "^0.19.1",
     "bcryptjs": "^2.4.3",
