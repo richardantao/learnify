@@ -10,7 +10,7 @@ router.post("/assessments", /*auth,*/ validation, controller.create);
 router.get("/terms/:termId/assessments?current&limit", /*auth,*/ controller.read);
 
 // get all the assessments for a course
-router.get("/courses/:courseId/assessments?current&limit", /*auth,*/ controller.filter);
+router.get("/courses/:courseId/assessments?current", /*auth,*/ controller.filter);
 
 // get one assessment
 router.get("/assessments/:assessmentId", /*auth,*/ controller.edit);
