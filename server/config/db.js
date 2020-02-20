@@ -8,8 +8,7 @@ const options = {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    
-    //useFindAndModify: false,
+    useFindAndModify: false,
     //autoIndex: false, // Don't build indexes
     //reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
     //poolSize: 10, // Maintain up to 10 socket connections
