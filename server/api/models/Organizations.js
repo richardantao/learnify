@@ -20,36 +20,76 @@ const OrganizationSchema = new Schema({
     versionKey: false
 });
 
-OrganizationSchema.post("updateOne", document => {
-    const organizationId = document._id;
+OrganizationSchema.post("findOneAndUpdate", ({ _id }) => {
+    const organization = _id;
 
-    
+    Course.updateMany({ organization }, {
+
+    })
+    .then(courses => {
+        return callback(
+            null,
+            `${courses.modifiedCount} groups have been updated upon the update of 
+            organizatio-${organization}`
+        );
+    })
+    .catch(err => {
+        new Error(err);
+    });
+
+    Group.updateMany({ organization }, {
+
+    })
+    .then(groups => {
+        return callback(
+            null,
+            `${groups.modifiedCount} groups have been updated upon the update of 
+            organizatio-${organization}`
+        );
+    })
+    .catch(err => {
+        new Error(err);
+    });
+
+    async.parallel([
+
+    ], (err, results) => {
+        if(err) {
+            new Error(err);
+        } else {
+            console.log(results);
+        }
+    });
 });
 
-OrganizationSchema.post("deleteOne", document => {
-    const organizationId = document._id;
+OrganizationSchema.post("findOneAndDelete", ({ _id }) => {
+    const organization = _id;
 
     async.parallel({
         groups: callback => {
-            Group.find({ organization: organizationId }, {
-                _id: 1
-            })
+            Group.deleteMany({ organization })
             .then(groups => {
-                groups.map(({ _id }) => {
-                    Group.findOneAndDelete({ _id });
-                });
-                return callback(null, { groups: true });
+                return callback(
+                    null,
+                    `${groups.deletedCount} groups have been cascade deleted upon the termination
+                    of organization-${organization}`
+                );
+            })
+            .catch(err => {
+                new Error(err);
             });
         },
         courses: callback => {
-            Course.find({ organization: organizationId }, {
-                _id: 1
+            Course.deleteMany({ organization })
+            .then(courses => {
+                return callback(
+                    null,
+                    `${courses.deletedCount} groups have been deleted upon the termination
+                    of organization-${organization}`
+                );
             })
-            then(courses => {
-                courses.map(({ _id }) => {
-                   Course.findOneAndDelete({ _id }) 
-                });
-                return callback(null, { courses: true });
+            .catch(err => {
+                new Error(err);
             });
         }
     }, (err, results) => {

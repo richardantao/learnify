@@ -17,18 +17,13 @@ const CourseSchema = new Schema({
 	title: { type: String, required: true },
 	credit: { type: Number, required: true },
 	instructor: String,
-	theme: { type: String, default: "#00A6FF" }, 
-	meta: {
-		createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
-		updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
-	}
+	theme: { type: String, default: "#00A6FF" }
 }, {
 	versionKey: false
 });
 
-CourseSchema.post("updateOne", document => {
-	const course = document._id;
-	const term = document.term;
+CourseSchema.post("findOneAndUpdate", ({ _id, term }) => {
+	const course = _id;
 	
 	async.parallel({
 		classes: callback => {
@@ -37,8 +32,11 @@ CourseSchema.post("updateOne", document => {
 					term
 				}
 			})
-			.then(() => {
-				return callback(null, { classes: true });
+			.then(classes => {
+				return callback(
+					null,
+					`${classes.nModified} termId updates after the update of course-${course}`
+				);
 			})
 			.catch(err => {
 				new Error(err);
@@ -50,8 +48,11 @@ CourseSchema.post("updateOne", document => {
 					term
 				}
 			})
-			.then(() => {
-				return callback(null, { assessments: true });
+			.then(assessments => {
+				return callback(
+					null,
+					`${assessments.nModified} termId updates after the update of course-${course}`
+				);
 			})
 			.catch(err => {
 				new Error(err);
@@ -63,8 +64,11 @@ CourseSchema.post("updateOne", document => {
 					term
 				}
 			})
-			.then(() => {
-				return callback(null, { tasks: true });
+			.then(tasks => {
+				return callback(
+					null,
+					`${tasks.nModified} termId updates after the update of course-${course}`
+				);
 			})
 			.catch(err => {
 				new Error(err);
@@ -79,67 +83,51 @@ CourseSchema.post("updateOne", document => {
 	});	
 });
 
-CourseSchema.post("deleteOne", document => {
-	const courseId = document._id;
+CourseSchema.post("findOneAndDelete", ({ _id }) => {
+	const course = _id;
 
 	async.parallel({
+		classes: callback => {
+			Class.deleteMany({ course })
+			.then(classes => {
+				return callback(
+					null,
+					`${classes.deletedCount} have been cascade deleted from the termination of course-${course}`
+				);
+			})
+			.catch(err => {
+				new Error(err);
+			});
+		},
 		assessments: callback => {
-			Assessment.find({ course: courseId }, {
-				_id: 1
-			})
+			Assessment.deleteMany({ course })
 			.then(assessments => {
-				assessments.map(assessment => {
-					Assessment.findOneAndDelete({ _id: assessment._id})
-					.then(() => {
-						return;
-					})
-					.catch(err => {
-						new Error(err);
-					});
-				});
-				return callback(null, { assessments: true });
+				return callback(
+					null, 
+					`${assessments.deletedCount} have been cascade deleted from the termination of course-${course}`
+				);
 			})
+			.catch(err => {
+				new Error(err);
+			});
 		},
 		tasks: callback => {
-			Task.find({ course: courseId }, {
-				_id: 1
-			})
+			Task.deleteMany ({ course })
 			.then(tasks => {
-				tasks.map(task => {
-					Task.findOneAndDelete({ _id: task._id })
-					.then(() => {
-						return;
-					})
-					.catch(err => {
-						new Error(err);
-					});
-				});
-				
-				return callback(null, { tasks: true });
+				return callback(
+					null,
+					`${tasks.deletedCount} have been cascade deleted from the termination of course-${course}`
+				);
 			})
-		},
-		classes: callback => {
-			Class.find({ course: courseId }, {
-				_id: 1
-			})
-			.then(classes => {
-				classes.map(classe => {
-					Class.findOneAndDelete({ _id: classe._id })
-					.then(() => {
-						return;
-					})
-					.catch(err => {
-						new Error(err);
-					});
-				});
-				return callback(null, { classes: true });
+			.catch(err => {
+				new Error(err);
 			});
 		}
 	}, (err, results) => {
 		if(err) {
 			new Error(err);
 		} else {
-			console.log(`The following documents have been deleted: ${results}`);
+			console.log(results);
 		};
 	});
 });

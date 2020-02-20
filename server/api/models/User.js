@@ -6,10 +6,6 @@ const model = require("mongoose").model;
 const crypto = require("crypto");
 const moment = require("moment");
 
-const sgMail = require('@sendgrid/mail');
-const user = process.env.AUTH_EMAIL;
-const sendGridKey = process.env.SENDGRID_API_KEY;
-
 const Year = require("./Years");
 
 const UserSchema = new Schema({
@@ -59,39 +55,20 @@ UserSchema.post("findByIdAndDelete", document => {
         _id: 1
     })
     .then(years => {
-        years.map(year => {
-            Year.findOneAndDelete({ _id: year._id })
+        years.map(({ _id }) => {
+            Year.findOneAndDelete({ _id })
+            .then(() => {
+                return;
+            })
+            .catch(err => {
+                new Error(`Error occured when deleting year.${_id} during a User cascade delete : ${err}`);
+            });
         });
         
         return;
     })
     .catch(err => {
-        sgMail.setApiKey(sendGridKey);
-        
-        const mailOptions = {
-            from: user,
-            to: user,
-            subject: "Cascade Error: Deleting User children",
-            html: `<!DOCTYPE HTML>
-            <html lang="en">
-                <head>
-                    <meta charset="utf-8">
-                    <style>
-                        p {
-                            font-size: 1.5em;
-                        }
-                    </style>
-                </head>
-                <body>
-                    <p>	
-                        ${err.message}
-                    </p>
-                </body>
-            </html>
-            `
-        };
-        
-        sgMail.send(mailOptions);
+        new Error(`Error occured during cascade delete: ${err}`);
     });
 });
 

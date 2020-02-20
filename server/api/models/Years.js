@@ -19,14 +19,13 @@ const YearSchema = new Schema({
 });
 
 // Data Integrity Update
-YearSchema.post("findOneAndUpdate", document => {
-    console.log(document);
-    const yearId = document._id;
-    const yearStart = moment(document.date.start, "YYYY-MM-DD");
-    const yearEnd = moment(document.date.end, "YYYY-MM-DD");
+YearSchema.post("findOneAndUpdate", ({ _id, date: { start, end } }) => {
+    const year = _id;
+    const yearStart = moment(start, "YYYY-MM-DD");
+    const yearEnd = moment(end, "YYYY-MM-DD");
 
     const findTerms = callback => {
-        Term.find({ year: yearId }, {
+        Term.find({ year }, {
             _id: 1,
             date: 1
         })
@@ -38,55 +37,66 @@ YearSchema.post("findOneAndUpdate", document => {
         });
     };
 
-    const checkStartDates = (dates, callback) => {
-        const terms = dates.map(term => {
-            if(term.date.start < yearStart) {
-                Term.updateOne({ _id: term._id }, {
-                    $set: {
-                        date: {
-                            start: yearStart,
-                            end: term.end
+    const checkStartDates = (terms, callback) => {
+        if(terms.length === 0) {
+            return callback(null, null);
+        } else {
+            terms.map(({ _id, date: { start, end } }) => {
+                if(start < yearStart) {
+                    Term.findOneAndUpdate({ _id }, {
+                        $set: {
+                            date: {
+                                start: yearStart,
+                                end
+                            }
                         }
-                    }
-                })
-                .then(term => {
-                    console.log(term);
-                    return term;
-                })
-                .catch(err => {
-                    new Error(`Error when checking the dates for Year/Terms date integrity: ${err}`);
-                });
-            } else {
-                return term;
-            };
-
+                    }, {
+                        returnNewDocument: true
+                    })
+                    .then(term => {
+                        return term;
+                    })
+                    .catch(err => {
+                        new Error(`Error when checking the dates for Year/Terms date integrity: ${err}`);
+                    });
+                } else {
+                    return ({ _id, date: { start, end } });
+                };
+            });
+            
             return callback(null, terms);
-        });        
+        };
     };
 
-    checkEndDates = (dates, callback) => {
-        const terms = dates.map(term => {
-            if(term.date.end > yearEnd) {
-                Term.updateOne({ _id: term._id }, {
-                    $set: {
-                        date: {
-                            start: term.start,
-                            end: yearEnd
+    checkEndDates = (terms, callback) => {
+        if(!terms) {
+            return callback(null, "No terms to update");
+        } else {
+            terms.map(({ _id, date: { start, end } }) => {
+                if(end > yearEnd) {
+                    Term.findOneAndUpdate({ _id }, {
+                        $set: {
+                            date: {
+                                start,
+                                end: yearEnd
+                            }
                         }
-                    }
-                })
-                .then(term => {
-                    return term;
-                })
-                .catch(err => {
-                    new Error(`Error when checking the dates for Year/Terms date integrity: ${err}`);
-                });
-            } else {
-                return term;
-            };
-        });
-
-        return callback(null, terms);
+                    }, {
+                        returnNewDocument: true
+                    })
+                    .then(term => {
+                        return term;
+                    })
+                    .catch(err => {
+                        new Error(`Error when checking the dates for Year/Terms date integrity: ${err}`);
+                    });
+                } else {
+                    return ({ _id, date: { start, end } });
+                };
+            });
+    
+            return callback(null, "Terms checked and updated");
+        };
     };  
 
     async.waterfall([
@@ -103,16 +113,42 @@ YearSchema.post("findOneAndUpdate", document => {
 });
 
 // Cascade delete
-YearSchema.post("deleteOne", document => {
-	const yearId = document._id;
+YearSchema.post("findOneAndDelete", ({ _id }) => {
+    const year = _id;
 
-	Term.deleteMany({ year: yearId })
-	.then(() => {
-		console.log(`Term(s) with year(_id) ${yearId} deleted`);
-	})
-	.catch(err => {
-		new Error(`Error from Years cascade delete: ${err}`);
-	});
+    async.waterfall({
+        findTerms: callback => {
+            Term.find({ year })
+            .then(terms => {
+                return callback(null, terms);
+            })
+            .catch(err => {
+                new Error(err);
+            })
+        },
+        deleteTerms: (terms, callback) => {
+            terms.map(({ _id }) => {
+                Term.findOneAndDelete({ _id })
+                .then(term => {
+                    return term;
+                })
+                .catch(err => {
+                    new Error(`Error from Years cascade delete: ${err}`);
+                });
+
+                console.log(`Term belonging to year-${year} deleted`);
+                return;
+            });
+
+            return callback(null, `Cascade delete for year-${year} complete`);
+        }
+    }, (err, results) => {
+        if(err) {
+            new Error(err);
+        } else {
+            console.log(results);
+        };
+    });
 });
 
 module.exports = model("years", YearSchema);

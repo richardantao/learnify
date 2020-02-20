@@ -23,13 +23,13 @@ const TermSchema = new Schema({
 	versionKey: false
 });
 
-TermSchema.post("updateOne", document => {
-	const termId = document._id;
-	const termStart = moment(document.date.start, "YYYY-MM-DD");
-	const termEnd = moment(document.date.end, "YYYY-MM-DD");
+TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
+	const term = _id;
+	const termStart = moment(start, "YYYY-MM-DD");
+	const termEnd = moment(end, "YYYY-MM-DD");
 
 	const getClasses = callback => {
-		Class.find({ term: termId }, {
+		Class.find({ term }, {
 			_id: 1,
 			"": 1
 		})
@@ -41,19 +41,21 @@ TermSchema.post("updateOne", document => {
 		})
 	};
 
-	const compareClassStartDate = (dates, callback) => {
-		if(dates === undefined) {
+	const compareClassStartDate = (classes, callback) => {
+		if(classes === undefined) {
 			return callback(null);	
 		} else {
-			const classes = dates.map(classe => {
-				if(classe.date.start < termStart) {
-					Class.updateOne({ _id: classe._id }, {
+			classes.map(({ _id, date: { start, end } }) => {
+				if(start < termStart) {
+					Class.findOneAndUpdate({ _id }, {
 						$set: {
 							date: {
 								start: termStart,
-								end: classe.date.end
+								end
 							}
 						}
+					}, {
+						returnNewDocument: true
 					})
 					.then(classe => {
 						return classe;
@@ -62,27 +64,29 @@ TermSchema.post("updateOne", document => {
 						new Error(err);
 					});
 				} else {
-					return classe;
+					return ({ _id, date: { start, end } });
 				};
 			});
 
-			return callback(null, classes);
+			return callback(null, dates);
 		};
 	};
 
-	const compareClassEndDate = (dates, callback) => {
-		if(dates === null) {
+	const compareClassEndDate = (classes, callback) => {
+		if(classes === null) {
 			return callback(null);	
 		} else {
-			const classes = dates.map(classe => {
-				if(classe.date.start > termEnd) {
-					Class.updateOne({ _id: classe._id }, {
+			classes.map(({ _id, date: { start, end } }) => {
+				if(end > termEnd) {
+					Class.findOneAndUpdate({ _id }, {
 						$set: {
 							date: {
-								start: classe.date.start,
+								start,
 								end: termEnd
 							}
 						}
+					}, {
+						returnNewDocument: true
 					})
 					.then(classe => {
 						return classe;
@@ -91,7 +95,7 @@ TermSchema.post("updateOne", document => {
 						new Error(err);
 					});
 				} else {
-					return classe;
+					return ({ _id, date: { start, end } });
 				};
 			});
 
@@ -100,7 +104,7 @@ TermSchema.post("updateOne", document => {
 	};
 
 	const getAssessments = callback => {
-		Assessment.find({ term: termId }, {
+		Assessment.find({ term }, {
 			_id: 1,
 			date: 1
 		})
@@ -112,19 +116,21 @@ TermSchema.post("updateOne", document => {
 		});
 	};
 
-	compareAssessmentStartDate = (dates, callback) => {
-		if(dates === undefined) {
+	compareAssessmentStartDate = (assessments, callback) => {
+		if(assessments === undefined) {
 			return callback(null);	
 		} else {
-			const assessments = dates.map(assessment => {
-				if(assessment.date.start < termStart) {
-					Assessment.updateOne({ _id: assessment._id }, {
+			assessments.map(({ _id, date: { start, end} }) => {
+				if(start < termStart) {
+					Assessment.findOneAndUpdate({ _id }, {
 						$set: {
 							date: {
 								start: termStart,
-								end: assessment.date.end
+								end
 							}
 						}
+					}, {
+						returnNewDocument: true
 					})
 					.then(assessment => {
 						return assessment;
@@ -133,7 +139,7 @@ TermSchema.post("updateOne", document => {
 						new Error(err);
 					});
 				} else {
-					return assessment;
+					return ({ _id, date: { start, end } });
 				};
 			});
 
@@ -141,19 +147,21 @@ TermSchema.post("updateOne", document => {
 		};
 	};
 
-	const compareAssessmentEndDate = (dates, callback) => {
-		if(dates === null) {
+	const compareAssessmentEndDate = (assessments, callback) => {
+		if(assessments === null) {
 			return callback(null);	
 		} else {
-			const assessments = dates.map(assessment => {
-				if(assessment.date.end > termEnd) {
-					Assessment.updateOne({ _id: assessment._id }, {
+			assessments.map(({ _id, date: { start, end } }) => {
+				if(end > termEnd) {
+					Assessment.findOneAndUpdate({ _id }, {
 						$set: {
 							date: {
-								start: assessment.date.start,
+								start,
 								end: termEnd
 							}
 						}
+					}, {
+						returnNewDocument: true
 					})
 					.then(assessment => {
 						return assessment;
@@ -162,7 +170,7 @@ TermSchema.post("updateOne", document => {
 						new Error(err);
 					});
 				} else {
-					return assessment;
+					return ({ _id, date: { start, end } });
 				};
 			});
 
@@ -183,16 +191,18 @@ TermSchema.post("updateOne", document => {
 		});
 	};
 
-	const compareTaskStartDate = (dates, callback) => {
-		if(dates === undefined) {
+	const compareTaskStartDate = (tasks, callback) => {
+		if(tasks === undefined) {
 			return callback(null);	
 		} else {
-			const tasks = dates.map(task => {
-				if(task.deadline < termStart) {
-					Task.updateOne({ _id: task._id }, {
+			tasks.map(({ _id, deadline }) => {
+				if(deadline < termStart) {
+					Task.findOneAndUpdate({ _id }, {
 						$set: {
 							deadline: termStart
 						}
+					}, {
+						returnNewDocument: true
 					})
 					.then(task => {
 						return task;
@@ -201,7 +211,7 @@ TermSchema.post("updateOne", document => {
 						new Error(err);
 					});
 				} else {
-					return task;
+					return ({ _id, deadline });
 				};
 			});
 
@@ -209,16 +219,18 @@ TermSchema.post("updateOne", document => {
 		};
 	};
 
-	compareTaskEndDate = (dates, callback) => {
-		if(dates === null) {
+	compareTaskEndDate = (tasks, callback) => {
+		if(tasks === null) {
 			return callback(null);	
 		} else {
-			const tasks = dates.map(task => {
-				if(task.deadline > termEnd) {
-					Task.updateOne({ _id: task._id }, {
+			tasks.map(({ _id, deadline }) => {
+				if(deadline > termEnd) {
+					Task.findOneAndUpdate({ _id }, {
 						$set: {
 							deadline: termEnd
 						}
+					}, {
+						returnNewDocument: true
 					})
 					.then(task => {
 						return task;
@@ -227,7 +239,7 @@ TermSchema.post("updateOne", document => {
 						new Error(err);
 					})
 				} else {
-					return task;
+					return ({ _id, deadline });
 				};
 			});
 
@@ -240,17 +252,35 @@ TermSchema.post("updateOne", document => {
 			getClasses,
 			compareClassStartDate,
 			compareClassEndDate
-		]),
+		], (err, callback) => {
+			if(err) {
+				new Error(err);
+			} else {	
+				return callback(null, "Classes have been checked and updated accordingly");
+			};
+		}),
 		assessments: async.waterfall([
 			getAssessments,
 			compareAssessmentStartDate,
 			compareAssessmentEndDate
-		]),
+		], (err, callback) => {
+			if(err) {
+				new Error(err);
+			} else {	
+				return callback(null, "Assessments have been checked and updated accordingly");
+			};
+		}),
 		tasks: async.waterfall([
 			getTasks,
 			compareTaskStartDate,
 			compareTaskEndDate
-		])
+		], (err, callback) => {
+			if(err) {
+				new Error(err);
+			} else {	
+				return callback(null, "Tasks have been checked and updated accordingly");
+			};
+		})
 	}, (err, results) => {
 		if(err) {
 			new Error();
@@ -260,31 +290,46 @@ TermSchema.post("updateOne", document => {
 	});	
 });
 
-TermSchema.post("deleteMany" || "deleteOne", document => {
-	const termId = document._id;
+TermSchema.post("findOneAndDelete", ({ _id }) => {
+	const term = _id;
 
-	Course.find({ term: termId }, {
+	Course.find({ term }, {
 		_id: 1
 	})
 	.then(courses => {
-		courses.map(course => {
-			if(course.term.length > 1) {
-				Course.updateOne({ _id: course._id }, {
+		courses.map(({ _id, term }) => {
+			if(term.length > 1) {
+				Course.findOneAndUpdate({ _id }, {
 					$pull: {
-						term: termId
+						term
 					}
+				}, {
+					returnNewDocument: true
+				})
+				.then(course => {
+					return course;
+				})
+				.catch(err => {
+					new Error(err);
 				});
 			} else {	
-				Course.findOneAndDelete({ _id: course._id });
+				Course.findOneAndDelete({ _id })
+				.then(course => {
+					return course;
+				})
+				.catch(err => {
+					new Error(err);
+				});
 			};
 
 			console.log(`Course with id ${course._id} deleted`);
 		});
+
+		return;
 	})
 	.catch(err => {
-		new Error(`...: ${err}`)
+		new Error(`Error occured during Term cascade delete: ${err}`)
 	});
 });
 
 module.exports = model("terms", TermSchema);
-	
