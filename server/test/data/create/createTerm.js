@@ -40,7 +40,7 @@ exports.noEnd = {
 const firstTerm = {
     "year": "5e4c47b5a29d3caa5a0f0339",
     "title": "Fall 2019",
-	"start": "2019-09-05",
+	"start": "2019-09-07",
 	"end": "2019-12-20"
 };
 
@@ -48,7 +48,7 @@ const secondTerm = {
     "year": "5e4c47b5a29d3caa5a0f0339",
     "title": "Spring 2020",
 	"start": "2020-01-06",
-	"end": "2020-04-27"
+	"end": "2020-04-26"
 };
 
 const fakeTerm = {
