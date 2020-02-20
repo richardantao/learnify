@@ -40,7 +40,7 @@ exports.read = (req, res) => {
 	.sort({ code: 1 })
 	.then(courses => {
 		if(courses.length === 0) {
-			return res.status(404).json({ message: "No courses found" });
+			return res.status(404).json({ message: "Courses not found" });
 		} else {
 			return res.status(200).json(courses);
 		};
@@ -62,7 +62,7 @@ exports.edit = (req, res) => {
 			credit: 1,
 			theme: 1
 		})
-		.populate("term", [ "title" ])
+		.populate("term", [ "title", "year" ])
 		.limit(1)
 		.then(course => {
 			if(course.length === 0) {
@@ -117,7 +117,6 @@ exports.update = (req, res) => {
 	
 	Course.findOneAndUpdate({ _id: courseId }, {
 		$set: {
-			_id: courseId,
 			term,
 			code,
 			title,
