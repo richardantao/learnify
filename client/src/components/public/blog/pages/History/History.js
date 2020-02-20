@@ -10,15 +10,28 @@ const History = props => {
     return (
         <>
             <Helmet>
-                <meta name="description" content=""/>
-                <meta name="keywords" content=""/>
+                <meta name="description" content="How did our current education system form? When did it start, and how has it evolved over the years..."/>
+                <meta name="keywords" content="School, Education, History"/>
                 <link rel="canonical" href="https://learnify.ca/blog/history"/>
                 <title>Learnify | Blog</title>
             </Helmet>
             <div id="public">
                 <Header/>
                 <main className="posts" role="main">
+                    <header role="banner">
+                        <img src="" alt=""/>
+                    </header>
+                    <article role="document">
+                        <section>
 
+                        </section>
+                        <section>
+
+                        </section>
+                        <section>
+
+                        </section>
+                    </article>
                 </main>
                 <Footer/>
             </div>
