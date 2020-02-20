@@ -1,9 +1,7 @@
-const async = require("async");
-const moment = require("moment");
-
 const sgMail = require("@sendgrid/mail");
 
-const user = process.env.AUTH_EMAIL;
+const auth = process.env.AUTH_EMAIL
+const admin = process.env.ADMIN_EMAIL;
 const sendGridKey = process.env.SENDGRID_API_KEY;
 
 // models
@@ -26,8 +24,8 @@ exports.users = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: auth,
+            to: admin,
             subject: "Users' Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -38,7 +36,7 @@ exports.users = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -57,8 +55,8 @@ exports.years = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: auth,
+            to: admin,
             subject: "Years' Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -69,7 +67,7 @@ exports.years = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -88,8 +86,8 @@ exports.terms = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: auth,
+            to: admin,
             subject: "Terms' Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -100,7 +98,7 @@ exports.terms = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -119,8 +117,8 @@ exports.courses = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: auth,
+            to: admin,
             subject: "Courses' Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -131,7 +129,7 @@ exports.courses = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -150,8 +148,8 @@ exports.classes = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: admin,
+            to: admin,
             subject: "Classes' Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -162,7 +160,7 @@ exports.classes = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -181,8 +179,8 @@ exports.assessments = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: admin,
+            to: admin,
             subject: "Assessments' Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -193,7 +191,7 @@ exports.assessments = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -212,8 +210,8 @@ exports.tasks = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: admin,
+            to: admin,
             subject: "Tasks's Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -224,7 +222,7 @@ exports.tasks = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -243,9 +241,9 @@ exports.beta = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
-            subject: "Beta Users' Collection Report",
+            from: admin,
+            to: admin,
+            subject: "Beta admins' Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
                 <head>
@@ -255,7 +253,7 @@ exports.beta = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -274,8 +272,8 @@ exports.feedback = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: admin,
+            to: admin,
             subject: "Feedback Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -286,7 +284,7 @@ exports.feedback = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -305,8 +303,8 @@ exports.bugs = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: admin,
+            to: admin,
             subject: "Bugs' Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -317,7 +315,7 @@ exports.bugs = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
@@ -336,8 +334,8 @@ exports.blog = () => {
         sgMail.setApiKey(sendGridKey);
 
         const mailOptions = {
-            from: user,
-            to: user,
+            from: admin,
+            to: admin,
             subject: "Blog Collection Report",
             html: `<!DOCTYPE HTML>
             <html lang="en">
@@ -348,7 +346,7 @@ exports.blog = () => {
                     </style>
                 </head>
                 <body>
-                        ${stats}
+                    ${stats}
                 </body>
             </html>
             `
