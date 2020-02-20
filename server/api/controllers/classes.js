@@ -202,14 +202,11 @@ exports.update = (req, res) => {
                 description
             }
         })
-        .then(classes => {
-            if(!classes) {
-                return res.status(404).json({ message: "Class not found" });
+        .then(classe => {
+            if(classe.modifiedCount === 1) {
+                return callback(null, { message: "Class updated" });
             } else {
-                return callback(null, { 
-                    classes,
-                    message: "Class updated"
-                });
+                return res.status(404).json({ message: "Class not found" });
             };
         })
         .catch(err => {
@@ -232,12 +229,12 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const classId = req.params;
     
-    Class.findOneAndDelete({ _id: classId })
-    .then(deletedClass => {
-        if(!deletedClass) {
-            return res.status(404).json({ message: "Class not found" });
-        } else {
+    Class.deleteOne({ _id: classId })
+    .then(classe => {
+        if(classe.deletedCount === 1) {
             return res.status(200).json({ message: "Class deleted" });
+        } else {
+            return res.status(404).json({ message: "Class not found" });
         };
     })
     .catch(err => {

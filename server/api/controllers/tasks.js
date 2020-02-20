@@ -196,7 +196,7 @@ exports.update = (req, res) => {
     };
 
     const updateTask = (term, callback) => {
-        Task.findOneandUpdate({ _id: taskId }, {
+        Task.updateOne({ _id: taskId }, {
             $set: {
                 term,
                 course,
@@ -208,21 +208,14 @@ exports.update = (req, res) => {
             }
         })
         .then(task => {
-            if(!task) {
-                return res.status(404).json({ message: "Task not found" }); 
+            if(task.modifiedCount === 1) {
+                return callback(null, { message: "Task updated" });
             } else {
-                return callback(null, { 
-                    task,
-                    message: "Task updated"
-                });
+                return res.status(404).json({ message: "Task not found" }); 
             };
         })
         .catch(err => {
-            if(err.kind === "ObjectId") {
-                return res.status(404).json({ message: "Task not found" }); 
-            } else {
-                return res.status(500).json({ message: err.message});
-            };
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -241,12 +234,12 @@ exports.update = (req, res) => {
 exports.delete = (req, res) => {
     const { taskId } = req.params;
 
-    Task.findOneAndDelete({ _id: taskId })
+    Task.deleteOne({ _id: taskId })
     .then(task => {
-        if(!task) {
-            return res.status(404).json({ message: "Task not found" });
-        } else {
+        if(task.deletedCount === 1) {
             return res.status(200).json({ message: "Task deleted" });
+        } else {
+            return res.status(404).json({ message: "Task not found" });
         };
     })
     .catch(err => {
