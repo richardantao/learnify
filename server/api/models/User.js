@@ -48,20 +48,20 @@ const UserSchema = new Schema({
 	}
 });
 
-UserSchema.post("findByIdAndDelete", document => {
-    const id = document._id;
+UserSchema.post("findByIdAndDelete", ({ _id }) => {
+    const user = _id;
     
-    Year.find({ user: id }, {
+    Year.find({ user }, {
         _id: 1
     })
     .then(years => {
         years.map(({ _id }) => {
             Year.findOneAndDelete({ _id })
-            .then(() => {
-                return;
+            .then(year => {
+                return year;
             })
             .catch(err => {
-                new Error(`Error occured when deleting year.${_id} during a User cascade delete : ${err}`);
+                new Error(`Error occured when deleting year-${_id} during a User cascade delete : ${err}`);
             });
         });
         
