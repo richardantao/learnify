@@ -5,6 +5,9 @@ module.exports = (req, res, next) => {
     const errors = validationResult(req);
     const { course, title, start, end, frequency, by, interval, location, description } = req.body;
 
+    const momentStart = moment(start, "YYYY-MM-DD");
+    const momentEnd = moment(end, "YYYY-MM-DD");
+
     body(course, "An error occurred while linking your class to a course")
         .exists().withMessage("Your class wasn't linked to a course")
         .isMongoId().withMessage("An error occurred while linking your class to a course");
@@ -55,6 +58,26 @@ module.exports = (req, res, next) => {
     if(!errors.isEmpty()) {
         return res.status(400).json({ message: errors.msg });
     } else {
-        return next();
+        Course.find({ _id: course }, { 
+            term: 1,
+            _id: 0
+        })
+        .populate("term", [ "date" ])
+        .limit(1)
+        .then(termRange => {
+            const termRangeStart = moment(termRange[0].term[0].date.start, "YYYY-MM-DD");
+            const termRangeEnd = moment(termRange[0].term[0].date.end, "YYYY-MM-DD");
+
+            if(momentStart < termRangeStart || momentEnd > termRangeEnd ) {
+                return res.status(400).json({
+                    message: "The assessment date must be inbetween the date of the term your course belongs to"
+                });
+            } else {
+                return next();
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
     };
 };

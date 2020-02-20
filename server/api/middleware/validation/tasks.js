@@ -7,6 +7,8 @@ module.exports = (req, res, next) => {
     const errors = validationResult(req);
     const { course, title, type, deadline, completion, description } = req.body;
 
+    const momentDeadline = moment(deadline, "YYYY-MM-DD");
+
     body(course, "There was an error linking the task to a course")
         .exists().withMessage("There was an error linking the task to a course")
         .isMongoId().withMessage("There was an error linking the task to a course");
@@ -45,7 +47,10 @@ module.exports = (req, res, next) => {
         .populate("term", [ "date" ])
         .limit(1)
         .then(termRange => {
-            if(moment(termRange[0].term[0].date.start, "YYYY-MM-DD") > moment(deadline, "YYYY-MM-DD") || moment(termRange[0].term[0].date.end, "YYYY-MM-DD") < moment(deadline, "YYYY-MM-DD")) {
+            const termRangeStart = moment(termRange[0].term[0].date.start, "YYYY-MM-DD");
+            const termRangeEnd = moment(termRange[0].term[0].date.end, "YYYY-MM-DD");
+
+            if(termRangeStart > momentDeadline || termRangeEnd < momentDeadline) {
                 return res.status(400).json({
                     message: "Task deadline must be inbetween the date of the term your course belongs to"
                 });

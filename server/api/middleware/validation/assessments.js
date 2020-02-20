@@ -7,6 +7,9 @@ module.exports = (req, res, next) => {
     const error = validationResult(req);
     const { course, title, type, start, end, location, weight, score } = req.body;
 
+    const momentStart = moment(start, "YYYY-MM-DD");
+    const momentEnd = moment(end, "YYYY-MM-DD");
+
     body(course, "There was an error linking your assessment to a course")
         .exists().withMessage("There was an error linking your assessment to a course")
         .isMongoId().withMessage("There was an error linking your assessment to a course")
@@ -51,7 +54,7 @@ module.exports = (req, res, next) => {
         .escape()
         .toFloat();
 
-    if(end && moment(start, "YYYY-MM-DD") > moment(end, "YYYY-MM-DD")) {
+    if(momentEnd && momentStart > momentEnd) {
         return res.status(400).json({ message: "Start date must come before end date" })
     };
 
@@ -73,8 +76,11 @@ module.exports = (req, res, next) => {
         .populate("term", [ "date" ])
         .limit(1)
         .then(termRange => {
+            const termRangeStart = moment(termRange[0].term[0].date.start, "YYYY-MM-DD");
+            const termRangeEnd = moment(termRange[0].term[0].date.end, "YYYY-MM-DD");
+
             if(end === undefined || end === null || end === "") {
-                if(moment(termRange[0].term[0].date.start, "YYYY-MM-DD") > moment(start, "YYYY-MM-DD") || moment(termRange[0].term[0].date.end, "YYYY-MM-DD") < moment(start, "YYYY-MM-DD")) {
+                if(termRangeStart > momentStart || termRangeEnd < momentStart) {
                     return res.status(400).json({
                         message: "The assessment date must be inbetween the date of the term your course belongs to"
                     });
@@ -82,7 +88,7 @@ module.exports = (req, res, next) => {
                     return next();
                 };
             } else {
-                if(moment(termRange[0].term[0].date.start, "YYYY-MM-DD") > moment(start, "YYYY-MM-DD") || moment(termRange[0].term[0].date.end, "YYYY-MM-DD") < moment(end, "YYYY-MM-DD")) {
+                if(termRangeStart > momentStart || termRangeEnd < momentEnd) {
                     return res.status(400).json({
                         message: "The assessment date must be inbetween the date of the term your course belongs to"
                     });
