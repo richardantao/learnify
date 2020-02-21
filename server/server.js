@@ -45,7 +45,6 @@ logger((tokens, req, res) => {
 /* --- Routes --- */
 /* Beta  */
 app.use("/api/v1", require("./api/routes/auth"));
-app.use("/api/v1/cron", require("./api/routes/cron"));
 app.use("/api/v1", require("./api/routes/users"));
 
 app.use("/api/v1/years", require("./api/routes/years"));
