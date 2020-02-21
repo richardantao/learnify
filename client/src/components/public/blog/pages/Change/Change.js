@@ -7,7 +7,7 @@ import Footer from "../../../global/organisms/Footer";
 import banner from "./change-min.jpg";
 import "../../Blog.scss";
 
-const Change = () => {
+export default ({  }) => {
     return (
         <>
             <Helmet>
@@ -37,5 +37,3 @@ const Change = () => {
         </>
     );
 };
-
-export default Change;

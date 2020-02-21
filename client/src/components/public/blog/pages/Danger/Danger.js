@@ -6,7 +6,7 @@ import Footer from "../../../global/organisms/Footer";
 
 import "../../Blog.scss";
 
-const Danger = props => {
+export default ({  }) => {
     return (
         <>
             <Helmet>
@@ -25,5 +25,3 @@ const Danger = props => {
         </>
     );
 };
-
-export default Danger;

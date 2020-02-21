@@ -6,7 +6,7 @@ import Footer from "../../../global/organisms/Footer";
 
 import "../../Blog.scss";
 
-const Emerging = props => {
+export default ({  }) => {
     return (
         <>
             <Helmet>
@@ -25,5 +25,3 @@ const Emerging = props => {
         </>
     );
 };
-
-export default Emerging;

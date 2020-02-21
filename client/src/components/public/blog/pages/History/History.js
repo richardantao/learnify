@@ -6,7 +6,7 @@ import Footer from "../../../global/organisms/Footer";
 
 import "../../Blog.scss";
 
-const History = props => {
+export default ({  }) => {
     return (
         <>
             <Helmet>
@@ -38,5 +38,3 @@ const History = props => {
         </>
     );
 };
-
-export default History;

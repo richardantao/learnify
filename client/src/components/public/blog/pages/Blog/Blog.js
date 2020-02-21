@@ -16,7 +16,7 @@ import mission from "../Mission/mission-min.jpg";
 // import tips from "../Tips/tips-min.jpg";
 import "../../Blog.scss";
 
-const Blog = props => {
+export default ({  }) => {
     return (
         <>
             <Helmet>
@@ -122,5 +122,3 @@ const Blog = props => {
         </>
     );
 };
-
-export default Blog;

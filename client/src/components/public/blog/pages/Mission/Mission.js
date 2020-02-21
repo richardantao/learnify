@@ -7,7 +7,7 @@ import Footer from "../../../global/organisms/Footer";
 import banner from "./mission-min.jpg";
 import "../../Blog.scss";
 
-const Mission = props => {
+export default ({  }) => {
     return (
         <>
             <Helmet>
@@ -99,5 +99,3 @@ const Mission = props => {
         </>
     );
 };
-
-export default Mission;

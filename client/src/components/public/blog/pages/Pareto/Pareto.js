@@ -6,7 +6,7 @@ import Footer from "../../../global/organisms/Footer";
 
 import "../../Blog.scss";
 
-const Pareto = props => {
+export default ({ }) => {
     return (
         <>
             <Helmet>
@@ -25,5 +25,3 @@ const Pareto = props => {
         </>
     );
 };
-
-export default Pareto;

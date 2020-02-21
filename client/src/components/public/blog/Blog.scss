@@ -42,6 +42,10 @@ $border-line: #E1E1E1;
 .posts {
     border-bottom: $border-line 1px solid;
     border-top: $border-line 1px solid;
+
+    hr {
+        width: 67%;
+    }
 }
 
 /* ---  Landscape Mobile --- */
