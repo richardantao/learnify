@@ -6,11 +6,13 @@ exports.register = (req, res, next) => {
 
     body(first, "First name had an invalid input")
         .exists().withMessage("First name is a required field")
+        .isLength({ min: 2, max: 128 }).withMessage("First name must be inbetween 2 and 128 characters")
         .isAlphanumeric().withMessage("First name can only contain letters and numbers")
         .escape();
 
     body(last, "Last name had an invalid input")
         .exists("Last name is a required field")
+        .isLength({ min: 2, max: 128 }).withMessage("Last name must be inbetween 2 and 128 characters")
         .isAlphanumeric().withMessage("Last name can only contain letters and numbers")
         .escape();
 
