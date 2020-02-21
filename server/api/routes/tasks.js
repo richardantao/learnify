@@ -7,7 +7,7 @@ router.post("/tasks", /*auth,*/ validation, controller.create);
 
 router.get("/terms/:termId/tasks", /*auth,*/ controller.read);
 
-router.get("/courses/:courseId",/* auth,*/ controller.filter);
+router.get("/courses/:courseId/tasks", /* auth,*/ controller.filter);
 
 router.get("/tasks/:taskId", /*auth,*/ controller.edit);
 
