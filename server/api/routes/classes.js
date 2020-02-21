@@ -5,9 +5,9 @@ const controller = require("../controllers/classes");
 
 router.post("/classes", /*auth,*/ validation, controller.create);
 
-router.get("/terms/:termId/classes?current&limit", /*auth,*/ controller.read);
+router.get("/terms/:termId/classes", /*auth,*/ controller.read);
 
-router.get("/courses/:courseId/classes?current", /*auth,*/ controller.filter);
+router.get("/courses/:courseId/classes", /*auth,*/ controller.filter);
 
 router.get("/classes/:classId", /*auth,*/ controller.edit);
 
