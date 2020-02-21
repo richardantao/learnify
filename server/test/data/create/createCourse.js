@@ -31,7 +31,7 @@ const macro = {
 };
 
 const capstone = {
-	"term": [ "5e4c49a1ab81e5ab1173d3ec", "5e4c49deab81e5ab1173d3ed" ],
+	"term": [ "5e4ed04a64e5e033b41d58da", "5e4ed04364e5e033b41d58d9" ],
 	"code": "ES 4499",
 	"title": "Integrated Capstone Design Project",
 	"credit": 1,

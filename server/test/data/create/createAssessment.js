@@ -13,9 +13,9 @@ const lab1 = {
 
 const lab2 = {
 	"course": "5e4b6304d06be650adf02319",
-	"title": "Lab 2",
+	"title": "Lab 6",
 	"type": "Lab Assessment",
-	"start": "2020-02-20",
+	"start": "2020-02-27",
 	"end": "",
 	"location": "MC 235",
 	"weight": 0.909,
