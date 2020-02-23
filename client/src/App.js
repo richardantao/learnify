@@ -29,25 +29,25 @@ class App extends Component {
 	};
 
 	componentDidUpdate(prevProps) {
-		const { pathname } = this.props.location;
+		const { location: { pathname } } = this.props;
 		if (pathname !== prevProps.pathname) {
 			this.handleRouteChange();
 		};
 	};
 
 	handleRouteChange = () => {
-		console.log("change mf");
+
 	};
 
 	render() {
 		return (
 			<Provider store={store}>
 				<Switch>
-					<Route name="register" path="/beta/register" component={BetaRegister}/>
-					<Route name="login" path="/beta/signin" component={BetaLogin}/>
-					<Route name="verifyEmail" path="/beta/verifyEmail" component={VerifyEmail}/>
-					<Route name="forgotPassword" path="/beta/forgotPassword" component={ForgotPassword}/>
-					<Route name="resetPassword" path="/beta/resetPassword" component={ResetPassword}/>
+					<Route name="register" path="/beta/register" component={AppRegister}/>
+					<Route name="login" path="/beta/signin" component={AppLogin}/>
+					<Route name="verifyEmail" path="/beta/verifyEmail" component={AppVerify}/>
+					<Route name="forgotPassword" path="/beta/forgotPassword" component={AppForgot}/>
+					<Route name="resetPassword" path="/beta/resetPassword" component={AppReset}/>
 					<Route name="dashboard" path="/beta/dashboard" component={Dashboard}/>
 					<Route name="calendar" path="/beta/calendar" component={Calendar}/>
 					<Route name="academics" path="/beta/academics" component={Academics}/>
@@ -93,75 +93,69 @@ class App extends Component {
 
 export default withRouter(App);
 
-/* --- Beta components --- */
-const BetaRegister = Loadable({
-	loader: () => import(/* webpackChunkName: "BetaRegister" */ "./components/beta/auth/BetaRegister"),
+/* --- App components --- */
+const AppRegister = Loadable({
+	loader: () => import(/* webpackChunkName: "AppRegister" */ "./components/app/reactors/AppRegister"),
 	loading: Loading,
 	delay: 300
 });
 
-const BetaLogin = Loadable({
-	loader: () => import(/* webpackChunkName: "BetaLogin" */ "./components/beta/auth/BetaLogin"),
+const AppLogin = Loadable({
+	loader: () => import(/* webpackChunkName: "AppLogin" */ "./components/app/reactors/AppLogin"),
 	loading: Loading,
 	delay: 300
 });
 
-const VerifyEmail = Loadable({
-	loader: () => import(/* webpackChunkName: "VerifyEmail" */ "./components/beta/auth/VerifyEmail"),
+const AppVerify = Loadable({
+	loader: () => import(/* webpackChunkName: "AppVerify" */ "./components/app/reactors/AppVerify"),
 	loading: Loading,
 	delay: 300
 });
 
-const ForgotPassword = Loadable({
-	loader: () => import(/* webpackChunkName: "ForgotPassword" */ "./components/beta/auth/ForgotPassword"),
+const AppForgot = Loadable({
+	loader: () => import(/* webpackChunkName: "AppForgot" */ "./components/app/reactors/AppForgot"),
 	loading: Loading,
 	delay: 300
 });
 
-const ResetPassword = Loadable({
-	loader: () => import(/* webpackChunkName: "ResetPassword" */ "./components/beta/auth/ResetPassword"),
+const AppReset = Loadable({
+	loader: () => import(/* webpackChunkName: "AppReset" */ "./components/app/reactors/AppReset"),
 	loading: Loading,
 	delay: 300
 });
 
 const Dashboard = Loadable({
-	loader: () => import(/* webpackChunkName: "Dashboard" */ "./components/beta/dashboard/Dashboard"),
+	loader: () => import(/* webpackChunkName: "Dashboard" */ "./components/app/pages/Dashboard"),
 	loading: Loading,
 	delay: 300
 });
 
 const Calendar = Loadable({
-	loader: () => import(/* webpackChunkName: "Calendar" */ "./components/beta/calendar/Calendar"),
+	loader: () => import(/* webpackChunkName: "Calendar" */ "./components/app/pages/Calendar"),
 	loading: Loading,
 	delay: 300
 });
 
 const Academics = Loadable({
-	loader: () => import(/* webpackChunkName: "Academics" */ "./components/beta/academics/Academics"),
+	loader: () => import(/* webpackChunkName: "Academics" */ "./components/app/pages/Academics"),
 	loading: Loading,
 	delay: 300
 });
 
 const Planner = Loadable({
-	loader: () => import(/* webpackChunkName: "Planner" */ "./components/beta/planner/Planner"),
-	loading: Loading,
-	delay: 300
-});
-
-const Search = Loadable({
-	loader: () => import(/* webpackChunkName: "Search" */ "./components/beta/search/Search"),
+	loader: () => import(/* webpackChunkName: "Planner" */ "./components/app/pages/Planner"),
 	loading: Loading,
 	delay: 300
 });
 
 const Settings = Loadable({
-	loader: () => import(/* webpackChunkName: "Settings" */ "./components/beta/settings/Settings"),
+	loader: () => import(/* webpackChunkName: "Settings" */ "./components/app/pages/Settings"),
 	loading: Loading,
 	delay: 300
 });
 
 const Help = Loadable({
-	loader: () => import(/* webpackChunkName: "Help" */ "./components/beta/help/Help"),
+	loader: () => import(/* webpackChunkName: "Help" */ "./components/app/pages/Help"),
 	loading: Loading,
 	delay: 300
 });
