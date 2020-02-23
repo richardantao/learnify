@@ -2,9 +2,11 @@ process.env.NODE_ENV = "test";
 
 // model
 const Year = require("../../../api/models/Years");
+const ObjectId = require("mongodb").ObjectId;
+
+const moment = require("moment");
 
 // mock data
-const postYear = require("../../data/create/createYear").Year;
 const noTitle = require("../../data/create/createYear").noTitle;
 const noStart = require("../../data/create/createYear").noStart;
 const noEnd = require("../../data/create/createYear").noEnd;
@@ -29,9 +31,19 @@ describe("Year Controllers", () => {
 
     describe("Create Year", () => {
         it("It should create a new year given the correct data", done => {
+            const year = {
+                _id: ObjectId(),
+                user: ObjectId("5deb33a40039c4286179c4f1"),
+                title: "Fourth Year",
+                date: {
+                    start: "2019-09-07",
+                    end: "2020-04-30"
+                }
+            };
+
             chai.request(server)
-            .post("/v1/api/years")
-            .send(postYear)
+            .post("/api/v1/years")
+            .send(year)
             .end((err, res) => {
                 if(err) {
                     throw err;
@@ -60,9 +72,19 @@ describe("Year Controllers", () => {
         });
 
         it("It should throw an error if the title is missing", done => {
+            const year = {
+                _id: ObjectId(),
+                user: ObjectId("5deb33a40039c4286179c4f1"),
+                title: "", // missing title
+                date: {
+                    start: "2019-09-07",
+                    end: "2020-04-30"
+                }
+            };
+            
             chai.request(server)
-            .post("/v1/api/years")
-            .send(noTitle)
+            .post("/api/v1/years")
+            .send(year)
             .end((err, res) => {
                 if(err) {
                     throw err;
@@ -77,9 +99,19 @@ describe("Year Controllers", () => {
         });
         
         it("It should throw an error if the start date is missing", done => {
+            const year = {
+                _id: ObjectId(),
+                user: ObjectId("5deb33a40039c4286179c4f1"),
+                title: "Fourth Year",
+                date: {
+                    start: "", // empty start date string
+                    end: moment("2020-04-30", "YYYY-MM-DD")
+                }
+            };
+
             chai.request(server)
-            .post("/v1/api/years")
-            .send(noStart)
+            .post("/api/v1/years")
+            .send(year)
             .end((err, res) => {
                 if(err) {
                     throw err;
@@ -94,9 +126,19 @@ describe("Year Controllers", () => {
         });
 
         it("It should throw an error if the end date is missings", done => {
+            const year = {
+                _id: ObjectId(),
+                user: ObjectId("5deb33a40039c4286179c4f1"),
+                title: "Fourth Year",
+                date: {
+                    start: moment("2019-09-07", "YYYY-MM-DD"),
+                    end: ""
+                }
+            };
+
             chai.request(server)
-            .post("/v1/api/years")
-            .send(noEnd)
+            .post("/api/v1/years")
+            .send(year)
             .end((err, res) => {
                 if(err) {
                   throw err;  
@@ -111,9 +153,19 @@ describe("Year Controllers", () => {
         });
 
         it("It should throw an error if the start date is greater than the end date", done => {
+            const year = {
+                _id: ObjectId(),
+                user: ObjectId("5deb33a40039c4286179c4f1"),
+                title: "Fourth Year",
+                date: {
+                    start: moment("2019-09-07", "YYYY-MM-DD"),
+                    end: moment("2019-08-23", "YYYY-MM-DD")
+                }
+            };
+
             chai.request(server)
-            .post("/v1/api/years")
-            .send(postYear)
+            .post("/api/v1/years")
+            .send(year)
             .end((err, res) => {
                 if(err) {
                     throw err;
@@ -131,7 +183,7 @@ describe("Year Controllers", () => {
     describe("Read Years", () => {
         it("It should fetch all the user's years", done => {
             chai.request(server)
-            .get("/v1/api/years")
+            .get("/api/v1/years")
             .end((err, res) => {
                 if(err) {
                     throw err;
@@ -164,6 +216,10 @@ describe("Year Controllers", () => {
 
     describe("Edit Year", () => {
         it("It should fetch the correct", done => {
+            const year = {
+
+            };
+            
             chai.request(server)
             .get("/api/v1/years/:yearId")
             .end((err, res) => {
@@ -177,8 +233,12 @@ describe("Year Controllers", () => {
         });
 
         it("It should fail to fetch the year if", done => {
+            const year = {
+
+            };
+
             chai.request(server)
-            .get("/api/v1/years")
+            .get("/api/v1/years/:yearId")
             .end((err, res) => {
                 if(err) {
                     throw err;
@@ -204,6 +264,19 @@ describe("Year Controllers", () => {
                 };
             });
         });
+
+        it("", done => {
+            chai.request(server)
+            .put("/api/v1/years/:yearId")
+            .end((err, res) => {
+                if(err) {
+                    throw err;
+                } else {
+                    res.should.have.status();
+                    done();
+                };
+            });
+        });
     });
 
     describe("Delete Year", () => {
@@ -215,6 +288,19 @@ describe("Year Controllers", () => {
                     throw err;
                 } else {
                     res.should.have.status(200);
+                    done();
+                };
+            });
+        });
+
+        it("", done => {
+            chai.request(server)
+            .delete("/api/v1/years/:yearId")
+            .end((err, res) => {
+                if(err) {
+                    throw err;
+                } else {
+                    res.should.have.status();
                     done();
                 };
             });
