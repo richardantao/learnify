@@ -11,7 +11,7 @@ export const loadUser = () => (dispatch, getState) => {
     dispatch({ type: USER_LOADING });
 
     // match url
-    axios.get(`${process.env.API_HOST}/v1/user`, tokenConfig(getState))
+    axios.get("/api/v1/user", tokenConfig(getState))
     .then(res => dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -43,7 +43,7 @@ export const register = ({ fname, lname, email, password }) => dispatch => {
     /* 
         Axios is not passing a promise
     */
-    axios.post(`${process.env.API_HOST}/v1/register`, body, config)
+    axios.post("api/v1/register", body, config)
     .then(res => dispatch({
        type: REGISTER_SUCCESS,
        payload: res.data 
@@ -68,7 +68,7 @@ export const login = ({ email, password }) => dispatch => {
 
     const body = JSON.stringify({ email, password });
 
-    axios.post(`${process.env.API_HOST}/v1/signin`, body, config)
+    axios.post("/api/v1/signin", body, config)
     .then(res => dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
@@ -85,7 +85,7 @@ export const login = ({ email, password }) => dispatch => {
 
 // Logout User
 export const logout = () => dispatch => {
-    axios.post(`${process.env.API_HOST}/v1/signout`)
+    axios.post("/api/v1/signout")
     .then(res => dispatch({
         type: LOGOUT_SUCCESS
     }))
@@ -95,14 +95,31 @@ export const logout = () => dispatch => {
 };
 
 export const resetPassword = () => dispatch => {
-    
+    axios.post("/api/v1/")
+    .then(res => dispatch({
+        type: ""
+    }))
+    .catch(err => {
+        returnErrors(err.data, err.status);
+    });
+};
+
+export const deleteProfile = () => dispatch => {
+    axios.delete("/api/v1/")
+    .then(res => dispatch({
+        type: ""
+    }))
+    .catch(err => {
+        returnErrors(err.data, err.status);
+    });
+
 };
 
 /* VERIFIED */
 // Set config/headers and token
 export const tokenConfig = getState => {
     // get token from local storage
-    // const token = getState().auth.token;
+    const token = getState().auth.token;
 
     // Headers
     const config = {
@@ -112,9 +129,9 @@ export const tokenConfig = getState => {
     };
 
     // If token is generated, add to it to headers
-    // if(token) {
-        // config.headers["x-auth-token"] = token;
-    // };
+    if(token) {
+        config.headers["x-auth-token"] = token;
+    };
 
     return config;
 };
