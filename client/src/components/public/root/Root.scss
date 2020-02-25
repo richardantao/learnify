@@ -135,7 +135,7 @@ $border-line: #E1E1E1;
     &-team {
         display: grid;
             grid-template-columns: 100%;
-            grid-template-rows: 50px 560px;
+            grid-template-rows: 50px 550px;
             grid-gap: 0;
     }
 }
@@ -272,7 +272,7 @@ $border-line: #E1E1E1;
         }
 
         &-team {        
-            grid-template-rows: 50px 550px;
+            grid-template-rows: 50px 520px;
         }
     }
 
@@ -346,7 +346,7 @@ $border-line: #E1E1E1;
 
         &-team {
             grid-template-columns: 50% 50%;
-            grid-template-rows: 50px 540px;
+            grid-template-rows: 50px 520px;
 
             h2 {
                 grid-column-end: span 2;
@@ -664,7 +664,7 @@ $border-line: #E1E1E1;
 
         &-team {
             grid-template-columns: 33% 33% 33%;
-            grid-template-rows: 75px 1000px;
+            grid-template-rows: 75px 975px;
         }
     }
 
