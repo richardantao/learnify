@@ -24,33 +24,25 @@ class Settings extends Component {
 	};
 
 	static propTypes = {
-		isAuthenticated: PropTypes.bool,
+		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
         logout: PropTypes.func.isRequired
 	};
 
 	componentDidMount() {
-		this.setState({
-			form: "profile"
-		});
+		this.setState({ form: "profile" });
 	};
 
 	handleProfile = () => {
-		this.setState({
-			form: "profile"
-		});
+		this.setState({ form: "profile" });
 	};
 
 	handlePassword = () => {
-		this.setState({
-			form: "password"
-		});
+		this.setState({ form: "password" });
 	};
 
 	handlePreferences = () => {
-		this.setState({
-			form: "preferences"
-		});
+		this.setState({ form: "preferences" });
 	};
 
 	handleLogout = () => {
@@ -144,7 +136,7 @@ const year = new Date().getFullYear();
 const version = "Version 1.0.0-beta";
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
+	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error
 });
 

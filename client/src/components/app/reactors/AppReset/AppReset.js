@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Container, Col, Row } from "react-bootstrap";
+import { Container, Col, Row } from "reactstrap";
 
 
 class AppReset extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { updateCourse, deleteCourse } from "../../../../actions/beta/courses";
+import { updateCourse, deleteCourse } from "../../../../actions/app/courses";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { newTask, createTask } from "../../../../actions/beta/tasks";
+import { newTask, createTask } from "../../../../actions/app/tasks";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

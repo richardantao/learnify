@@ -47,7 +47,7 @@ export const createAssessment = newAssessment => (dispatch, getState) => {
 export const fetchAssessmentsForDash = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/assessments?current=true&limit=true`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/assessments?current=true&limit=true`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_ASSESSMENTS,
         payload: res.data
@@ -77,7 +77,7 @@ export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
 export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/assessments?current=false&limit=false`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/assessments?current=false&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_PAST_ASSESSMENTS,
         payload: res.data
@@ -92,7 +92,7 @@ export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
 export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${courseId}/assessments?current=true&limit=false`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${courseId}/assessments?current=true&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_ASSESSMENTS,
         payload: res.data
@@ -108,7 +108,7 @@ export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
 export const fetchPastAssessmentsByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${courseId}/assessments?current=false&limit=false`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${courseId}/assessments?current=false&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_ASSESSMENTS,
         payload: res.data
@@ -123,7 +123,7 @@ export const fetchPastAssessmentsByCourse = courseId => (dispatch, getState) => 
 export const editAssessment = id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/assessments/${id}`, tokenConfig(getState))
+    axios.get(`/api/v1/assessments/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: EDIT_ASSESSMENT,
         payload: res.data
@@ -136,7 +136,7 @@ export const editAssessment = id => (dispatch, getState) => {
 export const updateAssessment = (id, assessment) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`/api/v1/assessments/${id}`, assessment, tokenConfig(getState))
+    axios.put(`/api/v1/assessments/${id}`, assessment/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: UPDATE_ASSESSMENT,
         payload: res.data
@@ -149,7 +149,7 @@ export const updateAssessment = (id, assessment) => (dispatch, getState) => {
 export const deleteAssessment = id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`/api/v1/assessments/${id}`, tokenConfig(getState))
+    axios.delete(`/api/v1/assessments/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: DELETE_ASSESSMENT,
         payload: id

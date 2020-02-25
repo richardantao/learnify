@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { editPreferences, updatePreferences } from "../../../../actions/beta/users";
+import { editPreferences, updatePreferences } from "../../../../actions/app/users";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

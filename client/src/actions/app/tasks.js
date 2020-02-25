@@ -16,7 +16,7 @@ export const setLoading = () => {
 export const newTask = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/courses`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: NEW_TASK,
         payload: res.data
@@ -29,7 +29,7 @@ export const newTask = termId => (dispatch, getState) => {
 export const createTask = task => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("/api/v1/task", task, tokenConfig(getState))
+    axios.post("/api/v1/task", task/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: CREATE_TASK,
         payload: res.data
@@ -42,7 +42,7 @@ export const createTask = task => (dispatch, getState) => {
 export const fetchTasksForDash = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/tasks/?current=true&limit=true`, tokenConfig(getState)) // add query parameters
+    axios.get(`/api/v1/terms/${termId}/tasks/?current=true&limit=true`/*, tokenConfig(getState)*/) // add query parameters
     .then(res => dispatch({
         // type: FETCH_TASKS, 
         payload: res.data
@@ -55,7 +55,7 @@ export const fetchTasksForDash = termId => (dispatch, getState) => {
 export const fetchTasksByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_TASKS, 
         payload: res.data
@@ -69,7 +69,7 @@ export const fetchTasksByTerm = termId => (dispatch, getState) => {
 export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_PAST_TASKS,
         payload: res.data
@@ -82,7 +82,7 @@ export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
 export const fetchTasksByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/courses/${courseId}/tasks?current=true&limit=false`, tokenConfig(getState))
+    axios.get(`/api/v1/courses/${courseId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_TASKS,
         payload: res.data
@@ -95,7 +95,7 @@ export const fetchTasksByCourse = courseId => (dispatch, getState) => {
 export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`/api/v1/courses/${courseId}/tasks?current=false&limit=false`, tokenConfig(getState))
+    axios.get(`/api/v1/courses/${courseId}/tasks?current=false&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_PAST_TASKS,
         payload: res.data
@@ -108,7 +108,7 @@ export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
 export const editTask = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/tasks/${_id}`, tokenConfig(getState))
+    axios.get(`/api/v1/tasks/${_id}`/*, tokenConfig(getState)*/)
     .then(res => {
         dispatch({
             type: EDIT_TASK,
@@ -123,7 +123,7 @@ export const editTask = _id => (dispatch, getState) => {
 export const updateTask = (_id, task) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`/api/v1/tasks/${_id}`, task, tokenConfig(getState))
+    axios.put(`/api/v1/tasks/${_id}`, task/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: UPDATE_TASK,
         payload: res.data
@@ -136,7 +136,7 @@ export const updateTask = (_id, task) => (dispatch, getState) => {
 export const deleteTask = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`/api/v1/tasks/${_id}`, tokenConfig(getState))
+    axios.delete(`/api/v1/tasks/${_id}`/*, tokenConfig(getState)*/)
     .then(res => {
         dispatch({
             type: DELETE_TASK,

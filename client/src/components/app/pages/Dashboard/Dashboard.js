@@ -5,13 +5,13 @@ import { Helmet } from "react-helmet";
 import { connect } from "react-redux";
 import { 
 	fetchClassesForDash, editClass, updateClass, deleteClass 
-} from "../../../../actions/beta/classes";
+} from "../../../../actions/app/classes";
 import { 
 	createTask, fetchTasksForDash, editTask, updateTask, deleteTask 
-} from "../../../../actions/beta/tasks";
+} from "../../../../actions/app/tasks";
 import { 
 	fetchAssessmentsForDash, editAssessment, updateAssessment, deleteAssessment 
-} from "../../../../actions/beta/assessments";
+} from "../../../../actions/app/assessments";
 import PropTypes from "prop-types";
 
 import { Row } from "reactstrap";
@@ -42,7 +42,7 @@ class Dashboard extends Component {
 	};
 
 	static propTypes = {
-		isAuthenticated: PropTypes.bool,
+		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
 		class: PropTypes.object.isRequired,
 		task: PropTypes.object.isRequired,
@@ -128,7 +128,7 @@ class Dashboard extends Component {
 };
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
+	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
 	classes: state.classes,
 	task: state.task,

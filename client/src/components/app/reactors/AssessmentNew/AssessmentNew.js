@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { newAssessment, createAssessment } from "../../../../actions/beta/assessments";
+import { newAssessment, createAssessment } from "../../../../actions/app/assessments";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

@@ -5,14 +5,14 @@ import { combineReducers } from "redux";
 import errorReducer from "./auth/errors";
 
 /* --- Beta App Reducers --- */
-import yearReducer from "./beta/years";
-import termReducer from "./beta/terms";
-import courseReducer from "./beta/courses";
-import classReducer from "./beta/classes";
-import assessmentReducer from "./beta/assessments";
-import taskReducer from "./beta/tasks";
-import bugReducer from "./beta/bugs";
-import feedbackReducer from "./beta/feedback";
+import yearReducer from "./app/years";
+import termReducer from "./app/terms";
+import courseReducer from "./app/courses";
+import classReducer from "./app/classes";
+import assessmentReducer from "./app/assessments";
+import taskReducer from "./app/tasks";
+import bugReducer from "./app/bugs";
+import feedbackReducer from "./app/feedback";
 
 /* --- Public Reducers --- */
 import betaReducer from "./root/beta";

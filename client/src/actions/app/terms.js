@@ -17,7 +17,7 @@ export const setLoading = () => { return { type: LOADING_TERMS } };
 export const newTerm = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/years`, tokenConfig(getState))
+    axios.get(`/api/v1/years`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: NEW_TERM,
         payload: res.data
@@ -32,7 +32,7 @@ export const newTerm = () => (dispatch, getState) => {
 export const createTerm = term => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post(`/api/v1/terms`, term, tokenConfig(getState))
+    axios.post(`/api/v1/terms`, term/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: CREATE_TERM,
         payload: res.data
@@ -47,7 +47,7 @@ export const createTerm = term => (dispatch, getState) => {
 export const fetchTerms = yearId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`/api/v1/years/${yearId}/terms`, tokenConfig(getState))
+    axios.get(`/api/v1/years/${yearId}/terms`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_TERMS,
         payload: res.data
@@ -62,7 +62,7 @@ export const fetchTerms = yearId => (dispatch, getState) => {
 export const editTerm = id => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`/api/v1/terms/${id}`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: EDIT_TERM,
         payload: res.data
@@ -77,7 +77,7 @@ export const editTerm = id => (dispatch, getState) => {
 export const updateTerm = (id, term) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`/api/v1/terms/${id}`, term, tokenConfig(getState))
+    axios.put(`/api/v1/terms/${id}`, term/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: UPDATE_TERM,
         payload: res.data
@@ -92,7 +92,7 @@ export const updateTerm = (id, term) => (dispatch, getState) => {
 export const deleteTerm = id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`/api/v1/terms/${id}`, tokenConfig(getState))
+    axios.delete(`/api/v1/terms/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: DELETE_TERM,
         payload: id

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { updateTerm, deleteTerm } from "../../../../actions/beta/terms";
+import { updateTerm, deleteTerm } from "../../../../actions/app/terms";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

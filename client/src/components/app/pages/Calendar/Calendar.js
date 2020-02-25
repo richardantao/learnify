@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
-import { fetchClassesByTerm } from "../../../../actions/beta/classes"; // new action function for 
+import { fetchClassesByTerm } from "../../../../actions/app/classes"; // new action function for 
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
@@ -24,7 +24,7 @@ class Calendar extends Component {
 	};
 
 	static propTypes = {
-		isAuthenticated: PropTypes.bool,
+		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
 		classes: PropTypes.object.isRequired,
 		fetchClassesByTerm: PropTypes.func.isRequired,
@@ -130,7 +130,7 @@ const ClassNew = Loadable({
 });
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
+	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
 	classes: state.classes
 });

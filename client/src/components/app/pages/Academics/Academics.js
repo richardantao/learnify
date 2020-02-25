@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
-import { fetchYears, editYear } from "../../../../actions/beta/years";
-import { fetchTerms, editTerm } from "../../../../actions/beta/terms";
-import { fetchCourses, editCourse } from "../../../../actions/beta/courses";
-import { fetchClassesByCourse, editClass } from "../../../../actions/beta/classes";
+import { fetchYears, editYear } from "../../../../actions/app/years";
+import { fetchTerms, editTerm } from "../../../../actions/app/terms";
+import { fetchCourses, editCourse } from "../../../../actions/app/courses";
+import { fetchClassesByCourse, editClass } from "../../../../actions/app/classes";
 import PropTypes from "prop-types";
 
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -31,7 +31,7 @@ class Academics extends Component {
 	};
 
 	static propTypes = {
-		isAuthenticated: PropTypes.bool,
+		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
 		year: PropTypes.object.isRequired,
 		term: PropTypes.object.isRequired,
@@ -290,7 +290,7 @@ const ClassEdit = Loadable({
 });
 
 const mapStateToProps = state => ({
-	isAuthenticated: state.auth.isAuthenticated,
+	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
 	year: state.year,
 	term: state.term,

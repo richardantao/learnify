@@ -119,7 +119,7 @@ export const deleteProfile = () => dispatch => {
 // Set config/headers and token
 export const tokenConfig = getState => {
     // get token from local storage
-    const token = getState().auth.token;
+    // const token = getState().auth.token;
 
     // Headers
     const config = {
@@ -129,9 +129,9 @@ export const tokenConfig = getState => {
     };
 
     // If token is generated, add to it to headers
-    if(token) {
-        config.headers["x-auth-token"] = token;
-    };
+    // if(token) {
+        // config.headers["x-auth-token"] = token;
+    // };
 
     return config;
 };

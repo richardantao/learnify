@@ -6,7 +6,7 @@ import { login } from "../../../../actions/auth/auth";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
-import { Button, Container } from "react-bootstrap";
+import { Button, Container } from "reactstrap";
 import {
     Form,
     FormGroup,

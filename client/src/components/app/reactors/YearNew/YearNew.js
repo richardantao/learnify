@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 /* Redux Operations */
 import { connect } from "react-redux";
-import { createYear } from "../../../../actions/beta/years";
+import { createYear } from "../../../../actions/app/years";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

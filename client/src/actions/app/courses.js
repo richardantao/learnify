@@ -16,7 +16,7 @@ export const setLoading = () => { return { type: LOADING_COURSES } };
 export const newCourse = yearId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/years/${yearId}/terms`, tokenConfig(getState))
+    axios.get(`/api/v1/years/${yearId}/terms`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: NEW_COURSE,
         payload: res.data
@@ -31,7 +31,7 @@ export const newCourse = yearId => (dispatch, getState) => {
 export const createCourse = course => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("/api/v1/courses", course, tokenConfig(getState))
+    axios.post("/api/v1/courses", course/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: CREATE_COURSE,
         payload: res.data
@@ -46,7 +46,7 @@ export const createCourse = course => (dispatch, getState) => {
 export const fetchCourses = termId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`/api/v1/terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/courses`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_COURSES,
         payload: res.data
@@ -61,7 +61,7 @@ export const fetchCourses = termId => (dispatch, getState) => {
 export const editCourse = id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/courses/${id}`, tokenConfig(getState))
+    axios.get(`/api/v1/courses/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: EDIT_COURSE,
         payload: res.data
@@ -76,7 +76,7 @@ export const editCourse = id => (dispatch, getState) => {
 export const updateCourse = (id, course) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`/api/v1/courses/${id}`, course, tokenConfig(getState))
+    axios.put(`/api/v1/courses/${id}`, course/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: UPDATE_COURSE,
         payload: res.data
@@ -92,7 +92,7 @@ export const updateCourse = (id, course) => (dispatch, getState) => {
 export const deleteCourse = id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`/api/v1/courses/${id}`, tokenConfig(getState))
+    axios.delete(`/api/v1/courses/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: DELETE_COURSE,
         payload: id

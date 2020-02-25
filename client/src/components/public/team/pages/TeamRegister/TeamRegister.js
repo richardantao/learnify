@@ -32,13 +32,11 @@ class TeamRegister extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            this.setState({
-                message: error.message.message
-            });
-        } else {
-            this.setState({
-                message: null
-            });
+            if(error.id === "") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });
+            };
         };
     };
 

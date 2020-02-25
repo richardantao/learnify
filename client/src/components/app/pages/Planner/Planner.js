@@ -6,11 +6,11 @@ import { connect } from "react-redux";
 import { 
     fetchAssessmentsByTerm, fetchPastAssessmentsByTerm, 
     fetchAssessmentsByCourse, fetchPastAssessmentsByCourse
-} from "../../../../actions/beta/assessments";
+} from "../../../../actions/app/assessments";
 import { 
     fetchTasksByTerm, fetchPastTasksByTerm,
     fetchTasksByCourse, fetchPastTasksByCourse
-} from "../../../../actions/beta/tasks";
+} from "../../../../actions/app/tasks";
 import PropTypes from "prop-types";
 
 import { Col, Row, Button } from "reactstrap";

@@ -17,7 +17,7 @@ const Login = Loadable({
     delay: 300
 });
 
-const Team = props => {
+export default ({  }) => {
     return (
         <>
             <Helmet>
@@ -43,5 +43,3 @@ const Team = props => {
         </>
     );
 };
-
-export default Team;

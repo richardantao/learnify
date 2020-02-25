@@ -12,7 +12,7 @@ export const setLoading = () => { return { type: LOADING_BUGS }};
 export const createBug = bug => (dispatch, getState => {
     dispatch(setLoading());
 
-    axios.post("/api/v1/bugs", bug, tokenConfig(getState))
+    axios.post("/api/v1/bugs", bug/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: CREATE_BUG,
         payload: res.data
@@ -23,7 +23,7 @@ export const createBug = bug => (dispatch, getState => {
 });
 
 export const fetchBugs = () => (dispatch, getState) => {
-    axios.get("/api/v1/bugs", tokenConfig(getState))
+    axios.get("/api/v1/bugs"/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_BUGS,
         payload: res.data
@@ -34,7 +34,7 @@ export const fetchBugs = () => (dispatch, getState) => {
 };
 
 export const editBug = id => (dispatch, getState) => {
-    axios.get(`/api/v1/bugs/${id}`, tokenConfig(getState))
+    axios.get(`/api/v1/bugs/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: EDIT_BUG,
         payload: res.data
@@ -45,7 +45,7 @@ export const editBug = id => (dispatch, getState) => {
 };
 
 export const updateBug = (id, bug) => (dispatch, getState) => {
-    axios.put(`/api/v1/bugs/${id}`, bug, tokenConfig(getState))
+    axios.put(`/api/v1/bugs/${id}`, bug/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: UPDATE_BUG,
         payload: res.data
@@ -56,7 +56,7 @@ export const updateBug = (id, bug) => (dispatch, getState) => {
 };
 
 export const deleteBug = id => (dispatch, getState) => {
-    axios.delete(`/api/v1/bugs/${id}`, tokenConfig(getState))
+    axios.delete(`/api/v1/bugs/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: DELETE_BUG,
         payload: id

@@ -34,41 +34,31 @@ class Roles extends Component {
     toggleBackend = () => {
         const { openBackend } = this.state;
 
-        this.setState({
-            openBackend: !openBackend
-        });
+        this.setState({ openBackend: !openBackend });
     };
 
     toggleCreator = () => {
         const { openCreator } = this.state;
 
-        this.setState({
-            openCreator: !openCreator
-        });
+        this.setState({ openCreator: !openCreator });
     };
 
     toggleDesigner = () => {
         const { openDesigner } = this.state;
 
-        this.setState({
-            openDesigner: !openDesigner
-        });
+        this.setState({ openDesigner: !openDesigner });
     };
 
     toggleFrontend = () => {
         const { openFrontend } = this.state;
 
-        this.setState({
-            openFrontend: !openFrontend
-        });
+        this.setState({ openFrontend: !openFrontend });
     };
 
     toggleMarketer = () => {
         const { openMarketer } = this.state;
 
-        this.setState({
-            openMarketer: !openMarketer
-        });
+        this.setState({ openMarketer: !openMarketer });
     };
 
     render() {
@@ -88,11 +78,11 @@ class Roles extends Component {
                         <div>
                             <h1>Roles</h1>
                             <p>
-                                Learnify is looking to build a team around one common goal: stimulate life-long learning by 
-                                helping students find purpose, fulfilment, and pleasure through their education.
+                                Learnify is looking to build a team around a common goal of helping students find 
+                                purpose and fulfillment through their education.
                             </p>
                             <p>
-                                If you're a passionate individual who wants better education for all, please apply for one (or more) of the positions below.
+                                If you're a passionate individual who sees a better future from purpose-driven education, please apply for an available position below. 
                             </p>
                         </div>
                         <ListGroup>

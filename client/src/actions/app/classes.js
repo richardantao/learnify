@@ -13,7 +13,7 @@ export const setLoading = () => { return { type: LOADING_CLASSES } };
 export const newClass = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/courses`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/courses`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
         type: NEW_CLASS,
         payload: res.data
@@ -26,7 +26,7 @@ export const newClass = termId => (dispatch, getState) => {
 export const createClass = newClass => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("/api/v1/classes", newClass, tokenConfig(getState))
+    axios.post("/api/v1/classes", newClass/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
         type: CREATE_CLASS,
         payload: res.data
@@ -39,7 +39,7 @@ export const createClass = newClass => (dispatch, getState) => {
 export const fetchClassesForDash = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/classes?`, tokenConfig(getState)) // add query parameters
+    axios.get(`/api/v1/terms/${termId}/classes?`/*, tokenConfig(getState)*/) // add query parameters
     .then(res => dispatch({
         type: FETCH_CLASSES_FOR_DASH,
         payload: res.data
@@ -52,7 +52,7 @@ export const fetchClassesForDash = termId => (dispatch, getState) => {
 export const fetchClassesByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`/api/v1/terms/${termId}/classes`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/classes`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
         type: FETCH_CLASSES_BY_TERM,
         payload: res.data
@@ -65,7 +65,7 @@ export const fetchClassesByTerm = termId => (dispatch, getState) => {
 export const fetchClassesByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/courses/${courseId}/classes`, tokenConfig(getState))
+    axios.get(`/api/v1/courses/${courseId}/classes`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: FETCH_CLASSES_BY_COURSE,
         payload: res.data
@@ -78,7 +78,7 @@ export const fetchClassesByCourse = courseId => (dispatch, getState) => {
 export const editClass = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/classes/${_id}`, tokenConfig(getState))
+    axios.get(`/api/v1/classes/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
         type: EDIT_CLASS,
         payload: res.data
@@ -91,7 +91,7 @@ export const editClass = _id => (dispatch, getState) => {
 export const updateClass = _id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`/api/v1/classes/${_id}`, tokenConfig(getState))
+    axios.put(`/api/v1/classes/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
         type: UPDATE_CLASS,
         payload: res.data
@@ -104,7 +104,7 @@ export const updateClass = _id => (dispatch, getState) => {
 export const deleteClass = _id => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.delete(`/api/v1/classes/${_id}`, tokenConfig(getState))
+    axios.delete(`/api/v1/classes/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
         type: DELETE_CLASS,
         payload: _id
