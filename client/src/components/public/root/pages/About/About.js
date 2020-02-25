@@ -11,7 +11,7 @@ import TeamCard from "../../templates/TeamCard/TeamCard";
 import richardantao from "./richardantao-min.png";
 import "../../Root.scss";
 
-const About = props => {
+export default ({  }) => {
     return (
         <>
             <Helmet>
@@ -29,15 +29,15 @@ const About = props => {
                     <section className="about-mission">
                         <h2>Mission</h2>
                         <p>
+                            Our mission is to provide a platform that enables students everywhere to be the best version of themselves.
+                        </p>
+                        <p>
                             At Learnify, we believe in the transformational power of education. It is through accessible and engaging education that we can solve 
                             the world's complex issues.
                         </p>
                         <p>
-                            We believe there are better ways to learn, and providing the tools and resources that facilitate a stimulating and meaningful environment for students is 
+                            We believe there are better ways to learn. Providing the tools and resources that facilitate a stimulating and meaningful environment for students is 
                             integral to making that happen.
-                        </p>
-                        <p>
-                            Our mission is to provide a platform that enables students everywhere to be the best version of themselves.
                         </p>
                     </section>
                     <section className="about-values">
@@ -72,10 +72,9 @@ const About = props => {
                             alt="Headshot of Richard Antao"
                             person="Richard Antao"
                             title="Founder"
-                            description=" Richard is in his final year of Integrated Engineering
-                            at Western University. Aside from school and Learnify, 
-                            Richard is an avid reader, enjoys going to the gym, and is
-                            passionate about space, psychology, finance, and transport phenomena."
+                            description="Richard is an Integrated Engineering student at Western University. 
+                            Aside from school and Learnify, Richard is an avid reader, enjoys going to the gym, 
+                            and is passionate about space, finance, psychology, and transport phenomena."
                         />
                     </section>
                 </main>
@@ -84,11 +83,3 @@ const About = props => {
         </>
     );
 };
-
-// const richardantao = Loadable({
-//     loader: () => import(/* webpackChunkName: "richardantao" */ "./richardantao-min.png"),
-//     loading: Loading,
-//     delay: 300
-// });
-
-export default About;
