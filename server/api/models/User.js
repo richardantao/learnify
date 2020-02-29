@@ -30,7 +30,7 @@ const UserSchema = new Schema({
     },
     preferences: {
         startDay: { type: String, enum: [ "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" ] },
-        startTime: { type: String, default: "8:00am"},
+        startTime: { type: Date, default: "8:00am"},
         defaultDuration: { type: Number, default: 50, min: [ 0, "Default duration must be greater than 0" ] },
         defaultCalendar: { type: String, default: "Week", enum: [ "Month", "Week", "Day", "Agenda" ] },
         onEmailList: { type: Boolean, default: true}
