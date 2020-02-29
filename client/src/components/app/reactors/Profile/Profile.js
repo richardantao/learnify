@@ -18,7 +18,7 @@ class Profile extends Component {
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
-        // define user object
+        user: PropTypes.object.isRequired,
         editProfile: PropTypes.func.isRequired,
 		updateProfile: PropTypes.func.isRequired,
 		clearErrors: PropTypes.func.isRequired
@@ -65,6 +65,10 @@ class Profile extends Component {
 
     render() {
         const { message } = this.state;
+        const {
+            user: { profile }
+        } = this.props;
+
         return (
             <Form onSubmit={this.handleSubmit}>   
                 {  message === "Profile Updated" ? (
@@ -101,7 +105,7 @@ class Profile extends Component {
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
-    // define user object
+    user: state.user
 });
 
 const mapDispatchToProps = { editProfile, updateProfile, clearErrors };

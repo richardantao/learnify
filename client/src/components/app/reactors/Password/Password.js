@@ -17,6 +17,7 @@ class Password extends Component {
 
     static propTypes = {
         error: PropTypes.object.isRequired,
+        user: PropTypes.object.isRequired,
         editPassword: PropTypes.func.isRequired,
         updatePassword: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
@@ -121,7 +122,8 @@ class Password extends Component {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
+    user: state.user
 });
 
 const mapDispatchToProps = { editPassword, updatePassword, clearErrors };

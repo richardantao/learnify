@@ -17,6 +17,7 @@ class Preferences extends Component {
 
     static propTypes = {
         error: PropTypes.object.isRequired,
+        user: PropTypes.object.isRequired,
         editPreferences: PropTypes.func.isRequired,
         updatePreferences: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
@@ -67,6 +68,9 @@ class Preferences extends Component {
 
     render() {
         const { message } = this.state;
+        const { 
+            user: { preferences }
+        } = this.props;
 
         return (
             <Form onSubmit={this.handleSubmit}>
@@ -99,7 +103,8 @@ class Preferences extends Component {
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
-    error: state.error
+    error: state.error,
+    user: state.user
 });
 
 const mapDispatchToProps = { editPreferences, updatePreferences, clearErrors };
