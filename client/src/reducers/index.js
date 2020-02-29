@@ -5,6 +5,7 @@ import { combineReducers } from "redux";
 import errorReducer from "./auth/errors";
 
 /* --- Beta App Reducers --- */
+import userReducer from "./app/users";
 import yearReducer from "./app/years";
 import termReducer from "./app/terms";
 import courseReducer from "./app/courses";
@@ -21,6 +22,7 @@ import contactReducer from "./root/contact";
 export default combineReducers({
     // auth: authReducer,
     error: errorReducer,
+    user: userReducer,
     year: yearReducer,
     term: termReducer,
     course: courseReducer,
