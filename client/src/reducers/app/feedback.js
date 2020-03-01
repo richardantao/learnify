@@ -1,5 +1,5 @@
 import { 
-    PROCESSING_FEEDBACK, 
+    PROCESSING_FEEDBACK, PROCESSING_FEEDBACK_FAILED, 
     CREATE_FEEDBACK, FETCH_FEEDBACK,
     EDIT_FEEDBACK, UPDATE_FEEDBACK, DELETE_FEEDBACK
 } from "../../actions/types";
@@ -15,6 +15,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: true
+            };
+        case PROCESSING_FEEDBACK_FAILED:
+            return {
+                ...state,
+                loading: false
             };
         case CREATE_FEEDBACK:
             return {

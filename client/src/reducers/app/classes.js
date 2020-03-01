@@ -1,5 +1,6 @@
 import { 
-    PROCESSING_CLASSES, FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
+    PROCESSING_CLASSES, PROCESSING_CLASSES_FAILED,
+    FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
     NEW_CLASS, CREATE_CLASS, 
     EDIT_CLASS, UPDATE_CLASS, DELETE_CLASS 
 } from "../../actions/types";
@@ -13,9 +14,15 @@ const initialState = {
 export default (state = initialState, action) => {
     switch(action.type) {
         case PROCESSING_CLASSES:
+        case PROCESSING_CLASSES_FAILED:
             return {
                 ...state,
                 loading: true
+            };
+        case PROCESSING_CLASSES_FAILED:
+            return {
+                ...state,
+                loading: false
             };
         case NEW_CLASS: 
             return {

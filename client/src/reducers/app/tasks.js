@@ -1,5 +1,6 @@
 import {
-    PROCESSING_TASKS, FETCH_TASKS, FETCH_PAST_TASKS,
+    PROCESSING_TASKS, PROCESSING_TASKS_FAILED,
+    FETCH_TASKS, FETCH_PAST_TASKS,
     NEW_TASK, CREATE_TASK, 
     EDIT_TASK, UPDATE_TASK, DELETE_TASK 
 } from "../../actions/types";
@@ -16,6 +17,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: true
+            };
+        case PROCESSING_TASKS_FAILED:
+            return {
+                ...state,
+                loading: false
             };
         case NEW_TASK:
             return {

@@ -1,5 +1,5 @@
 import { 
-    PROCESSING_YEARS, 
+    PROCESSING_YEARS, PROCESSING_YEARS_FAILED, 
     CREATE_YEAR, 
     FETCH_YEARS, 
     EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
@@ -16,6 +16,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: true
+            };
+        case PROCESSING_YEARS_FAILED:
+            return {
+                ...state,
+                loading: false
             };
         case CREATE_YEAR:
             return {

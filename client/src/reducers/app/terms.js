@@ -1,5 +1,6 @@
 import { 
-    PROCESSING_TERMS, FETCH_TERMS,
+    PROCESSING_TERMS, PROCESSING_TERMS_FAILED,
+    FETCH_TERMS,
     NEW_TERM, CREATE_TERM, 
     EDIT_TERM, UPDATE_TERM, DELETE_TERM 
 } from "../../actions/types";
@@ -16,6 +17,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: true
+            };
+        case PROCESSING_TERMS_FAILED:
+            return {
+                ...state,
+                loading: false
             };
         case NEW_TERM:
             return {

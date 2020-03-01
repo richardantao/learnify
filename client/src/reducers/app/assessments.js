@@ -1,5 +1,5 @@
 import { 
-    PROCESSING_ASSESSMENTS, 
+    PROCESSING_ASSESSMENTS, PROCESSING_ASSESSMENTS_FAILED,
     NEW_ASSESSMENT, CREATE_ASSESSMENT,
     FETCH_ASSESSMENTS, FETCH_PAST_ASSESSMENTS,
     EDIT_ASSESSMENT, UPDATE_ASSESSMENT, DELETE_ASSESSMENT
@@ -14,6 +14,11 @@ const initialState = {
 export default (state = initialState, action) => {
     switch(action.type) {
         case PROCESSING_ASSESSMENTS:
+            return {
+                ...state,
+                loading: true
+            };
+        case PROCESSING_ASSESSMENTS_FAILED:
             return {
                 ...state,
                 loading: false

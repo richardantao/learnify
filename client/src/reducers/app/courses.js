@@ -1,5 +1,6 @@
 import { 
-    PROCESSING_COURSES, FETCH_COURSES, 
+    PROCESSING_COURSES, PROCESSING_COURSES_FAILED, 
+    FETCH_COURSES, 
     NEW_COURSE, CREATE_COURSE, 
     EDIT_COURSE, UPDATE_COURSE, DELETE_COURSE 
 } from "../../actions/types";
@@ -16,6 +17,11 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: true
+            };
+        case PROCESSING_COURSES_FAILED:
+            return {
+                ...state,
+                loading: false
             };
         case NEW_COURSE: 
             return {

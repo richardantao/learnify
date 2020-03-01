@@ -1,5 +1,5 @@
 import { 
-    PROCESSING_BUGS, 
+    PROCESSING_BUGS, PROCESSING_BUGS_FAILED,
     CREATE_BUG, FETCH_BUGS,
     EDIT_BUG, UPDATE_BUG, DELETE_BUG
 } from "../../actions/types";
@@ -12,10 +12,16 @@ const initialState = {
 export default (state = initialState, action) => {
     switch(action.type) {
         case PROCESSING_BUGS:
+        case PROCESSING_BUGS_FAILED:
             return {
                 ...state,
                 loading: true
             };
+        case PROCESSING_BUGS_FAILED:
+                return {
+                    ...state,
+                    loading: false
+                };
         case CREATE_BUG:
             return {
                 ...state,
