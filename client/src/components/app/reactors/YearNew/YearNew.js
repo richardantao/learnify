@@ -34,21 +34,15 @@ class YearNew extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-
-    };
-
     componentDidUpdate(prevProps) {
         const { error, /* isAuthenticated */ } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "PROCESSING_YEARS_FAILED") {
                 this.setState({ message: error.message.message });
             } else {
-                this.setState({ message: ""})
+                this.setState({ message: null });
             };
-        } else {
-            this.setState({ message: null });
         };
     };
 
@@ -61,9 +55,7 @@ class YearNew extends Component {
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: [e.target.value]
-        });
+        this.setState({ [e.target.name]: [e.target.value] });
     };
 
     handleSubmit = e => {
@@ -82,7 +74,9 @@ class YearNew extends Component {
 
         createYear(year);
 
-        this.toggle();
+        setTimeout(() => {
+            this.toggle();
+        }, 2000);
     };
 
     handleCancel = () => {
@@ -111,7 +105,7 @@ class YearNew extends Component {
                     </ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {  message === "Year Created" ? (
+                            {  message === "Year created" ? (
                                 <Alert color="success">{message}</Alert>
                             ): message ? (
                                 <Alert color="danger">{message}</Alert>
@@ -158,8 +152,7 @@ class YearNew extends Component {
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
-    error: state.error,
-    year: state.year
+    error: state.error
 });
 
 const mapDispatchToProps = { createYear, clearErrors };

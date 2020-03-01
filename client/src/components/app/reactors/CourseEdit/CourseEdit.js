@@ -19,12 +19,13 @@ class CourseEdit extends Component {
     state = {
         modal: false,
         _id: "", 
+        term: {},
         code: "",
-        term: "",
         title: "",
         credit: null,
         instructor: "",
         theme: "",
+        terms: [],
         message: null
     };
     
@@ -37,17 +38,33 @@ class CourseEdit extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
+    componentDidMount() {
+        const { 
+            courses,
+            terms
+        } = this.props.course;
+
+        this.setState({
+            _id: courses._id,
+            term: courses.term,
+            code: courses.code,
+            title: courses.title,
+            credit: courses.credit,
+            instructor: courses.instructor,
+            theme: courses.theme,
+            terms
+        });
+    };
+
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error/*, isAuthenticated*/ } = this.props;
 
         if(error !== prevProps.error) {
-            this.setState({
-                message: error.message.message
-            });
-        } else {
-            this.setState({
-                message: null
-            });
+            if(error._id === "PROCESSING_COURSES_FAILED") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });
+            };
         };
     };
 
@@ -57,24 +74,21 @@ class CourseEdit extends Component {
 
         clearErrors();
 
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleSubmit = e => {
         e.preventDefault();
 
         const { updateCourse } = this.props;
-        const { code, term, title, credit, instructor, theme } = this.state;
+        const { _id, code, term, title, credit, instructor, theme } = this.state;
         
         const course = {
+            _id,
             code, 
             term, 
             title, 
@@ -92,12 +106,14 @@ class CourseEdit extends Component {
 
     handleCancel = () => {
         this.setState({
+            _id: "",
+            term: {},
             code: "",
-            term: "",
             title: "",
             credit: null,
             instructor: "",
             theme: "",
+            terms: [],
             message: null
         });
 
@@ -113,13 +129,7 @@ class CourseEdit extends Component {
     };
 
     render() {
-        const { modal, _id, code, term, title, credit, instructor, theme, message } = this.state;
-        const { 
-            course: { 
-                courses,
-                terms 
-            } 
-        } = this.props;
+        const { modal, _id, code, term, title, credit, instructor, theme, terms, message } = this.state;
 
         return (
             <>
@@ -131,7 +141,7 @@ class CourseEdit extends Component {
                     <ModalHeader toggle={this.toggle}>Edit Course</ModalHeader>
                     <Form onSubmit={this.handleSubmit} className="">
                         <ModalBody>  
-                            {  message === "Course Updated" || message === "Course Deleted" ? (
+                            {  message === "Course updated" || message === "Course deleted" ? (
                                 <Alert color="success">{message}</Alert>
                             ): message ? (
                                 <Alert color="danger">{message}</Alert>
@@ -150,15 +160,19 @@ class CourseEdit extends Component {
                                 <Input
                                     name="term"
                                     type="select"
-                                    value={term}
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    {/* {terms.map(({ _id, title }) => {
-                                        <option key={_id} value={JSON.stringify(title)}>
-                                            {title}
-                                        </option>
-                                    })} */}
+                                    <option key={term._id} value={JSON.stringify(term.title)} selected="selected">
+                                        {term.title}
+                                    </option>
+                                    {terms.map(({ _id, title }) => {
+                                        return (
+                                            <option key={_id} value={JSON.stringify(title)}>
+                                                {title}
+                                            </option>
+                                        );
+                                    })}
                                 </Input>
 
                             </FormGroup>

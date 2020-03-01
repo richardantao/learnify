@@ -22,6 +22,7 @@ class TermNew extends Component {
         title: "",
         start: "",
         end: "",
+        years: [],
         message: null
     };
 
@@ -35,22 +36,25 @@ class TermNew extends Component {
     };
     
     componentDidMount() {
-        const { newTerm } = this.props;
+        const { 
+            term: { years }, 
+            newTerm
+        } = this.props;
 
         newTerm();
+
+        this.setState({ years });
     };
 
     componentDidUpdate(prevProps) {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "PROCESSING_TERMS_FAILED") {
                 this.setState({ message: error.message.message });
             } else {
-                this.setState({});
+                this.setState({ message: null });
             };
-        } else {
-            this.setState({ message: null });
         };
     };
 
@@ -63,9 +67,7 @@ class TermNew extends Component {
         this.setState({ modal: !modal });
     };
 
-    handleChange = e => {
-        this.setState({ [e.target.name]: e.target.value });
-    };
+    handleChange = e => { this.setState({ [e.target.name]: e.target.value }) };
 
     handleSubmit = e => {
         e.preventDefault();
@@ -95,6 +97,7 @@ class TermNew extends Component {
             title: "",
             start: "",
             end: "",
+            years: [],
             message: null
         }); 
 
@@ -102,10 +105,7 @@ class TermNew extends Component {
     };
 
     render() {
-        const { modal, year, title, start, end, message } = this.state;
-        const { 
-            term: { years }
-        } = this.props;
+        const { modal, year, title, start, end, years, message } = this.state;
  
         return (
             <>
@@ -117,7 +117,7 @@ class TermNew extends Component {
                     <ModalHeader toggle={this.toggle}>New Term</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {   message === "Term Created" ? (
+                            {   message === "Term created" ? (
                                 <Alert color="success">{message}</Alert>
                             ): message ? (
                                 <Alert color="danger">{message}</Alert>
@@ -130,9 +130,13 @@ class TermNew extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    {/* {years.map(({ _id, title }) => {
-                                        <option key={_id}>{title}</option>
-                                    })}     */}
+                                    {years.map(({ _id, title }) => {
+                                        return (
+                                            <option key={_id} value={JSON.stringify(_id)}>
+                                                {title}
+                                            </option>
+                                        );
+                                    })}    
                                 </Input>
 
                                 <Label for="title">Title</Label>

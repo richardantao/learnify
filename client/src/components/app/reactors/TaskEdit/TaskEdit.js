@@ -17,12 +17,15 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 class TaskEditModal extends Component {
     state = {
         modal: false,
+        _id: "",
+        course: {},
         title: "",
-        course: "",
         type: "",
         deadline: "",
         completion: 0,
-        note: ""
+        description: "",
+        courses: [],
+        message: null
     };
 
     static propTypes = {
@@ -36,16 +39,32 @@ class TaskEditModal extends Component {
     };
 
     componentDidMount() {
-        const { editTask } = this.props;
+        const {
+            tasks,
+            courses
+        } = this.props.task;
 
-        this.props.editTask();
+        this.setState({
+            _id: tasks._id,
+            course: tasks.course,
+            title: tasks.title,
+            type: tasks.type,
+            deadline: tasks.deadline,
+            completion: tasks.completion,
+            description: tasks.description,
+            courses
+        });
     };
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+    const { error/*, isAuthenticated*/ } = this.props;
 
         if(error !== prevProps.error) {
-
+            if(error.id === "PROCESSING_TASKS_FAILED") {
+                this.setState({ message: error.message.message });  
+            } else {
+                this.setState({ message: null });  
+            };
         };
     };
 
@@ -53,17 +72,13 @@ class TaskEditModal extends Component {
         const { clearErrors } = this.props;
         const { modal } = this.state;
 
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
 
         clearErrors();
     };
 
     handleChange = e => {
-        this.setState({ 
-            [e.target.name]: e.target.value 
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleSubmit = e => {
@@ -76,19 +91,23 @@ class TaskEditModal extends Component {
 
         updateTask(task);
 
-        // close modal
-        this.toggle();
+        setTimeout(() => {
+            this.toggle();
+        }, 2000);
     };
 
     handleCancel = () => {
         // reset state and clear errors
         this.setState({
+            _id: "",
+            course: {},
             title: "",
-            course: "",
             type: "",
             deadline: "",
             completion: 0,
-            note: ""
+            description: "",
+            courses: [],
+            message: null
         });
 
         // close modal
@@ -100,18 +119,11 @@ class TaskEditModal extends Component {
 
         deleteTask(id);
 
-        // close modal onDelete
         this.toggle();
     };
 
     render() {
-        const { modal, title, course, type, deadline, completion, description } = this.state;
-        const {
-            task: { 
-                tasks,
-                courses 
-            }
-        } = this.props;
+        const { modal, _id, course, title, type, deadline, completion, description, courses, message } = this.state;
 
         return (
             <>
@@ -123,12 +135,16 @@ class TaskEditModal extends Component {
                     <ModalHeader toggle={this.toggle}>Edit Task</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody> 
+                            { message === "Task updated" ? (
+                                <Alert color="success">{message}</Alert>
+                            ): message ? (
+                                <Alert color="danger">{message}</Alert>
+                            ): null }
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input 
                                     name="title" 
                                     type="text"
-                                    placeholder="" 
                                     value={title}
                                     onChange={this.handleChange}
                                     required
@@ -142,6 +158,7 @@ class TaskEditModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
+                                    <option key={course._id} value={JSON.stringify(course.title)}>{course.title}</option>
                                     {courses.map(({ _id, course }) => (
                                         <option key={_id} value={JSON.stringify(course)}>
                                             {course}
@@ -173,19 +190,19 @@ class TaskEditModal extends Component {
                                     type="range" 
                                     value={completion} 
                                     onChange={this.handleChange}
+                                    required
                                 />
 
                                 <Label for="description">Description</Label>
                                 <Input 
                                     name="description" 
                                     type="textarea" 
-                                    placeholder="Enter Description.."
                                     value={description}
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleDelete.bind(this._id)}>Delete</Button>
+                                <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                                 <Button type="submit">Update</Button>
                             </ModalFooter>    

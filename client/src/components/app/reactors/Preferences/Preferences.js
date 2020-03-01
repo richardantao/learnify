@@ -12,6 +12,11 @@ import {
 
 class Preferences extends Component {
     state = {
+        startDay: "",
+        startTime: "",
+        defaultDuration: 0,
+        defaultCalendar: "Month",
+        onEmailList: true,
         message: null
     };
 
@@ -24,22 +29,32 @@ class Preferences extends Component {
     };
 
     componentDidMount() {
-        const { editPreferences } = this.props;
+        const { 
+            startDay,
+            startTime,
+            defaultDuration,
+            defaultCalendar,
+            onEmailList
+        } = this.props.user.preferences; 
 
-        editPreferences();
+        this.setState({
+            startDay,
+            startTime,
+            defaultDuration,
+            defaultCalendar,
+            onEmailList
+        });
     };
 
     componentDidUpdate(prevProps) {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "PROCESSING_PREFERENCES_FAILED") {
                 this.setState({ message: error.message.message });
             } else {
-                this.setState({ message: "" });
+                this.setState({ message: null });
             };
-        } else {
-            this.setState({ message: null });
         };
     };
 
@@ -51,10 +66,20 @@ class Preferences extends Component {
         e.preventDefault();
 
         const { updatePreferences } = this.props;
-        const { } = this.state;
+        const { 
+            startDay,
+            startTime,
+            defaultDuration,
+            defaultCalendar,
+            onEmailList
+        } = this.state;
 
         const preferences = { 
-
+            startDay,
+            startTime,
+            defaultDuration,
+            defaultCalendar,
+            onEmailList
         };
 
         updatePreferences(preferences);
@@ -62,15 +87,17 @@ class Preferences extends Component {
 
     handleCancel = () => {
         this.setState({ 
+            startDay: "",
+            startTime: "",
+            defaultDuration: 0,
+            defaultCalendar: "Month",
+            onEmailList: true,
             message: null
         });
     };
 
     render() {
-        const { message } = this.state;
-        const { 
-            user: { preferences }
-        } = this.props;
+        const { startDay, startTime, defaultDuration, defaultCalendar, onEmailList, message } = this.state;
 
         return (
             <Form onSubmit={this.handleSubmit}>
@@ -80,17 +107,54 @@ class Preferences extends Component {
                     <Alert color="danger">{message}</Alert>
                 ): null}
                 <FormGroup>
-                    <Label for=""></Label>
+                    <Label for="startDay">Start Day</Label>
                     <Input
-                        name=""
-                        type=""
-                        // value={}
+                        name="startDay"
+                        type="text"
+                        value={startDay}
+                        onChange={this.handleChange}
+                        required
+                    />
+
+                    <Label for="startTime">Start Time</Label>
+                    <Input
+                        name="startTime"
+                        type="date"
+                        value={startTime}
                         onChange={this.handleChange}
                         required
                     />
                 </FormGroup>
                 <FormGroup>
+                    <Label for="defaultDuration">Default Duration</Label>
+                    <Input
+                        name="defaultDuration" 
+                        type="number"
+                        value={defaultDuration}
+                        onChange={this.handleChange}
+                        required
+                    />
 
+                    <Label for="defaultCalendar">Default Calendar</Label>
+                    <Input
+                        name="defaultCalendar"
+                        type="select"
+                        value={defaultCalendar}
+                        onChange={this.handleChange}
+                        required
+                    >
+                        
+                    </Input>
+                </FormGroup>
+                <FormGroup>
+                    <Label for="onEmailList">Email List</Label>
+                    <Input
+                        name="onEmailList"
+                        type="checkbox"
+                        value={onEmailList}
+                        onChange={this.handleChange}
+                        required
+                    />
                 </FormGroup>
                 <FormGroup>
                     <Button type="button" onClick={this.handleCancel} lassName="">Cancel Changes</Button>

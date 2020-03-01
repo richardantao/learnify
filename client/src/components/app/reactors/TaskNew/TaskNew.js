@@ -9,11 +9,11 @@ import PropTypes from "prop-types";
 import Icon from "../../atoms/Icon";
 
 import { 
+    Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input, Button 
+    Form, FormGroup, Label, Input
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
 
 class TaskNew extends Component {
     state = {
@@ -23,7 +23,9 @@ class TaskNew extends Component {
         type: "",
         deadline: "",
         completion: "",
-        description: ""
+        description: "",
+        courses: [],
+        message: null
     }
 
     static propTypes = {
@@ -34,12 +36,28 @@ class TaskNew extends Component {
         createTask: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
-
     
     componentDidMount() {
-        const { newTask } = this.props;
+        const { 
+            task: { courses },
+            newTask 
+        } = this.props;
 
         newTask();
+
+        this.setState({ courses });
+    };
+
+    componentDidUpdate(prevProps) {
+        const { error } = this.props;
+
+        if(error !== prevProps.error) {
+            if(error.id === "PROCESSING_TASKS_FAILED") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });
+            };
+        };
     };
 
     toggle = () => {
@@ -57,15 +75,16 @@ class TaskNew extends Component {
 
     handleCancel = e => {
         this.setState({
+            modal: false,
             title: "",
             course: "",
             type: "",
             deadline: "",
             completion: "",
-            description: ""
+            description: "",
+            courses: [],
+            message: null
         });
-
-        this.toggle();
     };
 
     handleSubmit = e => {
@@ -76,7 +95,6 @@ class TaskNew extends Component {
 
         const task = { title, course, type, deadline, completion, description };
       
-        // Add item via createTask action
         createTask(task);
       
         setTimeout(() => {
@@ -85,10 +103,7 @@ class TaskNew extends Component {
     };
     
     render() {
-        const { modal, title, course, type, deadline, completion, description } = this.state;
-        const { 
-            task: { courses }
-        } = this.props;
+        const { modal, title, course, type, deadline, completion, description, courses, message } = this.state;
 
         return (
             <>
@@ -100,6 +115,11 @@ class TaskNew extends Component {
                     <ModalHeader toggle={this.toggle}>New Task</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>    
+                            { message === "Task created" ? (
+                                <Alert color="success">{message}</Alert>
+                            ): message ? (
+                                <Alert color="danger">{message}</Alert>
+                            ): null }
                             <FormGroup className="modal-body">
                                 <Label for="title">Title</Label>
                                 <Input 
@@ -118,16 +138,23 @@ class TaskNew extends Component {
                                     required
                                 >
                                     {courses.map(({ _id, title }) => {
-                                        // <option key={_id} value={JSON.stringify(title)}>
-                                        //     {title}
-                                        // </option>
+                                        return (
+                                            <option key={_id} value={JSON.stringify(_id)}>
+                                                {title}
+                                            </option>
+                                        );
                                     })}
                                 </Input>
                             </FormGroup>
                             <FormGroup className="modal-body">
                                 <Label for="type">Type</Label>
-                                <Input name="type" type="select" value={type} onChange={this.handleChange}>
-                                    {/* type options here */}
+                                <Input 
+                                    name="type" 
+                                    type="select" 
+                                    value={type} 
+                                    onChange={this.handleChange}
+                                >
+                                    type options here
                                 </Input>
 
                                 <Label for="deadline">Deadline</Label>

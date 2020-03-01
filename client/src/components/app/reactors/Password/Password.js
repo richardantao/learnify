@@ -12,7 +12,10 @@ import {
 
 class Password extends Component {
     state = {
-
+        current: "",
+        change: "",
+        confirm: "",
+        message: null
     };
 
     static propTypes = {
@@ -24,22 +27,18 @@ class Password extends Component {
     };
 
     componentDidMount() {
-        const { editPassword } = this.props;
-
-        editPassword();
+    
     };
 
     componentDidUpdate(prevProps) {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "PROCESSING_PASSWORD_FAILED") {
                 this.setState({ message: error.message.message });
             } else {    
-                this.setState({ message: ""});
+                this.setState({ message: null });
             };
-        } else {
-            this.setState({ message: null });
         };
     };
 
@@ -74,7 +73,7 @@ class Password extends Component {
 
         return (
             <Form>
-                {  message === "Password Updated" ? (
+                {  message === "Password updated" ? (
                     <Alert color="success">{message}</Alert>
                 ): message ? (
                     <Alert color="danger">{message}</Alert>

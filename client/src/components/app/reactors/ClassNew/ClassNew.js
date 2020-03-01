@@ -18,10 +18,13 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class ClassNew extends Component {
     state = {
-        modal: false
+        modal: false,
+        courses: [],
+        message: null
     };
 
     static propsTypes = {
+        isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         classes: PropTypes.object.isRequired,
         newClass: PropTypes.func.isRequired,
@@ -30,20 +33,25 @@ class ClassNew extends Component {
     };      
 
     componentDidMount() {
-        
+        const {
+            classes: { courses },
+            newClass
+        } = this.props;
+
+        newClass();
+
+        this.setState({ courses });
     };
 
     componentDidUpdate(prevProps) {
         const { error } = this.props;
         
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "PROCESSING_CLASSES_FAILED") {
                 this.setState({ message: error.message.message });
             } else {
-                this.setState({ message: "" })
+                this.setState({ message: null });
             };
-        } else { 
-            this.setState({ message: null });
         };
     };
 
@@ -66,7 +74,8 @@ class ClassNew extends Component {
         const { title, course } = this.state;
 
         const newClass = {
-
+            title,
+            course
         };
 
         createClass(newClass);
@@ -75,10 +84,7 @@ class ClassNew extends Component {
     };
 
     render() {
-        const { modal } = this.state;
-        const { 
-            classes: { courses }
-        } = this.props;
+        const { modal, title, courses, message } = this.state;
 
         return (
             <>
@@ -91,13 +97,18 @@ class ClassNew extends Component {
                         Create Class
                     </ModalHeader>
                     <Form>
-                        <ModalBody>                        
+                        <ModalBody>     
+                            {  message === "Class created" ? (
+                                <Alert color="success">{message}</Alert>
+                            ): message ? (
+                                <Alert color="danger">{message}</Alert>
+                            ): null}                   
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input
                                     name="title"
                                     type="text"
-                                    // value={}
+                                    value={title}
                                     onChange={this.handleChange}
                                     required
                                 />
@@ -106,15 +117,16 @@ class ClassNew extends Component {
                                 <Input
                                     name="course"
                                     type="select"
-                                    // value={}
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    {/* {courses.map(({ _id, title }) => {
-                                        <option key={_id} value={JSON.stringify(title)}>
-                                            {title}
-                                        </option>
-                                    })} */}
+                                    {courses.map(({ _id, title }) => {
+                                        return (
+                                            <option key={_id} value={JSON.stringify(_id)}>
+                                                {title}
+                                            </option>
+                                        );
+                                    })}
                                 </Input>
                             </FormGroup>
                             <FormGroup>
@@ -129,7 +141,8 @@ class ClassNew extends Component {
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
-
+                            <Button type="button" className="" onClick={this.handleCancel}>Cancel</Button>
+                            <Button type="submit" className="">Create Class</Button>
                         </ModalFooter>
                     </Form>
                 </Modal>

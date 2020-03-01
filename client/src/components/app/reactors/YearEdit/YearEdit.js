@@ -29,14 +29,29 @@ class YearEdit extends Component {
         deleteYear: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
+
+    componentDidMount() {
+        const { 
+            _id, title, date: { start, end }
+        } = this.props.year.years;
+
+        this.setState({
+            _id,
+            title,
+            start,
+            end
+        });
+    };
     
     componentDidUpdate(prevProps) {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            this.setState({ message: error.message.message });
-        } else {
-            this.setState({ message: null });
+            if(error.id === "PROCESSING_YEARS_FAILED") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });
+            };
         };
     };
 
@@ -109,7 +124,7 @@ class YearEdit extends Component {
                     <ModalHeader toggle={this.toggle}>Edit Year</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {  message === "Year Updated" || message === "Year Deleted" ? (
+                            {  message === "Year updated" || message === "Year deleted" ? (
                                 <Alert color="success">{message}</Alert>
                             ): message ? (
                                 <Alert color="danger">{message}</Alert>

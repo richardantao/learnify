@@ -9,19 +9,20 @@ import Icon from "../../atoms/Icon";
 
 import { 
     Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input, Button 
+    Form, FormGroup, Label, Input, Button, Alert 
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class CourseNew extends Component {
     state = {
         modal: false,
-        code: "",
         term: "",
+        code: "",
         title: "",
         credit: null,
         instructor: "",
         theme: "",
+        terms: [],
         message: null
     };
 
@@ -35,22 +36,25 @@ class CourseNew extends Component {
     };
 
     componentDidMount() {
-        const { newCourse } = this.props;
+        const { 
+            course: { terms },
+            newCourse 
+        } = this.props;
 
         newCourse();
+
+        this.setState({ terms });
     };
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error/*, isAuthenticated*/ } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "PROCESSING_COURSES_FAILED") {
                 this.setState({ message: error.message.message });
             } else {
-                this.setState({ message: "" });
+                this.setState({ message: null });
             };
-        } else {
-            this.setState({ message: null });
         };
     };
 
@@ -68,7 +72,14 @@ class CourseNew extends Component {
 
     handleCancel = () => {
         this.setState({
-
+            term: "",
+            code: "",
+            title: "",
+            credit: null,
+            instructor: "",
+            theme: "",
+            terms: [],
+            message: null
         });
 
         this.toggle();
@@ -97,10 +108,7 @@ class CourseNew extends Component {
     };
     
     render() {
-        const { modal, code, term, title, credit, instructor, theme, message } = this.state;
-        const { 
-            course: { terms }
-        } = this.props;
+        const { modal, code, title, credit, instructor, theme, terms, message } = this.state;
 
         return (
             <>
@@ -112,20 +120,26 @@ class CourseNew extends Component {
                     <ModalHeader toggle={this.toggle}>New Course</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>    
+                            { message === "Course created" ? (
+                                <Alert color="success">{message}</Alert>
+                            ): message ? (
+                                <Alert color="danger">{message}</Alert>
+                            ): null }
                             <FormGroup>
                                 <Label for="term">Term</Label>
                                 <Input
                                     name="term"
                                     type="select"
-                                    value={term}
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    {/* {terms.map(({ _id, title }) => {
-                                        <option key={_id} value={JSON.stringify(title)}>
-                                            {title}
-                                        </option>
-                                    })} */}
+                                    {terms.map(({ _id, title }) => {
+                                        return (
+                                            <option key={_id} value={JSON.stringify(_id)}>
+                                                {title}
+                                            </option>
+                                        );
+                                    })}
                                 </Input>
 
                                 <Label for="code">Code</Label>

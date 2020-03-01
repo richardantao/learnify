@@ -19,9 +19,11 @@ class TermEdit extends Component {
     state = {
         modal: false,
         _id: "",
+        year: {},
         title: "",
         start: "",
         end: "",
+        years: [],
         message: null
     };
 
@@ -33,18 +35,31 @@ class TermEdit extends Component {
         deleteTerm: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
+
+    componentDidMount() {
+        const { 
+            terms, 
+            years
+        } = this.props.term;
+
+        this.setState({
+            _id: terms._id,
+            title: terms.title,
+            start: terms.date.start,
+            end: terms.date.end,
+            years
+        });
+    };
     
     componentDidUpdate(prevProps) {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            this.setState({
-                message: error.message.message
-            });
-        } else {
-            this.setState({
-                message: null
-            });
+            if(error.id === "PROCESSING_TERMS_FAILED") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });
+            };
         };
     };
 
@@ -89,9 +104,11 @@ class TermEdit extends Component {
     handleCancel = () => {
         this.setState({
             _id: "",
+            year: {},
             title: "",
             start: "",
             end: "",
+            years: [],
             message: null
         });
 
@@ -109,13 +126,7 @@ class TermEdit extends Component {
     };
 
     render() {
-        const { modal, message } = this.state;
-        const { 
-            term: { 
-                terms,
-                years
-            } 
-        } = this.props;
+        const { modal, _id, year, title, start, end, years, message } = this.state;
 
         return (
             <>
@@ -127,7 +138,7 @@ class TermEdit extends Component {
                     <ModalHeader toggle={this.toggle}>Edit Term</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {  message === "Term Updated" || message === "Term Deleted" ? (
+                            {  message === "Term updated" || message === "Term deleted" ? (
                                 <Alert color="success">{message}</Alert>
                             ): message ? (
                                 <Alert color="danger">{message}</Alert>
@@ -135,24 +146,26 @@ class TermEdit extends Component {
                             <FormGroup>
                                 <Label for="year">Year</Label>
                                 <Input
-                                    name=""
-                                    type=""
-                                    value=""
+                                    name="year"
+                                    type="select"
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    {/* {years.map(({ _id, title }) => {
-                                        <option key={_id} value={JSON.stringify(title)}>
-                                            {title}
-                                        </option>
-                                    })} */}
+                                    <option key={year._id} value={JSON.stringify(year._title)} selected="selected">{year.title}</option>
+                                    {years.map(({ _id, title }) => {
+                                        return (
+                                            <option key={_id} value={JSON.stringify(title)}>
+                                                {title}
+                                            </option>
+                                        );
+                                    })}
                                 </Input>
 
                                 <Label for="title">Title</Label>
                                 <Input
                                     name="title"
                                     type="text"
-                                    value={terms.title}
+                                    value={title}
                                     onChange={this.handleChange}
                                     required
                                 />
@@ -161,7 +174,7 @@ class TermEdit extends Component {
                                 <Input
                                     name="start"
                                     type="date"
-                                    value={terms.date.start}
+                                    value={start}
                                     onChange={this.handleChange}
                                     required
                                 />
@@ -170,13 +183,13 @@ class TermEdit extends Component {
                                 <Input
                                     name="end"
                                     type="date"
-                                    value={terms.date.end}
+                                    value={end}
                                     onChange={this.handleChange}
                                     required
                                 />
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleDelete.bind(terms._id)}>Delete Term</Button>
+                                <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Term</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                                 <Button type="submit">Update Term</Button>
                             </ModalFooter>

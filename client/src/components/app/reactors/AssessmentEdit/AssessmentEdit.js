@@ -7,14 +7,25 @@ import PropTypes from "prop-types";
 
 import { 
     Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input, Button 
+    Form, FormGroup, Label, Input, Button, Alert 
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 class AssessmentEdit extends Component {
     state = {
-        modal: false
+        modal: false,
+        _id: "", 
+        course: {},
+        title: "",
+        type: "",
+        location: "",
+        start: "",
+        end: "",
+        score: "",
+        weight: "",
+        courses: [],
+        message: null
     };
     
     static propTypes = {
@@ -27,20 +38,34 @@ class AssessmentEdit extends Component {
     };
 
     componentDidMount() {
-        
+        const { 
+            assessments,
+            courses
+        } = this.props.assessment;
+
+        this.setState({
+            _id: assessments._id,
+            course: assessments.course,
+            title: assessments.title,
+            type: assessments.type,
+            location: assessments.location,
+            start: assessments.date.start,
+            end: assessments.date.end,
+            score: assessments.grade.score,
+            weight: assessments.grade.weight,
+            courses
+        });
     };
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props; 
+        const { error/*, isAuthenticated*/ } = this.props; 
 
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "PROCESSING_ASSESSMENTS_FAILED") {
                 this.setState({ message: error.message.message });
             } else {
-                this.setState({ message: "" });
+                this.setState({ message: null });
             };
-        } else {
-            this.setState({ message: null });
         };
     };
 
@@ -60,10 +85,22 @@ class AssessmentEdit extends Component {
         e.preventDefault();
 
         const { updateAssessment } = this.props;
-        const { } = this.state;
+        const { _id, course, title, type, location, start, end, score, weight } = this.state;
 
         const assessment = {
-            
+            _id,
+            course,
+            title,
+            type,
+            location,
+            date: {
+                start, 
+                end
+            },
+            grade: {
+                score,
+                weight
+            }
         };
 
         // pass updated object to action function
@@ -76,7 +113,17 @@ class AssessmentEdit extends Component {
 
     handleCancel = () => {
         this.setState({
-            
+            _id: "", 
+            course: {},
+            title: "",
+            type: "",
+            location: "",
+            start: "",
+            end: "",
+            score: "",
+            weight: "",
+            courses: [],
+            message: null
         });
 
         this.toggle();
@@ -91,13 +138,7 @@ class AssessmentEdit extends Component {
     };
 
     render() {
-        const { modal, title, course, type, start, end, location, weight, score } = this.state;
-        const { 
-            assessment: { 
-                assessments,
-                courses 
-            }
-        } = this.props;
+        const { modal, title, course, type, location, start, end, weight, score, courses, message } = this.state;
 
         return (
             <>
@@ -109,6 +150,11 @@ class AssessmentEdit extends Component {
                     <ModalHeader toggle={this.toggle}>Edit Assessment</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.handleSubmit}>
+                            { message === "Assessment Updated" ? (
+                                <Alert color="success">{message}</Alert>
+                            ): message ? (
+                                <Alert color="danger">{message}</Alert>
+                            ): null}
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input
@@ -122,18 +168,74 @@ class AssessmentEdit extends Component {
                                 <Input
                                     name="course"
                                     type="select"
-                                    value={course}
                                     onChange={this.handleChange}
                                 >
+                                    <option key={course._id} value={JSON.stringify(course.title)} selected="selected">
+                                        {course.title}
+                                    </option>
                                     {courses.map(({ _id, title }) => {
-                                        <option key={_id} value={JSON.stringify(title)}>
-                                            {title}
-                                        </option>
+                                        return (
+                                            <option key={_id} value={JSON.stringify(title)}>
+                                                {title}
+                                            </option>
+                                        );
                                     })}    
                                 </Input>
                             </FormGroup>
                             <FormGroup>
-                                
+                                <Label for="type">Type</Label>
+                                <Input
+                                    name="type"
+                                    type="select"
+                                    onChange={this.handleChange}
+                                    required
+                                >
+                                    <option value={JSON.stringify(type)}>{type}</option>
+                                input option types
+                                </Input>
+
+                                <Label for="location">Location</Label>
+                                <Input
+                                    name="location"
+                                    type="text"
+                                    value={location}
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                    <Label for="start">Start-</Label>
+                                    <Input
+                                        name="start"
+                                        type="date"
+                                        value={start}
+                                        onChange={this.handleChange}
+                                        required
+                                    />
+
+                                    <Label for="end">End Date</Label>
+                                    <Input
+                                        name="end"
+                                        type="date"
+                                        value={end}
+                                        onChange={this.handleChange}
+                                    />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label for="score">Score</Label>
+                                <Input
+                                    name="score"
+                                    type="number"
+                                    value={score}
+                                    onChange={this.handleChange}
+                                />
+
+                                <Label for="weight">Weight</Label>
+                                <Input
+                                    name="weight"
+                                    type="number"
+                                    value={weight}
+                                    onChange={this.handleChange}
+                                />
                             </FormGroup>
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleDelete.bind(assessments._id)}>Delete Assessment</Button>

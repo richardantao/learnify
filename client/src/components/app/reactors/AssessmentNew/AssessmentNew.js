@@ -9,14 +9,20 @@ import PropTypes from "prop-types";
 import Icon from "../../atoms/Icon";
 
 import { 
-    Modal, ModalHeader, ModalBody, 
-    Form, FormGroup, Label, Input, Button, ModalFooter 
+    Alert, Button,
+    Modal, ModalHeader, ModalBody, ModalFooter,
+    Form, FormGroup, Label, Input, 
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class AssessmentNew extends Component {
     state = {
-        modal: false
+        modal: false,
+        _id: "",
+        course: {},
+        title: "",
+        courses: [],
+        message: null
     };
     
     static propTypes = {
@@ -29,17 +35,25 @@ class AssessmentNew extends Component {
     };
 
     componentDidMount() {
-        const { newAssessment } = this.props;
-
+        const {
+            assessment: { courses },
+            newAssessment
+        } = this.props;
 
         newAssessment();
+
+        this.setState({ courses });
     };
 
     componentDidUpdate (prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error/*, isAuthenticated*/ } = this.props;
 
         if(error !== prevProps.error) {
-
+            if(error.id === "PROCESSING_ASSESSMENTS_FAILED") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });
+            };
         };
     };
 
@@ -47,17 +61,13 @@ class AssessmentNew extends Component {
         const { clearErrors } = this.props;
         const { modal } = this.state;
 
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
 
         clearErrors();
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
     
     handleCancel = () => {
@@ -72,22 +82,26 @@ class AssessmentNew extends Component {
         e.preventDefault();
 
         const { createAssessment } = this.props;
-        const { } = this.state;
+        const { course, title, type, start, end } = this.state;
 
         const assessment = {
-
+            course,
+            title,
+            date: {
+                start,
+                end
+            }
         };
 
         createAssessment(assessment);
 
-        this.toggle();
+        setTimeout(() => {
+            this.toggle();
+        }, 2000);
     };  
 
     render() {
-        const { modal, title, course, type, location, start, end, weight, score } = this.state;
-        const {
-            assessment: { courses }
-        } = this.props;
+        const { modal, title, course, type, location, start, end, score, weight, courses, message } = this.state;
 
         return (
             <>
@@ -99,6 +113,11 @@ class AssessmentNew extends Component {
                     <ModalHeader toggle={this.toggle}>New Assessment</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
+                            {  message === "Assessment created" ? (
+                                <Alert color="success">{message}</Alert>
+                            ): message ? (
+                                <Alert color="danger">{message}</Alert>
+                            ): null}
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input
@@ -118,9 +137,11 @@ class AssessmentNew extends Component {
                                     required
                                 >
                                     {courses.map(({ _id, title }) => {
-                                        // <option key={_id} value={JSON.stringify(title)}>
-                                        //     {title}
-                                        // </option>
+                                        return (
+                                            <option key={_id} value={JSON.stringify(_id)}>
+                                                {title}
+                                            </option>
+                                        );
                                     })}    
                                 </Input>
                             </FormGroup>
