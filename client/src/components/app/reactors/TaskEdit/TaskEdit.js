@@ -97,7 +97,6 @@ class TaskEditModal extends Component {
     };
 
     handleCancel = () => {
-        // reset state and clear errors
         this.setState({
             _id: "",
             course: {},
@@ -110,7 +109,6 @@ class TaskEditModal extends Component {
             message: null
         });
 
-        // close modal
         this.toggle();
     };
 
@@ -122,6 +120,29 @@ class TaskEditModal extends Component {
         this.toggle();
     };
 
+    handleSubmit = e => {
+        e.preventDefault();
+
+        const { updateYear } = this.props;
+        const { _id, title, start, end } = this.state;
+
+        const year = {
+            _id,
+            title,
+            date: {
+                start,
+                end
+            }
+        };
+
+        updateYear(year);
+
+        // close modal and sending confirmation message
+        setTimeout(() => {
+            this.toggle();
+        }, 2000);
+    };
+    
     render() {
         const { modal, _id, course, title, type, deadline, completion, description, courses, message } = this.state;
 
@@ -158,7 +179,9 @@ class TaskEditModal extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    <option key={course._id} value={JSON.stringify(course.title)}>{course.title}</option>
+                                    <option key={course._id} value={JSON.stringify(course.title)} selected="selected">
+                                        {course.title}
+                                    </option>
                                     {courses.map(({ _id, course }) => (
                                         <option key={_id} value={JSON.stringify(course)}>
                                             {course}

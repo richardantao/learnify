@@ -44,6 +44,7 @@ class TermEdit extends Component {
 
         this.setState({
             _id: terms._id,
+            year: terms.year,
             title: terms.title,
             start: terms.date.start,
             end: terms.date.end,
@@ -69,36 +70,11 @@ class TermEdit extends Component {
 
         clearErrors();
 
-        this.setState({
-            modal: !modal
-        });
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
-    };
-
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const { title, start, end } = this.state;
-        const { updateTerm } = this.props;
-
-        const term = {
-            title,
-            date: {
-                start,
-                end
-            }
-        };
-
-        updateTerm(term);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleCancel = () => {
@@ -125,6 +101,28 @@ class TermEdit extends Component {
         }, 2000);
     };
 
+    handleSubmit = e => {
+        e.preventDefault();
+
+        const { year, title, start, end } = this.state;
+        const { updateTerm } = this.props;
+
+        const term = {
+            year,
+            title,
+            date: {
+                start,
+                end
+            }
+        };
+
+        updateTerm(term);
+
+        setTimeout(() => {
+            this.toggle();
+        }, 2000);
+    };
+
     render() {
         const { modal, _id, year, title, start, end, years, message } = this.state;
 
@@ -138,11 +136,9 @@ class TermEdit extends Component {
                     <ModalHeader toggle={this.toggle}>Edit Term</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {  message === "Term updated" || message === "Term deleted" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null }
+                            { message === "Term updated" || message === "Term deleted" ? <Alert color="success">{message}</Alert>
+                            : message ? <Alert color="danger">{message}</Alert>
+                            : null }
                             <FormGroup>
                                 <Label for="year">Year</Label>
                                 <Input
@@ -151,10 +147,12 @@ class TermEdit extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
-                                    <option key={year._id} value={JSON.stringify(year._title)} selected="selected">{year.title}</option>
+                                    <option key={year._id} value={JSON.stringify(year._id)} selected="selected">
+                                        {year.title}
+                                    </option>
                                     {years.map(({ _id, title }) => {
                                         return (
-                                            <option key={_id} value={JSON.stringify(title)}>
+                                            <option key={_id} value={JSON.stringify(_id)}>
                                                 {title}
                                             </option>
                                         );

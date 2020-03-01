@@ -58,6 +58,18 @@ class YearNew extends Component {
         this.setState({ [e.target.name]: [e.target.value] });
     };
 
+    handleCancel = () => {
+        this.setState({
+            modal: false,
+            title: "",
+            start: "",
+            end: "",
+            message: null
+        });
+
+        this.toggle();
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -79,17 +91,6 @@ class YearNew extends Component {
         }, 2000);
     };
 
-    handleCancel = () => {
-        this.setState({
-            title: "",
-            start: "",
-            end: "",
-            message: null
-        });
-
-        this.toggle();
-    };
-
     render() {
         const { modal, title, start, end, message } = this.state;
 
@@ -105,11 +106,9 @@ class YearNew extends Component {
                     </ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {  message === "Year created" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null}
+                            { message === "Year created" ? <Alert color="success">{message}</Alert>
+                            : message ? <Alert color="danger">{message}</Alert>
+                            : null }
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input
@@ -140,8 +139,12 @@ class YearNew extends Component {
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
-                            <Button type="button" className="" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit" className="">Create Year</Button>
+                            <Button type="button" className="" onClick={this.handleCancel}>
+                                Cancel
+                            </Button>
+                            <Button type="submit" className="">
+                                Create Year
+                            </Button>
                         </ModalFooter>
                     </Form>
                 </Modal>

@@ -19,7 +19,7 @@ class AssessmentNew extends Component {
     state = {
         modal: false,
         _id: "",
-        course: {},
+        course: "",
         title: "",
         courses: [],
         message: null
@@ -35,13 +35,10 @@ class AssessmentNew extends Component {
     };
 
     componentDidMount() {
-        const {
-            assessment: { courses },
-            newAssessment
-        } = this.props;
-
+        const { newAssessment } = this.props;
         newAssessment();
 
+        const { courses } = this.props.assessment;
         this.setState({ courses });
     };
 
@@ -72,7 +69,11 @@ class AssessmentNew extends Component {
     
     handleCancel = () => {
         this.setState({
-
+            _id: "",
+            course: "",
+            title: "",
+            courses: [],
+            message: null
         });
 
         this.toggle();
@@ -166,7 +167,7 @@ class AssessmentNew extends Component {
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Label></Label>
+                                <Label for="start">Start-</Label>
                                 <Input
                                     name="start"
                                     type="date"
@@ -174,12 +175,20 @@ class AssessmentNew extends Component {
                                     onChange={this.handleChange}
                                     required
                                 />
+
+                                <Label for="end">End Date</Label>
+                                <Input
+                                    name="end"
+                                    type="date"
+                                    value={end}
+                                    onChange={this.handleChange}
+                                />
                             </FormGroup>
                             <FormGroup>
                                 <Label for="weight">Weight</Label>
                                 <Input
                                     name="weight"
-                                    type=""
+                                    type="number"
                                     value={weight}
                                     onChange={this.handleChange}
                                     required

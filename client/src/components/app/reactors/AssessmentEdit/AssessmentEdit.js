@@ -81,6 +81,32 @@ class AssessmentEdit extends Component {
         this.setState({ [e.target.name]: e.target.value }); 
     };
 
+    handleCancel = () => {
+        this.setState({
+            _id: "", 
+            course: {},
+            title: "",
+            type: "",
+            location: "",
+            start: "",
+            end: "",
+            score: "",
+            weight: "",
+            courses: [],
+            message: null
+        });
+
+        this.toggle();
+    };
+
+    handleDelete = id => {
+        const { deleteAssessment } = this.props;
+        
+        deleteAssessment(id);
+
+        this.toggle();
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -111,32 +137,6 @@ class AssessmentEdit extends Component {
         }, 2000);
     };
 
-    handleCancel = () => {
-        this.setState({
-            _id: "", 
-            course: {},
-            title: "",
-            type: "",
-            location: "",
-            start: "",
-            end: "",
-            score: "",
-            weight: "",
-            courses: [],
-            message: null
-        });
-
-        this.toggle();
-    };
-
-    handleDelete = id => {
-        const { deleteAssessment } = this.props;
-        
-        deleteAssessment(id);
-
-        this.toggle();
-    };
-
     render() {
         const { modal, title, course, type, location, start, end, weight, score, courses, message } = this.state;
 
@@ -150,11 +150,9 @@ class AssessmentEdit extends Component {
                     <ModalHeader toggle={this.toggle}>Edit Assessment</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.handleSubmit}>
-                            { message === "Assessment Updated" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null}
+                            { message === "Assessment Updated" ? <Alert color="success">{message}</Alert>
+                            : message ? <Alert color="danger">{message}</Alert>
+                            : null}
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input
@@ -170,7 +168,7 @@ class AssessmentEdit extends Component {
                                     type="select"
                                     onChange={this.handleChange}
                                 >
-                                    <option key={course._id} value={JSON.stringify(course.title)} selected="selected">
+                                    <option key={course._id} value={JSON.stringify(course._id)} selected="selected">
                                         {course.title}
                                     </option>
                                     {courses.map(({ _id, title }) => {

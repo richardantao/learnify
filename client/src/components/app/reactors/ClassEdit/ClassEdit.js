@@ -71,25 +71,6 @@ class ClassEdit extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const { updateClass } = this.props;
-        const { _id, course, title } = this.state;
-
-        const revisedClass = {
-            _id,
-            course,
-            title
-        };
-
-        updateClass(revisedClass);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
-    };
-
     handleCancel = () => {
         this.setState({
             _id: "",
@@ -111,6 +92,25 @@ class ClassEdit extends Component {
         }, 2000);
     };
 
+    handleSubmit = e => {
+        e.preventDefault();
+
+        const { updateClass } = this.props;
+        const { _id, course, title } = this.state;
+
+        const revisedClass = {
+            _id,
+            course,
+            title
+        };
+
+        updateClass(revisedClass);
+
+        setTimeout(() => {
+            this.toggle();
+        }, 2000);
+    };
+    
     render() {
         const { modal, _id, title, courses, message } = this.state;
 
@@ -148,6 +148,9 @@ class ClassEdit extends Component {
                                     onChange={this.handleChange}
                                     required
                                 >
+                                    <option key={course._id} value={JSON.stringify(course._id)} selected="selected">
+                                        {course.title}
+                                    </option>
                                     {courses.map(({ _id, title }) => {
                                         return (
                                             <option key={_id} value={JSON.stringify(_id)}>

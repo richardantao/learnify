@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
-import { deleteProfile } from "../../../../actions/auth/auth";
+import { deleteUser } from "../../../../actions/auth/auth";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
@@ -14,13 +14,14 @@ import {
 
 class AppDelete extends Component {
     state = {
-        open: false
+        modal: false,
+        message: null
     };
 
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
-        deleteProfile: PropTypes.func.isRequired,
+        deleteUser: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
 
@@ -28,56 +29,59 @@ class AppDelete extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            // if() {
-
-            // } else {
-
-            // }
-        } else {
-            this.setState({
-
-            });
+            if(error.id === "DELETE_FAILED") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });
+            };
         };
     };
 
     toggle = () => {
-        const { open } = this.state;
+        const { modal } = this.state;
         const { clearErrors } = this.props;
 
         clearErrors();
-
-        this.setState({
-            open: !open
-        });
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
-
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleSubmit = e => {
         e.preventDefault();
 
-        const { } = this.state;
-        const { deleteProfile } = this.props;
+        const { _id } = this.state;
+        const { deleteUser } = this.props;
 
-        // pass id of user to deleteProfile
-        // deleteProfile(id);
+        deleteUser(_id);
     };  
 
     render() {
-        const { open } = this.state;
+        const { modal } = this.state;
 
         return (
             <>
                 <Helmet>
+                    <meta name="" content=""/>
+                    <meta name="" content=""/>
                     <title>My Learnify | Delete Account</title>
                 </Helmet>
                 <Button>Delete Account</Button>
                 
-                <Modal isOpen={open}>
+                <Modal isOpen={modal}>
                     <ModalHeader toggle={this.toggle}>Delete Account</ModalHeader>
+                    <Form>
+                        <ModalBody>
+                            <FormGroup>
 
+                            </FormGroup>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button type="submit">Delete Profile</Button>
+                        </ModalFooter>
+                    </Form>
                 </Modal>
             </>
         );
@@ -89,6 +93,6 @@ const mapStateToProps = state => ({
     error: state.error
 });
 
-const mapDispatchToProps = { deleteProfile, clearErrors };
+const mapDispatchToProps = { deleteUser, clearErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AppDelete);

@@ -19,7 +19,7 @@ class CourseNew extends Component {
         term: "",
         code: "",
         title: "",
-        credit: null,
+        credit: 0,
         instructor: "",
         theme: "",
         terms: [],
@@ -36,13 +36,10 @@ class CourseNew extends Component {
     };
 
     componentDidMount() {
-        const { 
-            course: { terms },
-            newCourse 
-        } = this.props;
-
+        const { newCourse } = this.props;
         newCourse();
 
+        const { terms } = this.props.course;
         this.setState({ terms });
     };
 
@@ -75,7 +72,7 @@ class CourseNew extends Component {
             term: "",
             code: "",
             title: "",
-            credit: null,
+            credit: 0,
             instructor: "",
             theme: "",
             terms: [],

@@ -36,9 +36,8 @@ class AppLogin extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { error, isAuthenticated } = this.props;
+        const { error } = this.props;
         if (error !== prevProps.error) {
-          // Check for register error
             if (error.id === "LOGIN_FAILED") {
                 this.setState({ message: error.message.message });
             } else {
@@ -48,9 +47,7 @@ class AppLogin extends Component {
     };
 
     handleChange = e => {
-        this.setState({ 
-            [e.target.name]: e.target.value 
-        });
+        this.setState({  [e.target.name]: e.target.value });
     };
 
     handleSubmit = e => {
@@ -66,11 +63,12 @@ class AppLogin extends Component {
             password
         };
 
-         // Attempt to login
         login(user);
     };
 
     render() {
+        const { email, password, message } = this.state;
+
         return(
             <>
                 <Helmet>
@@ -78,11 +76,9 @@ class AppLogin extends Component {
                 </Helmet>
                  <Container>
                      <div id="login">
-                             {
-                                 this.message ? 
-                                 <Alert className="form-message">{this.message}</Alert> 
-                                 : null
-                             }
+                        { message === "" ? <Alert color="success">{message}</Alert>
+                        : message ? <Alert color="danger">{message}</Alert> 
+                        : null }
                          <Form onSubmit={this.handleSubmit}>
                              <FormGroup>
                                  <Label for="email">Email</Label>

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
@@ -10,7 +10,7 @@ import { Container, Col, Row } from "reactstrap";
 class AppReset extends Component {
     render() {
         return (
-            <Fragment>
+            <>
                 <Helmet>
                     <title> Learnify | Reset Password</title>
                 </Helmet>
@@ -18,7 +18,7 @@ class AppReset extends Component {
 
 
                 </Container>
-            </Fragment>
+            </>
         )
     };
 };

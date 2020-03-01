@@ -46,6 +46,15 @@ class Password extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
+    handleCancel = () => {
+        this.setState({
+            current: "",
+            change: "",
+            confirm: "",
+            message: null
+        });
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -59,13 +68,6 @@ class Password extends Component {
         };
 
         updatePassword(password);
-    };
-
-    handleCancel = () => {
-
-        this.setState({
-
-        });
     };
 
     render() {

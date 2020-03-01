@@ -18,11 +18,11 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 class TaskNew extends Component {
     state = {
         modal: false,
-        title: "",
         course: "",
+        title: "",
         type: "",
         deadline: "",
-        completion: "",
+        completion: 0,
         description: "",
         courses: [],
         message: null
@@ -38,13 +38,10 @@ class TaskNew extends Component {
     };
     
     componentDidMount() {
-        const { 
-            task: { courses },
-            newTask 
-        } = this.props;
-
+        const { newTask } = this.props;
         newTask();
 
+        const { courses } = this.props.task;
         this.setState({ courses });
     };
 
@@ -75,16 +72,17 @@ class TaskNew extends Component {
 
     handleCancel = e => {
         this.setState({
-            modal: false,
-            title: "",
             course: "",
+            title: "",
             type: "",
             deadline: "",
-            completion: "",
+            completion: 0,
             description: "",
             courses: [],
             message: null
         });
+
+        this.toggle();
     };
 
     handleSubmit = e => {
@@ -115,11 +113,9 @@ class TaskNew extends Component {
                     <ModalHeader toggle={this.toggle}>New Task</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>    
-                            { message === "Task created" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null }
+                            { message === "Task created" ? <Alert color="success">{message}</Alert>
+                            : message ? <Alert color="danger">{message}</Alert>
+                            : null }
                             <FormGroup className="modal-body">
                                 <Label for="title">Title</Label>
                                 <Input 

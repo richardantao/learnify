@@ -69,25 +69,6 @@ class Profile extends Component {
         this.setState({ [e.target.name]: e.target.value })
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const { updateProfile } = this.props;
-        const { first, last, email, country, region, institution, school } = this.state;
-
-        const profile = {
-            first, 
-            last, 
-            email, 
-            country, 
-            region, 
-            institution, 
-            school
-        };
-
-        updateProfile(profile);
-    };
-
     handleCancel = () => {  
         const {  
             first, 
@@ -106,8 +87,28 @@ class Profile extends Component {
             country, 
             region,
             institution,
-            school
+            school,
+            message: null
         });
+    };
+
+    handleSubmit = e => {
+        e.preventDefault();
+
+        const { updateProfile } = this.props;
+        const { first, last, email, country, region, institution, school } = this.state;
+
+        const profile = {
+            first, 
+            last, 
+            email, 
+            country, 
+            region, 
+            institution, 
+            school
+        };
+
+        updateProfile(profile);
     };
 
     render() {

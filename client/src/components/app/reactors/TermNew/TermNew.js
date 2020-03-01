@@ -36,13 +36,10 @@ class TermNew extends Component {
     };
     
     componentDidMount() {
-        const { 
-            term: { years }, 
-            newTerm
-        } = this.props;
-
+        const { newTerm } = this.props;
         newTerm();
 
+        const { years } = this.props.term;
         this.setState({ years });
     };
 
@@ -100,12 +97,10 @@ class TermNew extends Component {
             years: [],
             message: null
         }); 
-
-        this.toggle();
     };
 
     render() {
-        const { modal, year, title, start, end, years, message } = this.state;
+        const { modal, title, start, end, years, message } = this.state;
  
         return (
             <>
@@ -117,11 +112,9 @@ class TermNew extends Component {
                     <ModalHeader toggle={this.toggle}>New Term</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {   message === "Term created" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null }
+                            { message === "Term created" ? <Alert color="success">{message}</Alert>
+                            : message ? <Alert color="danger">{message}</Alert>
+                            : null }
                             <FormGroup>
                                 <Label for="year">Year</Label>
                                 <Input

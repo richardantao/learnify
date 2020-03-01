@@ -68,6 +68,26 @@ class YearEdit extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
+    handleCancel = () => {
+        this.setState({
+            _id: "",
+            title: "",
+            start: "",
+            end: "",
+            message: null
+        });
+
+        this.toggle();
+    };
+
+    handleDelete = id => {
+        const { deleteYear } = this.props;
+
+        deleteYear(id);
+
+        this.toggle();
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -89,26 +109,6 @@ class YearEdit extends Component {
         setTimeout(() => {
             this.toggle();
         }, 2000);
-    };
-
-    handleCancel = () => {
-        // reset state
-        this.setState({
-            _id: "",
-            title: "",
-            start: "",
-            end: ""
-        });
-
-        this.toggle();
-    };
-
-    handleDelete = id => {
-        const { deleteYear } = this.props;
-
-        deleteYear(id);
-
-        this.toggle();
     };
 
     render() {

@@ -33,13 +33,10 @@ class ClassNew extends Component {
     };      
 
     componentDidMount() {
-        const {
-            classes: { courses },
-            newClass
-        } = this.props;
-
+        const { newClass } = this.props;
         newClass();
 
+        const { courses } = this.props.classes;
         this.setState({ courses });
     };
 
@@ -67,6 +64,14 @@ class ClassNew extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
+    handleCancel = () => {
+        this.setState({
+
+        });
+
+        this.toggle();
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -74,13 +79,15 @@ class ClassNew extends Component {
         const { title, course } = this.state;
 
         const newClass = {
-            title,
-            course
+            course,
+            title
         };
 
         createClass(newClass);
 
-        this.toggle();
+        setTimeout(() => {
+            this.toggle()
+        }, 2000);
     };
 
     render() {
@@ -98,11 +105,9 @@ class ClassNew extends Component {
                     </ModalHeader>
                     <Form>
                         <ModalBody>     
-                            {  message === "Class created" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null}                   
+                            { message === "Class created" ? <Alert color="success">{message}</Alert>
+                            : message ? <Alert color="danger">{message}</Alert>
+                            : null }                   
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input

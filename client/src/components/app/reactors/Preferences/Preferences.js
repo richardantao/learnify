@@ -62,6 +62,17 @@ class Preferences extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
+    handleCancel = () => {
+        this.setState({ 
+            startDay: "",
+            startTime: "",
+            defaultDuration: 0,
+            defaultCalendar: "Month",
+            onEmailList: true,
+            message: null
+        });
+    };
+
     handleSubmit = e => {
         e.preventDefault();
 
@@ -84,17 +95,6 @@ class Preferences extends Component {
 
         updatePreferences(preferences);
     };  
-
-    handleCancel = () => {
-        this.setState({ 
-            startDay: "",
-            startTime: "",
-            defaultDuration: 0,
-            defaultCalendar: "Month",
-            onEmailList: true,
-            message: null
-        });
-    };
 
     render() {
         const { startDay, startTime, defaultDuration, defaultCalendar, onEmailList, message } = this.state;
