@@ -160,6 +160,8 @@ const AssessmentNew = Loadable({
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
+    task: state.task,
+    assessment: state.assessment
 });
 
 const mapDispatchToProps = { 
