@@ -25,7 +25,7 @@ class App extends Component {
 
 	componentDidMount() {
 		// LogRocket.init("desbiw/learnify");
-		store.dispatch(loadUser());
+		// store.dispatch(loadUser());
 	};
 
 	componentDidUpdate(prevProps) {
