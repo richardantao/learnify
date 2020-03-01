@@ -46,7 +46,7 @@ class AssessmentNew extends Component {
         const { error/*, isAuthenticated*/ } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "PROCESSING_ASSESSMENTS_FAILED") {
+            if(error.id === "ASSESSMENTS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
@@ -83,14 +83,20 @@ class AssessmentNew extends Component {
         e.preventDefault();
 
         const { createAssessment } = this.props;
-        const { course, title, type, start, end } = this.state;
+        const { course, title, type, location, start, end, score, weight } = this.state;
 
         const assessment = {
             course,
             title,
+            type,
+            location,
             date: {
                 start,
                 end
+            },
+            grade: {
+                score,
+                weight
             }
         };
 
@@ -114,11 +120,9 @@ class AssessmentNew extends Component {
                     <ModalHeader toggle={this.toggle}>New Assessment</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {  message === "Assessment created" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null}
+                            { message === "Assessment created" ? <Alert color="success">{message}</Alert>
+                            : message ? <Alert color="danger">{message}</Alert>
+                            : null }
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input

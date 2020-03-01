@@ -1,8 +1,7 @@
 import { 
-    PROCESSING_COURSES, PROCESSING_COURSES_FAILED, 
-    FETCH_COURSES, 
-    NEW_COURSE, CREATE_COURSE, 
-    EDIT_COURSE, UPDATE_COURSE, DELETE_COURSE 
+    COURSES_REQUESTED, COURSES_ERROR,
+    TERMS_FETCHED, COURSE_CREATED,
+    COURSE_RETURNED, COURSE_UPDATED, COURSE_DELETED, COURSES_FETCHED
 } from "../../actions/types";
 
 const initialState = {
@@ -13,42 +12,42 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_COURSES:
+        case COURSES_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_COURSES_FAILED:
+        case COURSES_ERROR:
             return {
                 ...state,
                 loading: false
             };
-        case NEW_COURSE: 
+        case TERMS_FETCHED: 
             return {
                 ...state,
                 loading: false,
                 terms: action.payload,
             };  
-        case CREATE_COURSE:
+        case COURSE_CREATED:
             return {
                 ...state,
                 loading: false,
                 courses: [...state.courses, action.payload]
             };
-        case FETCH_COURSES:
+        case COURSES_FETCHED:
             return {
                 ...state,
                 loading: false,
                 courses: action.payload                
             };
-        case EDIT_COURSE:
+        case COURSE_RETURNED:
             return {
                 ...state,
                 loading: false,
                 courses: state.courses.map(course => {
                     const { _id } = action.payload;
                     
-                    if(course._id === _id) {
+                    if(course._id !== _id) {
                         return {
                             ...state.courses
                         }
@@ -57,7 +56,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case UPDATE_COURSE:
+        case COURSE_UPDATED:
             return {
                 ...state,
                 loading: false,
@@ -81,7 +80,7 @@ export default (state = initialState, action) => {
                     };  
                 }),
             };
-        case DELETE_COURSE:
+        case COURSE_DELETED:
             return {
                 ...state,
                 loading: false,

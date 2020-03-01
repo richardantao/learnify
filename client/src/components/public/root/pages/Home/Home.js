@@ -32,7 +32,7 @@ class Home extends Component {
         const { beta, error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "INVITE_ERROR") {
+            if(error.id === "INVITE_FAILED") {
                 this.setState({
                     message: error.message.message,
                     success: false
@@ -61,9 +61,7 @@ class Home extends Component {
     };
 
     handleChange = e => {
-        this.setState({ 
-            [e.target.name]: e.target.value 
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleReset = e => {
@@ -92,10 +90,8 @@ class Home extends Component {
             email
         };
 
-        // pass data to API
         postInvite(beta);
 
-        // reset form fields
         this.setState({
             name: "",
             email: ""
@@ -110,6 +106,8 @@ class Home extends Component {
         return (
             <>
                 <Helmet>    
+                    <meta name="description" content=""/>
+                    <meta name="keywords" content=""/>
                     <title>Learnify</title>
                 </Helmet>
                 <div id="public">

@@ -1,8 +1,8 @@
 import { 
-    PROCESSING_ASSESSMENTS, 
-    NEW_ASSESSMENT, CREATE_ASSESSMENT, 
-    FETCH_ASSESSMENTS, FETCH_PAST_ASSESSMENTS,
-    EDIT_ASSESSMENT, UPDATE_ASSESSMENT, DELETE_ASSESSMENT 
+    ASSESSMENTS_REQUESTED,
+    COURSES_FETCHED, ASSESSMENT_CREATED,
+    ASSESSMENTS_FETCHED,
+    ASSESSMENT_RETURNED, ASSESSMENT_UPDATED, ASSESSMENT_DELETED 
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -12,7 +12,7 @@ import axios from "axios";
 // @desc 
 export const setLoading = () => { 
     return { 
-        type: PROCESSING_ASSESSMENTS 
+        type: ASSESSMENTS_REQUESTED
     }; 
 };
 
@@ -23,11 +23,11 @@ export const newAssessment = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/courses`, tokenConfig(getState))
     .then(res => dispatch({
-        type: NEW_ASSESSMENT,
+        type: COURSES_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
 
@@ -38,11 +38,11 @@ export const createAssessment = newAssessment => (dispatch, getState) => {
 
     axios.post(`/api/v1/assessments`, newAssessment, tokenConfig(getState))
     .then(res => dispatch({
-        type: CREATE_ASSESSMENT,
+        type: ASSESSMENT_CREATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
 
@@ -53,11 +53,11 @@ export const fetchAssessmentsForDash = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/assessments?current=true&limit=true`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_ASSESSMENTS,
+        type: ASSESSMENTS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
 
@@ -68,11 +68,11 @@ export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
     
     axios.get(`/api/v1/terms/${termId}/assessments?current=true&limit=false`, tokenConfig(getState))
     .then(res => dispatch({
-        type: FETCH_ASSESSMENTS,
+        type: ASSESSMENTS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
 
@@ -83,11 +83,11 @@ export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/assessments?current=false&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_PAST_ASSESSMENTS,
+        type: ASSESSMENTS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
 
@@ -98,14 +98,13 @@ export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${courseId}/assessments?current=true&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_ASSESSMENTS,
+        type: ASSESSMENTS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
-
 
 // @path /api/v1/terms/:courseId/assesments?current=false&limit=false
 // @desc Return an array of assessments for the user that only has past assessments for a given course
@@ -114,11 +113,11 @@ export const fetchPastAssessmentsByCourse = courseId => (dispatch, getState) => 
 
     axios.get(`/api/v1/terms/${courseId}/assessments?current=false&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_ASSESSMENTS,
+        type: ASSESSMENTS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
 
@@ -129,11 +128,11 @@ export const editAssessment = id => (dispatch, getState) => {
 
     axios.get(`/api/v1/assessments/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: EDIT_ASSESSMENT,
+        type: ASSESSMENT_RETURNED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
 
@@ -142,11 +141,11 @@ export const updateAssessment = (id, assessment) => (dispatch, getState) => {
 
     axios.put(`/api/v1/assessments/${id}`, assessment/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_ASSESSMENT,
+        type: ASSESSMENT_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
 
@@ -155,10 +154,10 @@ export const deleteAssessment = id => (dispatch, getState) => {
 
     axios.delete(`/api/v1/assessments/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: DELETE_ASSESSMENT,
+        type: ASSESSMENT_DELETED,
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };

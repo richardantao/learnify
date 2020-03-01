@@ -1,10 +1,10 @@
-import { PROCESSING_FORM, POST_INVITE, INVITE_ERROR } from "../types";
+import { FORM_SUBMITTED, INVITE_SUCCESS, INVITE_FAILED } from "../types";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: PROCESSING_FORM
+        type: FORM_SUBMITTED
     };
 };
 
@@ -13,15 +13,15 @@ export const postInvite = beta => dispatch => {
 
     axios.post("https://learnify.ca/invite", beta)
     .then(res => dispatch({
-        type: POST_INVITE,
+        type: INVITE_SUCCESS,
         payload: res.data
     }))
     .catch(err => {
         dispatch(
-            returnErrors(err.res.data, err.res.status, "INVITE_ERROR")
+            returnErrors(err.res.data, err.res.status, "INVITE_FAILED")
         );
         dispatch({
-          type: INVITE_ERROR
+          type: INVITE_FAILED
         });
     });
 };

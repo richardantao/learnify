@@ -60,7 +60,7 @@ class CourseEdit extends Component {
         const { error/*, isAuthenticated*/ } = this.props;
 
         if(error !== prevProps.error) {
-            if(error._id === "PROCESSING_COURSES_FAILED") {
+            if(error._id === "COURSES_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });

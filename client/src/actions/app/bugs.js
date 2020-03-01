@@ -1,7 +1,8 @@
 import { 
-    PROCESSING_BUGS,
-    CREATE_BUG, FETCH_BUGS,
-    EDIT_BUG, UPDATE_BUG, DELETE_BUG
+    BUGS_REQUESTED,
+    BUG_CREATED,
+    BUGS_FETCHED,
+    BUG_RETURNED, BUG_UPDATED, BUG_DELETED
 } from "../../actions/types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -9,7 +10,7 @@ import axios from "axios";
 
 export const setLoading = () => { 
     return { 
-        type: PROCESSING_BUGS 
+        type: BUGS_REQUESTED
     };
 };
 
@@ -18,54 +19,54 @@ export const createBug = bug => (dispatch, getState => {
 
     axios.post("/api/v1/bugs", bug/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: CREATE_BUG,
+        type: BUG_CREATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
+        returnErrors(err.res.data, err.res.status, "BUGS_ERROR")
     ));
 });
 
 export const fetchBugs = () => (dispatch, getState) => {
     axios.get("/api/v1/bugs"/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_BUGS,
+        type: BUGS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
+        returnErrors(err.res.data, err.res.status, "BUGS_ERROR")
     ));
 };
 
 export const editBug = id => (dispatch, getState) => {
     axios.get(`/api/v1/bugs/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: EDIT_BUG,
+        type: BUG_RETURNED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
+        returnErrors(err.res.data, err.res.status, "BUGS_ERROR")
     ));
 };
 
 export const updateBug = (id, bug) => (dispatch, getState) => {
     axios.put(`/api/v1/bugs/${id}`, bug/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_BUG,
+        type: BUG_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
+        returnErrors(err.res.data, err.res.status, "BUGS_ERROR")
     ));
 };
 
 export const deleteBug = id => (dispatch, getState) => {
     axios.delete(`/api/v1/bugs/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: DELETE_BUG,
+        type: BUG_DELETED,
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
+        returnErrors(err.res.data, err.res.status, "BUGS_ERROR")
     ));
 };

@@ -38,7 +38,7 @@ class YearNew extends Component {
         const { error, /* isAuthenticated */ } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "PROCESSING_YEARS_FAILED") {
+            if(error.id === "YEARS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });

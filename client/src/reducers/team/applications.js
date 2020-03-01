@@ -1,5 +1,4 @@
-import { PROCESSING_FORM, FORM_POSTED, FORM_FAILED } from "../actions/types";
-
+import { FORM_SUBMITTED, APPLICATION_SUCCESS, APPLICATION_FAILED } from "../../actions/types";
 const initialState = {
     loading: false,
     application: {}
@@ -7,18 +6,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_FORM:
+        case FORM_SUBMITTED:
             return {
                 ...state,
                 loading: true
             };
-        case FORM_POSTED:
+        case APPLICATION_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 application: action.payload
             };
-        case FORM_FAILED:
+        case APPLICATION_FAILED:
             return {
                 ...state,
                 loading: false,

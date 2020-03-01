@@ -1,7 +1,8 @@
 import { 
-    PROCESSING_FEEDBACK, PROCESSING_FEEDBACK_FAILED, 
-    CREATE_FEEDBACK, FETCH_FEEDBACK,
-    EDIT_FEEDBACK, UPDATE_FEEDBACK, DELETE_FEEDBACK
+    FEEDBACK_REQUESTED, FEEDBACK_ERROR,
+    FEEDBACK_CREATED,
+    FEEDBACK_FETCHED,
+    FEEDBACK_RETURNED, FEEDBACK_UPDATED, FEEDBACK_DELETED
 } from "../../actions/types";
 
 const initialState = {
@@ -11,29 +12,29 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_FEEDBACK:
+        case FEEDBACK_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_FEEDBACK_FAILED:
+        case FEEDBACK_ERROR:
             return {
                 ...state,
                 loading: false
             };
-        case CREATE_FEEDBACK:
+        case FEEDBACK_CREATED:
             return {
                 ...state,
                 loading: false,
                 feedback: [...state.feedback, action.payload]
             };
-        case FETCH_FEEDBACK:
+        case FEEDBACK_FETCHED:
             return {
                 ...state,
                 loading: false,
                 feedback: action.payload
             };
-        case EDIT_FEEDBACK:
+        case FEEDBACK_RETURNED:
             return {
                 ...state,
                 loading: false,
@@ -45,7 +46,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case UPDATE_FEEDBACK:
+        case FEEDBACK_UPDATED:
             return {
                 ...state,
                 loading: false,
@@ -61,7 +62,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case DELETE_FEEDBACK:
+        case FEEDBACK_DELETED:
             return {
                 ...state,
                 feedback: state.feedback.filter(feedback => feedback._id !== action.id),

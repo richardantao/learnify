@@ -1,8 +1,8 @@
 import { 
-    PROCESSING_ASSESSMENTS, PROCESSING_ASSESSMENTS_FAILED,
-    NEW_ASSESSMENT, CREATE_ASSESSMENT,
-    FETCH_ASSESSMENTS, FETCH_PAST_ASSESSMENTS,
-    EDIT_ASSESSMENT, UPDATE_ASSESSMENT, DELETE_ASSESSMENT
+    ASSESSMENTS_REQUESTED, ASSESSMENTS_ERROR,
+    COURSES_FETCHED, ASSESSMENT_CREATED,
+    ASSESSMENTS_FETCHED,
+    ASSESSMENT_RETURNED, ASSESSMENT_UPDATED, ASSESSMENT_DELETED 
 } from "../../actions/types";
 
 const initialState = {
@@ -13,36 +13,35 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_ASSESSMENTS:
+        case ASSESSMENTS_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_ASSESSMENTS_FAILED:
+        case ASSESSMENTS_ERROR:
             return {
                 ...state,
                 loading: false
             };
-        case NEW_ASSESSMENT:
+        case COURSES_FETCHED:
             return {
                 ...state,
                 loading: false,
                 courses: action.payload
             };
-        case CREATE_ASSESSMENT:
+        case ASSESSMENT_CREATED:
             return {
                 ...state,
                 loading: false,
                 assessments: [...state.assessments, action.payload]
             };
-        case FETCH_ASSESSMENTS:
-        case FETCH_PAST_ASSESSMENTS:
+        case ASSESSMENTS_FETCHED:
             return {
                 ...state,
                 loading: false,
                 assessments: action.payload
             };
-        case EDIT_ASSESSMENT:
+        case ASSESSMENT_RETURNED:
             return {
                 ...state,
                 loading: false,
@@ -56,7 +55,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case UPDATE_ASSESSMENT:
+        case ASSESSMENT_UPDATED:
             return {
                 ...state,
                 loading: false,
@@ -88,7 +87,7 @@ export default (state = initialState, action) => {
                     };  
                 })
             };
-        case DELETE_ASSESSMENT:
+        case ASSESSMENT_DELETED:
             return {
                 ...state,
                 loading: false,

@@ -1,6 +1,11 @@
 import { 
-    AUTH_ERROR, USER_LOADING, USER_LOADED, LOGIN_SUCCESS,
-    LOGIN_FAILED, LOGOUT_SUCCESS, REGISTER_SUCCESS, REGISTER_FAILED 
+    AUTH_ERROR, 
+    USER_REQUESTED, USER_LOADED, USER_DELETED,
+    LOGIN_SUCCESS, LOGIN_FAILED, 
+    LOGOUT_SUCCESS, 
+    REGISTER_SUCCESS, REGISTER_FAILED, 
+    PASSWORD_RESET_REQUESTED, PASSWORD_RESET_SUCCESS,
+    EMAIL_VERIFICATION_SUCCESS
 } from "../types";
 import { returnErrors } from "./errors";
 import axios from "axios";
@@ -8,7 +13,7 @@ import axios from "axios";
 // check and load user
 export const loadUser = () => (dispatch, getState) => {
     // User loading
-    dispatch({ type: USER_LOADING });
+    dispatch({ type: USER_REQUESTED });
 
     // match url
     axios.get("/api/v1/user", tokenConfig(getState))
@@ -90,29 +95,55 @@ export const logout = () => dispatch => {
         type: LOGOUT_SUCCESS
     }))
     .catch(err => {
-        returnErrors(err.data, err.status);
+        returnErrors(err.data, err.status, "LOGOUT_FAILED");
     });
 };
 
-export const resetPassword = () => dispatch => {
-    axios.post("/api/v1/")
+export const requestPasswordReset = token => dispatch => {
+    axios.post("/api/v1/", token)
     .then(res => dispatch({
-        type: ""
+        type: PASSWORD_RESET_REQUESTED,
+        payload: res.data
     }))
     .catch(err => {
-        returnErrors(err.data, err.status);
+        dispatch(returnErrors(err.message, err.status, "PASSWORD_RESET_REQUEST_FAILED"));
     });
 };
 
-export const deleteProfile = () => dispatch => {
-    axios.delete("/api/v1/")
+export const resetPassword = hash => dispatch => {
+    axios.post("/api/v1/", hash)
     .then(res => dispatch({
-        type: ""
+        type: PASSWORD_RESET_SUCCESS,
+        payload: res.data
     }))
     .catch(err => {
-        returnErrors(err.data, err.status);
+        returnErrors(err.data, err.status, "PASSWORD_RESET_FAILED");
     });
+};
 
+export const verifyEmail = token => dispatch => {
+    axios.post("/api/v1/email", token)
+    .then(res => dispatch({
+        type: EMAIL_VERIFICATION_SUCCESS,
+        payload: res.data
+    }))
+    .catch(err => {
+        returnErrors(err.data, err.status, "EMAIL_VERIFICATION_FAILED");
+    });
+};
+
+export const deleteUser = id => dispatch => {
+    axios.delete("/api/v1/users")
+    .then(res => dispatch({
+        type: USER_DELETED,
+        payload: id
+    }))
+    .catch(err => {
+        dispatch(returnErrors(err.message, err.status));
+        dispatch({
+            type: AUTH_ERROR
+        });
+    });
 };
 
 /* VERIFIED */
@@ -135,7 +166,3 @@ export const tokenConfig = getState => {
 
     return config;
 };
-
-
-
-

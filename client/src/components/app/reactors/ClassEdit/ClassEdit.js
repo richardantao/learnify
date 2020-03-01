@@ -51,7 +51,7 @@ class ClassEdit extends Component {
         const { error } = this.state;
 
         if(error !== prevProps.error) {
-            if(error.id === "PROCESSING_CLASSES_FAILED") {
+            if(error.id === "CLASSES_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
@@ -112,7 +112,7 @@ class ClassEdit extends Component {
     };
     
     render() {
-        const { modal, _id, title, courses, message } = this.state;
+        const { modal, _id, course, title, courses, message } = this.state;
 
         return (
             <>
@@ -126,11 +126,9 @@ class ClassEdit extends Component {
                     </ModalHeader>
                     <Form>
                         <ModalBody>
-                            {  message === "Class updated" || message === "Class deleted" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null}
+                            { message === "Class updated" || message === "Class deleted" ? <Alert color="success">{message}</Alert>
+                            : message ? <Alert color="danger">{message}</Alert>
+                            : null }
                             <FormGroup>
                                 <Label for="title">Title</Label>
                                 <Input

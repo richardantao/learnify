@@ -1,8 +1,8 @@
 import { 
-    PROCESSING_CLASSES, PROCESSING_CLASSES_FAILED,
-    FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
-    NEW_CLASS, CREATE_CLASS, 
-    EDIT_CLASS, UPDATE_CLASS, DELETE_CLASS 
+    CLASSES_REQUESTED,
+    COURSES_FETCHED, CLASS_CREATED, 
+    CLASSES_FETCHED,
+    CLASS_RETURNED, CLASS_UPDATED, CLASS_DELETED, CLASSES_ERROR
 } from "../../actions/types";
 
 const initialState = {
@@ -13,38 +13,36 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_CLASSES:
-        case PROCESSING_CLASSES_FAILED:
+        case CLASSES_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_CLASSES_FAILED:
+        case CLASSES_ERROR:
             return {
                 ...state,
                 loading: false
             };
-        case NEW_CLASS: 
+        case COURSES_FETCHED: 
             return {
                 ...state,
                 loading: false,
                 parents: action.payload
             };
-        case CREATE_CLASS:
+        case CLASS_CREATED:
             return {
                 ...state,
                 loading: false,
                 classes: [...state.classes, action.payload]
             };
-        case FETCH_CLASSES_BY_TERM:
-        case FETCH_CLASSES_BY_COURSE:
+        case CLASSES_FETCHED:
             return {
                 ...state,
                 loading: false,
                 classes: action.payload
             };
         
-        case EDIT_CLASS:
+        case CLASS_RETURNED:
             return {
                 ...state,
                 loading: false,
@@ -57,7 +55,7 @@ export default (state = initialState, action) => {
                 }),
                 courses: action.payload.options
             };
-        case UPDATE_CLASS:
+        case CLASS_UPDATED:
             return {
                 ...state,
                 loading: false,
@@ -86,7 +84,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case DELETE_CLASS:
+        case CLASS_DELETED:
             return {
                 ...state,
                 classes: state.classes.filter(deletedClass => deletedClass._id !== action.id),

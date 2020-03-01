@@ -1,8 +1,8 @@
 import { 
-    PROCESSING_CLASSES, 
-    NEW_CLASS, CREATE_CLASS, 
-    FETCH_CLASSES_FOR_DASH, FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
-    EDIT_CLASS, UPDATE_CLASS, DELETE_CLASS 
+    CLASSES_REQUESTED,
+    COURSES_FETCHED, CLASS_CREATED, 
+    CLASSES_FETCHED,
+    CLASS_RETURNED, CLASS_UPDATED, CLASS_DELETED
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -10,7 +10,7 @@ import axios from "axios";
 
 export const setLoading = () => { 
     return { 
-        type: PROCESSING_CLASSES 
+        type: CLASSES_REQUESTED
     }; 
 };
 
@@ -19,11 +19,11 @@ export const newClass = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/courses`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
-        type: NEW_CLASS,
+        type: COURSES_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
     ));
 };
 
@@ -32,11 +32,11 @@ export const createClass = newClass => (dispatch, getState) => {
 
     axios.post("/api/v1/classes", newClass/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
-        type: CREATE_CLASS,
+        type: CLASS_CREATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
     ));
 };
 
@@ -45,11 +45,11 @@ export const fetchClassesForDash = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/classes?`/*, tokenConfig(getState)*/) // add query parameters
     .then(res => dispatch({
-        type: FETCH_CLASSES_FOR_DASH,
+        type: CLASSES_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
     ));
 };
 
@@ -58,11 +58,11 @@ export const fetchClassesByTerm = termId => (dispatch, getState) => {
     
     axios.get(`/api/v1/terms/${termId}/classes`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
-        type: FETCH_CLASSES_BY_TERM,
+        type: CLASSES_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
     ));
 };
 
@@ -71,11 +71,11 @@ export const fetchClassesByCourse = courseId => (dispatch, getState) => {
 
     axios.get(`/api/v1/courses/${courseId}/classes`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_CLASSES_BY_COURSE,
+        type: CLASSES_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
     ));
 };
 
@@ -84,11 +84,11 @@ export const editClass = _id => (dispatch, getState) => {
 
     axios.get(`/api/v1/classes/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
-        type: EDIT_CLASS,
+        type: CLASS_RETURNED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
     ));
 };
 
@@ -97,11 +97,11 @@ export const updateClass = _id => (dispatch, getState) => {
 
     axios.put(`/api/v1/classes/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
-        type: UPDATE_CLASS,
+        type: CLASS_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
     ));
 };
 
@@ -110,10 +110,10 @@ export const deleteClass = _id => (dispatch, getState) => {
     
     axios.delete(`/api/v1/classes/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({ 
-        type: DELETE_CLASS,
+        type: CLASS_DELETED,
         payload: _id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
     ));
 };

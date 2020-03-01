@@ -1,7 +1,7 @@
 import { 
-    PROCESSING_COURSES, FETCH_COURSES, 
-    NEW_COURSE, CREATE_COURSE, 
-    EDIT_COURSE, UPDATE_COURSE, DELETE_COURSE 
+    COURSES_REQUESTED, 
+    TERMS_FETCHED, COURSE_CREATED,
+    COURSE_RETURNED, COURSE_UPDATED, COURSE_DELETED, COURSES_FETCHED
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -11,7 +11,7 @@ import axios from "axios";
 // @desc 
 export const setLoading = () => { 
     return { 
-        type: PROCESSING_COURSES 
+        type: COURSES_REQUESTED
     }; 
 };
 
@@ -22,11 +22,11 @@ export const newCourse = yearId => (dispatch, getState) => {
 
     axios.get(`/api/v1/years/${yearId}/terms`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: NEW_COURSE,
+        type: TERMS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
     ));
 };
 
@@ -37,11 +37,11 @@ export const createCourse = course => (dispatch, getState) => {
 
     axios.post("/api/v1/courses", course/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: CREATE_COURSE,
+        type: COURSE_CREATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
     ));
 };
 
@@ -52,11 +52,11 @@ export const fetchCourses = termId => (dispatch, getState) => {
     
     axios.get(`/api/v1/terms/${termId}/courses`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_COURSES,
+        type: COURSES_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
     ));
 };
 
@@ -67,11 +67,11 @@ export const editCourse = id => (dispatch, getState) => {
 
     axios.get(`/api/v1/courses/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: EDIT_COURSE,
+        type: COURSE_RETURNED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
     ));
 };
 
@@ -82,11 +82,11 @@ export const updateCourse = (id, course) => (dispatch, getState) => {
 
     axios.put(`/api/v1/courses/${id}`, course/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_COURSE,
+        type: COURSE_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
     ));
 };
 
@@ -98,10 +98,10 @@ export const deleteCourse = id => (dispatch, getState) => {
 
     axios.delete(`/api/v1/courses/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: DELETE_COURSE,
+        type: COURSE_DELETED,
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
+        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
     ));
 };

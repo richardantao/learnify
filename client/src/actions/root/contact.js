@@ -1,10 +1,10 @@
-import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "../types";
+import { FORM_SUBMITTED, CONTACT_SUCCESS, CONTACT_FAILED } from "../types";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: PROCESSING_FORM
+        type: FORM_SUBMITTED
     };
 };
 
@@ -13,15 +13,15 @@ export const postContact = contact => dispatch => {
 
     axios.post("https://learnify.ca/contact", contact)
     .then(res => dispatch({
-        type: POST_CONTACT,
+        type: CONTACT_SUCCESS,
         payload: res.data
     }))
     .catch(err => {
         dispatch(
-            returnErrors(err.res.data, err.res.status, "CONTACT_ERROR")
+            returnErrors(err.res.data, err.res.status, "CONTACT_FAILED")
         );
         dispatch({
-          type: CONTACT_ERROR
+          type: CONTACT_FAILED
         });
     });
 };

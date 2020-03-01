@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
 import { verifyEmail } from "../../../../actions/auth/auth";

@@ -1,8 +1,8 @@
 import { 
-    PROCESSING_TERMS, 
-    FETCH_TERMS, EDIT_TERM, 
-    NEW_TERM, CREATE_TERM, 
-    UPDATE_TERM, DELETE_TERM 
+    TERMS_REQUESTED, 
+    YEARS_FETCHED, TERM_CREATED,
+    TERMS_FETCHED,
+    TERM_RETURNED, TERM_UPDATED, TERM_DELETED, 
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -12,7 +12,7 @@ import axios from "axios";
 // @desc return async loading action
 export const setLoading = () => { 
     return { 
-        type: PROCESSING_TERMS 
+        type: TERMS_REQUESTED
     }; 
 };
 
@@ -23,11 +23,11 @@ export const newTerm = () => (dispatch, getState) => {
 
     axios.get(`/api/v1/years`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: NEW_TERM,
+        type: YEARS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
     ));
 };
 
@@ -38,11 +38,11 @@ export const createTerm = term => (dispatch, getState) => {
 
     axios.post(`/api/v1/terms`, term/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: CREATE_TERM,
+        type: TERM_CREATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
     ));
 };
 
@@ -53,11 +53,11 @@ export const fetchTerms = yearId => (dispatch, getState) => {
     
     axios.get(`/api/v1/years/${yearId}/terms`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_TERMS,
+        type: TERMS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
     ));
 };
 
@@ -68,11 +68,11 @@ export const editTerm = id => (dispatch, getState) => {
     
     axios.get(`/api/v1/terms/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: EDIT_TERM,
+        type: TERM_RETURNED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
     ));
 };
 
@@ -83,11 +83,11 @@ export const updateTerm = (id, term) => (dispatch, getState) => {
 
     axios.put(`/api/v1/terms/${id}`, term/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_TERM,
+        type: TERM_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
     ));
 };
 
@@ -98,10 +98,10 @@ export const deleteTerm = id => (dispatch, getState) => {
 
     axios.delete(`/api/v1/terms/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: DELETE_TERM,
+        type: TERM_DELETED,
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
     ));
 };

@@ -1,14 +1,14 @@
-import { GET_ERRORS, CLEAR_ERRORS } from "../types";
+import { ERRORS_RETURNED, ERRORS_CLEARED } from "../types";
 
 export const returnErrors = (message, status, id = null) => {
     return {
-        type: GET_ERRORS,
+        type: ERRORS_RETURNED,
         payload: { message, status, id }
     };
 };
 
 export const clearErrors = () => {
     return {
-        type: CLEAR_ERRORS
+        type: ERRORS_CLEARED
     };
 };

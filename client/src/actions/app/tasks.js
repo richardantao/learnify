@@ -1,7 +1,7 @@
 import { 
-    PROCESSING_TASKS, FETCH_TASKS, FETCH_PAST_TASKS, 
-    NEW_TASK, CREATE_TASK, 
-    EDIT_TASK, UPDATE_TASK, DELETE_TASK
+    TASKS_REQUESTED,
+    COURSES_FETCHED, TASK_CREATED,
+    TASK_RETURNED, TASK_UPDATED, TASK_DELETED, TASKS_FETCHED
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -9,7 +9,7 @@ import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: PROCESSING_TASKS
+        type: TASKS_REQUESTED
     };
 };
 
@@ -18,11 +18,11 @@ export const newTask = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/courses`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: NEW_TASK,
+        type: COURSES_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -31,11 +31,11 @@ export const createTask = task => (dispatch, getState) => {
 
     axios.post("/api/v1/task", task/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: CREATE_TASK,
+        type: TASK_CREATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -44,11 +44,11 @@ export const fetchTasksForDash = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/tasks/?current=true&limit=true`/*, tokenConfig(getState)*/) // add query parameters
     .then(res => dispatch({
-        // type: FETCH_TASKS, 
+        type: TASKS_FETCHED, 
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -57,11 +57,11 @@ export const fetchTasksByTerm = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_TASKS, 
+        type: TASKS_FETCHED, 
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -71,11 +71,11 @@ export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
 
     axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_PAST_TASKS,
+        type: TASKS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -84,11 +84,11 @@ export const fetchTasksByCourse = courseId => (dispatch, getState) => {
 
     axios.get(`/api/v1/courses/${courseId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_TASKS,
+        type: TASKS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -97,11 +97,11 @@ export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
     
     axios.get(`/api/v1/courses/${courseId}/tasks?current=false&limit=false`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_PAST_TASKS,
+        type: TASKS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -111,12 +111,12 @@ export const editTask = _id => (dispatch, getState) => {
     axios.get(`/api/v1/tasks/${_id}`/*, tokenConfig(getState)*/)
     .then(res => {
         dispatch({
-            type: EDIT_TASK,
+            type: TASK_RETURNED,
             payload: res.data
         });
     })
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -125,11 +125,11 @@ export const updateTask = (_id, task) => (dispatch, getState) => {
 
     axios.put(`/api/v1/tasks/${_id}`, task/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_TASK,
+        type: TASK_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 
@@ -139,12 +139,12 @@ export const deleteTask = _id => (dispatch, getState) => {
     axios.delete(`/api/v1/tasks/${_id}`/*, tokenConfig(getState)*/)
     .then(res => {
         dispatch({
-            type: DELETE_TASK,
+            type: TASK_DELETED,
             payload: _id
         });
     })
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
 

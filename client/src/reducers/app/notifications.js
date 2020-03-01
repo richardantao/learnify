@@ -1,5 +1,5 @@
 import { 
-    PROCESSING_NOTIFICATIONS, PROCESSING_NOTIFICATIONS_FAILED 
+    NOTIFICATIONS_REQUESTED, NOTIFICATIONS_ERROR
 } from "../../actions/types";
 
 const initialState = {
@@ -8,11 +8,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_NOTIFICATIONS:
+        case NOTIFICATIONS_REQUESTED:
             return {
                 loading: true
             };
-        case PROCESSING_NOTIFICATIONS_FAILED:
+        case NOTIFICATIONS_ERROR:
             return {
                 loading: false
             };

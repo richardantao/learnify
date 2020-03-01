@@ -1,8 +1,8 @@
 import { 
-    PROCESSING_TERMS, PROCESSING_TERMS_FAILED,
-    FETCH_TERMS,
-    NEW_TERM, CREATE_TERM, 
-    EDIT_TERM, UPDATE_TERM, DELETE_TERM 
+    TERMS_REQUESTED, TERMS_ERROR,
+    YEARS_FETCHED, TERM_CREATED,
+    TERMS_FETCHED,
+    TERM_RETURNED, TERM_UPDATED, TERM_DELETED, 
 } from "../../actions/types";
 
 const initialState = {
@@ -13,35 +13,35 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_TERMS:
+        case TERMS_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_TERMS_FAILED:
+        case TERMS_ERROR:
             return {
                 ...state,
                 loading: false
             };
-        case NEW_TERM:
+        case YEARS_FETCHED:
             return {
                 ...state,
                 loading: false,
                 years: action.payload
             };
-        case CREATE_TERM:
+        case TERM_CREATED:
             return {
                 ...state,
                 loading: false,
                 terms: [...state.terms, action.payload]
             };
-        case FETCH_TERMS:
+        case TERMS_FETCHED:
             return {
                 ...state,
                 loading: false,
                 terms: action.payload
             };
-        case EDIT_TERM:
+        case TERM_RETURNED:
             return {
                 ...state,
                 loading: false,
@@ -57,7 +57,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case UPDATE_TERM:
+        case TERM_UPDATED:
             return {
                 ...state,
                 loading: false,
@@ -80,7 +80,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case DELETE_TERM:
+        case TERM_DELETED:
             return {
                 ...state,
                 loading: false,

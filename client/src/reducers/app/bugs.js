@@ -1,7 +1,8 @@
 import { 
-    PROCESSING_BUGS, PROCESSING_BUGS_FAILED,
-    CREATE_BUG, FETCH_BUGS,
-    EDIT_BUG, UPDATE_BUG, DELETE_BUG
+    BUGS_REQUESTED, BUGS_ERROR,
+    BUG_CREATED,
+    BUGS_FETCHED,
+    BUG_RETURNED, BUG_UPDATED, BUG_DELETED
 } from "../../actions/types";
 
 const initialState = {
@@ -11,30 +12,29 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_BUGS:
-        case PROCESSING_BUGS_FAILED:
+        case BUGS_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_BUGS_FAILED:
+        case BUGS_ERROR:
                 return {
                     ...state,
                     loading: false
                 };
-        case CREATE_BUG:
+        case BUG_CREATED:
             return {
                 ...state,
                 loading: false,
                 bugs: [...state.bugs, action.payload]
             };
-        case FETCH_BUGS:
+        case BUGS_FETCHED:
             return {
                 ...state,
                 loading: false,
                 bugs: action.payload
             };
-        case EDIT_BUG:
+        case BUG_RETURNED:
             return {
                 ...state,
                 loading: false,
@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case UPDATE_BUG:
+        case BUG_UPDATED:
             return {
                 ...state,
                 loading: false,
@@ -62,7 +62,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case DELETE_BUG:
+        case BUG_DELETED:
             return {
                 ...state,
                 bugs: state.bugs.filter(bug => bug._id !== action.id),

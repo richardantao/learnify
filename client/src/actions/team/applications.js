@@ -1,12 +1,12 @@
 import { 
-    PROCESSING_FORM, FORM_POSTED, FORM_FAILED
+    FORM_SUBMITTED, APPLICATION_SUCCESS, APPLICATION_FAILED
 } from "../types";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: PROCESSING_FORM
+        type: FORM_SUBMITTED
     };
 };
 
@@ -15,11 +15,11 @@ export const postBackend = application => dispatch => {
 
     axios.post("https://learnify.ca/applications/backend", application)
     .then(res => dispatch({
-        type: FORM_POSTED,
+        type: APPLICATION_SUCCESS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, FORM_FAILED)
+        returnErrors(err.res.data, err.res.status, "APPLICATION_FAILED")
     ));
 };
 
@@ -28,11 +28,11 @@ export const postCreator = application => dispatch => {
 
     axios.post("https://learnify.ca/applications/creator", application)
     .then(res => dispatch({
-        type: FORM_POSTED,
+        type: APPLICATION_SUCCESS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, FORM_FAILED)
+        returnErrors(err.res.data, err.res.status, "APPLICATION_FAILED")
     ));
 };
 
@@ -41,11 +41,11 @@ export const postDesigner= application => dispatch => {
 
     axios.post("https://learnify.ca/applications/designer", application)
     .then(res => dispatch({
-        type: FORM_POSTED,
+        type: APPLICATION_SUCCESS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, FORM_FAILED)
+        returnErrors(err.res.data, err.res.status, "APPLICATION_FAILED")
     ));
 };
 
@@ -54,11 +54,11 @@ export const postFrontend = application => dispatch => {
 
     axios.post("https://learnify.ca/applications/frontend", application)
     .then(res => dispatch({
-        type: FORM_POSTED,
+        type: APPLICATION_SUCCESS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, FORM_FAILED)
+        returnErrors(err.res.data, err.res.status, "APPLICATION_FAILED")
     ));
 };
 
@@ -67,10 +67,10 @@ export const postMarketer = application => dispatch => {
 
     axios.post("https://learnify.ca/applications/marketer", application)
     .then(res => dispatch({
-        type: FORM_POSTED,
+        type: APPLICATION_SUCCESS,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, FORM_FAILED)
+        returnErrors(err.res.data, err.res.status, "APPLICATION_FAILED")
     ));
 };

@@ -1,4 +1,4 @@
-import { PROCESSING_FORM, POST_INVITE, INVITE_ERROR } from "../../actions/types";
+import { FORM_SUBMITTED, INVITE_SUCCESS, INVITE_FAILED } from "../../actions/types";
 
 const initialState = {
     loading: false,
@@ -7,18 +7,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_FORM:
+        case FORM_SUBMITTED:
             return {
                 ...state,
                 loading: true
             };
-        case POST_INVITE:
+        case INVITE_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 message: action.payload
             };
-        case INVITE_ERROR:
+        case INVITE_FAILED:
             return {
                 ...state,
                 loading: false,

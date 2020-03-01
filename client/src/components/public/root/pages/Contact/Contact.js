@@ -34,7 +34,7 @@ class Contact extends Component {
         const { contact, error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "CONTACT_ERROR") {
+            if(error.id === "CONTACT_FAILED") {
                 this.setState({
                     message: error.message.message,
                     success: false
@@ -63,9 +63,7 @@ class Contact extends Component {
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleReset = e => {
@@ -97,10 +95,8 @@ class Contact extends Component {
             text
         };
 
-        // pass data to API
         postContact(contact);
 
-        // reset form fields
         this.setState({
             name: "",
             email: "",

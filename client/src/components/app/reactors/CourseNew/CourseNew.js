@@ -47,7 +47,7 @@ class CourseNew extends Component {
         const { error/*, isAuthenticated*/ } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "PROCESSING_COURSES_FAILED") {
+            if(error.id === "COURSES_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });

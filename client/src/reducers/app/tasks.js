@@ -1,8 +1,7 @@
-import {
-    PROCESSING_TASKS, PROCESSING_TASKS_FAILED,
-    FETCH_TASKS, FETCH_PAST_TASKS,
-    NEW_TASK, CREATE_TASK, 
-    EDIT_TASK, UPDATE_TASK, DELETE_TASK 
+import { 
+    TASKS_REQUESTED, TASKS_ERROR,
+    COURSES_FETCHED, TASK_CREATED,
+    TASK_RETURNED, TASK_UPDATED, TASK_DELETED, TASKS_FETCHED
 } from "../../actions/types";
 
 const initialState = {
@@ -13,36 +12,35 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_TASKS:
+        case TASKS_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_TASKS_FAILED:
+        case TASKS_ERROR:
             return {
                 ...state,
                 loading: false
             };
-        case NEW_TASK:
+        case COURSES_FETCHED:
             return {
                 ...state,
                 loading: false,
                 courses: action.payload
             };
-        case CREATE_TASK:
+        case TASK_CREATED:
             return {
                 ...state,
                 loading: false,
                 tasks: [...state.tasks, action.payload]
             };
-        case FETCH_TASKS:    
-        case FETCH_PAST_TASKS:
+        case TASKS_FETCHED:
             return {
                 ...state,
                 loading: false,
                 tasks: action.payload
             };
-        case EDIT_TASK:
+        case TASK_RETURNED:
             return {
                 ...state,
                 loading: false,
@@ -58,7 +56,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case UPDATE_TASK:
+        case TASK_UPDATED:
             return {
                 ...state,
                 loading: false,
@@ -82,7 +80,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case DELETE_TASK:
+        case TASK_DELETED:
             return {
                 ...state,
                 loading: false,

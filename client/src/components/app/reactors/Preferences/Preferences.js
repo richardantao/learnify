@@ -50,7 +50,7 @@ class Preferences extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "PROCESSING_PREFERENCES_FAILED") {
+            if(error.id === "SETTINGS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });

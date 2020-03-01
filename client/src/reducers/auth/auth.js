@@ -1,12 +1,16 @@
 import { 
-    AUTH_ERROR, USER_LOADING, USER_LOADED, LOGIN_SUCCESS,
-    LOGIN_FAILED, LOGOUT_SUCCESS, REGISTER_SUCCESS, REGISTER_FAILED 
+    AUTH_ERROR, 
+    USER_LOADING, USER_LOADED, 
+    LOGIN_SUCCESS, LOGIN_FAILED, 
+    LOGOUT_SUCCESS, 
+    REGISTER_SUCCESS, REGISTER_FAILED,
+    PROCESSING_EMAIL, PROCESSING_EMAIL_FAILED, VERIFY_EMAIL 
 } from "../../actions/types";
 
 const initialState = {
     token: localStorage.getItem("token"),
     isAuthenticated: null,
-    isLoading: false,
+    loading: false,
     user: null
 };
 
@@ -15,20 +19,20 @@ export default (state = initialState, action) => {
         case USER_LOADING:
             return {
                 ...state,
-                isLoading: true
+                loading: true
             };
         case USER_LOADED:
             return {
                 ...state,
                 isAuthenticated: true,
-                isLoading: false,
+                loading: false,
                 user: action.payload
             };
         case REGISTER_SUCCESS:
             return {
                 ...state,
                 ...action.payload,
-                isLoading: false
+                loading: false
             };
         case LOGIN_SUCCESS:
             localStorage.setItem("token", action.payload.token);
@@ -36,24 +40,40 @@ export default (state = initialState, action) => {
                 ...state,
                 ...action.payload,
                 isAuthenticated: true,
-                isLoading: false
+                loading: false
             };
         case REGISTER_FAILED:
             return {
                 ...state,
                 user: null,
-                isLoading: false
+                loading: false
             };
         case AUTH_ERROR:
         case LOGIN_FAILED:
         case LOGOUT_SUCCESS: 
-        localStorage.removeItem("token");
+            localStorage.removeItem("token");
             return {
                 ...state,
                 token: null,
                 user: null,
                 isAuthenticated: false,
-                isLoading: false
+                loading: false
+            };
+        case PROCESSING_EMAIL:
+            return {
+                ...state,
+                loading: true
+            };
+        case PROCESSING_EMAIL_FAILED:
+            return {
+                ...state,
+                loading: false
+            };
+        case VERIFY_EMAIL:
+            return {
+                ...state,
+                loading: false,
+                
             };
         default:
             return state;

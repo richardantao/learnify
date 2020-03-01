@@ -1,15 +1,16 @@
 import { 
-    PROCESSING_YEARS, 
-    FETCH_YEARS, CREATE_YEAR, 
-    EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
-} from "../types";
+    YEARS_REQUESTED,
+    YEAR_CREATED,
+    YEARS_FETCHED,
+    YEAR_RETURNED, YEAR_UPDATED, YEAR_DELETED
+} from "../../actions/types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: PROCESSING_YEARS
+        type: YEARS_REQUESTED
     };
 };
 
@@ -18,11 +19,11 @@ export const createYear = year => (dispatch, getState) => {
 
     axios.post("/api/v1/years", year/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: CREATE_YEAR, 
+        type: YEAR_CREATED, 
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
+        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
     ));
 };
 
@@ -31,11 +32,11 @@ export const fetchYears = () => (dispatch, getState) => {
 
     axios.get("/api/v1/years"/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: FETCH_YEARS,
+        type: YEARS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
+        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
     ));
 };
 
@@ -44,11 +45,11 @@ export const editYear = _id => (dispatch, getState) => {
 
     axios.get(`/api/v1/years/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: EDIT_YEAR,
+        type: YEAR_RETURNED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
+        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
     ));
 };
 
@@ -57,21 +58,21 @@ export const updateYear = (_id, year) => (dispatch, getState) => {
     
     axios.put(`/api/v1/years/${_id}`, year/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_YEAR,
+        type: YEAR_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
+        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
     ));
 };
 
 export const deleteYear = _id => (dispatch, getState) => {
     axios.delete(`/api/v1/years/${_id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: DELETE_YEAR,
+        type: YEAR_DELETED,
         payload: _id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
+        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
     ));
 };

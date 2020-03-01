@@ -1,8 +1,8 @@
 import { 
-    PROCESSING_SETTINGS, 
-    EDIT_PROFILE, UPDATE_PROFILE,
-    EDIT_PASSWORD, UPDATE_PASSWORD,
-    EDIT_PREFERENCES, UPDATE_PREFERENCES
+    SETTINGS_REQUESTED,
+    PROFILE_RETURNED, PROFILE_UPDATED,
+    PASSWORD_UPDATED,
+    PREFERENCES_RETURNED, PREFERENCES_UPDATED
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -10,7 +10,7 @@ import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: PROCESSING_SETTINGS
+        type: SETTINGS_REQUESTED
     };
 };
 
@@ -19,11 +19,11 @@ export const editProfile = () => (dispatch, getState) => {
 
     axios.get("/api/v1/users/profile"/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: EDIT_PROFILE,
+        type: PROFILE_RETURNED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_PROFILE_FAILED")
+        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
     ));
 };
 
@@ -32,24 +32,11 @@ export const updateProfile = profile => (dispatch, getState) => {
     
     axios.put("/api/v1/users/profile", profile/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_PROFILE,
+        type: PROFILE_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_PROFILE_FAILED")
-    ));
-};
-
-export const editPassword = () => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get("/api/v1/users/password"/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: EDIT_PASSWORD,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_PASSWORD_FAILED")
+        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
     ));
 };
 
@@ -58,11 +45,11 @@ export const updatePassword = password => (dispatch, getState) => {
 
     axios.put("/api/v1/users/password", password/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_PASSWORD,
+        type: PASSWORD_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_PASSWORD_FAILED")
+        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
     ));
 };
 
@@ -71,11 +58,11 @@ export const editPreferences = () => (dispatch, getState) => {
 
     axios.get("/api/v1/users/preferences"/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: EDIT_PREFERENCES,
+        type: PREFERENCES_RETURNED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_PREFERENCES_FAILED")
+        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
     ));
 };
 
@@ -84,10 +71,10 @@ export const updatePreferences = preferences => (dispatch, getState) => {
 
     axios.put("/api/v1/users/preferences", preferences/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: UPDATE_PREFERENCES,
+        type: PREFERENCES_UPDATED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROCESSING_PREFERENCES_FAILED")
+        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
     ));
 };

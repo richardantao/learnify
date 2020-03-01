@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { editPassword, updatePassword } from "../../../../actions/app/users";
+import { updatePassword } from "../../../../actions/app/users";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
@@ -21,7 +21,6 @@ class Password extends Component {
     static propTypes = {
         error: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
-        editPassword: PropTypes.func.isRequired,
         updatePassword: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
@@ -34,7 +33,7 @@ class Password extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "PROCESSING_PASSWORD_FAILED") {
+            if(error.id === "SETTINGS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {    
                 this.setState({ message: null });
@@ -127,6 +126,6 @@ const mapStateToProps = state => ({
     user: state.user
 });
 
-const mapDispatchToProps = { editPassword, updatePassword, clearErrors };
+const mapDispatchToProps = { updatePassword, clearErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Password);

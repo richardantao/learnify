@@ -1,10 +1,10 @@
 import {
-
+    NOTIFICATIONS_REQUESTED
 } from "../types";
 import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: PROCESSING_NOTIFICATIONS
+        type: NOTIFICATIONS_REQUESTED
     };
 };

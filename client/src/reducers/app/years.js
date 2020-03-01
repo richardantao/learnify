@@ -1,8 +1,8 @@
 import { 
-    PROCESSING_YEARS, PROCESSING_YEARS_FAILED, 
-    CREATE_YEAR, 
-    FETCH_YEARS, 
-    EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
+    YEARS_REQUESTED, YEARS_ERROR,
+    YEAR_CREATED,
+    YEARS_FETCHED,
+    YEAR_RETURNED, YEAR_UPDATED, YEAR_DELETED
 } from "../../actions/types";
 
 const initialState = {
@@ -12,29 +12,29 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_YEARS: 
+        case YEARS_REQUESTED: 
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_YEARS_FAILED:
+        case YEARS_ERROR:
             return {
                 ...state,
                 loading: false
             };
-        case CREATE_YEAR:
+        case YEAR_CREATED:
             return {
                 ...state,
                 loading: false,
                 years: [...state.years, action.payload]
             };
-        case FETCH_YEARS:
+        case YEARS_FETCHED:
             return {
                 ...state,
                 loading: false,
                 years: action.payload
             };
-        case EDIT_YEAR:
+        case YEAR_RETURNED:
             return {
                 ...state,
                 loading: false,
@@ -50,7 +50,7 @@ export default (state = initialState, action) => {
                     };
                 })
             };
-        case UPDATE_YEAR:
+        case YEAR_UPDATED:
             return {
                 ...state,
                 loading: false,
@@ -72,7 +72,7 @@ export default (state = initialState, action) => {
                     };
                 })  
             };
-        case DELETE_YEAR:
+        case YEAR_DELETED:
             return {
                 ...state,
                 loading: false,

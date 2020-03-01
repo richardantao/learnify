@@ -49,7 +49,7 @@ class TaskNew extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "PROCESSING_TASKS_FAILED") {
+            if(error.id === "TASKS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });

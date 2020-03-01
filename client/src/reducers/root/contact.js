@@ -1,4 +1,4 @@
-import { PROCESSING_FORM, POST_CONTACT, CONTACT_ERROR } from "../../actions/types";
+import { FORM_SUBMITTED, CONTACT_SUCCESS, CONTACT_FAILED } from "../../actions/types";
 
 const initialState = {
     loading: false,
@@ -7,18 +7,18 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_FORM:
+        case FORM_SUBMITTED:
             return {
                 ...state,
                 loading: true
             };
-        case POST_CONTACT:
+        case CONTACT_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 message: action.payload
             };
-        case CONTACT_ERROR: 
+        case CONTACT_FAILED: 
             return {
                 ...state,
                 loading: false,

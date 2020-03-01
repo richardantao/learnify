@@ -56,7 +56,7 @@ class TermEdit extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "PROCESSING_TERMS_FAILED") {
+            if(error.id === "TERMS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });

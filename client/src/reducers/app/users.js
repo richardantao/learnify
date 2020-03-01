@@ -1,72 +1,54 @@
 import { 
-    PROCESSING_PROFILE, PROCESSING_PROFILE_FAILED, 
-    EDIT_PROFILE, UPDATE_PROFILE, DELETE_PROFILE,
-    PROCESSING_PASSWORD, PROCESSING_PASSWORD_FAILED,
-    EDIT_PASSWORD, UPDATE_PASSWORD,
-    PROCESSING_PREFERENCES, PROCESSING_PREFERENCES_FAILED,
-    EDIT_PREFERENCES, UPDATE_PREFERENCES
+    SETTINGS_REQUESTED, SETTINGS_ERROR,
+    PROFILE_RETURNED, PROFILE_UPDATED,
+    PASSWORD_UPDATED,
+    PREFERENCES_RETURNED, PREFERENCES_UPDATED
 } from "../../actions/types";
 
 const initialState = {
     loading: false,
     profile: {},
-    password: {},
+    password: "",
     preferences: {}
 };
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROCESSING_PROFILE:
-        case PROCESSING_PASSWORD:
-        case PROCESSING_PREFERENCES:
+        case SETTINGS_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROCESSING_PROFILE_FAILED:
-        case PROCESSING_PASSWORD_FAILED:
-        case PROCESSING_PREFERENCES_FAILED: 
+        case SETTINGS_ERROR:
             return {
                 ...state,
                 loading: false
             };
-        case EDIT_PROFILE:
+        case PROFILE_RETURNED:
             return {
                 ...state,
                 loading: false,
                 profile: {}
             };
-        case UPDATE_PROFILE:
+        case PROFILE_UPDATED:
             return {
                 ...state,
                 loading: false,
                 profile: {}
             };
-        case DELETE_PROFILE:
+        case PASSWORD_UPDATED: 
             return {
                 ...state,
                 loading: false,
-                profile: {}
+                password: ""
             };
-        case EDIT_PASSWORD:
-            return {
-                ...state,
-                loading: false,
-                password: {}
-            };
-        case UPDATE_PASSWORD: 
-            return {
-                ...state,
-                loading: false,
-                password: {}
-            };
-        case EDIT_PREFERENCES: 
+        case PREFERENCES_RETURNED: 
             return {
                 ...state,
                 loading: false,
                 preferences: {}
             };
-        case UPDATE_PREFERENCES:
+        case PREFERENCES_UPDATED:
             return {
                 ...state,
                 loading: false,
