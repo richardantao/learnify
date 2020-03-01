@@ -1,4 +1,4 @@
-import { } from "../../actions/types";
+import { PROCESSING_NOTIFICATIONS } from "../../actions/types";
 
 const initialState = {
     loading: false,
@@ -6,9 +6,9 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case test:
+        case PROCESSING_NOTIFICATIONS:
             return {
-
+                loading: true
             };
         case bar: 
             return {

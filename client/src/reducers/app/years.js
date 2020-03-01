@@ -1,5 +1,5 @@
 import { 
-    LOADING_YEARS, 
+    PROCESSING_YEARS, 
     CREATE_YEAR, 
     FETCH_YEARS, 
     EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
@@ -12,7 +12,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case LOADING_YEARS: 
+        case PROCESSING_YEARS: 
             return {
                 ...state,
                 loading: true

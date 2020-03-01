@@ -1,5 +1,5 @@
 import { 
-    LOADING_SETTINGS, 
+    PROCESSING_SETTINGS, 
     EDIT_PROFILE, UPDATE_PROFILE,
     EDIT_PASSWORD, UPDATE_PASSWORD,
     EDIT_PREFERENCES, UPDATE_PREFERENCES
@@ -10,7 +10,7 @@ import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: LOADING_SETTINGS
+        type: PROCESSING_SETTINGS
     };
 };
 
@@ -23,7 +23,7 @@ export const editProfile = () => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_PROFILE_FAILED")
     ));
 };
 
@@ -36,7 +36,7 @@ export const updateProfile = profile => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_PROFILE_FAILED")
     ));
 };
 
@@ -49,7 +49,7 @@ export const editPassword = () => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_PASSWORD_FAILED")
     ));
 };
 
@@ -62,7 +62,7 @@ export const updatePassword = password => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_PASSWORD_FAILED")
     ));
 };
 
@@ -75,7 +75,7 @@ export const editPreferences = () => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_PREFERENCES_FAILED")
     ));
 };
 
@@ -88,6 +88,6 @@ export const updatePreferences = preferences => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_PREFERENCES_FAILED")
     ));
 };

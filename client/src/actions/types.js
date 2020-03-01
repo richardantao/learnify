@@ -19,7 +19,7 @@ export const CLEAR_ERRORS = "CLEAR_ERRORS";
 
 /* --- DATA --- */
 // years
-export const LOADING_YEARS = "LOADING_YEARS";
+export const PROCESSING_YEARS = "PROCESSING_YEARS";
 export const CREATE_YEAR = "CREATE_YEAR";
 export const FETCH_YEARS = "FETCH_YEARS";
 export const EDIT_YEAR = "EDIT_YEAR";
@@ -27,7 +27,7 @@ export const UPDATE_YEAR = "UPDATE_YEAR";
 export const DELETE_YEAR = "DELETE_YEAR";
 
 // terms
-export const LOADING_TERMS = "LOADING_TERMS";
+export const PROCESSING_TERMS = "PROCESSING_TERMS";
 export const NEW_TERM = "NEW_TERM";
 export const CREATE_TERM = "CREATE_TERM";
 export const FETCH_TERMS = "FETCH_TERMS";
@@ -36,7 +36,7 @@ export const UPDATE_TERM = "UPDATE_TERM";
 export const DELETE_TERM = "DELETE_TERM";
 
 // courses
-export const LOADING_COURSES = "LOADING_COURSES";
+export const PROCESSING_COURSES = "PROCESSING_COURSES";
 export const NEW_COURSE = "NEW_COURSE";
 export const CREATE_COURSE = "CREATE_COURSE";
 export const FETCH_COURSES = "FETCH_COURSES";
@@ -45,7 +45,7 @@ export const UPDATE_COURSE = "UPDATE_COURSE";
 export const DELETE_COURSE = "DELETE_COURSE";
 
 // classes
-export const LOADING_CLASSES = "LOADING_CLASSES";
+export const PROCESSING_CLASSES = "PROCESSING_CLASSES";
 export const NEW_CLASS = "NEW_CLASS";
 export const CREATE_CLASS = "CREATE_CLASS";
 export const FETCH_CLASSES_FOR_DASH = "FETCH_CLASSES_FOR_DASH";
@@ -56,7 +56,7 @@ export const UPDATE_CLASS = "UPDATE_CLASS";
 export const DELETE_CLASS = "DELETE_CLASS";
 
 // assessments
-export const LOADING_ASSESSMENTS = "LOADING_ASSESSMENTS";
+export const PROCESSING_ASSESSMENTS = "PROCESSING_ASSESSMENTS";
 export const NEW_ASSESSMENT = "NEW_ASSESSMENT";
 export const CREATE_ASSESSMENT = "CREATE_ASSESSMENT";
 export const FETCH_ASSESSMENTS = "FETCH_ASSESSMENTS";
@@ -66,7 +66,7 @@ export const UPDATE_ASSESSMENT = "UPDATE_ASSESSMENT";
 export const DELETE_ASSESSMENT = "DELETE_ASSESSMENT";
 
 // tasks
-export const LOADING_TASKS = "LOADING_TERMS";
+export const PROCESSING_TASKS = "PROCESSING_TERMS";
 export const NEW_TASK = "NEW_TASK";
 export const CREATE_TASK = "CREATE_TASK";
 export const FETCH_TASKS = "FETCH_TASKS";
@@ -76,7 +76,7 @@ export const UPDATE_TASK = "UPDATE_TASK";
 export const DELETE_TASK = "DELETE_TASK";
 
 // user
-export const LOADING_SETTINGS = "LOADING_SETTINGS";
+export const PROCESSING_SETTINGS = "PROCESSING_SETTINGS";
 export const EDIT_PROFILE = "EDIT_PROFILE";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const DELETE_PROFILE = "DELETE_PROFILE";
@@ -88,7 +88,7 @@ export const EDIT_PREFERENCES = "EDIT_PREFERENCES";
 export const UPDATE_PREFERENCES = "UPDATE_PREFERENCES";
 
 // bugs
-export const LOADING_BUGS = "LOADING_BUGS";
+export const PROCESSING_BUGS = "PROCESSING_BUGS";
 export const CREATE_BUG = "CREATE_BUG";
 export const FETCH_BUGS = "FETCH_BUGS";
 export const EDIT_BUG = "EDIT_BUG";
@@ -96,12 +96,15 @@ export const UPDATE_BUG = "UPDATE_BUG";
 export const DELETE_BUG = "DELETE_BUG";
 
 // feedback
-export const LOADING_FEEDBACK = "LOADING_FEEDBACK";
+export const PROCESSING_FEEDBACK = "PROCESSING_FEEDBACK";
 export const CREATE_FEEDBACK = "CREATE_FEEDBACK";
 export const FETCH_FEEDBACK = "FETCH_FEEDBACK";
 export const EDIT_FEEDBACK = "EDIT_FEEDBACK";
 export const UPDATE_FEEDBACK = "UPDATE_FEEDBACK";
 export const DELETE_FEEDBACK = "DELETE_FEEDBACK";
+
+// notifications
+export const PROCESSING_NOTIFICATIONS = "PROCESSING_NOTIFCATIONS";
 
 /* --- ROOT --- */
 export const PROCESSING_FORM = "PROCESSING_FORM";

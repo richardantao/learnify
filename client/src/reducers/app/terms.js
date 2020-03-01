@@ -1,5 +1,5 @@
 import { 
-    LOADING_TERMS, FETCH_TERMS,
+    PROCESSING_TERMS, FETCH_TERMS,
     NEW_TERM, CREATE_TERM, 
     EDIT_TERM, UPDATE_TERM, DELETE_TERM 
 } from "../../actions/types";
@@ -12,7 +12,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case LOADING_TERMS:
+        case PROCESSING_TERMS:
             return {
                 ...state,
                 loading: true

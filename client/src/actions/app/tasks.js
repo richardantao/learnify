@@ -1,5 +1,5 @@
 import { 
-    LOADING_TASKS, FETCH_TASKS, FETCH_PAST_TASKS, 
+    PROCESSING_TASKS, FETCH_TASKS, FETCH_PAST_TASKS, 
     NEW_TASK, CREATE_TASK, 
     EDIT_TASK, UPDATE_TASK, DELETE_TASK
 } from "../types";
@@ -9,7 +9,7 @@ import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: LOADING_TASKS
+        type: PROCESSING_TASKS
     };
 };
 
@@ -22,7 +22,7 @@ export const newTask = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 
@@ -35,7 +35,7 @@ export const createTask = task => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 
@@ -48,7 +48,7 @@ export const fetchTasksForDash = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 
@@ -61,7 +61,7 @@ export const fetchTasksByTerm = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 
@@ -75,7 +75,7 @@ export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 
@@ -88,7 +88,7 @@ export const fetchTasksByCourse = courseId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 
@@ -101,7 +101,7 @@ export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 
@@ -116,7 +116,7 @@ export const editTask = _id => (dispatch, getState) => {
         });
     })
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 
@@ -129,8 +129,8 @@ export const updateTask = (_id, task) => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status))
-    );
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
+    ));
 };
 
 export const deleteTask = _id => (dispatch, getState) => {
@@ -144,7 +144,7 @@ export const deleteTask = _id => (dispatch, getState) => {
         });
     })
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TASKS_FAILED")
     ));
 };
 

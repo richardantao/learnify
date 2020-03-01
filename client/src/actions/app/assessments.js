@@ -1,5 +1,5 @@
 import { 
-    LOADING_ASSESSMENTS, 
+    PROCESSING_ASSESSMENTS, 
     NEW_ASSESSMENT, CREATE_ASSESSMENT, 
     FETCH_ASSESSMENTS, FETCH_PAST_ASSESSMENTS,
     EDIT_ASSESSMENT, UPDATE_ASSESSMENT, DELETE_ASSESSMENT 
@@ -10,7 +10,11 @@ import axios from "axios";
 
 // @path N/A
 // @desc 
-export const setLoading = () => { return { type: LOADING_ASSESSMENTS } };
+export const setLoading = () => { 
+    return { 
+        type: PROCESSING_ASSESSMENTS 
+    }; 
+};
 
 // @path /api/v1/terms/:termId/courses
 // @desc return an array of courses to pair with the new assessment
@@ -23,7 +27,7 @@ export const newAssessment = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -38,7 +42,7 @@ export const createAssessment = newAssessment => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -53,7 +57,7 @@ export const fetchAssessmentsForDash = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -68,7 +72,7 @@ export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -83,7 +87,7 @@ export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -98,7 +102,7 @@ export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -114,7 +118,7 @@ export const fetchPastAssessmentsByCourse = courseId => (dispatch, getState) => 
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -129,7 +133,7 @@ export const editAssessment = id => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -142,7 +146,7 @@ export const updateAssessment = (id, assessment) => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };
 
@@ -155,6 +159,6 @@ export const deleteAssessment = id => (dispatch, getState) => {
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_ASSESSMENTS_FAILED")
     ));
 };

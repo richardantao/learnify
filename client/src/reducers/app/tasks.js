@@ -1,5 +1,5 @@
 import {
-    LOADING_TASKS, FETCH_TASKS, FETCH_PAST_TASKS,
+    PROCESSING_TASKS, FETCH_TASKS, FETCH_PAST_TASKS,
     NEW_TASK, CREATE_TASK, 
     EDIT_TASK, UPDATE_TASK, DELETE_TASK 
 } from "../../actions/types";
@@ -12,7 +12,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case LOADING_TASKS:
+        case PROCESSING_TASKS:
             return {
                 ...state,
                 loading: true

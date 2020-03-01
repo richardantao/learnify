@@ -1,5 +1,5 @@
 import { 
-    LOADING_SETTINGS, 
+    PROCESSING_SETTINGS, 
     EDIT_PROFILE, UPDATE_PROFILE, DELETE_PROFILE,
     EDIT_PASSWORD, UPDATE_PASSWORD,
     EDIT_PREFERENCES, UPDATE_PREFERENCES
@@ -14,7 +14,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case LOADING_SETTINGS: 
+        case PROCESSING_SETTINGS: 
             return {
                 ...state,
                 loading: true

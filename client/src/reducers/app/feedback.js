@@ -1,5 +1,5 @@
 import { 
-    LOADING_FEEDBACK, 
+    PROCESSING_FEEDBACK, 
     CREATE_FEEDBACK, FETCH_FEEDBACK,
     EDIT_FEEDBACK, UPDATE_FEEDBACK, DELETE_FEEDBACK
 } from "../../actions/types";
@@ -11,7 +11,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case LOADING_FEEDBACK:
+        case PROCESSING_FEEDBACK:
             return {
                 ...state,
                 loading: true

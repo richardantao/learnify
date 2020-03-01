@@ -1,5 +1,5 @@
 import { 
-    LOADING_BUGS, 
+    PROCESSING_BUGS,
     CREATE_BUG, FETCH_BUGS,
     EDIT_BUG, UPDATE_BUG, DELETE_BUG
 } from "../../actions/types";
@@ -7,7 +7,11 @@ import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
-export const setLoading = () => { return { type: LOADING_BUGS }};
+export const setLoading = () => { 
+    return { 
+        type: PROCESSING_BUGS 
+    };
+};
 
 export const createBug = bug => (dispatch, getState => {
     dispatch(setLoading());
@@ -18,7 +22,7 @@ export const createBug = bug => (dispatch, getState => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
     ));
 });
 
@@ -29,7 +33,7 @@ export const fetchBugs = () => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
     ));
 };
 
@@ -40,7 +44,7 @@ export const editBug = id => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
     ));
 };
 
@@ -51,7 +55,7 @@ export const updateBug = (id, bug) => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
     ));
 };
 
@@ -62,6 +66,6 @@ export const deleteBug = id => (dispatch, getState) => {
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_BUGS_FAILED")
     ));
 };

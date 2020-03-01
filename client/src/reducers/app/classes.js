@@ -1,5 +1,5 @@
 import { 
-    LOADING_CLASSES, FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
+    PROCESSING_CLASSES, FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
     NEW_CLASS, CREATE_CLASS, 
     EDIT_CLASS, UPDATE_CLASS, DELETE_CLASS 
 } from "../../actions/types";
@@ -12,7 +12,7 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case LOADING_CLASSES:
+        case PROCESSING_CLASSES:
             return {
                 ...state,
                 loading: true

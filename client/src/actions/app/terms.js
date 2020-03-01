@@ -1,5 +1,5 @@
 import { 
-    LOADING_TERMS, 
+    PROCESSING_TERMS, 
     FETCH_TERMS, EDIT_TERM, 
     NEW_TERM, CREATE_TERM, 
     UPDATE_TERM, DELETE_TERM 
@@ -10,7 +10,11 @@ import axios from "axios";
 
 // @path N/A
 // @desc return async loading action
-export const setLoading = () => { return { type: LOADING_TERMS } };
+export const setLoading = () => { 
+    return { 
+        type: PROCESSING_TERMS 
+    }; 
+};
 
 // @path /api/v1/years
 // @desc return an array of the user's years to pair the new term with
@@ -23,7 +27,7 @@ export const newTerm = () => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
     ));
 };
 
@@ -38,7 +42,7 @@ export const createTerm = term => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
     ));
 };
 
@@ -53,7 +57,7 @@ export const fetchTerms = yearId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
     ));
 };
 
@@ -68,7 +72,7 @@ export const editTerm = id => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
     ));
 };
 
@@ -83,7 +87,7 @@ export const updateTerm = (id, term) => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
     ));
 };
 
@@ -98,6 +102,6 @@ export const deleteTerm = id => (dispatch, getState) => {
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_TERMS_FAILED")
     ));
 };

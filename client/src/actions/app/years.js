@@ -1,6 +1,6 @@
 import { 
-    LOADING_YEARS, FETCH_YEARS, 
-    CREATE_YEAR, 
+    PROCESSING_YEARS, 
+    FETCH_YEARS, CREATE_YEAR, 
     EDIT_YEAR, UPDATE_YEAR, DELETE_YEAR 
 } from "../types";
 import { tokenConfig } from "../auth/auth";
@@ -9,7 +9,7 @@ import axios from "axios";
 
 export const setLoading = () => {
     return {
-        type: LOADING_YEARS
+        type: PROCESSING_YEARS
     };
 };
 
@@ -22,7 +22,7 @@ export const createYear = year => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
     ));
 };
 
@@ -35,7 +35,7 @@ export const fetchYears = () => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
     ));
 };
 
@@ -48,7 +48,7 @@ export const editYear = _id => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
     ));
 };
 
@@ -61,7 +61,7 @@ export const updateYear = (_id, year) => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
     ));
 };
 
@@ -72,6 +72,6 @@ export const deleteYear = _id => (dispatch, getState) => {
         payload: _id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_YEARS_FAILED")
     ));
 };

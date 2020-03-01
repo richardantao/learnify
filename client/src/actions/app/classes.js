@@ -1,5 +1,5 @@
 import { 
-    LOADING_CLASSES, 
+    PROCESSING_CLASSES, 
     NEW_CLASS, CREATE_CLASS, 
     FETCH_CLASSES_FOR_DASH, FETCH_CLASSES_BY_TERM, FETCH_CLASSES_BY_COURSE, 
     EDIT_CLASS, UPDATE_CLASS, DELETE_CLASS 
@@ -8,7 +8,11 @@ import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
-export const setLoading = () => { return { type: LOADING_CLASSES } };
+export const setLoading = () => { 
+    return { 
+        type: PROCESSING_CLASSES 
+    }; 
+};
 
 export const newClass = termId => (dispatch, getState) => {
     dispatch(setLoading());
@@ -19,7 +23,7 @@ export const newClass = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
     ));
 };
 
@@ -32,7 +36,7 @@ export const createClass = newClass => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
     ));
 };
 
@@ -45,7 +49,7 @@ export const fetchClassesForDash = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
     ));
 };
 
@@ -58,7 +62,7 @@ export const fetchClassesByTerm = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
     ));
 };
 
@@ -71,7 +75,7 @@ export const fetchClassesByCourse = courseId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
     ));
 };
 
@@ -84,7 +88,7 @@ export const editClass = _id => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
     ));
 };
 
@@ -97,7 +101,7 @@ export const updateClass = _id => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
     ));
 };
 
@@ -110,6 +114,6 @@ export const deleteClass = _id => (dispatch, getState) => {
         payload: _id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_CLASSES_FAILED")
     ));
 };

@@ -1,5 +1,5 @@
 import { 
-    LOADING_COURSES, FETCH_COURSES, 
+    PROCESSING_COURSES, FETCH_COURSES, 
     NEW_COURSE, CREATE_COURSE, 
     EDIT_COURSE, UPDATE_COURSE, DELETE_COURSE 
 } from "../types";
@@ -9,7 +9,11 @@ import axios from "axios";
 
 // @path N/A
 // @desc 
-export const setLoading = () => { return { type: LOADING_COURSES } };
+export const setLoading = () => { 
+    return { 
+        type: PROCESSING_COURSES 
+    }; 
+};
 
 // @path /api/v1/years/:yearId/terms
 // @desc return an array of user's terms to pair with the new course
@@ -22,7 +26,7 @@ export const newCourse = yearId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
     ));
 };
 
@@ -37,7 +41,7 @@ export const createCourse = course => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
     ));
 };
 
@@ -52,7 +56,7 @@ export const fetchCourses = termId => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
     ));
 };
 
@@ -67,7 +71,7 @@ export const editCourse = id => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
     ));
 };
 
@@ -82,7 +86,7 @@ export const updateCourse = (id, course) => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
     ));
 };
 
@@ -98,6 +102,6 @@ export const deleteCourse = id => (dispatch, getState) => {
         payload: id
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status)
+        returnErrors(err.res.data, err.res.status, "PROCESSING_COURSES_FAILED")
     ));
 };
