@@ -81,29 +81,6 @@ class CourseEdit extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const { updateCourse } = this.props;
-        const { _id, code, term, title, credit, instructor, theme } = this.state;
-        
-        const course = {
-            _id,
-            code, 
-            term, 
-            title, 
-            credit, 
-            instructor, 
-            theme
-        };
-
-        updateCourse(course);
-
-        setTimeout(() => {
-            this.toggle();            
-        }, 2000);
-    };
-
     handleCancel = () => {
         this.setState({
             _id: "",
@@ -126,6 +103,28 @@ class CourseEdit extends Component {
         deleteCourse(id);
 
         this.toggle();
+    };
+
+    handleSubmit = e => {
+        e.preventDefault();
+
+        const { updateCourse } = this.props;
+        const { _id, code, term, title, credit, instructor, theme } = this.state;
+        
+        const course = {
+            code, 
+            term, 
+            title, 
+            credit, 
+            instructor, 
+            theme
+        };
+
+        updateCourse(_id, course);
+
+        setTimeout(() => {
+            this.toggle();            
+        }, 2000);
     };
 
     render() {

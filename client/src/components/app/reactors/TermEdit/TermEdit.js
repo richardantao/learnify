@@ -104,7 +104,7 @@ class TermEdit extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const { year, title, start, end } = this.state;
+        const { _id, year, title, start, end } = this.state;
         const { updateTerm } = this.props;
 
         const term = {
@@ -116,7 +116,7 @@ class TermEdit extends Component {
             }
         };
 
-        updateTerm(term);
+        updateTerm(_id, term);
 
         setTimeout(() => {
             this.toggle();

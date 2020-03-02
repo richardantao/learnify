@@ -95,7 +95,6 @@ class YearEdit extends Component {
         const { _id, title, start, end } = this.state;
 
         const year = {
-            _id,
             title,
             date: {
                 start,
@@ -103,7 +102,7 @@ class YearEdit extends Component {
             }
         };
 
-        updateYear(year);
+        updateYear(_id, year);
 
         // close modal and sending confirmation message
         setTimeout(() => {

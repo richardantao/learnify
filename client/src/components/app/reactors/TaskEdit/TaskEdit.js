@@ -81,21 +81,6 @@ class TaskEditModal extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
-    handleSubmit = e => {
-        e.preventDefault();
-
-        const { updateTask } = this.props;
-        const { title, course, type, deadline, completion, note } = this.state;
-
-        const task = { title, course, type, deadline, completion, note };
-
-        updateTask(task);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
-    };
-
     handleCancel = () => {
         this.setState({
             _id: "",
@@ -123,21 +108,13 @@ class TaskEditModal extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const { updateYear } = this.props;
-        const { _id, title, start, end } = this.state;
+        const { updateTask } = this.props;
+        const { _id, title, course, type, deadline, completion, note } = this.state;
 
-        const year = {
-            _id,
-            title,
-            date: {
-                start,
-                end
-            }
-        };
+        const task = { title, course, type, deadline, completion, note };
 
-        updateYear(year);
+        updateTask(_id, task);
 
-        // close modal and sending confirmation message
         setTimeout(() => {
             this.toggle();
         }, 2000);

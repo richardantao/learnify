@@ -99,12 +99,11 @@ class ClassEdit extends Component {
         const { _id, course, title } = this.state;
 
         const revisedClass = {
-            _id,
             course,
             title
         };
 
-        updateClass(revisedClass);
+        updateClass(_id, revisedClass);
 
         setTimeout(() => {
             this.toggle();

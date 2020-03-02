@@ -114,7 +114,6 @@ class AssessmentEdit extends Component {
         const { _id, course, title, type, location, start, end, score, weight } = this.state;
 
         const assessment = {
-            _id,
             course,
             title,
             type,
@@ -129,8 +128,7 @@ class AssessmentEdit extends Component {
             }
         };
 
-        // pass updated object to action function
-        updateAssessment(assessment);
+        updateAssessment(_id, assessment);
 
         setTimeout(() => {
             this.toggle();
