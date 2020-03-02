@@ -13,7 +13,7 @@ import { Button, Col, Row } from "reactstrap";
 
 import AuthNav from "../../organisms/AuthNav";
 import AppNav from "../../organisms/AppNav";
-import Header from "../../organisms/Header";
+import Header from "../../atoms/Header";
 
 /* Atoms */
 import Icon from "../../atoms/Icon";
@@ -56,7 +56,7 @@ class Academics extends Component {
 		const { error } = this.props;
 
 		if(error !== prevProps.error) {
-			if(error.id === "") {
+			if(error.id === "YEARS_ERROR" || error.id === "TERMS_ERROR" || error.id === "COURSES_ERROR" || error === "CLASSES_ERROR") {
 				this.setState({ message: error.message.message });
 			} else {
 				this.setState({ message: null });
@@ -108,9 +108,6 @@ class Academics extends Component {
 									</Col>
 									<Col>
 										<TermNew/>
-										<Button onClick={this}>
-											<Icon icon={faEdit}/>
-										</Button>
 									</Col>
 								</Row>
 							</Col>
@@ -121,9 +118,6 @@ class Academics extends Component {
 									</Col>
 									<Col>
 										<CourseNew/>
-										<Button onClick={this}>
-											<Icon icon={faEdit}/>
-										</Button>
 									</Col>
 								</Row>
 							</Col>
@@ -134,9 +128,6 @@ class Academics extends Component {
 									</Col>
 									<Col>
 										<ClassNew/>
-										<Button onClick={this}>
-											<Icon icon={faEdit}/>
-										</Button>
 									</Col>
 								</Row>
 							</Col>

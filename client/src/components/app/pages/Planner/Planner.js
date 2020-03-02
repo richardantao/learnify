@@ -4,12 +4,16 @@ import { Helmet } from "react-helmet";
 /* Redux Operations */
 import { connect } from "react-redux";
 import { 
+    fetchAssessmentsInitialRender,
     fetchAssessmentsByTerm, fetchPastAssessmentsByTerm, 
-    fetchAssessmentsByCourse, fetchPastAssessmentsByCourse
+    fetchAssessmentsByCourse, fetchPastAssessmentsByCourse,
+    editAssessment
 } from "../../../../actions/app/assessments";
 import { 
+    fetchTasksInitialRender,
     fetchTasksByTerm, fetchPastTasksByTerm,
-    fetchTasksByCourse, fetchPastTasksByCourse
+    fetchTasksByCourse, fetchPastTasksByCourse,
+    editTask
 } from "../../../../actions/app/tasks";
 import PropTypes from "prop-types";
 
@@ -32,8 +36,8 @@ import "./Planner.scss";
 
 class Planner extends Component {
     state = {
-        message: null,
-        filter: false
+        filter: false,
+        message: null
     };
 
     static propTypes = {
@@ -41,25 +45,31 @@ class Planner extends Component {
         error: PropTypes.object.isRequired,
         task: PropTypes.object.isRequired,
         assessment: PropTypes.object.isRequired,
+        fetchTasksInitialRender: PropTypes.func.isRequired,
         fetchTasksByTerm: PropTypes.func.isRequired,
         fetchPastTasksByTerm: PropTypes.func.isRequired,
         fetchTasksByCourse: PropTypes.func.isRequired,
         fetchPastTasksByCourse: PropTypes.func.isRequired,
+        editTask: PropTypes.func.isRequired,
+        fetchAssessmentsInitialRender: PropTypes.func.isRequired,
         fetchAssessmentsByTerm: PropTypes.func.isRequired,
         fetchPastAssessmentsByTerm: PropTypes.func.isRequired,
         fetchAssessmentsByCourse: PropTypes.func.isRequired,
-        fetchPastAssessmentsByCourse: PropTypes.func.isRequired
+        fetchPastAssessmentsByCourse: PropTypes.func.isRequired,
+        editAssessment: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        this.readItems();
+        const { fetchAssessmentsInitialRender, fetchTasksInitialRender } = this.props;
+        fetchAssessmentsInitialRender();
+        fetchTasksInitialRender();
     };
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps) {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "TASKS_ERROR" || error.id === "ASSESSMENTS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
@@ -67,25 +77,19 @@ class Planner extends Component {
         };
     };
 
-    readItems = termId => {
-        const { fetchTasksByTerm, fetchAssessmentsByTerm } = this.state;
-
-        fetchTasksByTerm(termId);
-        fetchAssessmentsByTerm(termId);
-    };
-
     toggleFilter = () => {
         const { filter } = this.state;
-
         this.setState({ filter: !filter });
     };
 
     render() {
+        const { filter } = this.state;
         const { 
             task: { tasks },
-            assessment: { assessments }
+            assessment: { assessments },
+            editTask,
+            editAssessment
         } = this.props;
-        const { filter } = this.state;
         
         return (
             <>
@@ -126,16 +130,42 @@ class Planner extends Component {
                             <List
                                 id="tasks"
                                 class="tasks-list"
-                                // data={tasks.map(({ _id, title, course, type, deadline }) => (
-                                    
-                                // ))}
+                                data={tasks.map(({ _id, title, course, type, deadline }) => {
+                                    return (
+                                        <Row>
+                                            <Col>
+
+                                            </Col>
+                                            <Col>
+                                            
+                                            </Col>
+                                            <Col>
+                                                <TaskEdit onClick={editTask(_id)}/>
+                                            </Col>
+                                        </Row>
+                                    );
+                                })}
+                                empty="There are no existing tasks"
                             />
                             <List
                                 id="assessments"
                                 class="assessments-list"
-                                // data={assessments.map(({ _id, title, course, type, date }) => (
-                                    
-                                // ))}
+                                data={assessments.map(({ _id, title, course, type, date }) => {
+                                    return (
+                                        <Row>
+                                            <Col>
+                                                
+                                            </Col>
+                                            <Col>
+                                            
+                                            </Col>
+                                            <Col>
+                                                <AssessmentEdit onClick={editAssessment(_id)}/>
+                                            </Col>
+                                        </Row>
+                                    );
+                                })}
+                                empty="There are no existing assessments"
                             />
                         </Row>
                     </div>
@@ -165,10 +195,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = { 
+    fetchAssessmentsInitialRender,
     fetchAssessmentsByTerm, fetchPastAssessmentsByTerm, 
     fetchAssessmentsByCourse, fetchPastAssessmentsByCourse,
+    editAssessment,
+    fetchTasksInitialRender,
     fetchTasksByTerm, fetchPastTasksByTerm,
-    fetchTasksByCourse, fetchPastTasksByCourse
+    fetchTasksByCourse, fetchPastTasksByCourse,
+    editTask
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Planner);
