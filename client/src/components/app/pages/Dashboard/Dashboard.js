@@ -44,25 +44,18 @@ class Dashboard extends Component {
 		assessment: PropTypes.object.isRequired,
 		fetchClassesForDash: PropTypes.func.isRequired,
 		editClass: PropTypes.func.isRequired,
-		updateClass: PropTypes.func.isRequired,
-		deleteTask: PropTypes.func.isRequired,
 		fetchTasksForDash: PropTypes.func.isRequired,
 		editTask: PropTypes.func.isRequired,
-		updateTask: PropTypes.func.isRequired,
-		deleteTask: PropTypes.func.isRequired,
 		fetchAssessmentsForDash: PropTypes.func.isRequired,
 		editAssessment: PropTypes.func.isRequired,
-		updateAssessment: PropTypes.func.isRequired,
-		deleteAssessment: PropTypes.func.isRequired
 	};
 
 	componentDidMount() {		
-		const { } = this.state;
 		const { fetchClassesForDash, fetchTasksForDash, fetchAssessmentsForDash } = this.props;
 
-		fetchClassesForDash(termId);
-		fetchTasksForDash(termId);
-		fetchAssessmentsForDash(termId);
+		fetchClassesForDash();
+		fetchTasksForDash();
+		fetchAssessmentsForDash();
 	};
 
 	render() {
