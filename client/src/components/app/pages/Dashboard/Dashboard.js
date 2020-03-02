@@ -58,6 +58,18 @@ class Dashboard extends Component {
 		fetchAssessmentsForDash();
 	};
 
+	componentDidUpdate(prevProps) {
+		const { error } = this.props;
+		
+		if(error !== prevProps.error) {
+			if(error.id === "CLASSES_ERROR" || error.id === "TASKS_ERROR" || error.id === "ASSESSMENTS_ERROR") {
+				this.setState({ message: error.message.message });
+			} else {
+				this.setState({ message: null });
+			};
+		};	
+	};
+
 	render() {
 		const { 
 			classes: { classes },
