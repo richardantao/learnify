@@ -3,23 +3,17 @@ import { Helmet } from "react-helmet";
 
 /* Redux Operations */
 import { connect } from "react-redux";
-import { 
-	fetchClassesForDash, editClass, updateClass, deleteClass 
-} from "../../../../actions/app/classes";
-import { 
-	createTask, fetchTasksForDash, editTask, updateTask, deleteTask 
-} from "../../../../actions/app/tasks";
-import { 
-	fetchAssessmentsForDash, editAssessment, updateAssessment, deleteAssessment 
-} from "../../../../actions/app/assessments";
+import { fetchClassesForDash, editClass } from "../../../../actions/app/classes";
+import { fetchTasksForDash, editTask } from "../../../../actions/app/tasks";
+import { fetchAssessmentsForDash, editAssessment } from "../../../../actions/app/assessments";
 import PropTypes from "prop-types";
 
-import { Row } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 import AuthNav from "../../organisms/AuthNav";
 import AppNav from "../../organisms/AppNav";
 
-import { Modal } from "reactstrap";
+import Loadable from "react-loadable";
 
 /* --- Atoms --- */
 import Button from "../../atoms/Button";
@@ -35,6 +29,7 @@ import List from "../../organisms/List";
 import "../../templates/DashboardTemp/dashboard-layout.scss";
 
 import "./Dashboard.scss";
+import ClassEdit from "../../reactors/ClassEdit";
 
 class Dashboard extends Component {
 	state = {
@@ -51,7 +46,6 @@ class Dashboard extends Component {
 		editClass: PropTypes.func.isRequired,
 		updateClass: PropTypes.func.isRequired,
 		deleteTask: PropTypes.func.isRequired,
-		createTask: PropTypes.func.isRequired,
 		fetchTasksForDash: PropTypes.func.isRequired,
 		editTask: PropTypes.func.isRequired,
 		updateTask: PropTypes.func.isRequired,
@@ -63,10 +57,7 @@ class Dashboard extends Component {
 	};
 
 	componentDidMount() {		
-		this.readItems();
-	};
-
-	readItems = termId => {
+		const { } = this.state;
 		const { fetchClassesForDash, fetchTasksForDash, fetchAssessmentsForDash } = this.props;
 
 		fetchClassesForDash(termId);
@@ -78,7 +69,10 @@ class Dashboard extends Component {
 		const { 
 			classes: { classes },
 			task: { tasks },
-			assessment: { assessments }
+			assessment: { assessments },
+			editClass,
+			editTask,
+			editAssessment
 		} = this.props;
 	
 		return (
@@ -94,30 +88,66 @@ class Dashboard extends Component {
 					<div id="dashboard">
 						<Row>
 							<DashboardHeader class="dashboard-header" heading="Today" extra={<Today/>} type="Classes" count={classes.length}/>
-							{/* <DashboardHeader class="dashboard-header" heading="Tasks" extra={<Modal/>} type="Tasks" count={tasks.length}/> */}
+							<DashboardHeader class="dashboard-header" heading="Tasks" extra={<TaskNew/>} type="Tasks" count={tasks.length}/>
 							<DashboardHeader class="dashboard-header" heading="Assessments" extra={null} type="Assessments" count={assessments.length}/>
 						</Row>
 						<Row id="dashboard-columns" className="body">
 							<List 
 								id="classes" 
                                 class="classes-list"
-								// data={classes.map(({ _id, title, course, location, time }) => (
-									
-								// ))}
+								data={classes.map(({ _id, title, course, location, time }) => {
+									return (
+										<Row key={_id}>
+											<Col>
+
+											</Col>
+											<Col>
+											
+											</Col>
+											<Col>
+												<ClassEdit onClick={editClass(_id)}/>
+											</Col>
+										</Row>
+									);
+								})}
 							/>
 							<List 
 								id="tasks" 
                                 class="tasks-list"
-								// data={tasks.map(({ _id, title, course, type, deadline }) => (
-									
-								// ))}
+								data={tasks.map(({ _id, title, course, type, deadline }) => {
+									return (
+										<Row key={_id}>
+											<Col>
+											
+											</Col>
+											<Col>
+											
+											</Col>
+											<Col>
+												<TaskEdit onClick={editTask(_id)}/>
+											</Col>
+										</Row>
+									);
+								})}
 							/>
 							<List 
 								id="assessments" 
                                 class="assessments-list"
-								// data={assessments.map(({ _id, title, course, type, date }) => (
-									
-								// ))}
+								data={assessments.map(({ _id, title, course, type, date }) => {
+									return (
+										<Row key={_id}>
+											<Col>
+											
+											</Col>
+											<Col>
+											
+											</Col>
+											<Col>
+												<AssessmentEdit onClick={editAssessment(_id)}/>
+											</Col>
+										</Row>
+									);
+								})}
 							/>
 						</Row>
 					</div>
@@ -126,6 +156,30 @@ class Dashboard extends Component {
 		);
 	};
 };
+
+const ClassEdit = Loadable({
+	loader: import(/* webpackChunkName: "ClassEdit" */ "../../reactors/ClassEdit"),
+	loading: () => <div></div>,
+	delay: 300
+});
+
+const TaskNew = Loadable({
+	loader: import(/* webpackChunkName: "TaskNew" */ "../../reactors/TaskNew"),
+	loading: () => <div></div>,
+	delay: 300
+});
+
+const TaskEdit = Loadable({
+	loader: import(/* webpackChunkName: "TaskEdit" */ "../../reactors/TaskEdit"),
+	loading: () => <div></div>,
+	delay: 300
+});
+
+const AssessmentEdit = Loadable({
+	loader: import(/* webpackChunkName: "AssessmentEdit" */ "../../reactors/AssessmentEdit"),
+	loading: () => <div></div>,
+	delay: 300
+});
 
 const mapStateToProps = state => ({
 	// isAuthenticated: state.auth.isAuthenticated,
@@ -136,9 +190,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = { 
-	fetchClassesForDash, editClass, updateClass, deleteClass,
-	createTask, fetchTasksForDash, editTask, updateTask, deleteTask,
-	fetchAssessmentsForDash, editAssessment, updateAssessment, deleteAssessment
+	fetchClassesForDash, editClass, 
+	fetchTasksForDash, editTask, 
+	fetchAssessmentsForDash, editAssessment
  };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

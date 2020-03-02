@@ -49,11 +49,10 @@ class Academics extends Component {
 
 	componentDidMount() {
 		const { fetchYears } = this.props;
-
 		fetchYears();
 	};
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps) {
 		const { error } = this.props;
 
 		if(error !== prevProps.error) {
@@ -73,8 +72,11 @@ class Academics extends Component {
 			course: { courses },
 			classes: { classes },
 			fetchTerms,
+			editTerm,
 			fetchCourses,
-			fetchClassesByCourse
+			editCourse,
+			fetchClassesByCourse,
+			editClass
 		} = this.props;
 
 		return (
@@ -143,93 +145,88 @@ class Academics extends Component {
 							<List 
 								id="terms"
 								class="terms-list"
-								// data={years.map(({ _id, title, date, terms }) => {
-								// 	<Row key={_id} className="academics-data" onClick={fetchCourses(_id)}>
-								// 		<Col>
-								// 			<ul>
-								// 				<li>
-								// 					<Row className="years-data">
-								// 						<Col>
-														
-								// 						</Col>
-								// 						<Col>
-														
-								// 						</Col>
-								// 					</Row>
-								// 					<ul>
-								// 						{/* {terms.map(term => {
-								// 							<li>
-								// 								<Row key={term._id}> 
-								// 									<Col>
-																		
-								// 									</Col>
-								// 									<Col>
-																	
-								// 									</Col>
-								// 								</Row>
-								// 							</li>
-								// 						})} */}
-								// 					</ul>
-								// 				</li>
-								// 			</ul>
-								// 		</Col>
-								// 	</Row>
-								// })}
-								// data={terms.map(({ _id, title, year, start, end}) => {
-								// 	<Row key={_id} className="term-data" onClick={fetchCourses(_id)}>
-								// 		<Col>
-								// 			<h4>{title}</h4>
-								// 			<h5>{year.title}</h5>
-								// 		</Col>
-								// 		<Col>
-								// 			<p>{start}</p>
-								// 			<p>{end}</p>
-								// 		</Col>
-								// 		<Col>
-								// 			<TermEdit/>
-								// 		</Col>
-								// 	</Row>
-								// })}
+								data={years.map(year => {
+									return (
+										<Row key={year._id} className="academics-data" onClick={fetchTerms(year._id)}>
+											<Col>
+												<ul>
+													<li>
+														<Row className="years-data">
+															<Col>
+																{year.title}
+															</Col>
+															<Col>
+																{year.date.start} - {year.date.end}
+															</Col>
+														</Row>
+														<ul>
+															{terms.map(term => {
+																return (
+																	<Row key={term._id} className="term-data" onClick={fetchCourses(term._id)}>
+																		<Col>
+																			<h4>{term.title}</h4>
+																		</Col>
+																		<Col>
+																			<p>{term.date.start}</p>
+																			<p>{term.date.end}</p>
+																		</Col>
+																		<Col>
+																			<TermEdit onClick={editTerm(_id)}/>
+																		</Col>
+																	</Row>
+																);
+															})}
+														</ul>
+													</li>
+												</ul>
+											</Col>
+										</Row>
+									);
+								})}
 								empty="There are no existing terms"
 							/>
 							<List 
 								id="courses"
 								class="courses-list"
-								// data={courses.map(({ _id, title, term, code, instructor }) => {
-								// 	<Row key={_id} className="course-data" onClick={fetchClassesByCourse(_id)}>
-								// 		<Col>
-								// 			<h4>{title}</h4>
-								// 			<h5>{term.title}</h5>
-								// 		</Col>
-								// 		<Col>
-								// 			<p>{code}</p>
-								// 			<p>{instructor}</p>
-								// 		</Col>
-								// 		<Col>
-								// 			<CourseEdit/>
-								// 		</Col>
-								// 	</Row>
-								// })}
+								data={courses.map(({ _id, title, term, code, instructor }) => {
+									return (
+										<Row key={_id} className="course-data" onClick={fetchClassesByCourse(_id)}>
+											<Col>
+												<h4>{title}</h4>
+												<h5>{term.title}</h5>
+											</Col>
+											<Col>
+												<p>{code}</p>
+												<p>{instructor}</p>
+											</Col>
+											<Col>
+												<CourseEdit onClick={editCourse(_id)}/>
+											</Col>
+										</Row>
+									);
+								})}
 								empty="There are no existing courses"
 							/>
 							<List 
 								id="classes"
 								class="classes-list"
-								// data={classes.map(({ _id, title, course, location, date }) => {
-								// 	<Row key={_id} className="class-data">
-								// 		<Col>
-								// 			<h4>{title}</h4>
-								// 			<h5>{course.title}</h5>
-								// 		</Col>
-								// 		<Col>
-								// 			<p>{date}</p>
-								// 			<p>{location}</p>
-								// 		</Col>	
-								// 		<Col>
-								// 			<ClassEdit/>
-								// 		</Col>
-								// 	</Row>
-								// })}
+								data={classes.map(({ _id, title, course, location, date }) => {
+									return (
+										<Row key={_id} className="class-data">
+											<Col>
+												<h4>{title}</h4>
+												<h5>{course.title}</h5>
+											</Col>
+											<Col>
+												<p>{date}</p>
+												<p>{location}</p>
+											</Col>	
+											<Col>
+												<ClassEdit onClick={editClass(_id)}/>
+											</Col>
+										</Row>
+									);
+								})}
 								empty="There are no existing classes"
 							/>
 							<List/>
