@@ -3,6 +3,7 @@ const moment = require("moment");
 const ObjectId = require("mongodb").ObjectId;
 
 // models
+const Term = require("../models/Terms");
 const Task = require("../models/Tasks");
 const Course = require("../models/Courses");
 
@@ -52,11 +53,10 @@ exports.create = (req, res) => {
 
 exports.read = (req, res) => {
     const { termId } = req.params;
-    const { past, limit } = req.query;
+    const { limit, initial, past } = req.query;
 
     if(limit) {
         Task.find({ 
-            term: termId,
             deadline: {
                 $gte: moment().startOf("day"),
                 $lt: moment().endOf("day").add(7, "days")
@@ -80,6 +80,65 @@ exports.read = (req, res) => {
         })
         .catch(err => {
             return res.status(500).json({ message: err.message });
+        });
+    } else if(initial) {
+        const findCurrentTerm = callback => {
+            Term.find({
+                "date.start": {
+                    $lt: moment().startOf("day"),
+                },
+                "date.end": {
+                    $gt: moment().startOf("day")
+                }
+            }, {
+                _id: 1
+            })
+            .limit(1)
+            .then(term => {
+                return callback(null, term[0]);
+            })
+            .catch(err => {
+                return res.status(500).json({ message: err.message });
+            });
+        };
+
+        const fetchTasks = (term, callback) => {
+            Task.find({ 
+                term,
+                deadline: {
+                    $gte: moment()
+                }
+            }, {
+                course: 1,
+                title: 1,
+                type: 1,
+                deadline: 1,
+                completion: 1,
+                description: 1
+            })
+            .populate("course", [ "title" ])
+            .sort({ deadline: 1 })
+            .then(tasks => {
+                if(tasks.length === 0) {
+                    return res.status(404).json({ message: "Tasks not found" });
+                } else {
+                    return callback(null, tasks);
+                };
+            })
+            .catch(err => {
+                return res.status(500).json({ message: err.message });
+            });
+        };
+
+        async.waterfall([
+            findCurrentTerm,
+            fetchTasks
+        ], (err, results) => {
+            if(err) {
+                return res.status(500).json({ message: err.message });
+            } else {
+                return res.status(200).json(results);
+            };
         });
     } else if(past) {
         Task.find({ 
