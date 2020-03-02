@@ -42,9 +42,35 @@ export const createTask = task => (dispatch, getState) => {
 export const fetchTasksForDash = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/tasks/?current=true&limit=true`/*, tokenConfig(getState)*/) // add query parameters
+    axios.get(`/api/v1/terms/${termId}/tasks/?limit=true`/*, tokenConfig(getState)*/) // add query parameters
     .then(res => dispatch({
         type: TASKS_FETCHED, 
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
+    ));
+};
+
+export const fetchTasksIntialRender = termId => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.get(`/api/v1/terms/${termId}/tasks?initial=true`/*, tokenConfig(getState)*/)
+    .then(res => dispatch({
+        type: TASKS_FETCHED,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
+    ));
+};
+
+export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.get(`/api/v1/terms/${termId}/tasks?past=true`/*, tokenConfig(getState)*/)
+    .then(res => dispatch({
+        type: TASKS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
@@ -55,7 +81,7 @@ export const fetchTasksForDash = termId => (dispatch, getState) => {
 export const fetchTasksByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/terms/${termId}/tasks`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: TASKS_FETCHED, 
         payload: res.data
@@ -65,11 +91,10 @@ export const fetchTasksByTerm = termId => (dispatch, getState) => {
     ));
 };
 
-// add filter
-export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
+export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
-
-    axios.get(`/api/v1/terms/${termId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
+    
+    axios.get(`/api/v1/courses/${courseId}/tasks?past=true`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: TASKS_FETCHED,
         payload: res.data
@@ -82,20 +107,7 @@ export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
 export const fetchTasksByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/courses/${courseId}/tasks?current=true&limit=false`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: TASKS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
-};
-
-export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
-    dispatch(setLoading());
-    
-    axios.get(`/api/v1/courses/${courseId}/tasks?current=false&limit=false`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/courses/${courseId}/tasks`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: TASKS_FETCHED,
         payload: res.data

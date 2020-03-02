@@ -46,12 +46,12 @@ export const createAssessment = newAssessment => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/terms/:termId/assessments?current=true&limit=true
+// @path /api/v1/terms/:termId/assessments?limit=true
 // @desc Return a date-limited array of assessments
 export const fetchAssessmentsForDash = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/assessments?current=true&limit=true`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/terms/${termId}/assessments?limit=true`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: ASSESSMENTS_FETCHED,
         payload: res.data
@@ -61,12 +61,12 @@ export const fetchAssessmentsForDash = termId => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/terms/:termId/assessments?current=true&limit=false
-// @desc return an array of current assessments from a given term 
-export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
+// @path /apir/v1/terms/:termId/assessments?initial=true
+// @desc return an array of assessments that are within the current term
+export const fetchAssessmentsInitialRender = termId => (dispatch, getState) => {
     dispatch(setLoading());
     
-    axios.get(`/api/v1/terms/${termId}/assessments?current=true&limit=false`, tokenConfig(getState))
+    axios.get(`/api/v1/terms/${termId}/assessments?initial=true`, tokenConfig(getState))
     .then(res => dispatch({
         type: ASSESSMENTS_FETCHED,
         payload: res.data
@@ -76,12 +76,12 @@ export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/terms/:termId/assessments?current=false&limit=false
+// @path /api/v1/terms/:termId/assessments?past=true
 // @desc return an array of past assessments from a given term 
 export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/assessments?current=false&limit=false`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/terms/${termId}/assessments?past=true`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: ASSESSMENTS_FETCHED,
         payload: res.data
@@ -91,12 +91,12 @@ export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/terms/:courseId/assesments?current=true&limit=false
-// @desc Return an array of assessments for the user that only has current assessments for a given course
-export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
+// @path /api/v1/terms/:termId/assessments
+// @desc return an array of current assessments from a given term 
+export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
     dispatch(setLoading());
-
-    axios.get(`/api/v1/terms/${courseId}/assessments?current=true&limit=false`/*, tokenConfig(getState)*/)
+    
+    axios.get(`/api/v1/terms/${termId}/assessments`, tokenConfig(getState))
     .then(res => dispatch({
         type: ASSESSMENTS_FETCHED,
         payload: res.data
@@ -111,7 +111,22 @@ export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
 export const fetchPastAssessmentsByCourse = courseId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${courseId}/assessments?current=false&limit=false`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/courses/${courseId}/assessments?past=true`/*, tokenConfig(getState)*/)
+    .then(res => dispatch({
+        type: ASSESSMENTS_FETCHED,
+        payload: res.data
+    }))
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
+    ));
+};
+
+// @path /api/v1/terms/:courseId/assesments?current=true&limit=false
+// @desc Return an array of assessments for the user that only has current assessments for a given course
+export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.get(`/api/v1/courses/${courseId}/assessments`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: ASSESSMENTS_FETCHED,
         payload: res.data
