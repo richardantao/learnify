@@ -1,0 +1,370 @@
+[ 
+  {
+    "parent": "Canada",
+    "title": "Alberta", 
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "British Columbia",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "Manitoba",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "New Brunswick",
+    "type": "region"
+
+  },
+  {
+    "parent": "Canada",
+    "title": "Newfoundland and Labrador",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "Nova Scotia",
+    "type": "region"
+
+  },
+  {
+    "parent": "Canada",
+    "title": "Northwest Territories",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "Nunavut",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "Ontario",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "Prince Edward Island",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "Québec",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "Saskatchewan",
+    "type": "region"
+  },
+  {
+    "parent": "Canada",
+    "title": "Yukon",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Alabama",
+    "type": "region"
+    
+  },
+  {
+    "parent": "United States",
+    "title": "Alaska",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "American Samoa",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Arizona",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Arkansas",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "California",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Colorado",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Connecticut",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Delaware",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "District Of Columbia",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Federated States Of Micronesia",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Florida",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Georgia",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Guam",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Hawaii",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Idaho",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Illinois",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Indiana",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Iowa",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Kansas",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Kentucky",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Louisiana",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Maine",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Marshall Islands",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Maryland",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Massachusetts",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Michigan",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Minnesota",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Mississippi",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Missouri",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Montana",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Nebraska",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Nevada",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "New Hampshire",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "New Jersey",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "New Mexico",
+    "type": "region"
+    
+  },
+  {
+    "parent": "United States",
+    "title": "New York",
+    "type": "region"
+    
+  },
+  {
+    "parent": "United States",
+    "title": "North Carolina",
+    "type": "region"
+    
+  },
+  {
+    "parent": "United States",
+    "title": "North Dakota",
+    "type": "region"
+    
+  },
+  {
+    "parent": "United States",
+    "title": "Northern Mariana Islands",
+    "type": "region"
+    
+  },
+  {
+    "parent": "United States",
+    "title": "Ohio",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Oklahoma",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Oregon",
+    "type": "region"
+  },
+  {
+    "parent": "United States",
+    "title": "Palau",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Pennsylvania",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Puerto Rico",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Rhode Island",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "South Carolina",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "South Dakota",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Tennessee",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Texas",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Utah",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Vermont",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Virgin Islands",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Virginia",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Washington",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "West Virginia",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Wisconsin",
+    "type": "region"
+  },
+  {
+    "parent": "United State",
+    "title": "Wyoming", 
+    "type": "region"
+  }
+]
