@@ -45,9 +45,9 @@ class App extends Component {
 				<Switch>
 					<Route name="register" path="/beta/register" component={AppRegister}/>
 					<Route name="login" path="/beta/signin" component={AppLogin}/>
-					<Route name="verifyEmail" path="/beta/verifyEmail" component={AppVerify}/>
-					<Route name="forgotPassword" path="/beta/forgotPassword" component={AppForgot}/>
-					<Route name="resetPassword" path="/beta/resetPassword" component={AppReset}/>
+					<Route name="verifyEmail" path="/beta/verify-email" component={AppVerify}/>
+					<Route name="forgotPassword" path="/beta/forgot-password" component={AppForgot}/>
+					<Route name="resetPassword" path="/beta/reset-password" component={AppReset}/>
 					<Route name="dashboard" path="/beta/dashboard" component={Dashboard}/>
 					<Route name="calendar" path="/beta/calendar" component={Calendar}/>
 					<Route name="academics" path="/beta/academics" component={Academics}/>
