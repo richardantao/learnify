@@ -94,6 +94,8 @@ class YearNew extends Component {
     render() {
         const { modal, title, start, end, message } = this.state;
 
+        const isEnabled = title && start && end && moment(start) < moment(end);
+
         return (
             <>
                 <Button href="/beta/academics/new-year" type="button" onClick={this.toggle}>
@@ -142,7 +144,7 @@ class YearNew extends Component {
                             <Button type="button" className="" onClick={this.handleCancel}>
                                 Cancel
                             </Button>
-                            <Button type="submit" className="">
+                            <Button type="submit" className="" disabled={!isEnabled}>
                                 Create Year
                             </Button>
                         </ModalFooter>

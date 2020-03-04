@@ -99,13 +99,13 @@ class Preferences extends Component {
     render() {
         const { startDay, startTime, defaultDuration, defaultCalendar, onEmailList, message } = this.state;
 
+        const isEnabled = startDay && startTime && defaultDuration && defaultCalendar;
+
         return (
             <Form onSubmit={this.handleSubmit}>
-                {  message === "Preferences updated" ? (
-                    <Alert color="success">{message}</Alert>
-                ): message ? (
-                    <Alert color="danger">{message}</Alert>
-                ): null}
+                { message === "Preferences updated" ? <Alert color="success">{message}</Alert>
+                : message ? <Alert color="danger">{message}</Alert>
+                : null }
                 <FormGroup>
                     <Label for="startDay">Start Day</Label>
                     <Input
@@ -158,7 +158,7 @@ class Preferences extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Button type="button" onClick={this.handleCancel} lassName="">Cancel Changes</Button>
-                    <Button type="submit" className="">Update Preferences</Button>
+                    <Button type="submit" className="" disabled={!isEnabled}>Update Preferences</Button>
                 </FormGroup>
             </Form>
         );

@@ -113,6 +113,8 @@ class YearEdit extends Component {
     render() {
         const { modal, _id, title, start, end, message } = this.state;
 
+        const isEnabled = title && start && end && moment(start) < moment(end);
+
         return (
             <>
                 <Button onClick={this.toggle}>
@@ -160,7 +162,7 @@ class YearEdit extends Component {
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Year</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Update Year</Button>
+                                <Button type="submit" disabled={!isEnabled}>Update Year</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>

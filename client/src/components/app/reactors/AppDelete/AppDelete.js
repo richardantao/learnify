@@ -29,7 +29,7 @@ class AppDelete extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "DELETE_FAILED") {
+            if(error.id === "AUTH_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
@@ -38,8 +38,8 @@ class AppDelete extends Component {
     };
 
     toggle = () => {
-        const { modal } = this.state;
         const { clearErrors } = this.props;
+        const { modal } = this.state;
 
         clearErrors();
         this.setState({ modal: !modal });
@@ -59,13 +59,13 @@ class AppDelete extends Component {
     };  
 
     render() {
-        const { modal } = this.state;
+        const { modal, message } = this.state;
 
         return (
             <>
                 <Helmet>
-                    <meta name="" content=""/>
-                    <meta name="" content=""/>
+                    <meta name="description" content=""/>
+                    <meta name="keywords" content=""/>
                     <title>My Learnify | Delete Account</title>
                 </Helmet>
                 <Button>Delete Account</Button>
@@ -74,12 +74,18 @@ class AppDelete extends Component {
                     <ModalHeader toggle={this.toggle}>Delete Account</ModalHeader>
                     <Form>
                         <ModalBody>
+                            { message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup>
 
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
-                            <Button type="submit">Delete Profile</Button>
+                            <Button type="button" onClick={this.toggle}>
+                                Cancel
+                            </Button>
+                            <Button type="submit" className="">
+                                Delete Profile
+                            </Button>
                         </ModalFooter>
                     </Form>
                 </Modal>

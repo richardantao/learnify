@@ -107,6 +107,8 @@ class CourseNew extends Component {
     render() {
         const { modal, code, title, credit, instructor, theme, terms, message } = this.state;
 
+        const isEnabled = code && term && title && credit && theme;
+
         return (
             <>
                 <Button onClick={this.toggle}>
@@ -189,7 +191,7 @@ class CourseNew extends Component {
                             </FormGroup>
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleCancel} className="">Cancel</Button>
-                                <Button type="submit" className="">Create Course</Button>
+                                <Button type="submit" className="" disabled={!isEnabled}>Create Course</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>

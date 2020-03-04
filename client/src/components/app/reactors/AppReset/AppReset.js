@@ -6,12 +6,17 @@ import { resetPassword } from "../../../../actions/auth/auth";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
-import { Container, Col, Row } from "reactstrap";
+import { 
+    Alert, Button,
+    Container, Col, Row,
+    Form, FormGroup, Label, Input
+} from "reactstrap";
 
 class AppReset extends Component {
     state = {
         change: "",
-        confirm: ""
+        confirm: "",
+        message: null
     };
 
     static propTypes = {
@@ -24,7 +29,7 @@ class AppReset extends Component {
         const { error } = this.props;
 
         if(error !== prevProps.error) {
-            if(error.id === "") {
+            if(error.id === "PASSWORD_RESET_FAILED") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
@@ -46,19 +51,56 @@ class AppReset extends Component {
     };
 
     render() {
+        const { change, confirm, message }= this.state;
+
+        const isEnabled = change === confirm;
+
         return (
             <>
                 <Helmet>
-                    <meta/>
-                    <meta/>
+                    <meta name="description" content=""/>
+                    <meta name="keywords" content=""/>
                     <title> Learnify | Reset Password</title>
                 </Helmet>
                 <Container>
-
-
+                    <Row>
+                        <Col>
+                            <Form>
+                                { message ? <Alert color="danger">{message}</Alert> : null }
+                                <FormGroup>
+                                    <Label for="change">New Password</Label>
+                                    <Input
+                                        name="change"
+                                        type="password"
+                                        value={change}
+                                        onChange={this.handleChange}
+                                        required
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <Label for="confirm">Confirm Password</Label>
+                                    <Input
+                                        name="confirm"
+                                        type="password"
+                                        value={confirm}
+                                        onChange={this.handleChange}
+                                        required
+                                    />
+                                    { !isEnabled && confirm.length > 0 ? ( 
+                                        <small className="warning">Passwords does not match</small> 
+                                    ): null }
+                                </FormGroup>
+                                <FormGroup>
+                                    <Button type="submit" className="" disabled={!isEnabled}>
+                                        Set New Password
+                                    </Button>
+                                </FormGroup>
+                            </Form>
+                        </Col>
+                    </Row>
                 </Container>
             </>
-        )
+        );
     };
 };
 

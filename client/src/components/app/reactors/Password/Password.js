@@ -70,21 +70,21 @@ class Password extends Component {
     };
 
     render() {
-        const { message } = this.state;
+        const { current, change, confirm, message } = this.state;
+
+        const isEnabled = change === confirm;
 
         return (
             <Form>
-                {  message === "Password updated" ? (
-                    <Alert color="success">{message}</Alert>
-                ): message ? (
-                    <Alert color="danger">{message}</Alert>
-                ): null}
+                {  message === "Password updated" ? <Alert color="success">{message}</Alert>
+                : message ? <Alert color="danger">{message}</Alert>
+                : null }
                 <FormGroup>
                     <Label for="current">Current Password</Label>
                     <Input
                         name="current"
                         type="password"
-                        // value={}
+                        value={current}
                         onChange={this.handleChange}
                         required
                     />
@@ -93,7 +93,7 @@ class Password extends Component {
                     <Input
                         name="change"
                         type="password"
-                        // value={}
+                        value={change}
                         onChange={this.handleChange}
                         required
                     />
@@ -102,7 +102,7 @@ class Password extends Component {
                     <Input
                         name="confirm"
                         type="password"
-                        // value={}
+                        value={confirm}
                         onChange={this.handleChange}
                         required
                     />
@@ -111,7 +111,7 @@ class Password extends Component {
                     <Button>
                         Cancel Changes
                     </Button>
-                    <Button type="submit" className="">
+                    <Button type="submit" className="" disabled={!isEnabled}>
                         Update Password
                     </Button>
                 </FormGroup>

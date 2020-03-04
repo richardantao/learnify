@@ -136,7 +136,9 @@ class AssessmentEdit extends Component {
     };
 
     render() {
-        const { modal, title, course, type, location, start, end, weight, score, courses, message } = this.state;
+        const { modal, _id, title, course, type, location, start, end, weight, score, courses, message } = this.state;
+
+        const isEnabled = title && course && type & location & start;
 
         return (
             <>
@@ -234,9 +236,9 @@ class AssessmentEdit extends Component {
                                 />
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleDelete.bind(assessments._id)}>Delete Assessment</Button>
+                                <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Assessment</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Save Assessment</Button>
+                                <Button type="submit" disabled={!isEnabled}>Save Assessment</Button>
                             </ModalFooter>
                         </Form>
                     </ModalBody>

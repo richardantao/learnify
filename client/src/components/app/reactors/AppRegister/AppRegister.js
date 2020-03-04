@@ -137,8 +137,8 @@ class AppRegister extends Component {
                             <small id="emailHelp" className="form-text text-muted">
                                 We'll never share your email with anyone else. 
                                 By registering an account with Learnify you agree to 
-                                our <a href="terms.html" target="_blank">Terms of Service</a> and 
-                                <a href="privacy.html" target="_blank"> Privacy Policy</a>.
+                                our <a href="/docs/terms" target="_blank">Terms of Service</a> and 
+                                <a href="/docs/privacy" target="_blank"> Privacy Policy</a>.
                             </small>
                             </FormGroup>
                         </Form>

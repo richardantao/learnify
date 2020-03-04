@@ -72,9 +72,8 @@ class TaskEditModal extends Component {
         const { clearErrors } = this.props;
         const { modal } = this.state;
 
-        this.setState({ modal: !modal });
-
         clearErrors();
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {
@@ -122,6 +121,8 @@ class TaskEditModal extends Component {
     
     render() {
         const { modal, _id, course, title, type, deadline, completion, description, courses, message } = this.state;
+
+        const isEnabled = course && title && type && deadline && completion;
 
         return (
             <>
@@ -204,7 +205,7 @@ class TaskEditModal extends Component {
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Update</Button>
+                                <Button type="submit" disabled={!isEnabled}>Update</Button>
                             </ModalFooter>    
                         </ModalBody>
                     </Form>

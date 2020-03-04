@@ -21,6 +21,12 @@ class AssessmentNew extends Component {
         _id: "",
         course: "",
         title: "",
+        type: "",
+        location: "",
+        start: "",
+        end: "",
+        score: "",
+        weight: "",
         courses: [],
         message: null
     };
@@ -72,6 +78,12 @@ class AssessmentNew extends Component {
             _id: "",
             course: "",
             title: "",
+            type: "",
+            location: "",
+            start: "",
+            end: "",
+            score: "",
+            weight: "",
             courses: [],
             message: null
         });
@@ -109,6 +121,8 @@ class AssessmentNew extends Component {
 
     render() {
         const { modal, title, course, type, location, start, end, score, weight, courses, message } = this.state;
+
+        const isEnabled = title && course && type & location & start;
 
         return (
             <>
@@ -209,7 +223,7 @@ class AssessmentNew extends Component {
                             </FormGroup>
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Create Assessment</Button>
+                                <Button type="submit" disabled={!isEnabled}>Create Assessment</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>

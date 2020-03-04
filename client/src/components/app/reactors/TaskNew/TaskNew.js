@@ -103,6 +103,8 @@ class TaskNew extends Component {
     render() {
         const { modal, title, course, type, deadline, completion, description, courses, message } = this.state;
 
+        const isEnabled = title && course && type && deadline;
+
         return (
             <>
                 <Button onClick={this.toggle}>
@@ -181,7 +183,7 @@ class TaskNew extends Component {
                             </FormGroup>
                             <ModalFooter className="modal-action">
                                 <Button type="button" onCancel={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Create Task</Button>
+                                <Button type="submit" disabled={!isEnabled}>Create Task</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>

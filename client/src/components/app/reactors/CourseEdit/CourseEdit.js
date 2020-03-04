@@ -130,6 +130,8 @@ class CourseEdit extends Component {
     render() {
         const { modal, _id, code, term, title, credit, instructor, theme, terms, message } = this.state;
 
+        const isEnabled = code && term && title && credit && theme;
+
         return (
             <>
                 <Button onClick={this.toggle}>
@@ -217,7 +219,7 @@ class CourseEdit extends Component {
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Course</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Update Course</Button>
+                                <Button type="submit" disabled={!isEnabled}>Update Course</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>

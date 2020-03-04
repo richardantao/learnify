@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import moment from "moment";
+
 import { connect } from "react-redux";
 import { updateTerm, deleteTerm } from "../../../../actions/app/terms";
 import { clearErrors } from "../../../../actions/auth/errors";
@@ -69,7 +71,6 @@ class TermEdit extends Component {
         const { modal } = this.state;
 
         clearErrors();
-
         this.setState({ modal: !modal });
     };
 
@@ -125,6 +126,9 @@ class TermEdit extends Component {
 
     render() {
         const { modal, _id, year, title, start, end, years, message } = this.state;
+
+        const isEnabled = year && title && start && end
+        && moment(start) < moment(end);
 
         return (
             <>
@@ -189,7 +193,7 @@ class TermEdit extends Component {
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Term</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                                <Button type="submit">Update Term</Button>
+                                <Button type="submit" disabled={!isEnabled}>Update Term</Button>
                             </ModalFooter>
                         </ModalBody>
                     </Form>

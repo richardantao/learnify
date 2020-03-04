@@ -101,6 +101,9 @@ class TermNew extends Component {
 
     render() {
         const { modal, title, start, end, years, message } = this.state;
+
+        const isEnabled = year && title && start && end
+        && moment(start) < moment(end);
  
         return (
             <>
@@ -163,7 +166,7 @@ class TermNew extends Component {
                         </ModalBody>
                         <ModalFooter>
                             <Button type="button" onClick={this.handleCancel}>Cancel</Button>
-                            <Button type="submit">Create Term</Button>
+                            <Button type="submit" disabled={!isEnabled}>Create Term</Button>
                         </ModalFooter> 
                     </Form>
                 </Modal>

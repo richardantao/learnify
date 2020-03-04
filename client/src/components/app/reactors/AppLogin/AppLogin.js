@@ -31,7 +31,6 @@ class AppLogin extends Component {
 
     componentDidMount() {
         const { clearErrors } = this.props;
-        
         clearErrors();
     };
 
@@ -86,6 +85,7 @@ class AppLogin extends Component {
                                      type="email"
                                      name="email"
                                      id="email"
+                                     value={email}
                                      placeholder="Enter email"
                                      className="mb-3"
                                      onChange={this.onChange}
@@ -96,6 +96,7 @@ class AppLogin extends Component {
                                      type="password"
                                      name="password"
                                      id="password"
+                                     value={password}
                                      placeholder="Enter password"
                                      className= "mb-3"
                                      onChange={this.onChange}
@@ -105,18 +106,18 @@ class AppLogin extends Component {
                                  </Button>
                              </FormGroup>
                              <FormGroup>
-                                 <a href="forget.html" className="forgot">Forgot password?</a>
+                                 <a href="/beta/forgot-password" className="forgot">Forgot password?</a>
                              </FormGroup>
                          </Form>
                          <div className="create">
                              <span>Don"t have an account?</span>
-                             <Button href="/register">Create</Button>
+                             <Button href="/beta/register">Create</Button>
                          </div>
                      </div>
                  </Container>
              </>
         );
-     };
+    };
 };
 
 const mapStateToProps = state => ({
