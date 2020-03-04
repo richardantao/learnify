@@ -23,9 +23,9 @@ export const fetchCountries = () => (dispatch, getState) => {
         type: COUNTRIES_FETCHED,
         payload: res.data
     }))
-    .catch(err => {
-        dispatch(returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR"));
-    });
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR")   
+    ));
 };
 
 export const fetchRegions = country => (dispatch, getState) => {
@@ -36,9 +36,9 @@ export const fetchRegions = country => (dispatch, getState) => {
         type: REGIONS_FETCHED,
         payload: res.data
     }))
-    .catch(err => {
-        dispatch(returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR"));
-    });
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR")   
+    ));
 };
 
 export const fetchInstitutions = region => (dispatch, getState) => {
@@ -49,9 +49,9 @@ export const fetchInstitutions = region => (dispatch, getState) => {
         type: INSTITUTIONS_FETCHED,
         payload: res.data
     }))
-    .catch(err => {
-        dispatch(returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR"));
-    });
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR")   
+    ));
 };
 
 export const fetchSchools = institution => (dispatch, getState) => {
@@ -62,7 +62,7 @@ export const fetchSchools = institution => (dispatch, getState) => {
         type: SCHOOLS_FETCHED,
         payload: res.data
     }))
-    .catch(err => {
-        dispatch(returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR"));
-    });
+    .catch(err => dispatch(
+        returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR")   
+    ));
 };

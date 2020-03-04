@@ -22,7 +22,7 @@ export const initiailizeNotification = notification => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => {
-        returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR");
+        dispatch(returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR"));
     });
 };
 
@@ -35,7 +35,7 @@ export const fetchNotifications = () => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => {
-        returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR");
+        dispatch(returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR"));
     });
 };
 
@@ -48,7 +48,7 @@ export const toggleNotification = (id, notification) => (dispatch, getState) => 
         payload: res.data
     }))
     .catch(err => {
-        returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR");
+        dispatch(returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR"));
     });
 };
 
@@ -61,6 +61,6 @@ export const deleteNotification = id => (dispatch, getState) => {
         payload: id
     }))
     .catch(err => {
-        returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR");
+        dispatch(returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR"));
     });
 };
