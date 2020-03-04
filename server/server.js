@@ -56,6 +56,8 @@ app.use("/api/v1", require("./api/routes/tasks"));
 app.use("/api/v1/bugs", require("./api/routes/bugs"));
 app.use("/api/v1/feedback", require("./api/routes/feedback"));
 
+app.use("/api/v1", require("./api/routes/properties"));
+
 app.use("/api/v1", require("./api/routes/search"));
 
 /* Cron */
