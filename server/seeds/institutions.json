@@ -1,0 +1,17 @@
+[
+    {
+        "parent": "Ontario",
+        "title": "University",
+        "type": "institution"
+    },
+    {
+        "parent": "Ontario",
+        "title": "College",
+        "type": "institution"
+    },
+    {
+        "parent": "Ontario",
+        "title": "High School",
+        "type": "institution"
+    }
+]
