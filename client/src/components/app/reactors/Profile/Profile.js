@@ -113,6 +113,10 @@ class Profile extends Component {
 
     render() {
         const { first, last, email, country, region, institution, school, message } = this.state;
+        const { countries, regions, institutions, schools } = this.props
+
+        const isEnabled = first && last && email;
+
         return (
             <Form onSubmit={this.handleSubmit}>   
                 {  message === "Profile updated" ? (
@@ -156,7 +160,9 @@ class Profile extends Component {
                         type="select"
                         onChange={this.handleChange}
                     >
-                        fill with countries
+                        {countries.map(({ _id, title }) => {
+                            return <option key={_id} value={title}>{title}</option>
+                        })}
                     </Input>
 
                     <Label for="region">Province/State</Label>
@@ -165,7 +171,9 @@ class Profile extends Component {
                         type="select"
                         onChange={this.handleChange}
                     >
-                        
+                        {regions.map(({ _id, title }) => {
+                            return <option key={_id} value={title}>{title}</option>
+                        })}
                     </Input>
                 </FormGroup>
                 <FormGroup>
@@ -175,21 +183,25 @@ class Profile extends Component {
                         type="select"
                         onChange={this.handleChange}
                     />
-
+                        {institutions.map(({ _id, title }) => {
+                            return <option key={_id} value={title}>{title}</option>
+                        })}
                     <Label for="school">School</Label>
                     <Input
                         name="school"
                         type="select"
                         onChange={this.handleChange}
                     >
-
+                        {schools.map(({ _id, title }) => {
+                            return <option key={_id} value={title}>{title}</option>
+                        })}
                     </Input>
                 </FormGroup>
                 <FormGroup>
                     <Button type="button" onClick={this.handleCancel} className="">
                         Cancel Changes
                     </Button>
-                    <Button type="submit" className="">
+                    <Button type="submit" className="" disabled={!isEnabled}>
                         Update Profile
                     </Button>
                 </FormGroup>
@@ -201,7 +213,11 @@ class Profile extends Component {
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
-    user: state.user
+    user: state.user,
+    countries: state.property.countries,
+    regions: state.property.regions,
+    institutions: state.property.institutions,
+    schools: state.property.schools
 });
 
 const mapDispatchToProps = { editProfile, updateProfile, clearErrors };
