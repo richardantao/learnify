@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import { 
     Alert, Button,
     Container, Row, Col,
-    Form, FormGroup, Label, Input, Button } from "reactstrap";
+    Form, FormGroup, Label, Input } from "reactstrap";
 
 class AppVerify extends Component {
     state = {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { editTask, updateTask, deleteTask } from "../../../../actions/beta/tasks";
+import { editTask, updateTask, deleteTask } from "../../../../actions/app/tasks";
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
@@ -9,8 +9,9 @@ import PropTypes from "prop-types";
 import Icon from '../../atoms/Icon';
 
 import { 
+    Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input, Button 
+    Form, FormGroup, Label, Input
 } from "reactstrap";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 

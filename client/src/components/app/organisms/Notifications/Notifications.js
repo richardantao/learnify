@@ -2,9 +2,15 @@ import React, { Component } from "react";
 
 import { connect } from "react-redux";
 import { fetchNotifications, } from "../../../../actions/app/notifications";
+import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
 import { Collapse } from "reactstrap";
+
+import { faBell } from "@fortawesome/free-solid-svg-icons";
+
+
+import Icon from "../../atoms/Icon";
 
 class Notifications extends Component {
     state = {
@@ -13,11 +19,13 @@ class Notifications extends Component {
 
     static propTypes = {
         error: PropTypes.object.isRequired,
-        fetchNotifications: PropTypes.func.isRequired
+        fetchNotifications: PropTypes.func.isRequired,
+        clearErrors: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        const { fetchNotifications } = this.props;
+        const { fetchNotifications, clearErrors } = this.props;
+        clearErrors();
         fetchNotifications();
     };
 
@@ -53,6 +61,6 @@ const mapStateToProps = state => ({
     error: state.error
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { fetchNotifications, clearErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Notifications);

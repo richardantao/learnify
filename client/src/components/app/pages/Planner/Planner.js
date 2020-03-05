@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
+import moment from "moment";
+
 /* Redux Operations */
 import { connect } from "react-redux";
 import { 
@@ -18,15 +20,14 @@ import {
 import PropTypes from "prop-types";
 
 import { Col, Row, Button } from "reactstrap";
-
-import AuthNav from "../../organisms/AuthNav";
-import AppNav from "../../organisms/AppNav";
-import Header from "../../organisms/Header";
+import Select from "react-select";
 
 /* Atoms */
-
+import Header from "../../atoms/Header";
 
 /* Organisms */
+import AuthNav from "../../organisms/AuthNav";
+import AppNav from "../../organisms/AppNav";
 import List from "../../organisms/List";
 
 import Loadable from "react-loadable";
@@ -134,10 +135,12 @@ class Planner extends Component {
                                     return (
                                         <Row>
                                             <Col>
-
+                                                <h4>{title}</h4>
+                                                <h5>{course}</h5>
                                             </Col>
                                             <Col>
-                                            
+                                                <p>{type}</p>
+                                                <p>{moment(deadline, "MMMM Do, h:mm a")}</p>
                                             </Col>
                                             <Col>
                                                 <TaskEdit onClick={editTask(_id)}/>
@@ -150,14 +153,22 @@ class Planner extends Component {
                             <List
                                 id="assessments"
                                 class="assessments-list"
-                                data={assessments.map(({ _id, title, course, type, date }) => {
+                                data={assessments.map(({ _id, title, course, type, date: { start, end } }) => {
                                     return (
                                         <Row>
                                             <Col>
-                                                
+                                                <h4>{title}</h4>
+                                                <h5>{course}</h5>
                                             </Col>
                                             <Col>
-                                            
+                                                <p>{type}</p>
+                                                <p>
+                                                    { !end ?
+                                                        (moment(start, "MMMM Do, h:mm a"))
+                                                    : moment(start).startOf("day") !== moment(end).startOf("day") ?
+                                                        ( `${moment(start, "MMMM Do, h:mm a")} - ${moment(end, "MMMM Do, h:mm a")}`)
+                                                    : `${moment(start, "MMMM Do, h:mm a")} - ${moment(end, "h:mm a")}`}
+                                                </p>
                                             </Col>
                                             <Col>
                                                 <AssessmentEdit onClick={editAssessment(_id)}/>
@@ -181,8 +192,20 @@ const TaskNew = Loadable({
     delay: 300
 });
 
+const TaskEdit = Loadable({
+    loader: () => import(/* webpackChunkName: "TaskNew" */ "../../reactors/TaskEdit"),
+    loading: () => <Loading/>,
+    delay: 300
+});
+
 const AssessmentNew = Loadable({
     loader: () => import(/* webpackChunkName: "AssessmentNew" */ "../../reactors/AssessmentNew"),
+    loading: () => <Loading/>,
+    delay: 300
+});
+
+const AssessmentEdit = Loadable({
+    loader: () => import(/* webpackChunkName: "AssessmentEdit" */ "../../reactors/AssessmentEdit"),
     loading: () => <Loading/>,
     delay: 300
 });

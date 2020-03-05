@@ -4,6 +4,7 @@ import {
     NOTIFATIONS_FETCHED,
     NOTIFICATION_TOGGLED, NOTIFICATION_DELETED
 } from "../types";
+import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 

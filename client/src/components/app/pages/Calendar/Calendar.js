@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
+import moment from "moment";
+
+/* Redux Operations */
 import { connect } from "react-redux";
 import { fetchClassesByTerm } from "../../../../actions/app/classes"; // new action function for 
 import { clearErrors } from "../../../../actions/auth/errors";
@@ -8,12 +11,13 @@ import PropTypes from "prop-types";
 
 import { Row } from "reactstrap";
 
+import Loadable from "react-loadable";
+import Loading from "../../../public/global/organisms/Loading";
+
+/* Organisms */
 import AuthNav from "../../organisms/AuthNav";
 import AppNav from "../../organisms/AppNav";
 import CalendarHeader from "../../organisms/CalendarHeader";
-
-import Loadable from "react-loadable";
-import Loading from "../../../public/global/organisms/Loading";
 
 import "./Calendar.scss";
 

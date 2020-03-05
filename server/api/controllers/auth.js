@@ -387,7 +387,7 @@ exports.changePassword = (req, res) => {
     })
     .limit(1)
     .then(matchedToken => {
-        if(matchedToken.length === 0) { // no token match
+        if(matchedToken.length === 0) {
             return res.status(404).json({
                 message: "Token not found. Please reset password again."
             });

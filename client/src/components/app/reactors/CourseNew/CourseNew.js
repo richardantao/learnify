@@ -105,9 +105,9 @@ class CourseNew extends Component {
     };
     
     render() {
-        const { modal, code, title, credit, instructor, theme, terms, message } = this.state;
+        const { modal, term, code, title, credit, instructor, theme, terms, message } = this.state;
 
-        const isEnabled = code && term && title && credit && theme;
+        const isEnabled = term && code && title && credit && theme;
 
         return (
             <>

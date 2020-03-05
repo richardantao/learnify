@@ -52,7 +52,7 @@ export const fetchTasksForDash = termId => (dispatch, getState) => {
     ));
 };
 
-export const fetchTasksIntialRender = termId => (dispatch, getState) => {
+export const fetchTasksInitialRender = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
     axios.get(`/api/v1/terms/${termId}/tasks?initial=true`/*, tokenConfig(getState)*/)

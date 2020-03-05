@@ -8,7 +8,7 @@ import { Button, Col, Row } from "reactstrap";
 
 import AuthNav from "../../organisms/AuthNav";
 import AppNav from "../../organisms/AppNav";
-import Header from "../../organisms/Header";
+import Header from "../../atoms/Header";
 import HelpHeader from "../../organisms/help/HelpHeader";
 
 import "./Help.scss";
@@ -63,4 +63,4 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { };
 
-export default connect()(Help);
+export default connect(mapStateToProps, mapDispatchToProps)(Help);

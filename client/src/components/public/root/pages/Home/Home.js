@@ -101,7 +101,7 @@ class Home extends Component {
     render() {
         const { name, email, message, success } = this.state;
 
-        const isEnabled = name.length > 2 && email.length > 5 && regex.test(email);
+        const isEnabled = name.length > 2 && regex.test(email);
     
         return (
             <>
@@ -163,7 +163,7 @@ class Home extends Component {
                                     <small className="warning">
                                         Email must be a valid email address
                                     </small> 
-                                ) : null}
+                                ) : null }
                                 <small className="emailHelp form-text text-muted">
                                     We'll never share your email with anyone else. 
                                     By requesting an invite you agree to our <a href="/docs/terms" target="_blank" rel="noopener noreferrer">Terms of Service</a> and <a href="/docs/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.

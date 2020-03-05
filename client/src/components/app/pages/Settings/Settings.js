@@ -59,6 +59,8 @@ class Settings extends Component {
 		return (
 			<>
 				<Helmet>
+					<meta name="description" content=""/>
+					<meta name="keywords" content=""/>
 					<title>My Learnify | Settings</title>
 				</Helmet>
 				<div id="beta">

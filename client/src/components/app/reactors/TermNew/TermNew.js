@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+import moment from "moment";
+
+/* Redux Operations */
 import { connect } from "react-redux";
 import { newTerm, createTerm } from "../../../../actions/app/terms";
 import { clearErrors } from "../../../../actions/auth/errors";
@@ -100,7 +103,7 @@ class TermNew extends Component {
     };
 
     render() {
-        const { modal, title, start, end, years, message } = this.state;
+        const { modal, year, title, start, end, years, message } = this.state;
 
         const isEnabled = year && title && start && end
         && moment(start) < moment(end);

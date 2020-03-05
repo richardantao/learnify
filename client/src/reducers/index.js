@@ -19,8 +19,8 @@ import feedback from "./app/feedback";
 import property from "./app/properties";
 
 /* --- Public Reducers --- */
-import betaReducer from "./root/beta";
-import contactReducer from "./root/contact";
+import beta from "./root/beta";
+import contact from "./root/contact";
 
 export default combineReducers({
     // auth,

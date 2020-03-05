@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
+import moment from "moment";
+
+/* Redux Operations */
 import { connect } from "react-redux";
 import { fetchYears, editYear } from "../../../../actions/app/years";
 import { fetchTerms, editTerm } from "../../../../actions/app/terms";
@@ -8,8 +11,8 @@ import { fetchCourses, editCourse } from "../../../../actions/app/courses";
 import { fetchClassesByCourse, editClass } from "../../../../actions/app/classes";
 import PropTypes from "prop-types";
 
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { Button, Col, Row } from "reactstrap";
+import Select from "react-select";
 
 import AuthNav from "../../organisms/AuthNav";
 import AppNav from "../../organisms/AppNav";
@@ -56,7 +59,7 @@ class Academics extends Component {
 		const { error } = this.props;
 
 		if(error !== prevProps.error) {
-			if(error.id === "YEARS_ERROR" || error.id === "TERMS_ERROR" || error.id === "COURSES_ERROR" || error === "CLASSES_ERROR") {
+			if(error.id === "YEARS_ERROR" || error.id === "TERMS_ERROR" || error.id === "COURSES_ERROR" || error.id === "CLASSES_ERROR") {
 				this.setState({ message: error.message.message });
 			} else {
 				this.setState({ message: null });
@@ -65,7 +68,7 @@ class Academics extends Component {
 	};
 
 	render() {
-		const { } = this.state;
+		const {  } = this.state;
 		const { 
 			year: { years },
 			term: { terms },
@@ -95,7 +98,14 @@ class Academics extends Component {
 								<Header header="Academics"/>
 							</Col>
 							<Col>
-								{/* <Years/> */}
+								<Select 
+									options={years.map(({ _id, title }) => {
+										return ({ 
+											value: JSON.stringify(_id), 
+											label: title 
+										});
+									})}	
+								/>
 								<YearEdit/>
 								<YearNew/>
 							</Col>
@@ -147,6 +157,10 @@ class Academics extends Component {
 																{year.title}
 															</Col>
 															<Col>
+																{ moment(year.date.start).startOf("year") !== moment(year.date.end).startOf("year") ? (
+																	`${moment(year.date.start, "MMMM YYYY")} - ${moment(year.start.end, "MMMM YYYY, h:mm a")}` 
+																): null }
+
 																{year.date.start} - {year.date.end}
 															</Col>
 														</Row>
@@ -162,7 +176,7 @@ class Academics extends Component {
 																			<p>{term.date.end}</p>
 																		</Col>
 																		<Col>
-																			<TermEdit onClick={editTerm(_id)}/>
+																			<TermEdit onClick={editTerm(term._id)}/>
 																		</Col>
 																	</Row>
 																);

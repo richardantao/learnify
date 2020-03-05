@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
+import moment from "moment";
+
 /* Redux Operations */
 import { connect } from "react-redux";
 import { fetchClassesForDash, editClass } from "../../../../actions/app/classes";
@@ -8,20 +10,19 @@ import { fetchTasksForDash, editTask } from "../../../../actions/app/tasks";
 import { fetchAssessmentsForDash, editAssessment } from "../../../../actions/app/assessments";
 import PropTypes from "prop-types";
 
-import { Row, Col } from "reactstrap";
-
-import AuthNav from "../../organisms/AuthNav";
-import AppNav from "../../organisms/AppNav";
+import { Row, Col, Button } from "reactstrap";
 
 import Loadable from "react-loadable";
 
 /* --- Atoms --- */
-import Button from "../../atoms/Button";
 import Today from "../../atoms/Today";
 
 /* --- Molecules --- */
 
+
 /* --- Organisms --- */
+import AuthNav from "../../organisms/AuthNav";
+import AppNav from "../../organisms/AppNav";
 import DashboardHeader from "../../organisms/DashboardHeader";
 import List from "../../organisms/List";
 
@@ -29,7 +30,6 @@ import List from "../../organisms/List";
 import "../../templates/DashboardTemp/dashboard-layout.scss";
 
 import "./Dashboard.scss";
-import ClassEdit from "../../reactors/ClassEdit";
 
 class Dashboard extends Component {
 	state = {
@@ -100,14 +100,20 @@ class Dashboard extends Component {
 							<List 
 								id="classes" 
                                 class="classes-list"
-								data={classes.map(({ _id, title, course, location, time }) => {
+								data={classes.map(({ _id, title, course, location, date: { start, end } }) => {
 									return (
 										<Row key={_id}>
 											<Col>
-
+												<h4>{title}</h4>
+												<h5>{course.title}</h5>
 											</Col>
 											<Col>
-											
+												<p>{location}</p>
+												<p>
+													{ moment(start).startOf("day") - moment(start) < 60*60*12 && moment(end).startOf("day") - moment(end) > 60*60*12 ? (
+														`${moment(start, "h:mm a")} - ${moment(end, "h:mm a")}`
+													): `${moment(start, "h:mm")} - ${moment(end, "h:mm a")}` }
+												</p>
 											</Col>
 											<Col>
 												<ClassEdit onClick={editClass(_id)}/>
@@ -123,10 +129,12 @@ class Dashboard extends Component {
 									return (
 										<Row key={_id}>
 											<Col>
-											
+												<h4>{title}</h4>
+												<h5>{course.title}</h5>
 											</Col>
 											<Col>
-											
+												<p>{type}</p>
+												<p>{moment(deadline, "MMMM Do, h:mm a")}</p>
 											</Col>
 											<Col>
 												<TaskEdit onClick={editTask(_id)}/>
@@ -138,14 +146,23 @@ class Dashboard extends Component {
 							<List 
 								id="assessments" 
                                 class="assessments-list"
-								data={assessments.map(({ _id, title, course, type, date }) => {
+								data={assessments.map(({ _id, title, course, type, date: { start, end } }) => {
 									return (
 										<Row key={_id}>
 											<Col>
-											
+												<h4>{title}</h4>
+												<h5>{course.title}</h5>
 											</Col>
 											<Col>
-											
+												<p>{type}</p>
+												<p>
+													{ !end ?
+                                                        (moment(start, "MMMM Do, h:mm a"))
+                                                    : moment(start).startOf("day") !== moment(end).startOf("day") ?
+                                                        ( `${moment(start, "MMMM Do, h:mm a")} - ${moment(end, "MMMM Do, h:mm a")}`)
+                                                    : `${moment(start, "MMMM Do, h:mm a")} - ${moment(end, "h:mm a")}`
+													}
+												</p>
 											</Col>
 											<Col>
 												<AssessmentEdit onClick={editAssessment(_id)}/>

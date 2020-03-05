@@ -5,18 +5,16 @@ import {
     LOGOUT_SUCCESS, 
     REGISTER_SUCCESS, REGISTER_FAILED, 
     PASSWORD_RESET_REQUESTED, PASSWORD_RESET_SUCCESS,
-    EMAIL_VERIFICATION_SUCCESS
+    EMAIL_VERIFICATION_SUCCESS,
+    EMAIL_VERIFICATION_RESENT_SUCCESS
 } from "../types";
 import { returnErrors } from "./errors";
 import axios from "axios";
 
-// check and load user
 export const loadUser = () => (dispatch, getState) => {
-    // User loading
     dispatch({ type: USER_REQUESTED });
 
-    // match url
-    axios.get("/api/v1/user", tokenConfig(getState))
+    axios.get("/api/v1/users", tokenConfig(getState))
     .then(res => dispatch({
         type: USER_LOADED,
         payload: res.data
@@ -48,7 +46,7 @@ export const register = ({ fname, lname, email, password }) => dispatch => {
     /* 
         Axios is not passing a promise
     */
-    axios.post("api/v1/register", body, config)
+    axios.post("api/v1/users", body, config)
     .then(res => dispatch({
        type: REGISTER_SUCCESS,
        payload: res.data 
@@ -73,7 +71,7 @@ export const login = ({ email, password }) => dispatch => {
 
     const body = JSON.stringify({ email, password });
 
-    axios.post("/api/v1/signin", body, config)
+    axios.post("/api/v1/users/auth", body, config)
     .then(res => dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
@@ -90,7 +88,7 @@ export const login = ({ email, password }) => dispatch => {
 
 // Logout User
 export const logout = () => dispatch => {
-    axios.post("/api/v1/signout")
+    axios.delete("/api/v1/users/auth")
     .then(res => dispatch({
         type: LOGOUT_SUCCESS
     }))
@@ -100,7 +98,7 @@ export const logout = () => dispatch => {
 };
 
 export const requestPasswordReset = token => dispatch => {
-    axios.post("/api/v1/", token)
+    axios.post("/api/v1/users/password/token", token)
     .then(res => dispatch({
         type: PASSWORD_RESET_REQUESTED,
         payload: res.data
@@ -110,8 +108,8 @@ export const requestPasswordReset = token => dispatch => {
     });
 };
 
-export const resetPassword = hash => dispatch => {
-    axios.post("/api/v1/", hash)
+export const resetPassword = token => dispatch => {
+    axios.put("/api/v1/users/password", token)
     .then(res => dispatch({
         type: PASSWORD_RESET_SUCCESS,
         payload: res.data
@@ -121,8 +119,19 @@ export const resetPassword = hash => dispatch => {
     });
 };
 
+export const resendEmailVerification = email => dispatch => {
+    axios.post("/api/v1/users/email/token", email)
+    .then(res => dispatch({
+        type: EMAIL_VERIFICATION_RESENT_SUCCESS,
+        payload: res.data
+    }))
+    .catch(err => {
+        dispatch(returnErrors(err.res.data, err.res.status, "EMAIL_VERIFICATION_RESENT_FAILED"));
+    });
+};
+
 export const verifyEmail = token => dispatch => {
-    axios.post("/api/v1/email", token)
+    axios.put("/api/v1/users/email/token", token)
     .then(res => dispatch({
         type: EMAIL_VERIFICATION_SUCCESS,
         payload: res.data
@@ -133,7 +142,7 @@ export const verifyEmail = token => dispatch => {
 };
 
 export const deleteUser = id => dispatch => {
-    axios.delete("/api/v1/users")
+    axios.delete(`/api/v1/users/${id}`)
     .then(res => dispatch({
         type: USER_DELETED,
         payload: id
@@ -146,20 +155,15 @@ export const deleteUser = id => dispatch => {
     });
 };
 
-/* VERIFIED */
-// Set config/headers and token
 export const tokenConfig = getState => {
-    // get token from local storage
     // const token = getState().auth.token;
-
-    // Headers
+    
     const config = {
         headers: {
             "Content-Type": "application/json" 
         }
     };
 
-    // If token is generated, add to it to headers
     // if(token) {
         // config.headers["x-auth-token"] = token;
     // };

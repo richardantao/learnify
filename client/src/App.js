@@ -315,4 +315,3 @@ const TeamRegister = Loadable({
 	loading: Loading,
 	delay: 300
 });
-

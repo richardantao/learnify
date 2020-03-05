@@ -37,7 +37,6 @@ exports.updateProfile = (req, res) => {
 
 	User.updateOne({ _id }, {
 		$set: {
-			_id,
 			name: {
 				first,
 				last
@@ -74,9 +73,7 @@ exports.updateProfile = (req, res) => {
 				message: "The account you are trying you update was not found by the server"
 			});
 		} else {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		};
 	});
 };
@@ -100,9 +97,7 @@ exports.deleteProfile = (req, res) => {
 				message: "The server could not find the account you are trying to delete. Please try again."
 			});	
 		} else {
-			return res.status(500).json({
-				message: err.message
-			});
+			return res.status(500).json({ message: err.message });
 		};
 	});
 };
@@ -118,17 +113,13 @@ exports.editPassword = (req, res) => {
 	.limit(1)
 	.then(password => {
 		if(password.length === 0) {
-			return res.status(404).json({
-				message: "Your current password was not found by the server"
-			});
+			return res.status(404).json({ message: "Your current password was not found by the server" });
 		} else {
 			return res.status(200).json(password[0]);
 		};
 	})
 	.catch(err => {
-		return res.status(500).json({
-			message: err.message
-		});
+		return res.status(500).json({ message: err.message });
 	});	
 	
 };
@@ -136,39 +127,47 @@ exports.editPassword = (req, res) => {
 // PUT request to update database with user's new password
 exports.updatePassword = (req, res) => {
 	const { _id } = req.user;
-	const { password, createdAt } = req.body;
+	const { current, change, createdAt } = req.body;
 
-	User.updateOne({ _id }, {
-		$set: {
-			password,
-			meta: { 
-				user: {
-					createdAt,
-					updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
-				}
-			}			
-		}
-	})
-	.then(password => {
-		if(!password) {
-			return res.status(404).json({
-				message: "The server was unable to find your new password. Please reload the page"
-			});
-		} else {
-			return res.status(200).json(password);
-		};
-	})
-	.catch(err => {
-		if(err.kind === "ObjectId") {
-			return res.status(404).json({
-				message: "The server was unable to find your stored password. Please reload the page"
-			});
-		} else {
-			return res.status(500).json({
-				message: err.message
-			});	
-		};
-	});	
+	if(!current) {
+		User.updateOne({ _id }, {
+			$set: {
+				
+			}
+		})
+	} else {
+		User.updateOne({ _id }, {
+			$set: {
+				password,
+				meta: { 
+					user: {
+						createdAt,
+						updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm")
+					}
+				}			
+			}
+		})
+		.then(password => {
+			if(!password) {
+				return res.status(404).json({
+					message: "The server was unable to find your new password. Please reload the page"
+				});
+			} else {
+				return res.status(200).json(password);
+			};
+		})
+		.catch(err => {
+			if(err.kind === "ObjectId") {
+				return res.status(404).json({
+					message: "The server was unable to find your stored password. Please reload the page"
+				});
+			} else {
+				return res.status(500).json({
+					message: err.message
+				});	
+			};
+		});	
+	};
 };
 
 // GET request to retrieve user's preferences 
