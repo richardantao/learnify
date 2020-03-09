@@ -16,7 +16,7 @@ import "./AppNav.scss";
 export default () => {
 	return ( 
 		<nav id="app-nav" role="navigation">
-			<Logo href="/beta/dashboard" src={logo} alt="Learnify Logo"/>
+			<Logo className="logo" href="/beta/dashboard" src={logo} alt="Learnify Logo"/>
 			<Button>
 				<Icon icon={faTachometerAlt}/>
 			</Button>
