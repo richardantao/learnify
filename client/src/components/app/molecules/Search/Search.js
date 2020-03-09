@@ -17,15 +17,13 @@ class Search extends Component {
     };
 
     handleChange = e => {
-        this.setState({
-            [e.target.name]: e.target.value
-        });
+        this.setState({ [e.target.name]: e.target.value });
     };
 
     handleSubmit = e => {
         e.preventDefault();
 
-        const { } = this.state;
+        const { input } = this.state;
         const { } = this.props;
         
         
@@ -36,11 +34,12 @@ class Search extends Component {
 
         return (
             <>
-                <Form onSubmit={this}>
+                <Form onSubmit={this.handleSubmit}>
                     <Input
                         name="input"
                         type="text"
                         value={input}
+                        onChange={this.handleChange}
                         placeholder="Search.."
                     />
 

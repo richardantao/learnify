@@ -244,49 +244,49 @@ class Academics extends Component {
 };
 
 const YearNew = Loadable({
-	loader: import(/* webpackChunkName: "YearNew" */ "../../reactors/YearNew"),
+	loader: () => import(/* webpackChunkName: "YearNew" */ "../../reactors/YearNew"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const YearEdit = Loadable({
-	loader: import(/* webpackChunkName: "YearEdit" */ "../../reactors/YearEdit"),
+	loader: () => import(/* webpackChunkName: "YearEdit" */ "../../reactors/YearEdit"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const TermNew = Loadable({
-	loader: import(/* webpackChunkName: "TermNew" */ "../../reactors/TermNew"),
+	loader: () => import(/* webpackChunkName: "TermNew" */ "../../reactors/TermNew"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const TermEdit = Loadable({
-	loader: import(/* webpackChunkName: "TermEdit"*/ "../../reactors/TermEdit"),
+	loader: () => import(/* webpackChunkName: "TermEdit"*/ "../../reactors/TermEdit"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const CourseNew = Loadable({
-	loader: import(/* webpackChunkName: "CourseNew" */ "../../reactors/CourseNew"),
+	loader: () => import(/* webpackChunkName: "CourseNew" */ "../../reactors/CourseNew"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const CourseEdit = Loadable({
-	loader: import(/* webpackChunkName: "CourseEdit" */ "../../reactors/CourseEdit"),
+	loader: () => import(/* webpackChunkName: "CourseEdit" */ "../../reactors/CourseEdit"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const ClassNew = Loadable({
-	loader: import(/* webpackChunkName: "ClassNew" */ "../../reactors/ClassNew"),
+	loader: () => import(/* webpackChunkName: "ClassNew" */ "../../reactors/ClassNew"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const ClassEdit = Loadable({
-	loader: import(/* webpackChunkName: "ClassEdit" */ "../../reactors/ClassEdit"),
+	loader: () => import(/* webpackChunkName: "ClassEdit" */ "../../reactors/ClassEdit"),
 	loading: () => <div></div>,
 	delay: 300
 });

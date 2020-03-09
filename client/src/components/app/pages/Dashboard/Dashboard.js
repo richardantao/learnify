@@ -39,7 +39,7 @@ class Dashboard extends Component {
 	static propTypes = {
 		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
-		class: PropTypes.object.isRequired,
+		classes: PropTypes.object.isRequired,
 		task: PropTypes.object.isRequired,
 		assessment: PropTypes.object.isRequired,
 		fetchClassesForDash: PropTypes.func.isRequired,
@@ -180,25 +180,25 @@ class Dashboard extends Component {
 };
 
 const ClassEdit = Loadable({
-	loader: import(/* webpackChunkName: "ClassEdit" */ "../../reactors/ClassEdit"),
+	loader: () => import(/* webpackChunkName: "ClassEdit" */ "../../reactors/ClassEdit"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const TaskNew = Loadable({
-	loader: import(/* webpackChunkName: "TaskNew" */ "../../reactors/TaskNew"),
+	loader: () => import(/* webpackChunkName: "TaskNew" */ "../../reactors/TaskNew"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const TaskEdit = Loadable({
-	loader: import(/* webpackChunkName: "TaskEdit" */ "../../reactors/TaskEdit"),
+	loader: () => import(/* webpackChunkName: "TaskEdit" */ "../../reactors/TaskEdit"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
 const AssessmentEdit = Loadable({
-	loader: import(/* webpackChunkName: "AssessmentEdit" */ "../../reactors/AssessmentEdit"),
+	loader: () => import(/* webpackChunkName: "AssessmentEdit" */ "../../reactors/AssessmentEdit"),
 	loading: () => <div></div>,
 	delay: 300
 });

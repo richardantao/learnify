@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import logo from "./learnify-min.png";
+
 import "./AppNav.scss";
 
 export default () => {
