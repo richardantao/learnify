@@ -49,9 +49,7 @@ export default (state = initialState, action) => {
                     const { _id } = action.payload; 
 
                     if(term._id !== _id) {
-                        return {
-                            ...state.terms
-                        }
+                        return term;
                     } else return {
                         term: action.payload
                     };
