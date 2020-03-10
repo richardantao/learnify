@@ -40,22 +40,27 @@ class AssessmentNew extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-        const { newAssessment } = this.props;
-        newAssessment();
-
-        const { courses } = this.props.assessment;
-        this.setState({ courses });
-    };
-
-    componentDidUpdate (prevProps) {
-        const { error/*, isAuthenticated*/ } = this.props;
+    componentDidUpdate (prevProps, prevState) {
+        const { modal } = this.state;
+        const { 
+            error,
+            assessment: { courses },
+            newAssessment
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "ASSESSMENTS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
+            };
+        };
+
+        if(modal && prevState.modal) {
+            newAssessment();
+
+            if(courses !== prevProps.assessment.courses) {
+                this.setState({ courses });
             };
         };
     };

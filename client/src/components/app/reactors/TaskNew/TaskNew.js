@@ -37,22 +37,27 @@ class TaskNew extends Component {
         clearErrors: PropTypes.func.isRequired
     };
     
-    componentDidMount() {
-        const { newTask } = this.props;
-        newTask();
-
-        const { courses } = this.props.task;
-        this.setState({ courses });
-    };
-
-    componentDidUpdate(prevProps) {
-        const { error } = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        const { modal } = this.state;
+        const { 
+            error,
+            task: { courses },
+            newTask
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "TASKS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
+            };
+        };
+
+        if(modal && !prevState.modal) {
+            newTask();
+
+            if(courses !== prevProps.task.courses) {
+                this.setState({ courses });
             };
         };
     };
