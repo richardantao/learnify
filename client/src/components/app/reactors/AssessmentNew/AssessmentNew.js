@@ -56,7 +56,7 @@ class AssessmentNew extends Component {
             };
         };
 
-        if(modal && prevState.modal) {
+        if(modal && !prevState.modal) {
             newAssessment();
 
             if(courses !== prevProps.assessment.courses) {
@@ -69,9 +69,8 @@ class AssessmentNew extends Component {
         const { clearErrors } = this.props;
         const { modal } = this.state;
 
-        this.setState({ modal: !modal });
-
         clearErrors();
+        this.setState({ modal: !modal });
     };
 
     handleChange = e => {

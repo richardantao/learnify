@@ -67,7 +67,6 @@ class TaskNew extends Component {
         const { modal } = this.state;
 
         clearErrors();
-
         this.setState({ modal: !modal });
     };
 
