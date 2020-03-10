@@ -1,5 +1,5 @@
-import { FORM_SUBMITTED, INVITE_SUCCESS, INVITE_FAILED } from "../types";
-import { returnErrors } from "../auth/errors";
+import { FORM_SUBMITTED, INVITE_SUCCESS, INVITE_FAILED } from "../../types";
+import { returnErrors } from "../../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

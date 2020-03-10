@@ -1,7 +1,7 @@
 import { 
     FORM_SUBMITTED, APPLICATION_SUCCESS, APPLICATION_FAILED
-} from "../types";
-import { returnErrors } from "../auth/errors";
+} from "../../types";
+import { returnErrors } from "../../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

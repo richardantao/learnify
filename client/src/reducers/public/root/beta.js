@@ -1,7 +1,8 @@
-import { FORM_SUBMITTED, APPLICATION_SUCCESS, APPLICATION_FAILED } from "../../actions/types";
+import { FORM_SUBMITTED, INVITE_SUCCESS, INVITE_FAILED } from "../../../actions/types";
+
 const initialState = {
     loading: false,
-    application: {}
+    message: null
 };
 
 export default (state = initialState, action) => {
@@ -11,19 +12,19 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: true
             };
-        case APPLICATION_SUCCESS:
+        case INVITE_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                application: action.payload
+                message: action.payload
             };
-        case APPLICATION_FAILED:
+        case INVITE_FAILED:
             return {
                 ...state,
                 loading: false,
-                application: {}
+                message: null
             };
         default:
             return state;
-    }
-};
+    };
+}
