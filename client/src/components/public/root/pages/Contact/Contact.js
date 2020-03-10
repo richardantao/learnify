@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
-import { postContact } from "../../../../../actions/root/contact";
+import { postContact } from "../../../../../actions/public/root/contact";
 import { clearErrors } from "../../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

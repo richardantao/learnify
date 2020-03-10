@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
-import { postInvite } from "../../../../../actions/root/beta";
+import { postInvite } from "../../../../../actions/public/root/beta";
 import { clearErrors } from "../../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

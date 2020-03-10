@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { postDesigner } from "../../../../../actions/team/applications";
+import { postDesigner } from "../../../../../actions/public/team/applications";
 import { clearErrors } from "../../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

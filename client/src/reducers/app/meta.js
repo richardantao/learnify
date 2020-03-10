@@ -2,7 +2,7 @@ import { ACTIVE_TERM_REQUESTED, ACTIVE_TERM_FAILED, ACTIVE_TERM_SET } from "../.
 
 const initialState = {
     loading: false,
-    activeTerm: {}
+    activeTerm: null
 };
 
 export default (state = initialState, action) => {

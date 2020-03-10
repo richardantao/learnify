@@ -1,5 +1,5 @@
-import { FORM_SUBMITTED, CONTACT_SUCCESS, CONTACT_FAILED } from "../types";
-import { returnErrors } from "../auth/errors";
+import { FORM_SUBMITTED, CONTACT_SUCCESS, CONTACT_FAILED } from "../../types";
+import { returnErrors } from "../../auth/errors";
 import axios from "axios";
 
 export const setLoading = () => {

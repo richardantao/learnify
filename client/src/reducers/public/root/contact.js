@@ -1,4 +1,4 @@
-import { FORM_SUBMITTED, CONTACT_SUCCESS, CONTACT_FAILED } from "../../actions/types";
+import { FORM_SUBMITTED, CONTACT_SUCCESS, CONTACT_FAILED } from "../../../actions/types";
 
 const initialState = {
     loading: false,

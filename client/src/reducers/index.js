@@ -20,8 +20,8 @@ import meta from "./app/meta";
 import property from "./app/properties";
 
 /* --- Public Reducers --- */
-import beta from "./root/beta";
-import contact from "./root/contact";
+import beta from "./public/root/beta";
+import contact from "./public/root/contact";
 
 export default combineReducers({
     // auth,

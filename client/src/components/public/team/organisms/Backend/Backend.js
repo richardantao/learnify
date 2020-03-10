@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { postBackend } from "../../../../../actions/team/applications";
+import { postBackend } from "../../../../../actions/public/team/applications";
 import { clearErrors } from "../../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
