@@ -16,6 +16,7 @@ import bug from "./app/bugs";
 import feedback from "./app/feedback";
 
 /* App Data */
+import state from "./app/state";
 import property from "./app/properties";
 
 /* --- Public Reducers --- */
@@ -36,5 +37,6 @@ export default combineReducers({
     contact,
     bug,
     feedback,
+    state,
     property
 });
