@@ -124,10 +124,25 @@ class Planner extends Component {
                     <meta name="keywords" content="Learnify, Planner, Tasks, Assessments"/>
                     <title>My Learnify | Planner</title>
                 </Helmet>
-                <div id="beta">
-                    <AuthNav/>
-                    <AppNav/>
-                    <div id="planner">
+                <Row id="beta">
+                    <Col
+                        xs="1"
+                        sm="1"
+                        md="1"
+                        lg="1"
+                        xl="1"
+                    >
+                        <AppNav/>
+                    </Col>
+                    <Col 
+                        id="planner"
+                        xs="11"
+                        sm="11"
+                        md="11"
+                        lg="11"
+                        xl="11"
+                    >
+                        <AuthNav/>
                         <Row className="header">
                             <Col>
                                 <Header header="Planner"/>
@@ -208,8 +223,8 @@ class Planner extends Component {
                                 empty="There are no existing assessments"
                             />
                         </Row>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             </>
         );
     };

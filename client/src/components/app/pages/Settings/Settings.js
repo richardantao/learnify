@@ -9,9 +9,12 @@ import { Button, Container, Col, Row } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebookSquare, faLinkedin, faInstagram, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
+// Atoms
+import Header from "../../atoms/Header";
+
+// Organisms
 import AuthNav from "../../organisms/AuthNav";
 import AppNav from "../../organisms/AppNav";
-import Header from "../../organisms/DashboardHeader";
 
 import Loadable from "react-loadable";
 import Loading from "../../../public/global/organisms/Loading";
@@ -63,10 +66,25 @@ class Settings extends Component {
 					<meta name="keywords" content=""/>
 					<title>My Learnify | Settings</title>
 				</Helmet>
-				<div id="beta">
-					<AuthNav/>
-					<AppNav/>
-					<div id="settings">
+				<Row id="beta">
+					<Col
+						xs="1"
+						sm="1"
+						md="1"
+						lg="1"
+						xl="1"
+					>				
+						<AppNav/>
+					</Col>
+					<Col 
+						id="settings"
+						xs="11"
+						sm="11"
+						md="11"
+						lg="11"
+						xl="11"
+					>
+						<AuthNav/>
 						<Row className="header">
 							<Col>
 								<Header header="Settings"/> 
@@ -109,8 +127,8 @@ class Settings extends Component {
 									<a href="/docs/changelog" target="_blank" rel="noopener noreferrer">{version}</a>
 							</Col>
 						</Row>
-					</div>
-				</div>
+					</Col>
+				</Row>
 			</>
 		);
 	};

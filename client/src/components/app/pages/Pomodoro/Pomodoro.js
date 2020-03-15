@@ -7,9 +7,14 @@ import moment from "moment";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import List from "../../molecules/organisms/List";
+// Organisms
+import AppNav from "../../organisms/AppNav";
+import AuthNav from "../../organisms/AuthNav";
+import List from "../../organisms/List";
 
-import { } from "reactstrap";
+import { Row, Col } from "reactstrap";
+
+import "./Pomodoro.scss";
 
 class Pomodoro extends Component {
     state = {
@@ -39,17 +44,22 @@ class Pomodoro extends Component {
                     <meta name="keywords" content=""/>
                     <title>Learnify | Pomodoro</title>
                 </Helmet>
-                <main>
-                    <List/>
-                    <List/>
-                </main>
+                <Row id="beta">
+                    <Col>
+                        <AppNav/>
+                    </Col>
+                    <Col>
+                        <AuthNav/>
+                        
+                    </Col>
+                </Row>
             </>
         );
     };
 };
 
 const mapStateToProps = state => ({
-
+    error: state.error
 }); 
 
 const mapDispatchToProps = { };

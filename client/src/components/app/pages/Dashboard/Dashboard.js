@@ -100,10 +100,25 @@ class Dashboard extends Component {
 					<meta name="keywords" content="dashboard, Learnify, classes, today, tasks, assessments, overdue"/>
 					<title>My Learnify | Dashboard</title>
 				</Helmet>
-				<div id="beta">
-					<AuthNav/>
-					<AppNav/>
-					<div id="dashboard">
+				<Row id="beta">
+					<Col
+						xs="1"
+						sm="1"
+						md="1"
+						lg="1"
+						xl="1"
+					>
+						<AppNav/>
+					</Col>
+					<Col 
+						id="dashboard"
+						xs="11"
+						sm="11"
+						md="11"
+						lg="11"
+						xl="11"
+					>
+						<AuthNav/>
 						<Row>
 							<DashboardHeader class="dashboard-header" heading="Today" extra={<Today/>} type="Classes" count={classes.length}/>
 							<DashboardHeader class="dashboard-header" heading="Tasks" extra={<TaskNew/>} type="Tasks" count={tasks.length}/>
@@ -185,8 +200,8 @@ class Dashboard extends Component {
 								})}
 							/>
 						</Row>
-					</div>
-				</div>
+					</Col>
+				</Row>
 			</>
 		);
 	};

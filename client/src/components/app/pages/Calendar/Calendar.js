@@ -9,7 +9,7 @@ import { fetchClasses } from "../../../../actions/app/classes"; // new action fu
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
-import { Row } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 import Loadable from "react-loadable";
 import Loading from "../../../public/global/organisms/Loading";
@@ -68,10 +68,25 @@ class Calendar extends Component {
 					<meta name="description" content=""/>
 					<title>My Learnify | Calendar</title>
 				</Helmet>
-				<div id="beta">
-					<AuthNav/>
-					<AppNav />
-					<div id="calendar">
+				<Row id="beta">
+					<Col
+						xs="11"
+						sm="11"
+						md="11"
+						lg="11"
+						xl="11"
+					>
+						<AppNav />
+					</Col>
+					<Col 
+						id="calendar"
+						xs="11"
+						sm="11"
+						md="11"
+						lg="11"
+						xl="11"
+					>
+						<AuthNav/>
 						<Row className="header">
 							<CalendarHeader/> 
 						</Row>
@@ -97,8 +112,8 @@ class Calendar extends Component {
 								/>
 							): null }
 						</Row>
-					</div>
-				</div>
+					</Col>
+				</Row>
 			</>
 		);
 	};

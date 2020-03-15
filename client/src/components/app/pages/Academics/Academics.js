@@ -1,30 +1,27 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { Button, Col, Row } from "reactstrap";
+import Select from "react-select";
 
 import moment from "moment";
 
-/* Redux Operations */
 import { connect } from "react-redux";
 import { fetchYears, editYear } from "../../../../actions/app/years";
 import { fetchTerms, editTerm } from "../../../../actions/app/terms";
 import { fetchCourses, editCourse } from "../../../../actions/app/courses";
 import { fetchClasses, editClass } from "../../../../actions/app/classes";
+
 import PropTypes from "prop-types";
-
-import { Button, Col, Row } from "reactstrap";
-import Select from "react-select";
-
-import AuthNav from "../../organisms/AuthNav";
-import AppNav from "../../organisms/AppNav";
-import Header from "../../atoms/Header";
+import Loadable from "react-loadable";
 
 /* Atoms */
+import Header from "../../atoms/Header";
 import Icon from "../../atoms/Icon";
 
 /* Organisms */
+import AuthNav from "../../organisms/AuthNav";
+import AppNav from "../../organisms/AppNav";
 import List from "../../organisms/List";
-
-import Loadable from "react-loadable";
 
 import "./Academics.scss";
 
@@ -89,10 +86,25 @@ class Academics extends Component {
 					<meta name="keywords" content="Learnify, Academics, Years, Terms, Semester, Course, Courses, Class, Classes"/>
 					<title>My Learnify | Academics</title>
 				</Helmet>
-				<div id="beta">
-					<AuthNav/>
-					<AppNav/>
-					<div id="academics">
+				<Row id="beta">
+					<Col
+						xs="11"
+						sm="11"
+						md="11"
+						lg="11"
+						xl="11"
+					>
+						<AppNav/>
+					</Col>
+					<Col 
+						id="academics"
+						xs="11"
+						sm="11"
+						md="11"
+						lg="11"
+						xl="11"
+					>
+						<AuthNav/>
 						<Row className="header">
 							<Col>
 								<Header header="Academics"/>
@@ -236,8 +248,8 @@ class Academics extends Component {
 							/>
 							<List/>
 						</Row>
-					</div>
-				</div>
+					</Col>
+				</Row>
 			</>
 		);
 	};
