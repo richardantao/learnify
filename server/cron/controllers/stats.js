@@ -42,10 +42,10 @@ exports.users = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Users collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Users collection: ${err}`)
     });
 };
 
@@ -73,10 +73,10 @@ exports.years = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Years collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Years collection: ${err}`)
     });
 };
 
@@ -104,10 +104,10 @@ exports.terms = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Terms collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Terms collection: ${err}`)
     });
 };
 
@@ -135,10 +135,10 @@ exports.courses = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Courses collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Courses collection: ${err}`)
     });
 };
 
@@ -166,10 +166,10 @@ exports.classes = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Classes collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Classes collection: ${err}`)
     });
 };
 
@@ -197,10 +197,10 @@ exports.assessments = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Assessments collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Assessments collection: ${err}`)
     });
 };
 
@@ -228,10 +228,10 @@ exports.tasks = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Tasks collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Tasks collection: ${err}`)
     });
 };
 
@@ -259,10 +259,10 @@ exports.beta = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Beta collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Beta collection: ${err}`)
     });
 };
 
@@ -290,10 +290,10 @@ exports.feedback = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Feedback collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Feedback collection: ${err}`)
     });
 };
 
@@ -321,10 +321,10 @@ exports.bugs = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Bugs collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Bugs collection: ${err}`)
     });
 };
 
@@ -352,9 +352,9 @@ exports.blog = () => {
             `
         };
 
-        sgMail.send(mailOptions);
+        return sgMail.send(mailOptions);
     })
     .catch(err => {
-        new Error(`Error retrieving stats on the Blog collection: ${err}`)
+        return logger.error(`Error retrieving stats on the Blog collection: ${err}`)
     });
 };
