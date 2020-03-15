@@ -1,11 +1,17 @@
 require("dotenv").config();
 
+// database
 const Schema = require("mongoose").Schema;
 const model = require("mongoose").model;
 
+// helpers
 const crypto = require("crypto");
 const moment = require("moment");
 
+// logging
+const logger = require("../../config/logger");
+
+// model
 const Year = require("./Years");
 
 const UserSchema = new Schema({
@@ -58,17 +64,17 @@ UserSchema.post("findByIdAndDelete", ({ _id }) => {
         years.map(({ _id }) => {
             Year.findOneAndDelete({ _id })
             .then(year => {
-                return year;
+                return logger.info(`User-${user}'s cascade delete has deleted Year-${year}`);
             })
             .catch(err => {
-                new Error(`Error occured when deleting year-${_id} during a User cascade delete : ${err}`);
+                return logger.error(`Error deleting User-${user}'s Years: ${err}`);
             });
         });
-        
-        return;
+
+        return logger.info(`Years belonging to User-${user} have been deleted`);
     })
     .catch(err => {
-        new Error(`Error occured during cascade delete: ${err}`);
+        return logger.error(`Error finding User-${user}'s Years: ${err}`);
     });
 });
 

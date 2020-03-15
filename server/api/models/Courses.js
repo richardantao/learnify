@@ -1,11 +1,17 @@
 require("dotenv").config();
 
+// database
 const Schema = require("mongoose").Schema;
 const model = require("mongoose").model;
 
+// helpers
 const async = require("async");
 const moment = require("moment");
 
+// logger
+const logger = require("../../config/logger");
+
+// models
 const Class = require("./Classes");
 const Assessment = require("./Assessments");
 const Task = require("./Tasks");
@@ -39,7 +45,7 @@ CourseSchema.post("findOneAndUpdate", ({ _id, term }) => {
 				);
 			})
 			.catch(err => {
-				new Error(err);
+				return logger.error(`Error occurred updating Classes during Course-${course} post-hook update: ${err}`);
 			});
 		},
 		assessments: callback => {
@@ -55,7 +61,7 @@ CourseSchema.post("findOneAndUpdate", ({ _id, term }) => {
 				);
 			})
 			.catch(err => {
-				new Error(err);
+				return logger.error(`Error occurred updating Assessments following Course-${course} post-hook update: ${err}`);
 			});
 		},
 		tasks: callback => {
@@ -71,14 +77,14 @@ CourseSchema.post("findOneAndUpdate", ({ _id, term }) => {
 				);
 			})
 			.catch(err => {
-				new Error(err);
+				return logger.error(`Error occurred deleting Tasks following Course-${course} post-hook delete: ${err}`);
 			});
 		}
 	}, (err, results) => {
 		if(err) {
-			new Error(err);
+			return logger.error(err);
 		} else {
-			console.log(results);
+			return logger.info(results);
 		};
 	});	
 });
@@ -92,11 +98,11 @@ CourseSchema.post("findOneAndDelete", ({ _id }) => {
 			.then(classes => {
 				return callback(
 					null,
-					`${classes.deletedCount} have been cascade deleted from the termination of course-${course}`
+					`${classes.deletedCount} have been cascade deleted from the post-hook delete of Course-${course}`
 				);
 			})
 			.catch(err => {
-				new Error(err);
+				return logger.error(`Error occurred deleting Classes following Course-${course} post-hook delete: ${err}`);
 			});
 		},
 		assessments: callback => {
@@ -104,11 +110,11 @@ CourseSchema.post("findOneAndDelete", ({ _id }) => {
 			.then(assessments => {
 				return callback(
 					null, 
-					`${assessments.deletedCount} have been cascade deleted from the termination of course-${course}`
+					`${assessments.deletedCount} have been cascade deleted from the post-hook delete of Course-${course}`
 				);
 			})
 			.catch(err => {
-				new Error(err);
+				return logger.error(`Error occurred deleting Assessments following Course-${course} post-hook delete: ${err}`);
 			});
 		},
 		tasks: callback => {
@@ -116,18 +122,18 @@ CourseSchema.post("findOneAndDelete", ({ _id }) => {
 			.then(tasks => {
 				return callback(
 					null,
-					`${tasks.deletedCount} have been cascade deleted from the termination of course-${course}`
+					`${tasks.deletedCount} have been cascade deleted from the post-hook delete of Course-${course}`
 				);
 			})
 			.catch(err => {
-				new Error(err);
+				return logger.error(err);
 			});
 		}
 	}, (err, results) => {
 		if(err) {
-			new Error(err);
+			return logger.error(`Error occurred : ${err}`);
 		} else {
-			console.log(results);
+			return logger.info(results);
 		};
 	});
 });

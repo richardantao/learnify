@@ -1,11 +1,17 @@
 require("dotenv").config();
 
+// database
 const Schema = require("mongoose").Schema;
 const model = require("mongoose").model;
 
+// helpers
 const async = require("async");
 const moment = require("moment");
 
+// logger
+const logger = require("../../config/logger");
+
+// models
 const Course = require("./Courses");
 const Class = require("./Classes");
 const Assessment = require("./Assessments");
@@ -37,15 +43,15 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 			return callback(null, classes);
 		})
 		.catch(err => {
-			new Error(err);
-		})
+			return logger.error(`Error occurred finding Classes during Term-${term} post-hook update: ${err}`);
+		});
 	};
 
 	const compareClassStartDate = (classes, callback) => {
-		if(classes === undefined) {
-			return callback(null);	
+		if(!classes) {
+			return callback(null, nulls);	
 		} else {
-			classes.map(({ _id, date: { start, end } }) => {
+			const dates = classes.map(({ _id, date: { start, end } }) => {
 				if(start < termStart) {
 					Class.findOneAndUpdate({ _id }, {
 						$set: {
@@ -58,10 +64,10 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 						returnNewDocument: true
 					})
 					.then(classe => {
-						return classe;
+						return logger.info(`Start date of Class-${classe._id} has been updated by Term-${term} post-hook update`); 
 					})
 					.catch(err => {
-						new Error(err);
+						return logger.error(`Error occurred updating Class start dates during post-hook update of Term-${term}: ${err}`);
 					});
 				} else {
 					return ({ _id, date: { start, end } });
@@ -73,8 +79,8 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 	};
 
 	const compareClassEndDate = (classes, callback) => {
-		if(classes === null) {
-			return callback(null);	
+		if(!classes) {
+			return callback(null, null);	
 		} else {
 			classes.map(({ _id, date: { start, end } }) => {
 				if(end > termEnd) {
@@ -89,10 +95,10 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 						returnNewDocument: true
 					})
 					.then(classe => {
-						return classe;
+						return logger.info(`End date of Class-${classe._id} has been updated following a Term-${term} post-hook update`);
 					})
 					.catch(err => {
-						new Error(err);
+						return logger.error(`Error occurred during updating Classes following a Term-${term} post-hook update: ${err}`);
 					});
 				} else {
 					return ({ _id, date: { start, end } });
@@ -112,13 +118,13 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 			return callback(null, assessments);
 		})
 		.catch(err => {
-			new Error(err);
+			return logger.error(`Error fetching Assessments following a Term-${term} post-hook update: ${err}`);
 		});
 	};
 
-	compareAssessmentStartDate = (assessments, callback) => {
-		if(assessments === undefined) {
-			return callback(null);	
+	const compareAssessmentStartDate = (assessments, callback) => {
+		if(!assessments) {
+			return callback(null, null);	
 		} else {
 			assessments.map(({ _id, date: { start, end} }) => {
 				if(start < termStart) {
@@ -133,10 +139,10 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 						returnNewDocument: true
 					})
 					.then(assessment => {
-						return assessment;
+						return logger.info(`Start date of Assessment-${assessment._id} has been updated following a Term-${term} post-hook update`);
 					})
 					.catch(err => {
-						new Error(err);
+						return logger.error(`Error occurred updating Assessments following a Term-${term} post-hook update: ${err}`);
 					});
 				} else {
 					return ({ _id, date: { start, end } });
@@ -148,8 +154,8 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 	};
 
 	const compareAssessmentEndDate = (assessments, callback) => {
-		if(assessments === null) {
-			return callback(null);	
+		if(!assessments) {
+			return callback(null, null);	
 		} else {
 			assessments.map(({ _id, date: { start, end } }) => {
 				if(end > termEnd) {
@@ -164,10 +170,10 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 						returnNewDocument: true
 					})
 					.then(assessment => {
-						return assessment;
+						return logger.info(`End date of Assessment-${assessment._id} has been updated from Term-${term} post-hook update`);
 					})
 					.catch(err => {
-						new Error(err);
+						return logger.error(`Error occurred updating Assessments following a Term-${term} post-hook update: ${err}`);
 					});
 				} else {
 					return ({ _id, date: { start, end } });
@@ -187,13 +193,13 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 			return callback(null, tasks);
 		})
 		.catch(err => {
-			new Error(err);
+			return logger.error(`Error occurred fetching tasks following a Term-${term} post-hook update:${err}`);
 		});
 	};
 
 	const compareTaskStartDate = (tasks, callback) => {
-		if(tasks === undefined) {
-			return callback(null);	
+		if(!tasks) {
+			return callback(null, null);	
 		} else {
 			tasks.map(({ _id, deadline }) => {
 				if(deadline < termStart) {
@@ -205,10 +211,10 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 						returnNewDocument: true
 					})
 					.then(task => {
-						return task;
+						return logger.info(`Deadline of Task-${task._id} has been set to ${task.deadline} following a Term-${term} post-hook update`);
 					})
 					.catch(err => {
-						new Error(err);
+						return logger.error(`Error occurred updating a Task following a Term-${term} post-hook update: ${err}`);
 					});
 				} else {
 					return ({ _id, deadline });
@@ -219,9 +225,9 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 		};
 	};
 
-	compareTaskEndDate = (tasks, callback) => {
-		if(tasks === null) {
-			return callback(null);	
+	const compareTaskEndDate = (tasks, callback) => {
+		if(!tasks) {
+			return callback(null, null);	
 		} else {
 			tasks.map(({ _id, deadline }) => {
 				if(deadline > termEnd) {
@@ -233,10 +239,10 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 						returnNewDocument: true
 					})
 					.then(task => {
-						return task;
+						return logger.info(`Deadline of Task-${task._id} has been set to ${task.deadline} following a Term-${term} post-hook update`);
 					})
 					.catch(err => {
-						new Error(err);
+						return logger.error(`Error occurred updating Tasks during Term-${term} post-hook update: ${err}`);
 					})
 				} else {
 					return ({ _id, deadline });
@@ -254,9 +260,9 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 			compareClassEndDate
 		], (err, callback) => {
 			if(err) {
-				new Error(err);
+				return logger.error(`Error occurred handling Classes during Term-${term} post-hook update: ${err}`);
 			} else {	
-				return callback(null, "Classes have been checked and updated accordingly");
+				return callback(null, `Classes have been checked and updated for Term-${term} post-hook update`);
 			};
 		}),
 		assessments: async.waterfall([
@@ -265,9 +271,9 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 			compareAssessmentEndDate
 		], (err, callback) => {
 			if(err) {
-				new Error(err);
+				return logger.error(`Error occurred handling Assessments during Term-${term} post-hook update: ${err}`);
 			} else {	
-				return callback(null, "Assessments have been checked and updated accordingly");
+				return callback(null, `Assessments have been checked and updated for Term-${term} post-hook update`);
 			};
 		}),
 		tasks: async.waterfall([
@@ -276,16 +282,16 @@ TermSchema.post("updateOne", ({ _id, date: { start, end } }) => {
 			compareTaskEndDate
 		], (err, callback) => {
 			if(err) {
-				new Error(err);
+				return logger.error(`Error occurred handling Tasks during Term-${term} post-hook update: ${err}`);
 			} else {	
-				return callback(null, "Tasks have been checked and updated accordingly");
+				return callback(null, `Tasks have been checked and updated after Term-${term} post-hook update`);
 			};
 		})
 	}, (err, results) => {
 		if(err) {
-			new Error();
+			return logger.error(`Error occured when during Term-${term} post-hook update: ${err}`);
 		} else {
-			console.log(results);
+			return logger.info(results);
 		};
 	});	
 });
@@ -307,28 +313,24 @@ TermSchema.post("findOneAndDelete", ({ _id }) => {
 					returnNewDocument: true
 				})
 				.then(course => {
-					return course;
+					return logger.info(`Course-${course._id} has been updated from Term-${term} post-hook delete`);
 				})
 				.catch(err => {
-					new Error(err);
+					return logger.error(`Error occurred updating Courses during Term-${term} post-hook delete: ${err}`);
 				});
 			} else {	
 				Course.findOneAndDelete({ _id })
 				.then(course => {
-					return course;
+					return logger.info(`Course-${course._id} deleted from Term-${term} post-hook delete`);
 				})
 				.catch(err => {
-					new Error(err);
+					return logger.error(`Error occurred deleting Courses during Term-${term} post-hook delete: ${err}`);
 				});
 			};
-
-			console.log(`Course with id ${course._id} deleted`);
 		});
-
-		return;
 	})
 	.catch(err => {
-		new Error(`Error occured during Term cascade delete: ${err}`)
+		return logger.error(`Error occurred during Term-${term} post-hook delete: ${err}`)
 	});
 });
 

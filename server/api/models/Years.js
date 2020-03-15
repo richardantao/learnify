@@ -33,7 +33,7 @@ YearSchema.post("findOneAndUpdate", ({ _id, date: { start, end } }) => {
             return callback(null, terms);
         })
         .catch(err => {
-            new Error(`Error when finding terms for Year/Terms date integrity: ${err}`);
+            return logger.error(`Error when finding terms for Year-${year}'s post-hook update: ${err}`);
         });
     };
 
@@ -54,10 +54,10 @@ YearSchema.post("findOneAndUpdate", ({ _id, date: { start, end } }) => {
                         returnNewDocument: true
                     })
                     .then(term => {
-                        return term;
+                        return logger.info(`Start date of Term-${term._id} has been updated for Year-${year} post-hook update`);
                     })
                     .catch(err => {
-                        new Error(`Error when checking the dates for Year/Terms date integrity: ${err}`);
+                        return logger.error(`Error occurred when updating Terms for Year-${year} post-hook update: ${err}`);
                     });
                 } else {
                     return ({ _id, date: { start, end } });
@@ -68,7 +68,7 @@ YearSchema.post("findOneAndUpdate", ({ _id, date: { start, end } }) => {
         };
     };
 
-    checkEndDates = (terms, callback) => {
+    const checkEndDates = (terms, callback) => {
         if(!terms) {
             return callback(null, "No terms to update");
         } else {
@@ -85,17 +85,17 @@ YearSchema.post("findOneAndUpdate", ({ _id, date: { start, end } }) => {
                         returnNewDocument: true
                     })
                     .then(term => {
-                        return term;
+                        return logger.info(`End date of Term-${term} has been updated from Year-${year} post-hook update`);
                     })
                     .catch(err => {
-                        new Error(`Error when checking the dates for Year/Terms date integrity: ${err}`);
+                        return logger.error(`Error occurred when updating Terms for Year-${year} post-hook update: ${err}`);
                     });
                 } else {
                     return ({ _id, date: { start, end } });
                 };
             });
     
-            return callback(null, "Terms checked and updated");
+            return callback(null, `Terms for Year-${year} have been checked and updated`);
         };
     };  
 
@@ -105,9 +105,9 @@ YearSchema.post("findOneAndUpdate", ({ _id, date: { start, end } }) => {
         checkEndDates
     ], (err, results) => {
         if(err) {
-            new Error(`Error from Years/Terms date integrity: ${err}`);
+            return logger.error(`Error occurred during Year-${year} post-hook update: ${err}`);
         } else {
-            console.log(results);
+            return logger.info(results);
         };
     });
 });
@@ -123,30 +123,27 @@ YearSchema.post("findOneAndDelete", ({ _id }) => {
                 return callback(null, terms);
             })
             .catch(err => {
-                new Error(err);
-            })
+                return logger.error(`Error occurred when finding Terms for Year-${year} post-hook delete: ${err}`);
+            });
         },
         deleteTerms: (terms, callback) => {
             terms.map(({ _id }) => {
                 Term.findOneAndDelete({ _id })
                 .then(term => {
-                    return term;
+                    return logger.info(`Term-${term} belonging to year-${year} deleted`);
                 })
                 .catch(err => {
-                    new Error(`Error from Years cascade delete: ${err}`);
+                    return logger.error(`Error deleting Terms during Year-${year} post-hook delete: ${err}`);
                 });
-
-                console.log(`Term belonging to year-${year} deleted`);
-                return;
             });
 
-            return callback(null, `Cascade delete for year-${year} complete`);
+            return callback(null, `Post-hook delete for year-${year} complete`);
         }
     }, (err, results) => {
         if(err) {
-            new Error(err);
+            return logger.error(`Error occured during post-hook delete of Year-${year}: ${err}`);
         } else {
-            console.log(results);
+            return logger.info(results);
         };
     });
 });
