@@ -3,7 +3,7 @@ import "./Skeleton.scss";
 
 const navButton = createSkeletonElement("div");
 
-const sideBar = ({button}) => {
+const sideBar = ({ button }) => {
     <div>
         <navButton />
         <navButton />

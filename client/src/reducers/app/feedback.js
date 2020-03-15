@@ -1,8 +1,6 @@
 import { 
     FEEDBACK_REQUESTED, FEEDBACK_ERROR,
-    FEEDBACK_CREATED,
-    FEEDBACK_FETCHED,
-    FEEDBACK_RETURNED, FEEDBACK_UPDATED, FEEDBACK_DELETED
+    FEEDBACK_SUBMITTED
 } from "../../actions/types";
 
 const initialState = {
@@ -22,51 +20,11 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: false
             };
-        case FEEDBACK_CREATED:
+        case FEEDBACK_SUBMITTED:
             return {
                 ...state,
                 loading: false,
                 feedback: [...state.feedback, action.payload]
-            };
-        case FEEDBACK_FETCHED:
-            return {
-                ...state,
-                loading: false,
-                feedback: action.payload
-            };
-        case FEEDBACK_RETURNED:
-            return {
-                ...state,
-                loading: false,
-                feedback: state.feedback.map(feedback => {
-                    if(feedback._id !== action._id) {
-                        return feedback;
-                    } else return {
-                        feedback: action.payload
-                    };
-                })
-            };
-        case FEEDBACK_UPDATED:
-            return {
-                ...state,
-                loading: false,
-                feedback: state.feedback.map(feedback => {
-                    const {  } = action.payload;
-                    if(feedback._id !== action._id) {
-                        return feedback;
-                    } else return {
-                        ...state.feedback,
-                        feedback: {
-                            
-                        }
-                    };
-                })
-            };
-        case FEEDBACK_DELETED:
-            return {
-                ...state,
-                feedback: state.feedback.filter(feedback => feedback._id !== action.id),
-                loading: false
             };
         default: 
             return state;

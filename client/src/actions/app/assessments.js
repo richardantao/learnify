@@ -8,16 +8,21 @@ import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
-// @path N/A
-// @desc 
+/**
+ * @return {Object} - action type
+ */
 export const setLoading = () => { 
     return { 
         type: ASSESSMENTS_REQUESTED
     }; 
 };
 
-// @path /api/v1/terms/:termId/courses
-// @desc return an array of courses to pair with the new assessment
+/**
+ * @param  {string} termId - ObjectId of the term to filter the fetch by 
+ * @param  {function} dispatch - 
+ * @param  {function} getState - retrieves token configuration
+ * @return {Object} - 
+ */
 export const newAssessment = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
@@ -31,12 +36,17 @@ export const newAssessment = termId => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/assessments
-// @desc send new object database and append new object ot current assessments array
-export const createAssessment = newAssessment => (dispatch, getState) => {
+
+/**
+ * @param {Object} assessment - form data as an object
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ * @return {Object} - 
+ */
+export const createAssessment = assessment => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post(`/api/v1/assessments`, newAssessment, tokenConfig(getState))
+    axios.post(`/api/v1/assessments`, assessment/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: ASSESSMENT_CREATED,
         payload: res.data
@@ -45,99 +55,33 @@ export const createAssessment = newAssessment => (dispatch, getState) => {
         returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
     ));
 };
-
-// @path /api/v1/terms/:termId/assessments?limit=true
-// @desc Return a date-limited array of assessments
-export const fetchAssessmentsForDash = termId => (dispatch, getState) => {
+/**
+ * @param  {string} parent - the parent resource with which to filter the assessments by; either 'terms' of 'courses'
+ * @param  {string} parentId - ObjectId of the parent object
+ * @param  {string} query - optional query parameters
+ * @param  {function} dispatch - sends a dispatched action to the reducer
+ * @param  {function} getState - retrieves authentication state
+ * @return {Object}  - returns a async action through dispatch 
+ */
+export const fetchAssessments = (parent, parentId, query) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/assessments?limit=true`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/${parent}/${parentId}/assessments${query}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: ASSESSMENTS_FETCHED,
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
+        returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
     ));
 };
 
-// @path /apir/v1/terms/:termId/assessments?initial=true
-// @desc return an array of assessments that are within the current term
-export const fetchAssessmentsInitialRender = termId => (dispatch, getState) => {
-    dispatch(setLoading());
-    
-    axios.get(`/api/v1/terms/${termId}/assessments?initial=true`, tokenConfig(getState))
-    .then(res => dispatch({
-        type: ASSESSMENTS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
-};
-
-// @path /api/v1/terms/:termId/assessments?past=true
-// @desc return an array of past assessments from a given term 
-export const fetchPastAssessmentsByTerm = termId => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get(`/api/v1/terms/${termId}/assessments?past=true`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: ASSESSMENTS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
-};
-
-// @path /api/v1/terms/:termId/assessments
-// @desc return an array of current assessments from a given term 
-export const fetchAssessmentsByTerm = termId => (dispatch, getState) => {
-    dispatch(setLoading());
-    
-    axios.get(`/api/v1/terms/${termId}/assessments`, tokenConfig(getState))
-    .then(res => dispatch({
-        type: ASSESSMENTS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
-};
-
-// @path /api/v1/terms/:courseId/assesments?current=false&limit=false
-// @desc Return an array of assessments for the user that only has past assessments for a given course
-export const fetchPastAssessmentsByCourse = courseId => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get(`/api/v1/courses/${courseId}/assessments?past=true`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: ASSESSMENTS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
-};
-
-// @path /api/v1/terms/:courseId/assesments?current=true&limit=false
-// @desc Return an array of assessments for the user that only has current assessments for a given course
-export const fetchAssessmentsByCourse = courseId => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get(`/api/v1/courses/${courseId}/assessments`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: ASSESSMENTS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
-};
-
-// @path /api/v1/assessments/:assessmentId
-// @desc
+/**
+ * @param  {string} id - ObjectId of the assessment to return
+ * @param  {function} dispatch
+ * @param  {function} getState
+ * @return {Object} returns an async action through dispatch
+ */
 export const editAssessment = id => (dispatch, getState) => {
     dispatch(setLoading());
 
@@ -151,6 +95,12 @@ export const editAssessment = id => (dispatch, getState) => {
     ));
 };
 
+/**
+ * @param  {string} id - ObjectId of the
+ * @param  {Object} assessment - object containing the form data that is to update the specified object
+ * @param  {function} dispatch - 
+ * @param  {function} getState - retrieves token configuration
+ */
 export const updateAssessment = (id, assessment) => (dispatch, getState) => {
     dispatch(setLoading());
 
@@ -164,6 +114,11 @@ export const updateAssessment = (id, assessment) => (dispatch, getState) => {
     ));
 };
 
+/**
+ * @param {string} id - ObjectId of the assessment to delete
+ * @param  {function} dispatch - 
+ * @param  {function} getState - retrives token configuration
+ */
 export const deleteAssessment = id => (dispatch, getState) => {
     dispatch(setLoading());
 

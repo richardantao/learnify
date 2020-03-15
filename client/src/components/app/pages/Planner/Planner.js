@@ -5,18 +5,10 @@ import moment from "moment";
 
 /* Redux Operations */
 import { connect } from "react-redux";
-import { 
-    fetchAssessmentsInitialRender,
-    fetchAssessmentsByTerm, fetchPastAssessmentsByTerm, 
-    fetchAssessmentsByCourse, fetchPastAssessmentsByCourse,
-    editAssessment
-} from "../../../../actions/app/assessments";
-import { 
-    fetchTasksInitialRender,
-    fetchTasksByTerm, fetchPastTasksByTerm,
-    fetchTasksByCourse, fetchPastTasksByCourse,
-    editTask
-} from "../../../../actions/app/tasks";
+import { setActiveTerm } from "../../../../actions/app/meta";
+import { fetchCourses } from "../../../../actions/app/courses";
+import { fetchAssessments, editAssessment } from "../../../../actions/app/assessments";
+import { fetchTasks, editTask } from "../../../../actions/app/tasks";
 import PropTypes from "prop-types";
 
 import { Col, Row, Button } from "reactstrap";
@@ -24,6 +16,7 @@ import Select from "react-select";
 
 /* Atoms */
 import Header from "../../atoms/Header";
+import Switch from "../../atoms/Switch";
 
 /* Organisms */
 import AuthNav from "../../organisms/AuthNav";
@@ -37,37 +30,41 @@ import "./Planner.scss";
 
 class Planner extends Component {
     state = {
-        filter: false,
+        activeTerm: null,
+        past: false,
+        filteredCourse: null,
         message: null
     };
 
     static propTypes = {
         // isAuthenticated: PropTypes.bool,
+        meta: PropTypes.object.isRequired,
         error: PropTypes.object.isRequired,
+        course: PropTypes.object.isRequired,
         task: PropTypes.object.isRequired,
         assessment: PropTypes.object.isRequired,
-        fetchTasksInitialRender: PropTypes.func.isRequired,
-        fetchTasksByTerm: PropTypes.func.isRequired,
-        fetchPastTasksByTerm: PropTypes.func.isRequired,
-        fetchTasksByCourse: PropTypes.func.isRequired,
-        fetchPastTasksByCourse: PropTypes.func.isRequired,
+        setActiveTerm: PropTypes.func.isRequired,
+        fetchCourses: PropTypes.func.isRequired,
+        fetchTasks: PropTypes.func.isRequired,
         editTask: PropTypes.func.isRequired,
-        fetchAssessmentsInitialRender: PropTypes.func.isRequired,
-        fetchAssessmentsByTerm: PropTypes.func.isRequired,
-        fetchPastAssessmentsByTerm: PropTypes.func.isRequired,
-        fetchAssessmentsByCourse: PropTypes.func.isRequired,
-        fetchPastAssessmentsByCourse: PropTypes.func.isRequired,
+        fetchAssessments: PropTypes.func.isRequired,
         editAssessment: PropTypes.func.isRequired
     };
 
     componentDidMount() {
-        const { fetchAssessmentsInitialRender, fetchTasksInitialRender } = this.props;
-        fetchAssessmentsInitialRender();
-        fetchTasksInitialRender();
+        const { setActiveTerm } = this.props;
+        setActiveTerm();
     };
 
-    componentDidUpdate(prevProps) {
-        const { error } = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        const { past, filteredCourse } = this.state;
+        const { 
+            error, 
+            meta: { activeTerm }, 
+            fetchCourses,
+            fetchTasks, 
+            fetchAssessments 
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "TASKS_ERROR" || error.id === "ASSESSMENTS_ERROR") {
@@ -76,16 +73,44 @@ class Planner extends Component {
                 this.setState({ message: null });
             };
         };
+
+        if(activeTerm !== prevProps.meta.activeTerm) {
+            this.setState({ activeTerm });
+
+            fetchCourses(activeTerm._id);
+            fetchTasks("terms", activeTerm._id, "?");
+            fetchAssessments("terms", activeTerm._id, "?");
+        };
+
+        if(past !== prevState.past || filteredCourse !== prevState.filteredCourse) {
+            if(past) {
+                if(filteredCourse) {
+                    fetchTasks("courses", filteredCourse, "?past=true");
+                    fetchAssessments("courses", filteredCourse, "?past=true");
+                } else {
+                    fetchTasks("terms", activeTerm._id, "?past=true");
+                    fetchAssessments("terms", activeTerm._id, "?past=true");
+                };
+            } else {
+                if(filteredCourse) {
+                    fetchTasks("courses", filteredCourse, "?");
+                    fetchAssessments("courses", filteredCourse, "?");
+                } else {
+                    fetchTasks("terms", activeTerm._id, "?");
+                    fetchAssessments("terms", activeTerm._id, "?");
+                };
+            };
+        };
     };
 
-    toggleFilter = () => {
-        const { filter } = this.state;
-        this.setState({ filter: !filter });
+    handleChange = filteredCourse => {
+        this.setState({ filteredCourse });
     };
 
     render() {
-        const { filter } = this.state;
+        const { activeTerm, filteredCourse } = this.state;
         const { 
+            course: { courses },
             task: { tasks },
             assessment: { assessments },
             editTask,
@@ -95,7 +120,7 @@ class Planner extends Component {
         return (
             <>
                 <Helmet>
-                    <meta name="description" content=""/>
+                    <meta name="description" content="User's Planner page."/>
                     <meta name="keywords" content="Learnify, Planner, Tasks, Assessments"/>
                     <title>My Learnify | Planner</title>
                 </Helmet>
@@ -108,13 +133,17 @@ class Planner extends Component {
                                 <Header header="Planner"/>
                             </Col>
                             <Col>
-                                {/* <Select placeholder="Filter by Course.."> */}
-                                    {/* {courseOptions} */}
-                                {/* </Select> */}
+                                <Select 
+                                    value={filteredCourse}
+                                    placeholder="Filter by Course.."
+                                    onChange={this.handleChange}
+                                    options={courses.map(({ _id, title }) => {
+                                        return { value: _id, label: title }
+                                    })}
+                                />     
                             </Col>
                             <Col>
-                                <Button onClick={this.handleCurrentItems} className="current">Current</Button>
-                                <Button onClick={this.handlePastItems} className="past">Past</Button>
+                                <Switch/>
                             </Col>
                         </Row>
                         <Row className="body tasks-body"> 
@@ -133,7 +162,7 @@ class Planner extends Component {
                                 class="tasks-list"
                                 data={tasks.map(({ _id, title, course, type, deadline }) => {
                                     return (
-                                        <Row>
+                                        <Row key={_id}>
                                             <Col>
                                                 <h4>{title}</h4>
                                                 <h5>{course}</h5>
@@ -212,20 +241,18 @@ const AssessmentEdit = Loadable({
 
 const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
+    meta: state.meta,
     error: state.error,
+    course: state.course,
     task: state.task,
     assessment: state.assessment
 });
 
 const mapDispatchToProps = { 
-    fetchAssessmentsInitialRender,
-    fetchAssessmentsByTerm, fetchPastAssessmentsByTerm, 
-    fetchAssessmentsByCourse, fetchPastAssessmentsByCourse,
-    editAssessment,
-    fetchTasksInitialRender,
-    fetchTasksByTerm, fetchPastTasksByTerm,
-    fetchTasksByCourse, fetchPastTasksByCourse,
-    editTask
+    setActiveTerm, 
+    fetchCourses,
+    fetchAssessments, editAssessment, 
+    fetchTasks, editTask 
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Planner);

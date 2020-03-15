@@ -31,8 +31,11 @@ export const newTerm = () => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/terms
-// @desc save new term object to backend and append object to user's term array
+/**
+ * @param  {Object} term - 
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ */
 export const createTerm = term => (dispatch, getState) => {
     dispatch(setLoading());
 
@@ -46,8 +49,12 @@ export const createTerm = term => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/years/:yearId/terms
-// @desc fetch all the user's terms that contain the given yearId
+/**
+ * @param  {string} yearId - 
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ * @return {Object} - 
+ */
 export const fetchTerms = yearId => (dispatch, getState) => {
     dispatch(setLoading());
     
@@ -61,8 +68,12 @@ export const fetchTerms = yearId => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/terms/:termId
-// @desc return the term object with the given termId
+/**
+ * @param  {string} id - 
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ * @return {Object} - 
+ */
 export const editTerm = id => (dispatch, getState) => {
     dispatch(setLoading());
     

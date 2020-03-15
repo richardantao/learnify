@@ -37,23 +37,28 @@ class TermNew extends Component {
         createTerm: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
-    
-    componentDidMount() {
-        const { newTerm } = this.props;
-        newTerm();
 
-        const { years } = this.props.term;
-        this.setState({ years });
-    };
-
-    componentDidUpdate(prevProps) {
-        const { error } = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        const { modal } = this.state;
+        const { 
+            error,
+            term: { years },
+            newTerm
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "TERMS_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
+            };
+        };
+
+        if(modal && !prevState.modal) {
+            newTerm();
+            
+            if(years !== prevProps.term.years) {
+                this.setState({ years });
             };
         };
     };
@@ -63,7 +68,6 @@ class TermNew extends Component {
         const { modal } = this.state;
 
         clearErrors();
-
         this.setState({ modal: !modal });
     };
 

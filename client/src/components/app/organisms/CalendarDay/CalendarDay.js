@@ -1,19 +1,37 @@
 import React, { Component } from "react";
 
+import { connect } from "react-redux";
+import { fetchClasses, editClass } from "../../../../actions/app/classes";
+import { clearErrors } from "../../../../actions/auth/errors";
+import PropTypes from "prop-types";
+
 import { Col } from "reactstrap";
 
 import "./CalendarDay.scss";
 
-export default class CalendarDay extends Component {	
-	componentDidMount() {
+class CalendarDay extends Component {	
+	state = {
+
+	};
+
+	static propTypes = {
+		error: PropTypes.object.isRequired,
+		fetchClasses: PropTypes.func.isRequired,
+		editClass: PropTypes.func.isRequired
+	};
+	
+	async componentDidMount() {
 		
 	};
 
-	componentDidUpdate() {
-
+	componentDidUpdate(prevProps, prevState) {
+		const { } = this.state;
+		const { } = this.props;
 	};
 
 	render() {
+		const { } = this.state;
+
 		return (
 			<Col id="calendar-day">
 
@@ -22,5 +40,11 @@ export default class CalendarDay extends Component {
 	};
 };
 
+const mapStateToProps = state => ({
+	error: state.error,
+	classes: state.classes
+});
 
+const mapDispatchToProps = { clearErrors };
 
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarDay);

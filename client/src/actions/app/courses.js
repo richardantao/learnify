@@ -45,8 +45,12 @@ export const createCourse = course => (dispatch, getState) => {
     ));
 };
 
-// @path /api/v1/terms/:termId/courses
-// @desc return an array of courses that contain the specified termId
+/**
+ * @param {string} termId - ObjectId 
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ * @return {Object} - 
+ */
 export const fetchCourses = termId => (dispatch, getState) => {
     dispatch(setLoading());
     

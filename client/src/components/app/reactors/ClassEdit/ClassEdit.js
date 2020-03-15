@@ -34,21 +34,15 @@ class ClassEdit extends Component {
     };
 
     componentDidMount() {
-        const { 
-            classes,
-            courses
-        } = this.props.classes;
 
-        this.setState({
-            _id: classes._id,
-            course: classes.course,
-            title: classes.title,
-            courses
-        });
+        
     };
 
     componentDidUpdate(prevProps) {
-        const { error } = this.state;
+        const { 
+            error,
+            classes: { classes, courses }
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "CLASSES_ERROR") {
@@ -56,6 +50,15 @@ class ClassEdit extends Component {
             } else {
                 this.setState({ message: null });
             };
+        };
+
+        if(classes !== prevProps.classes.classes) {
+            this.setState({
+                _id: classes._id,
+                course: classes.course,
+                title: classes.title,
+                courses
+            });
         };
     };  
 

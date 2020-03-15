@@ -21,6 +21,10 @@ class Pomodoro extends Component {
 
     };
 
+    async componentDidMount() {
+
+    };
+
     componentDidUpdate(prevProps) {
         
     };

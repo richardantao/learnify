@@ -31,30 +31,12 @@ class Profile extends Component {
 		clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-        const {  
-            first, 
-            last, 
-            email, 
-            country, 
-            region, 
-            institution, 
-            school 
-        } = this.props.user.profile;
-
-        this.setState({
-            first,
-            last, 
-            email,
-            country, 
-            region,
-            institution,
-            school
-        });
-    };
 
     componentDidUpdate(prevProps) {
-        const { error } = this.props;
+        const { 
+            error, 
+            user: { profile } 
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "SETTINGS_ERROR") {
@@ -62,6 +44,18 @@ class Profile extends Component {
             } else {
                 this.setState({ message: null });
             };
+        };
+
+        if(profile !== prevProps.user.profile) {
+            this.setState({
+                first: profile.first,
+                last: profile.last, 
+                email: profile.email,
+                country: profile.country, 
+                region: profile.region,
+                institution: profile.institution,
+                school: profile.school
+            });
         };
     };
 

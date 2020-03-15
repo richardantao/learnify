@@ -35,22 +35,27 @@ class CourseNew extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-        const { newCourse } = this.props;
-        newCourse();
-
-        const { terms } = this.props.course;
-        this.setState({ terms });
-    };
-
-    componentDidUpdate(prevProps) {
-        const { error/*, isAuthenticated*/ } = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        const { modal } = this.state;
+        const { 
+            error,
+            course: { terms },
+            newCourse 
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "COURSES_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
+            };
+        };
+
+        if(modal && !prevState.modal) {
+            newCourse();
+
+            if(terms !== prevProps.course.terms) {
+                this.setState({ terms });
             };
         };
     };

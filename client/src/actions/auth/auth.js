@@ -11,6 +11,10 @@ import {
 import { returnErrors } from "./errors";
 import axios from "axios";
 
+/**
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ */
 export const loadUser = () => (dispatch, getState) => {
     dispatch({ type: USER_REQUESTED });
 
@@ -27,8 +31,15 @@ export const loadUser = () => (dispatch, getState) => {
     });
 };
 
-// Register User
-export const register = ({ fname, lname, email, password }) => dispatch => {
+/**
+ * @param  {string} first - user's first name
+ * @param  {string} last - user's last name
+ * @param  {string} email - user's email 
+ * @param  {string} password - user's password
+ * @param  {function} dispatch - returns action to reducer
+ * @return {Object} - return async action through dispatch 
+ */
+export const register = ({ first, last, email, password }) => dispatch => {
     console.log("... Received user from form")
     // Headers
     const config = {
@@ -37,15 +48,8 @@ export const register = ({ fname, lname, email, password }) => dispatch => {
         }
     };
 
-    // Request body
-    const body = JSON.stringify({ fname, lname, email, password });
-    /* ^ body is not receiving first and last name */
+    const body = JSON.stringify({ first, last, email, password });
 
-    console.log(body);
-
-    /* 
-        Axios is not passing a promise
-    */
     axios.post("api/v1/users", body, config)
     .then(res => dispatch({
        type: REGISTER_SUCCESS,
@@ -61,7 +65,12 @@ export const register = ({ fname, lname, email, password }) => dispatch => {
     });
 };
 
-// Login User
+/**
+ * @param  {string} - 
+ * @param  {string} - 
+ * @param  {function} dispatch - 
+ * @return {Object} - 
+ */
 export const login = ({ email, password }) => dispatch => {
     const config = {
         headers: {
@@ -71,6 +80,11 @@ export const login = ({ email, password }) => dispatch => {
 
     const body = JSON.stringify({ email, password });
 
+    /**
+     * @param {Object} body - 
+     * @param {Object} config - 
+     * @return {Object} -  
+     */
     axios.post("/api/v1/users/auth", body, config)
     .then(res => dispatch({
         type: LOGIN_SUCCESS,
@@ -86,7 +100,10 @@ export const login = ({ email, password }) => dispatch => {
     });
 };
 
-// Logout User
+/**
+ * @param  {function} dispatch - 
+ * @return {Object} - 
+ */
 export const logout = () => dispatch => {
     axios.delete("/api/v1/users/auth")
     .then(res => dispatch({
@@ -97,6 +114,11 @@ export const logout = () => dispatch => {
     });
 };
 
+/**
+ * @param {Object} token - 
+ * @param  {function} - 
+ * @return {Object} - 
+ */
 export const requestPasswordReset = token => dispatch => {
     axios.post("/api/v1/users/password/token", token)
     .then(res => dispatch({
@@ -108,6 +130,11 @@ export const requestPasswordReset = token => dispatch => {
     });
 };
 
+/**
+ * @param {token} - 
+ * @param  {function} dispatch - 
+ * @return {Object} config - 
+ */
 export const resetPassword = token => dispatch => {
     axios.put("/api/v1/users/password", token)
     .then(res => dispatch({
@@ -115,10 +142,14 @@ export const resetPassword = token => dispatch => {
         payload: res.data
     }))
     .catch(err => {
-        returnErrors(err.data, err.status, "PASSWORD_RESET_FAILED");
+        returnErrors(err.res.data, err.res.status, "PASSWORD_RESET_FAILED");
     });
 };
 
+/**
+ * @param  {function} getState - 
+ * @return {Object} config - 
+ */
 export const resendEmailVerification = email => dispatch => {
     axios.post("/api/v1/users/email/token", email)
     .then(res => dispatch({
@@ -130,6 +161,10 @@ export const resendEmailVerification = email => dispatch => {
     });
 };
 
+/**
+ * @param  {function} getState - 
+ * @return {Object} config - 
+ */
 export const verifyEmail = token => dispatch => {
     axios.put("/api/v1/users/email/token", token)
     .then(res => dispatch({
@@ -141,6 +176,10 @@ export const verifyEmail = token => dispatch => {
     });
 };
 
+/**
+ * @param  {string} id - ObjectId 
+ * @return {Object} -  
+ */
 export const deleteUser = id => dispatch => {
     axios.delete(`/api/v1/users/${id}`)
     .then(res => dispatch({
@@ -154,7 +193,10 @@ export const deleteUser = id => dispatch => {
         });
     });
 };
-
+/**
+ * @param  {function} getState - 
+ * @return {Object} - sets header
+ */
 export const tokenConfig = getState => {
     // const token = getState().auth.token;
     

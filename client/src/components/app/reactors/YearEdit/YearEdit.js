@@ -32,22 +32,12 @@ class YearEdit extends Component {
         deleteYear: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
-
-    componentDidMount() {
-        const { 
-            _id, title, date: { start, end }
-        } = this.props.year.years;
-
-        this.setState({
-            _id,
-            title,
-            start,
-            end
-        });
-    };
-    
+        
     componentDidUpdate(prevProps) {
-        const { error } = this.props;
+        const { 
+            error,
+            year: { years } 
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "YEARS_ERROR") {
@@ -55,6 +45,15 @@ class YearEdit extends Component {
             } else {
                 this.setState({ message: null });
             };
+        };
+
+        if(years !== prevProps.year.years) {
+            this.setState({
+                _id: years._id,
+                title: years._id,
+                start: years.date.start,
+                end: years.date.end
+            });
         };
     };
 

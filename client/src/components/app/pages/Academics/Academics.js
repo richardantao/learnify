@@ -8,7 +8,7 @@ import { connect } from "react-redux";
 import { fetchYears, editYear } from "../../../../actions/app/years";
 import { fetchTerms, editTerm } from "../../../../actions/app/terms";
 import { fetchCourses, editCourse } from "../../../../actions/app/courses";
-import { fetchClassesByCourse, editClass } from "../../../../actions/app/classes";
+import { fetchClasses, editClass } from "../../../../actions/app/classes";
 import PropTypes from "prop-types";
 
 import { Button, Col, Row } from "reactstrap";
@@ -30,7 +30,7 @@ import "./Academics.scss";
 
 class Academics extends Component {
 	state = {
-
+		activeTerm: null
 	};
 
 	static propTypes = {
@@ -46,16 +46,16 @@ class Academics extends Component {
 		editTerm: PropTypes.func.isRequired,
 		fetchCourses: PropTypes.func.isRequired,
 		editCourse: PropTypes.func.isRequired,
-		fetchClassesByCourse: PropTypes.func.isRequired,
+		fetchClasses: PropTypes.func.isRequired,
 		editClass: PropTypes.func.isRequired
 	};
 
-	componentDidMount() {
+	async componentDidMount() {
 		const { fetchYears } = this.props;
-		fetchYears();
+		await fetchYears();
 	};
 
-	componentDidUpdate(prevProps) {
+	async componentDidUpdate(prevProps) {
 		const { error } = this.props;
 
 		if(error !== prevProps.error) {
@@ -68,7 +68,7 @@ class Academics extends Component {
 	};
 
 	render() {
-		const {  } = this.state;
+		const { activeTerm } = this.state;
 		const { 
 			year: { years },
 			term: { terms },
@@ -78,7 +78,7 @@ class Academics extends Component {
 			editTerm,
 			fetchCourses,
 			editCourse,
-			fetchClassesByCourse,
+			fetchClasses,
 			editClass
 		} = this.props;
 
@@ -106,7 +106,7 @@ class Academics extends Component {
 										});
 									})}	
 								/>
-								<YearEdit/>
+								<YearEdit onClick={editYear()}/>
 								<YearNew/>
 							</Col>
 						</Row>
@@ -195,7 +195,7 @@ class Academics extends Component {
 								class="courses-list"
 								data={courses.map(({ _id, title, term, code, instructor }) => {
 									return (
-										<Row key={_id} className="course-data" onClick={fetchClassesByCourse(_id)}>
+										<Row key={_id} className="course-data" onClick={fetchClasses("courses", _id, null)}>
 											<Col>
 												<h4>{title}</h4>
 												<h5>{term.title}</h5>
@@ -304,7 +304,7 @@ const mapDispatchToProps = {
 	fetchYears, editYear,
 	fetchTerms, editTerm,
 	fetchCourses, editCourse,
-	fetchClassesByCourse, editClass 
+	fetchClasses, editClass 
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Academics);

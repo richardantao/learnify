@@ -5,9 +5,10 @@ import moment from "moment";
 
 /* Redux Operations */
 import { connect } from "react-redux";
-import { fetchClassesForDash, editClass } from "../../../../actions/app/classes";
-import { fetchTasksForDash, editTask } from "../../../../actions/app/tasks";
-import { fetchAssessmentsForDash, editAssessment } from "../../../../actions/app/assessments";
+import { setActiveTerm } from "../../../../actions/app/meta";
+import { fetchClasses, editClass } from "../../../../actions/app/classes";
+import { fetchTasks, editTask } from "../../../../actions/app/tasks";
+import { fetchAssessments, editAssessment } from "../../../../actions/app/assessments";
 import PropTypes from "prop-types";
 
 import { Row, Col, Button } from "reactstrap";
@@ -33,33 +34,37 @@ import "./Dashboard.scss";
 
 class Dashboard extends Component {
 	state = {
-
+		activeTerm: null
 	};
 
 	static propTypes = {
 		// isAuthenticated: PropTypes.bool,
+		meta: PropTypes.object.isRequired,
 		error: PropTypes.object.isRequired,
 		classes: PropTypes.object.isRequired,
 		task: PropTypes.object.isRequired,
 		assessment: PropTypes.object.isRequired,
-		fetchClassesForDash: PropTypes.func.isRequired,
+		setActiveTerm: PropTypes.func.isRequired,
+		fetchClasses: PropTypes.func.isRequired,
 		editClass: PropTypes.func.isRequired,
-		fetchTasksForDash: PropTypes.func.isRequired,
+		fetchTasks: PropTypes.func.isRequired,
 		editTask: PropTypes.func.isRequired,
-		fetchAssessmentsForDash: PropTypes.func.isRequired,
+		fetchAssessments: PropTypes.func.isRequired,
 		editAssessment: PropTypes.func.isRequired,
 	};
 
-	componentDidMount() {		
-		const { fetchClassesForDash, fetchTasksForDash, fetchAssessmentsForDash } = this.props;
-
-		fetchClassesForDash();
-		fetchTasksForDash();
-		fetchAssessmentsForDash();
+	async componentDidMount() {		
+		const { setActiveTerm } = this.props;
+		await setActiveTerm();
 	};
 
 	componentDidUpdate(prevProps) {
-		const { error } = this.props;
+		const { error, 
+			meta: { activeTerm }, 
+			fetchClasses,
+			fetchTasks, 
+			fetchAssessments 
+		} = this.props;
 		
 		if(error !== prevProps.error) {
 			if(error.id === "CLASSES_ERROR" || error.id === "TASKS_ERROR" || error.id === "ASSESSMENTS_ERROR") {
@@ -68,6 +73,14 @@ class Dashboard extends Component {
 				this.setState({ message: null });
 			};
 		};	
+
+		if(activeTerm !== prevProps.meta.activeTerm) {
+			this.setState({ activeTerm });
+
+			fetchClasses("terms", activeTerm._id, "limit=true");
+			fetchTasks("terms", activeTerm._id, "limit=true");
+			fetchAssessments("terms", activeTerm._id, "limit=true");
+		};
 	};
 
 	render() {
@@ -99,7 +112,7 @@ class Dashboard extends Component {
 						<Row id="dashboard-columns" className="body">
 							<List 
 								id="classes" 
-                                class="classes-list"
+                                className="classes-list"
 								data={classes.map(({ _id, title, course, location, date: { start, end } }) => {
 									return (
 										<Row key={_id}>
@@ -124,7 +137,7 @@ class Dashboard extends Component {
 							/>
 							<List 
 								id="tasks" 
-                                class="tasks-list"
+                                className="tasks-list"
 								data={tasks.map(({ _id, title, course, type, deadline }) => {
 									return (
 										<Row key={_id}>
@@ -145,7 +158,7 @@ class Dashboard extends Component {
 							/>
 							<List 
 								id="assessments" 
-                                class="assessments-list"
+                                className="assessments-list"
 								data={assessments.map(({ _id, title, course, type, date: { start, end } }) => {
 									return (
 										<Row key={_id}>
@@ -204,6 +217,7 @@ const AssessmentEdit = Loadable({
 });
 
 const mapStateToProps = state => ({
+	meta: state.meta,
 	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
 	classes: state.classes,
@@ -212,9 +226,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = { 
-	fetchClassesForDash, editClass, 
-	fetchTasksForDash, editTask, 
-	fetchAssessmentsForDash, editAssessment
+	setActiveTerm,
+	fetchClasses, editClass, 
+	fetchTasks, editTask, 
+	fetchAssessments, editAssessment
  };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

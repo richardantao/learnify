@@ -4,7 +4,7 @@ import Counter from "../../molecules/Counter";
 
 import "./DashboardHeader.scss";
 
-const DashboardHeader = props => { 
+export default props => { 
     return (
         <Col role="banner" className={props.class}>
             <h3>{props.heading}</h3>
@@ -13,5 +13,3 @@ const DashboardHeader = props => {
         </Col>   
     );
 };
-
-export default DashboardHeader;

@@ -38,27 +38,13 @@ class TaskEditModal extends Component {
         deleteTask: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };
-
-    componentDidMount() {
-        const {
-            tasks,
-            courses
-        } = this.props.task;
-
-        this.setState({
-            _id: tasks._id,
-            course: tasks.course,
-            title: tasks.title,
-            type: tasks.type,
-            deadline: tasks.deadline,
-            completion: tasks.completion,
-            description: tasks.description,
-            courses
-        });
-    };
-
-    componentDidUpdate(prevProps) {
-    const { error/*, isAuthenticated*/ } = this.props;
+    
+    componentDidUpdate(prevProps, prevState) {
+        const{ modal } = this.state;
+        const { 
+            error,
+            task: { tasks, courses }
+        } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "TASKS_ERROR") {
@@ -66,6 +52,19 @@ class TaskEditModal extends Component {
             } else {
                 this.setState({ message: null });  
             };
+        };
+
+        if(modal && !prevState.modal) {
+            this.setState({
+                _id: tasks._id,
+                course: tasks.course,
+                title: tasks.title,
+                type: tasks.type,
+                deadline: tasks.deadline,
+                completion: tasks.completion,
+                description: tasks.description,
+                courses
+            });
         };
     };
 

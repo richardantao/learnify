@@ -29,23 +29,49 @@ exports.create = (req, res) => {
 
 exports.read = (req, res) => {
 	// const { _id } = req.user; // prod
-
-	Year.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
-		_id: 1,
-		title: 1,
-		date: 1
-	})
-	.sort({ "date.start": -1 })
-	.then(years => {
-		if(years.length === 0) {
-			return res.status(404).json({ message: "No years found" });
-		} else {
-			return res.status(200).json(years);
-		};
-	})
-	.catch(err => {
-		return res.status(500).json({ message: err.message });
-	});
+	const { setActiveTerm } = req.query;
+	
+	if(setActiveTerm) {
+		Year.find({ 
+			user: ObjectId("5deb33a40039c4286179c4f1"),
+			"date.start": {
+				$lt: moment()
+			},
+			"date.end": {
+				$gt: moment()
+			}
+		}, {
+			_id: 1
+		})
+		.limit(1)
+		.then(year => {
+			if(!year) {
+				return res.status(404).json({ message: "Year not found" });
+			} else {
+				return res.status(200).json(year[0]._id);
+			};
+		})
+		.catch(err => {
+			return res.status(500).json({ message: err.message });
+		});
+	} else {
+		Year.find({ user: ObjectId("5deb33a40039c4286179c4f1") }, {
+			_id: 1,
+			title: 1,
+			date: 1
+		})
+		.sort({ "date.start": -1 })
+		.then(years => {
+			if(years.length === 0) {
+				return res.status(404).json({ message: "No years found" });
+			} else {
+				return res.status(200).json(years);
+			};
+		})
+		.catch(err => {
+			return res.status(500).json({ message: err.message });
+		});
+	};	
 };
 
 exports.edit = (req, res) => {

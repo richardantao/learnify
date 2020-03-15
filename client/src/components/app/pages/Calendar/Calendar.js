@@ -5,7 +5,7 @@ import moment from "moment";
 
 /* Redux Operations */
 import { connect } from "react-redux";
-import { fetchClassesByTerm } from "../../../../actions/app/classes"; // new action function for 
+import { fetchClasses } from "../../../../actions/app/classes"; // new action function for 
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
@@ -31,8 +31,16 @@ class Calendar extends Component {
 		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
 		classes: PropTypes.object.isRequired,
-		fetchClassesByTerm: PropTypes.func.isRequired,
+		fetchClasses: PropTypes.func.isRequired,
 		clearErrors: PropTypes.func.isRequired
+	};
+
+	componentDidMount() {
+		const { } = this.state;
+	};
+
+	componentDidUpdate(prevProps, prevState) {
+
 	};
 
 	renderMonthView = () => {
@@ -66,7 +74,6 @@ class Calendar extends Component {
 					<div id="calendar">
 						<Row className="header">
 							<CalendarHeader/> 
-							
 						</Row>
 						<Row className="body">
 							{ display === "month" ? (
@@ -94,7 +101,7 @@ class Calendar extends Component {
 				</div>
 			</>
 		);
-	}
+	};
 };
 
 const CalendarMonth = Loadable({
@@ -139,6 +146,6 @@ const mapStateToProps = state => ({
 	classes: state.classes
 });
 
-const mapDispatchToProps = { fetchClassesByTerm, clearErrors };
+const mapDispatchToProps = { fetchClasses, clearErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);

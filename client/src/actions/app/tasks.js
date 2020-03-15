@@ -7,12 +7,19 @@ import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
+/**
+ * @return {Object} - action type
+ */
 export const setLoading = () => {
     return {
         type: TASKS_REQUESTED
     };
 };
-
+/**
+ * @param {string} termId - ObjectId belonging to the term to filter the query by
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ */
 export const newTask = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
@@ -25,7 +32,11 @@ export const newTask = termId => (dispatch, getState) => {
         returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
-
+/**
+ * @param  {string} task - object containing form data
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ */
 export const createTask = task => (dispatch, getState) => {
     dispatch(setLoading());
 
@@ -38,89 +49,36 @@ export const createTask = task => (dispatch, getState) => {
         returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
-
-export const fetchTasksForDash = termId => (dispatch, getState) => {
+/**
+ * @param  {string} parent - resource to filter the query by; either 'terms' or 'courses'
+ * @param  {string} parentId - ObjectId of the resource to filter query by
+ * @param  {string} query - optional query parameters
+ * @param  {function} dispatch - function that returns an action to the reducer
+ * @param  {function} getState - retrieves token configurations
+ * @return {Object} - an action object passed through dispatch
+ */
+export const fetchTasks = (parent, parentId, query) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/tasks/?limit=true`/*, tokenConfig(getState)*/) // add query parameters
+    axios.get(`/api/v1/${parent}/${parentId}/tasks${query}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: TASKS_FETCHED, 
         payload: res.data
     }))
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
+        returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
     ));
 };
-
-export const fetchTasksInitialRender = termId => (dispatch, getState) => {
+/**
+ * @param  {string} id - ObjectId belonging to the task to return
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ * @return {Object} - 
+ */
+export const editTask = id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/tasks?initial=true`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: TASKS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
-};
-
-export const fetchPastTasksByTerm = termId => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get(`/api/v1/terms/${termId}/tasks?past=true`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: TASKS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
-};
-
-export const fetchTasksByTerm = termId => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get(`/api/v1/terms/${termId}/tasks`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: TASKS_FETCHED, 
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
-};
-
-export const fetchPastTasksByCourse = courseId => (dispatch, getState) => {
-    dispatch(setLoading());
-    
-    axios.get(`/api/v1/courses/${courseId}/tasks?past=true`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: TASKS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
-};
-
-export const fetchTasksByCourse = courseId => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get(`/api/v1/courses/${courseId}/tasks`/*, tokenConfig(getState)*/)
-    .then(res => dispatch({
-        type: TASKS_FETCHED,
-        payload: res.data
-    }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
-};
-
-export const editTask = _id => (dispatch, getState) => {
-    dispatch(setLoading());
-
-    axios.get(`/api/v1/tasks/${_id}`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/tasks/${id}`/*, tokenConfig(getState)*/)
     .then(res => {
         dispatch({
             type: TASK_RETURNED,
@@ -128,14 +86,20 @@ export const editTask = _id => (dispatch, getState) => {
         });
     })
     .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
+        returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
     ));
 };
 
-export const updateTask = (_id, task) => (dispatch, getState) => {
+/**
+ * @param  {string} id - 
+ * @param  {Object} task - 
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ */
+export const updateTask = (id, task) => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.put(`/api/v1/tasks/${_id}`, task/*, tokenConfig(getState)*/)
+    axios.put(`/api/v1/tasks/${id}`, task/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: TASK_UPDATED,
         payload: res.data
@@ -145,18 +109,23 @@ export const updateTask = (_id, task) => (dispatch, getState) => {
     ));
 };
 
-export const deleteTask = _id => (dispatch, getState) => {
+/**
+ * @param  {string} id - ObjectId belonging to the task to delete
+ * @param  {function} dispatch - 
+ * @param  {function} getState - retrieves token configuration
+ * @return {Object} - 
+ */
+export const deleteTask = id => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.delete(`/api/v1/tasks/${_id}`/*, tokenConfig(getState)*/)
+    axios.delete(`/api/v1/tasks/${id}`/*, tokenConfig(getState)*/)
     .then(res => {
         dispatch({
             type: TASK_DELETED,
-            payload: _id
+            payload: id
         });
     })
     .catch(err => dispatch(
         returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
     ));
 };
-

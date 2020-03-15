@@ -37,28 +37,12 @@ class AssessmentEdit extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
+    componentDidUpdate(prevProps, prevState) {
+        const { modal } = this.state;
         const { 
-            assessments,
-            courses
-        } = this.props.assessment;
-
-        this.setState({
-            _id: assessments._id,
-            course: assessments.course,
-            title: assessments.title,
-            type: assessments.type,
-            location: assessments.location,
-            start: assessments.date.start,
-            end: assessments.date.end,
-            score: assessments.grade.score,
-            weight: assessments.grade.weight,
-            courses
-        });
-    };
-
-    componentDidUpdate(prevProps) {
-        const { error/*, isAuthenticated*/ } = this.props; 
+            error,
+            assessment: { assessments, courses }
+        } = this.props; 
 
         if(error !== prevProps.error) {
             if(error.id === "ASSESSMENTS_ERROR") {
@@ -66,6 +50,21 @@ class AssessmentEdit extends Component {
             } else {
                 this.setState({ message: null });
             };
+        };
+
+        if(modal && !prevState.modal) {
+            this.setState({
+                _id: assessments._id,
+                course: assessments.course,
+                title: assessments.title,
+                type: assessments.type,
+                location: assessments.location,
+                start: assessments.date.start,
+                end: assessments.date.end,
+                score: assessments.grade.score,
+                weight: assessments.grade.weight,
+                courses
+            });
         };
     };
 

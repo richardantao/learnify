@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 
-import Moment from "react-moment";
+import moment from "moment";
 
 import { connect } from "react-redux";
+import { fetchClasses, editClass } from "../../../../actions/app/classes";
+import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
 import { Col } from "reactstrap";
@@ -11,20 +13,22 @@ import "./CalendarMonth.scss";
 
 class CalendarMonth extends Component {
 	state = {
-		currentMonth: new Date(),
-		selectedDate: new Date()
+		currentMonth: moment(),
+		selectedDate: moment()
 	};
 
 	static propTypes = {
 		isAuthenticated: PropTypes.bool,
-		error: PropTypes.object.isRequired
+		error: PropTypes.object.isRequired,
+		classes: PropTypes.func.isRequired
 	};
 	
-	componentDidMount() {
-		
+	async componentDidMount() {
+		const { } = this.state;
+		 	
 	};
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps, prevState) {
 
 	};
 
@@ -53,6 +57,8 @@ class CalendarMonth extends Component {
 	};
 
 	render() {
+		const { } = this.state;
+
 		return (
 			<Col id="calendar-month">
 				{this.renderHeader()}
@@ -65,9 +71,10 @@ class CalendarMonth extends Component {
 
 const mapStateToProps = state => ({
 	isAuthenticated: state.auth.isAuthenticated,
-	error: state.error
+	error: state.error,
+	classes: state.classes
 });
 
-const mapDispatchToProps = { };
+const mapDispatchToProps = { fetchClasses, editClass, clearErrors};
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalendarMonth);

@@ -24,9 +24,9 @@ class AppVerify extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         const { verifyEmail } = this.props;
-        verifyEmail();
+        await verifyEmail();
     };
 
     componentDidUpdate(prevProps) {

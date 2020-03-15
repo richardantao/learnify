@@ -12,9 +12,12 @@ export const setLoading = () => {
 export const setActiveTerm = () => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get("/api/v1/years?setActiveTerm"/*, tokenConfig(getState)*/) // retrieve the yearId of the current year
+    axios.get("/api/v1/years?setActiveTerm=true"/*, tokenConfig(getState)*/) // retrieve the yearId of the current year
     .then(res => {
-        return axios.get(`/api/v1/years/${res.data}/terms?setActiveTerm`);
+        return axios.get(`/api/v1/years/${res.data}/terms?setActiveTerm=true`)
+        .catch(err => dispatch(
+            returnErrors(err.res.data, err.res.status, "ACTIVE_TERM_FAILED")
+        ));
     })
     .then(res => dispatch({
         type: ACTIVE_TERM_SET,

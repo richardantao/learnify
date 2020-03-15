@@ -32,22 +32,27 @@ class ClassNew extends Component {
         clearErrors: PropTypes.func.isRequired
     };      
 
-    componentDidMount() {
-        const { newClass } = this.props;
-        newClass();
-
-        const { courses } = this.props.classes;
-        this.setState({ courses });
-    };
-
-    componentDidUpdate(prevProps) {
-        const { error } = this.props;
+    componentDidUpdate(prevProps, prevState) {
+        const { modal } = this.state;
+        const { 
+            error,
+            classes: { courses },
+            newClass
+        } = this.props;
         
         if(error !== prevProps.error) {
             if(error.id === "CLASSES_ERROR") {
                 this.setState({ message: error.message.message });
             } else {
                 this.setState({ message: null });
+            };
+        };
+
+        if(modal && !prevState.modal) {
+            newClass();
+
+            if(courses !== prevProps.classes.courses) {
+                this.setState({ courses });
             };
         };
     };

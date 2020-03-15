@@ -23,10 +23,10 @@ class Notifications extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         const { fetchNotifications, clearErrors } = this.props;
-        clearErrors();
-        fetchNotifications();
+        await clearErrors();
+        await fetchNotifications();
     };
 
     componentDidUpdate(prevProps) {

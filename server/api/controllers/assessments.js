@@ -3,58 +3,59 @@ const moment = require("moment");
 const ObjectId = require("mongodb").ObjectId;
 
 // models
-const Term = require("../models/Terms");
 const Course = require("../models/Courses");
 const Assessment = require("../models/Assessments");
-
-// cache
 
 exports.create = (req, res) => {
     const { course, title, type, start, end, location, weight, score } = req.body;
 
+    const matchTerm = callback => {
+        Course.find({ _id: course }, {
+            _id: 0,
+            term: 1
+        })
+        .limit(1)
+        .then(term => {
+            if(term.length === 0) {
+                return res.status(404).json({ message: "Term not found" });
+            } else {
+                return callback(null, term[0].term);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    const createAssessment = (term, callback) => {
+        Assessment.create({
+            _id: ObjectId(),
+            term,
+            course,
+            title,
+            type,
+            date: {
+                start: moment(start, "YYYY-MM-DD, hh:mm"),
+                end: (end ? moment(end, "YYYY-MM-DD, hh:mm"): null),
+            },
+            location,
+            grade: {
+                weight,
+                score
+            }
+        })
+        .then(assessment => {
+            return callback(null, assessment);
+        })
+        .catch(err => {
+            console.log(err);
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
     async.waterfall([
-        callback => {
-            Course.find({ _id: course }, {
-                _id: 0,
-                term: 1
-            })
-            .limit(1)
-            .then(term => {
-                if(term.length === 0) {
-                    return res.status(404).json({ message: "Term not found" });
-                } else {
-                    return callback(null, term[0].term);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        },
-        (term, callback) => {
-            Assessment.create({
-                _id: ObjectId(),
-                term,
-                course,
-                title,
-                type,
-                date: {
-                    start: moment(start, "YYYY-MM-DD, hh:mm"),
-                    end: (end ? moment(end, "YYYY-MM-DD, hh:mm"): null),
-                },
-                location,
-                grade: {
-                    weight,
-                    score
-                }
-            })
-            .then(assessment => {
-                return callback(null, assessment);
-            })
-            .catch(err => {
-                console.log(err);
-                return res.status(500).json({ message: err.message });
-            });
-        }
+        matchTerm,
+        createAssessment
     ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });
@@ -66,10 +67,11 @@ exports.create = (req, res) => {
 
 exports.read = (req, res) => {
     const { termId } = req.params;
-    const { limit, initial, past } = req.query;
+    const { limit, past } = req.query;
 
     if(limit) {
         Assessment.find({ 
+            term: termId,
             "date.start": {
                 $gt: moment().startOf("day"),
                 $lt: moment().endOf("day").add(7, "days")
@@ -94,70 +96,12 @@ exports.read = (req, res) => {
         .catch(err => {
             return res.status(500).json({ message: err.message });
         });
-    } else if(initial) {
-        const findCurrentTerm = callback => {
-            Term.find({
-                "date.start": {
-                    $lt: moment().startOf("day"),
-                },
-                "date.end": {
-                    $gt: moment().startOf("day")
-                }
-            }, {
-                _id: 1
-            })
-            .limit(1)
-            .then(term => {
-                return callback(null, term[0]);
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        };
-        const fetchAssessments = (term, callback) => {
-            Assessment.find({ 
-                term,
-                "date.start": {
-                    $gte: moment()
-                }
-            }, {
-                _id: 1,
-                course: 1,
-                title: 1,
-                type: 1,
-                date: 1,
-                location: 1
-            })
-            .populate("course", [ "title" ])
-            .sort({ "date.start": 1 })
-            .then(assessments => {
-                if(assessments.length === 0) {
-                    return res.status(404).json({ message: "Assessments not found" });
-                } else {
-                    return callback(null, assessments);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        };
-
-        async.waterfall([
-            findCurrentTerm,
-            fetchAssessments
-        ], (err, results) => {
-            if(err) {
-                return res.status(500).json({ message: err.message });
-            } else {
-                return res.status(200).json(results);
-            };
-        });
-    } else if(past) {
+    } else if (past) {
         Assessment.find({ 
-            term,
+            term: termId,
             "date.start": {
                 $lt: moment()
-            }
+            } 
         }, {
             _id: 1,
             course: 1,
@@ -170,10 +114,10 @@ exports.read = (req, res) => {
         .sort({ "date.start": 1 })
         .then(assessments => {
             if(assessments.length === 0) {
-                return res.status(404).json({ message: "Assessments not found" });
+                return res.status(404).json({ message: err.message });
             } else {
                 return res.status(200).json(assessments);
-            };
+            };  
         })
         .catch(err => {
             return res.status(500).json({ message: err.message });
@@ -182,8 +126,8 @@ exports.read = (req, res) => {
         Assessment.find({ 
             term: termId,
             "date.start": {
-                $gte: moment()
-            }
+                $gt: moment()
+            } 
         }, {
             _id: 1,
             course: 1,
@@ -196,15 +140,15 @@ exports.read = (req, res) => {
         .sort({ "date.start": 1 })
         .then(assessments => {
             if(assessments.length === 0) {
-                return res.status(404).json({ message: "Assessments not found" });
+                return res.status(404).json({ message: err.message });
             } else {
                 return res.status(200).json(assessments);
-            };
+            };  
         })
         .catch(err => {
             return res.status(500).json({ message: err.message });
         });
-    };
+    };  
 };
 
 exports.filter = (req, res) => {
@@ -216,8 +160,9 @@ exports.filter = (req, res) => {
             course: courseId,
             "date.start": {
                 $lt: moment()
-            } 
+            }
         }, {
+            _id: 1,
             course: 1,
             title: 1,
             type: 1,
@@ -241,8 +186,9 @@ exports.filter = (req, res) => {
             course: courseId,
             "date.start": {
                 $gte: moment()
-            } 
+            }
         }, {
+            _id: 1,
             course: 1,
             title: 1,
             type: 1,

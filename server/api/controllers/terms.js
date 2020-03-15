@@ -31,19 +31,46 @@ exports.create = (req, res) => {
 
 exports.read = (req, res) => {
 	const { yearId } = req.params;
+	const { setActiveTerm } = req.query;
 
-	Term.find({ year: yearId })
-	.sort({ "date.start": -1 }) 
-	.then(terms => {
-		if(terms.length === 0) {
-			return res.status(404).json({ message: "No terms found" });
-		} else {
-			return res.status(200).json(terms);
-		};
-	})
-	.catch(err => {
-		return res.status(500).json({ message: err.message });
-	});
+	if(setActiveTerm) {
+		Term.find({
+			year: yearId,
+			"date.start": {
+				$lt: moment()
+			},
+			"date.end": {
+				$gt: moment()
+			}
+		}, {
+			_id: 1,
+			title: 1
+		})
+		.limit(1)
+		.then(term => {
+			if(!term) {
+				return res.status(404).json({ message: "Term not found" });
+			} else {
+				return res.status(200).json(term[0]);
+			};
+		})
+		.catch(err => {
+			return res.status(500).json({ message: err.message });
+		});
+	} else {
+		Term.find({ year: yearId })
+		.sort({ "date.start": -1 }) 
+		.then(terms => {
+			if(terms.length === 0) {
+				return res.status(404).json({ message: "No terms found" });
+			} else {
+				return res.status(200).json(terms);
+			};
+		})
+		.catch(err => {
+			return res.status(500).json({ message: err.message });
+		});
+	};
 };
 
 exports.edit = (req, res) => {

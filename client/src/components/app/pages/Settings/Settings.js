@@ -29,7 +29,7 @@ class Settings extends Component {
         logout: PropTypes.func.isRequired
 	};
 
-	componentDidMount() {
+	async componentDidMount() {
 		this.setState({ form: "profile" });
 	};
 

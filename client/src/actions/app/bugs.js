@@ -8,12 +8,20 @@ import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
 
+/**
+ * @return {Object} - action type
+ */
 export const setLoading = () => { 
     return { 
         type: BUGS_REQUESTED
     };
 };
-
+/**
+ * @param  {Object} bug - data for new bug
+ * @param  {function} dispatch - function sending action to reducer
+ * @param  {function} getState - retrieves token configuration
+ * @return {Object} - action type and payload
+ */
 export const createBug = bug => (dispatch, getState => {
     dispatch(setLoading());
 
@@ -27,6 +35,11 @@ export const createBug = bug => (dispatch, getState => {
     ));
 });
 
+/**
+ * @param  {function} dispatch - sends action to reducer
+ * @param  {function} getState - retrieves token configuration
+ * @return {Object} - action type and payload
+ */
 export const fetchBugs = () => (dispatch, getState) => {
     axios.get("/api/v1/bugs"/*, tokenConfig(getState)*/)
     .then(res => dispatch({
@@ -38,6 +51,12 @@ export const fetchBugs = () => (dispatch, getState) => {
     ));
 };
 
+/**
+ * @param  {string} id - ObjectId of the bug to retrieve
+ * @param  {function} dispatch - sends action to reducer
+ * @param  {function} getState - retrieves token configuration
+ * @return {Object} - action type and payload
+ */
 export const editBug = id => (dispatch, getState) => {
     axios.get(`/api/v1/bugs/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
@@ -49,6 +68,13 @@ export const editBug = id => (dispatch, getState) => {
     ));
 };
 
+/**
+ * @param  {string} id - ObjectId of the bug to update
+ * @param  {Object} bug - object containing new bug properties
+ * @param  {function} dispatch - sends action to reducer
+ * @param  {function} getState - retrieves token configuration
+ * @return {Object} - action type and payload
+ */
 export const updateBug = (id, bug) => (dispatch, getState) => {
     axios.put(`/api/v1/bugs/${id}`, bug/*, tokenConfig(getState)*/)
     .then(res => dispatch({
@@ -60,6 +86,12 @@ export const updateBug = (id, bug) => (dispatch, getState) => {
     ));
 };
 
+/**
+ * @param  {string} id - ObjectId of the bug to delete
+ * @param  {function} dispatch - sends action to reducer
+ * @param  {function} getState - retrieves token configuration
+ * @return {Object} - action type and payload
+ */
 export const deleteBug = id => (dispatch, getState) => {
     axios.delete(`/api/v1/bugs/${id}`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
