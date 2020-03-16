@@ -1,13 +1,13 @@
 import React from "react";
 import { ButtonGroup, Button } from "reactstrap";
 
-export default ({ primaryText, secondaryText, onClick }) => {
+export default ({ primaryRef, primaryText, secondaryRef, secondaryText, onClick }) => {
     return (
         <ButtonGroup>
-            <Button onClick={onClick}>
+            <Button href={primaryRef} onClick={onClick}>
                 {primaryText}
             </Button>
-            <Button onClick={onClick}>
+            <Button href={secondaryRef} onClick={onClick}>
                 {secondaryText}
             </Button>
         </ButtonGroup>
