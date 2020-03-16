@@ -98,11 +98,7 @@ export const PREFERENCES_UPDATED = "PREFERENCES_UPDATED";
 // bugs
 export const BUGS_REQUESTED = "BUGS_REQUESTED";
 export const BUGS_ERROR = "BUGS_ERROR";
-export const BUG_CREATED = "BUG_CREATED";
-export const BUGS_FETCHED = "BUGS_FETCHED";
-export const BUG_RETURNED = "BUG_RETURNED";
-export const BUG_UPDATED = "BUG_UPDATED";
-export const BUG_DELETED = "BUG_DELETED";
+export const BUG_SUBMITTED = "BUG_SUBMITTED";
 
 // feedback
 export const FEEDBACK_REQUESTED = "FEEDBACK_REQUESTED";
