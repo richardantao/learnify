@@ -6,11 +6,11 @@ import { logout } from "../../../../actions/auth/auth";
 import PropTypes from "prop-types";
 
 import { Button, Container, Col, Row } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFacebookSquare, faLinkedin, faInstagram, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
 // Atoms
 import Header from "../../atoms/Header";
+import Icon from "../../atoms/Icon";
 
 // Organisms
 import AuthNav from "../../organisms/AuthNav";
@@ -32,20 +32,20 @@ class Settings extends Component {
         logout: PropTypes.func.isRequired
 	};
 
-	async componentDidMount() {
-		this.setState({ form: "profile" });
+	componentDidMount() {
+		this.setState({ form: <Profile/> });	
 	};
 
 	handleProfile = () => {
-		this.setState({ form: "profile" });
+		this.setState({ form: <Profile/> });
 	};
 
 	handlePassword = () => {
-		this.setState({ form: "password" });
+		this.setState({ form: <Password/> });
 	};
 
 	handlePreferences = () => {
-		this.setState({ form: "preferences" });
+		this.setState({ form: <Preference/> });
 	};
 
 	handleLogout = () => {
@@ -103,24 +103,16 @@ class Settings extends Component {
 						<Container>
 							<Row className="body settings-body">
 								<Col>
-									{ form === "profile" ? (
-										<Profile/>
-									): null }
-									{ form === "password" ? (
-										<Password/>
-									): null }
-									{ form === "preferences" ? (
-										<Preference/>
-									): null }
+									{form}
 								</Col>		
 							</Row>
 						</Container>
 						<Row className="footer settings-footer">
 							<Col>
-								<Button href="https://www.facebook.com/learnify.ca" target="_blank" rel="noopener noreferrer" className="social"><FontAwesomeIcon icon={faFacebookSquare}/></Button>
-								<Button href="https://www.linkedin.com/company/learnify" target="_blank" rel="noopener noreferrer" className="social"><FontAwesomeIcon icon={faLinkedin}/></Button>
-								<Button href="https://www.instagram.com/learnify" target="_blank" rel="noopener noreferrer" className="social"><FontAwesomeIcon icon={faInstagram}/></Button>
-								{/* <Button href="https://twitter.com/learnify" target="_blank" rel="noopener noreferrer" className="social"><FontAwesomeIcon icon={faTwitterSquare}/></Button> */}
+								<Button href="https://www.facebook.com/learnify.ca" target="_blank" rel="noopener noreferrer" className="social"><Icon icon={faFacebookSquare}/></Button>
+								<Button href="https://www.linkedin.com/company/learnify" target="_blank" rel="noopener noreferrer" className="social"><Icon icon={faLinkedin}/></Button>
+								<Button href="https://www.instagram.com/learnify" target="_blank" rel="noopener noreferrer" className="social"><Icon icon={faInstagram}/></Button>
+								{/* <Button href="https://twitter.com/learnify" target="_blank" rel="noopener noreferrer" className="social"><Icon icon={faTwitterSquare}/></Button> */}
 							</Col>
 							<Col>
 								<p>Copyright {year} Learnify. All rights reserved. </p>
