@@ -1,10 +1,12 @@
 import React from "react";
-import { Col } from "reactstrap";
+import { Col, Row } from "reactstrap";
 
-export default props => {
+export default ({ data }) => {
     return (
-        <Col>
-        
-        </Col>
+        <Row>
+            <Col>
+                {data}
+            </Col>
+        </Row>
     );
 };

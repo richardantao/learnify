@@ -1,4 +1,15 @@
 import React from "react";
-import { Row } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
-export default props => { return <Row></Row> };
+export default ({ header, action }) => { 
+    return (
+        <Row>
+            <Col>
+                <h2>{header}</h2>
+            </Col>
+            <Col>
+                {action}
+            </Col>
+        </Row> 
+    );
+};
