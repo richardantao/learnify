@@ -5,7 +5,7 @@ import moment from "moment";
 
 /* Redux Operations */
 import { connect } from "react-redux";
-import { fetchClasses } from "../../../../actions/app/classes"; // new action function for 
+import { newClass, fetchClasses, editClass,  } from "../../../../actions/app/classes"; // new action function for 
 import { clearErrors } from "../../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
@@ -23,7 +23,7 @@ import "./Calendar.scss";
 
 class Calendar extends Component {
 	state = {
-		display: "week",
+		display: <CalendarWeek/>,
 		message: null
 	};
 
@@ -31,32 +31,43 @@ class Calendar extends Component {
 		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
 		classes: PropTypes.object.isRequired,
+		newClass: PropTypes.func.isRequired,
 		fetchClasses: PropTypes.func.isRequired,
+		editClass: PropTypes.func.isRequired,
 		clearErrors: PropTypes.func.isRequired
 	};
 
-	componentDidMount() {
-		const { } = this.state;
+	async componentDidMount() {
+		const { clearErrors } = this.props;
+		await clearErrors();
 	};
 
 	componentDidUpdate(prevProps, prevState) {
+		const { error } = this.props;
 
+		if(error !== prevProps.error) {
+			if(error.id === "") {
+
+			} else {
+				
+			};
+		};
 	};
 
 	renderMonthView = () => {
-		this.setState({ display: "month" });	
+		this.setState({ display: <CalendarMonth/> });	
 	};
 
 	renderWeekView = () => {
-		this.setState({ display: "week" });	
+		this.setState({ display: <CalendarWeek/> });	
 	};
 
 	renderDayView = () => {
-		this.setState({ display: "week" });	
+		this.setState({ display: <CalendarDay/> });	
 	};
 
 	renderAgendaView = () => {
-		this.setState({ display: "agenda" });	
+		this.setState({ display: <CalendarAgenda/> });	
 	};
 
 	render() {
@@ -70,11 +81,11 @@ class Calendar extends Component {
 				</Helmet>
 				<Row id="beta">
 					<Col
-						xs="11"
-						sm="11"
-						md="11"
-						lg="11"
-						xl="11"
+						xs="1"
+						sm="1"
+						md="1"
+						lg="1"
+						xl="1"
 					>
 						<AppNav />
 					</Col>
@@ -91,26 +102,7 @@ class Calendar extends Component {
 							<CalendarHeader/> 
 						</Row>
 						<Row className="body">
-							{ display === "month" ? (
-								<CalendarMonth
-									
-								/>
-							): null }
-							{ display === "week" ? (
-								<CalendarWeek
-								
-								/>
-							): null }
-							{ display === "day" ? (
-								<CalendarDay
-								
-								/>
-							): null }
-							{ display === "agenda" ? (
-								<CalendarAgenda
-								
-								/>
-							): null }
+							{display}
 						</Row>
 					</Col>
 				</Row>
@@ -161,6 +153,6 @@ const mapStateToProps = state => ({
 	classes: state.classes
 });
 
-const mapDispatchToProps = { fetchClasses, clearErrors };
+const mapDispatchToProps = { newClass, fetchClasses, editClass, clearErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
