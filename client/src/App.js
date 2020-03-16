@@ -1,6 +1,14 @@
 /* --- Static dependencies --- */
 import React, { Component } from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
+import { 
+	Route, 
+	Switch, 
+	Link,
+	Redirect,
+	withRouter,
+	useHistory,
+	useLocation
+} from "react-router-dom";
 import PropTypes from "prop-types";
 // import LogRocket from "logrocket";
 
@@ -42,6 +50,50 @@ class App extends Component {
 	render() {
 		return (
 			<Provider store={store}>
+				
+					<Link to="/beta/register"/>
+					<Link to="/beta/signin"/>
+					<Link to="/beta/verify-email"/>
+					<Link to="/beta/forgot-password"/>
+					<Link to="/beta/reset-password"/>
+					<Link to="/beta/dashboard"/>
+					<Link to="/beta/calendar"/>
+					<Link to="/beta/academics"/>
+					<Link to="/beta/planner"/>
+					<Link to="/beta/settings"/>
+					<Link to="/beta/help"/>
+
+					<Link to="/blog/calling"/>
+                    <Link to="/blog/change"/>
+                    <Link to="/blog/danger"/>
+                    <Link to="/blog/emerging"/>
+                    <Link to="/blog/habits"/>
+                    <Link to="/blog/history"/>
+                    <Link to="/blog/leadership"/>
+                    <Link to="/blog/mission"/>
+                    <Link to="/blog/pareto"/>
+                    <Link to="/blog/tips"/>
+                    <Link to="/blog"/>
+
+					<Link to="/docs/changelog"/>
+                    <Link to="/docs/cookies"/>
+					<Link to="/docs/developers"/>
+                    <Link to="/docs/privacy"/>
+                    <Link to="/docs/sitemap"/>
+                    <Link to="/docs/status"/>
+                    <Link to="/docs/terms"/>
+                    <Link to="/docs"/>
+
+					<Link to="/about"/>
+                    <Link to="/contact"/>
+                    <Link to="/"/>
+
+					<Link to="/team/register"/>
+                    <Link to="/team/roles"/>
+                    <Link to="/team"/>
+
+                    <Link to="*"/>
+
 				<Switch>
 					<Route name="register" path="/beta/register" component={AppRegister}/>
 					<Route name="login" path="/beta/signin" component={AppLogin}/>
