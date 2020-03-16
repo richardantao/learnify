@@ -140,7 +140,7 @@ exports.read = (req, res) => {
         .sort({ "date.start": 1 })
         .then(assessments => {
             if(assessments.length === 0) {
-                return res.status(404).json({ message: err.message });
+                return res.status(404).json({ message: "Assessments not found" });
             } else {
                 return res.status(200).json(assessments);
             };  
