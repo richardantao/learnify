@@ -45,7 +45,7 @@ class FeedbackSubmit extends Component {
     };
 
     render() {
-        const { message } = this.state;
+        const { subject, description, message } = this.state;
 
         return (
             <Form onSubmit={this.handleSubmit}>
