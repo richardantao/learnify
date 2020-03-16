@@ -4,12 +4,12 @@ import Counter from "../../molecules/Counter";
 
 import "./DashboardHeader.scss";
 
-export default props => { 
+export default ({ heading, extra, type, count }) => { 
     return (
-        <Col role="banner" className={props.class}>
-            <h3>{props.heading}</h3>
-            {props.extra}
-            <Counter type={props.type} count={props.count}/>
+        <Col role="banner">
+            <h3>{heading}</h3>
+            {extra}
+            <Counter type={type} count={count}/>
         </Col>   
     );
 };
