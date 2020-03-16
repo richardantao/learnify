@@ -71,7 +71,7 @@ class BugSubmit extends Component {
     };
 
     render() {
-        const { message } = this.state;
+        const { where, type, description, message } = this.state;
 
         return (
             <Form onSubmit={this.handleSubmit}>
@@ -81,7 +81,7 @@ class BugSubmit extends Component {
                 <FormGroup>
                     <Label for="where">Location of Bug</Label>
                     <Select 
-                        options={}
+                        options=""
                     />
 
                     <Label for="type">Bug Type</Label>
