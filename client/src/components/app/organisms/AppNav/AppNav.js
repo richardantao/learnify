@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom"; 
 
 /* Atoms */
 import Icon from "../../atoms/Icon";
 import Logo from "../../atoms/Logo";
 
-import { Button } from "reactstrap";
 import { 
 	faTachometerAlt, faCalendarAlt, faTasks, faUniversity
 } from "@fortawesome/free-solid-svg-icons";
@@ -17,18 +17,18 @@ export default () => {
 	return ( 
 		<nav id="app-nav" role="navigation">
 			<Logo className="logo" href="/beta/dashboard" src={logo} alt="Learnify Logo"/>
-			<Button>
+			<Link to="/beta/dashboard" className="btn">
 				<Icon icon={faTachometerAlt}/>
-			</Button>
-			<Button>
+			</Link>
+			<Link to="/beta/calendar" className="btn">
 				<Icon icon={faCalendarAlt}/>
-			</Button>
-			<Button>
-				<Icon icon={faTasks}/>
-			</Button>
-			<Button>
+			</Link>
+			<Link to="/beta/academics" className="btn">
 				<Icon icon={faUniversity}/>
-			</Button>
+			</Link>
+			<Link to="/beta/planner" className="btn">
+				<Icon icon={faTasks}/>
+			</Link>
 		</nav>
 	);
 };

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -27,25 +28,25 @@ export default class Overlay extends Component {
 
         return ( 
             <>
-                <a href="#sideMenu" className="hamburger" onClick={this.toggle}>
+                <Link to="#sideMenu" className="hamburger" onClick={this.toggle}>
                     <FontAwesomeIcon icon={faBars}/>
-                </a>   
+                </Link>   
 
                 { active ? (
                     <div id="side-overlay">
-                        <a onClick={this.toggle} href="#closeSideMenu" className="cancel">
+                        <Link onClick={this.toggle} to="#closeSideMenu" className="cancel">
                             <FontAwesomeIcon icon={faTimes}/>
-                        </a>
+                        </Link>
 
                         <nav role="navigation" id="side-overlay-content">
-                            <a href="/docs">What is Learnify?</a>
-                            {/* <a href="/docs/api">Developers</a> */}
-                            <a href="/docs/terms">Terms of Service</a>
-                            <a href="/docs/privacy">Privacy Policy</a>
-                            <a href="/docs/cookies">Cookie Policy</a>
-                            <a href="/docs/sitemap">Sitemap</a>
-                            <a href="/docs/changelog">Changelog</a>
-                            <a href="/docs/status">System</a>
+                            <Link to="/docs">What is Learnify?</Link>
+                            {/* <Link to="/docs/Linkpi">Developers</Link> */}
+                            <Link to="/docs/terms">Terms of Service</Link>
+                            <Link to="/docs/privacy">Privacy Policy</Link>
+                            <Link to="/docs/cookies">Cookie Policy</Link>
+                            <Link to="/docs/sitemap">Sitemap</Link>
+                            <Link to="/docs/changelog">Changelog</Link>
+                            <Link to="/docs/status">System</Link>
                         </nav>
                     </div>
                     

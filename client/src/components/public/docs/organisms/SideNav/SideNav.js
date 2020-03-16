@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import Loadable from "react-loadable";
 // import Loading from "../../../global/organisms/Loading";
@@ -71,16 +72,16 @@ export default class SideNav extends Component {
                         ):
                             <>
                                 <h3>Explore</h3>
-                                    <a href="/docs">What is Learnify?</a>
-                                    {/* <a href="/docs/developers">Developers</a> */}
+                                    <Link to="/docs">What is Learnify?</Link>
+                                    {/* <Link to="/docs/developers">Developers</Link> */}
                                 <h3>Resources</h3>
-                                    <a href="/docs/terms">Terms of Service</a>
-                                    <a href="/docs/privacy">Privacy Policy</a>
-                                    <a href="/docs/cookies">Cookie Policy</a>
-                                    <a href="/docs/sitemap">Sitemap</a>
+                                    <Link to="/docs/terms">Terms of Service</Link>
+                                    <Link to="/docs/privacy">Privacy Policy</Link>
+                                    <Link to="/docs/cookies">Cookie Policy</Link>
+                                    <Link to="/docs/sitemap">Sitemap</Link>
                                 <h3>System</h3>
-                                    <a href="/docs/changelog">Changelog</a>
-                                    <a href="/docs/status">Status</a>
+                                    <Link to="/docs/changelog">Changelog</Link>
+                                    <Link to="/docs/status">Status</Link>
                             </>
                         }
                     </div>

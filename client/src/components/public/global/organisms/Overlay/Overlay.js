@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
@@ -12,10 +13,7 @@ export default class Overlay extends Component {
 
     toggle = () => {
         const { active } = this.state;
-        
-        this.setState({
-            active: !active
-        });
+        this.setState({ active: !active });
     };
 
     render() {
@@ -23,21 +21,21 @@ export default class Overlay extends Component {
         
         return (
             <>
-                <a href="#menu" onClick={this.toggle}>
+                <Link to="#menu" onClick={this.toggle}>
                     <FontAwesomeIcon icon={faBars}/>
-                </a>                
+                </Link>                
 
                 { active ? (
                     <div id="overlay">
-                        <a href="#closeMenu" className="cancel" onClick={this.toggle}>
+                        <Link to="#closeMenu" className="cancel" onClick={this.toggle}>
                             <FontAwesomeIcon icon={faTimes}/>
-                        </a>
+                        </Link>
 
                         <nav role="navigation" id="overlay-content">
-                            <a href="/about" onClick={this.toggle}>About</a>
-                            <a href="/team" onClick={this.toggle}>Team</a>
-                            <a href="/blog" onClick={this.toggle}>Blog</a>
-                            <a href="/contact" onClick={this.toggle}>Contact</a>
+                            <Link to="/about" onClick={this.toggle}>About</Link>
+                            <Link to="/team" onClick={this.toggle}>Team</Link>
+                            <Link to="/blog" onClick={this.toggle}>Blog</Link>
+                            <Link to="/contact" onClick={this.toggle}>Contact</Link>
                         </nav>
                     </div>
                     

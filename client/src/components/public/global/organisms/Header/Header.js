@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import Loadable from "react-loadable";
 
@@ -11,24 +12,22 @@ const Overlay = Loadable({
     delay: 500
 });
 
-const Header = () => {
+export default () => {
     return (
         <header role="banner">
             <nav id="nav" role="navigation">
-                <a href="/">
+                <Link to="/" className="btn">
                     <img src={logo} id="logo" alt="Learnify logo"/>
-                </a>
+                </Link>
 
                 <div className="nav-links">
                     <Overlay/> 
-                    <a href="/about">About</a>
-                    <a href="/team">Team</a>
-                    <a href="/blog">Blog</a>
-                    <a href="/contact">Contact</a>
+                    <Link to="/about" className="btn">About</Link>
+                    <Link to="/team" className="btn">Team</Link>
+                    <Link to="/blog" className="btn">Blog</Link>
+                    <Link to="/contact" className="btn">Contact</Link>
                 </div>                
             </nav>
         </header>
     );
 };
-
-export default Header;

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Button } from "reactstrap";
-import { faCog, faQuestionCircle, faBell } from "@fortawesome/free-solid-svg-icons";
+import { Row, Col } from "reactstrap";
+import { faCog, faQuestionCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 
 /* Atoms */
 import Icon from "../../atoms/Icon";
@@ -23,7 +24,7 @@ class AuthNav extends Component {
     };
 
     static propTypes = {
-
+        error: PropTypes.object.isRequired
     };
 
     render() {
@@ -31,19 +32,26 @@ class AuthNav extends Component {
 
         return (
             <nav id="auth-nav" role="navigation">
-                <Search/>
-                <Button>
-                    <Icon icon={faQuestionCircle}/>
-                </Button>
-                <Button>
-                    <Icon icon={faCog}/>
-                </Button>
-                <Button>
-                    <Notifications/>
-                </Button>
-                <span>
-                    {userName}
-                </span>
+                <Row>
+                    <Col className="search-bar">
+                        <Search/>
+                    </Col>
+                    <Col className="auth-links">
+                        <Link to="#account" className="btn">
+                            {userName}
+                            <Icon icon={faUser}/>
+                        </Link>
+                        <Link to="#notifications" className="btn">
+                            <Notifications/>
+                        </Link>
+                        <Link to="/beta/settings" className="btn" >
+                            <Icon icon={faCog}/>
+                        </Link>
+                        <Link to="/beta/help" className="btn">
+                            <Icon icon={faQuestionCircle}/>
+                        </Link>
+                    </Col>
+                </Row>
             </nav>
         );
     }
