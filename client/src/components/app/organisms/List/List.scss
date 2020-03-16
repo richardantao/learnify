@@ -1,29 +1,32 @@
-.list {
-    background-color: white;
-    width: 75%;
-    z-index: 1;
-}
-
-@media (min-width: 576px) {
-
-}
-
-@media (min-width: 768px) {
+/* --- List.css --- */
+#beta {
+    .list {
+        background-color: white;
+        width: 75%;
+        z-index: 1;
+    }
     
-}
-
-@media (min-width: 992px) {
+    @media (min-width: 576px) {
     
-}
-
-@media (min-width: 1200px) {
+    }
     
-}
-
-@media (min-width: 1440px) {
+    @media (min-width: 768px) {
+        
+    }
     
-}
-
-@media (min-width: 2100px) {
+    @media (min-width: 992px) {
+        
+    }
     
+    @media (min-width: 1200px) {
+        
+    }
+    
+    @media (min-width: 1440px) {
+        
+    }
+    
+    @media (min-width: 2100px) {
+        
+    }
 }
