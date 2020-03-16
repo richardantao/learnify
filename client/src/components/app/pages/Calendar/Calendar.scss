@@ -6,50 +6,54 @@ $form-background: #F9F9F9;
 $border-line: #E1E1E1;
 $text: #212529;
 
-/* --- Portrait Mobile --- */
-.header-date * {
-    display: inline-block;
-    margin-left: 3%;
-}
+#beta {
+    #calendar {
+        /* --- Portrait Mobile --- */
+        .header-date * {
+            display: inline-block;
+            margin-left: 3%;
+        }
 
-.header-date button {
-    border-radius: 50%;
-}
+        .header-date button {
+            border-radius: 50%;
+        }
 
-.calendar-selector {
-    // position: absolute;
-        // left: 2%;
-        // top: 5%;
-}
+        .calendar-selector {
+            // position: absolute;
+                // left: 2%;
+                // top: 5%;
+        }
 
-/* --- Landscape Mobile --- */
-@media (min-width: 576px) {
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
 
-};
+        };
 
-/* --- Portrait Tablets --- */
-@media (min-width: 768px) {
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
 
-}
+        }
 
-/* --- Landscape Tablets --- */
-@media (min-width: 992px) {
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
 
-}
+        }
 
-/* --- Small Laptops --- */
-@media (min-width: 1200px) {
-    .header-date * {
-        margin-left: 3%;
+        /* --- Small Laptops --- */
+        @media (min-width: 1200px) {
+            .header-date * {
+                margin-left: 3%;
+            }
+        }
+
+        /* --- Large Laptops --- */
+        @media (min-width: 1440px) {
+
+        }
+
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+
+        }
     }
-}
-
-/* --- Large Laptops --- */
-@media (min-width: 1440px) {
-
-}
-
-/* --- Desktops --- */
-@media (min-width: 2100px) {
-
 }

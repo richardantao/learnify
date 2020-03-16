@@ -8,37 +8,49 @@ $text: #212529;
 
 $column-background: #FAFBFE;
 
-/* --- Portrait Mobile --- */
-#planner {
-    background-color: $column-background;
-}
+#beta {
+    #planner {
+        /* --- Portrait Mobile --- */
+        background-color: $column-background;
 
-/* --- Landscape Mobile --- */
-@media (min-width: 576px) {
-    
-};
+        #tasks, #assessments {
+            width: 80%;
 
-/* --- Portrait Tablets --- */
-@media (min-width: 768px) {
-    
-}
+            hr {
+                width: 95%;
+            }
 
-/* --- Landscape Tablets --- */
-@media (min-width: 992px) {
-    
-}
+            min-height: 300px;
+        }
 
-/* --- Small Laptops --- */
-@media (min-width: 1200px) {
-	
-}
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
+            
+        };
 
-/* --- Large Laptops --- */
-@media (min-width: 1440px) {
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
+            
+        }
 
-}
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
+            
+        }
 
-/* --- Desktops --- */
-@media (min-width: 2100px) {
+        /* --- Small Laptops --- */
+        @media (min-width: 1200px) {
+            
+        }
 
+        /* --- Large Laptops --- */
+        @media (min-width: 1440px) {
+
+        }
+
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+
+        }
+    }
 }
