@@ -11,21 +11,19 @@ $nav-content: #8391A3;
 $column-background: #FAFBFE;
 
 /* --- Global styles --- */
-// html {
-//   box-sizing: border-box;
-//   // background: white; move to beta
-//   font-family: Georgia, "Times New Roman", Times, serif;
-//   // overflow: hidden; move to beta
-// } 
+html {
+  box-sizing: border-box;
+  font-family: Georgia, "Times New Roman", Times, serif;
+} 
 
-// *, *:before, *:after {
-// 	box-sizing: inherit;
-// } 
+*, *:before, *:after {
+	box-sizing: inherit;
+} 
 
-// body {
-// 	margin: 0;
-//   overflow-x: hidden;
-// }
+body {
+	margin: 0;
+  overflow-x: hidden;
+}
 
 /* --- App styles --- */
 #app {
@@ -34,39 +32,16 @@ $column-background: #FAFBFE;
 
 /* --- Beta styles --- */
 #beta {
+  background: white;
+  overflow: hidden;
 
   a {
-    color: #00A6FF;
+    color: $primary-color;
   }
 
   .btn-secondary {
-    background-color: #00A6FF;
+    background-color: $primary-color;
   }
-//   .body {
-//     background: #F7F9FA;	
-//   }
-//   .header {
-//     border-bottom: #E5E5E5 1px solid;
-//     height: 101px;
-//   }
-//   // .footer {
-//   // 	background: #F7F9FA;
-//   // }
-
-//   .btn {
-//     background-color: $primary-color;
-//     border-color: $primary-color;
-//   }
-  
-//   nav .btn {
-//     background-color: transparent;
-//     border-color: transparent;
-//   }
-  
-//   nav .btn:hover {
-//     background-color: $primary-color;
-//     border-color: transparent;
-//   }
 }
 
 // /* --- Public styles --- */
