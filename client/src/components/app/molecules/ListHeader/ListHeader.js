@@ -1,12 +1,16 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
 
-export default ({ data }) => {
+export default ({ header, action }) => {
     return (
         <Row>
             <Col>
-                {data}
+                <h2>{header}</h2>
             </Col>
-        </Row>
+            <Col>
+                {action}
+            </Col>
+        </Row> 
+       
     );
 };
