@@ -1,7 +1,4 @@
-import { 
-    FEEDBACK_REQUESTED,
-    FEEDBACK_SUBMITTED
-} from "../types";
+import { FEEDBACK_REQUESTED, FEEDBACK_SUBMITTED } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
 import axios from "axios";
@@ -12,7 +9,7 @@ export const setLoading = () => {
     }; 
 };
 
-export const submitFeedback = feedback => (dispatch, getState => {
+export const submitFeedback = feedback => (dispatch, getState) => {
     dispatch(setLoading());
 
     axios.post("/api/v1/feedback", feedback/*, tokenConfig(getState)*/)
@@ -23,4 +20,4 @@ export const submitFeedback = feedback => (dispatch, getState => {
     .catch(err => dispatch(
         returnErrors(err.res.data, err.res.status, "FEEDBACK_ERROR")
     ));
-});
+};
