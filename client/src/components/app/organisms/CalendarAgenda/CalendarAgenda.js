@@ -11,20 +11,38 @@ import { Col } from "reactstrap";
 
 import "./CalendarAgenda.scss";
 
-export default class CalendarAgenda extends Component{
+class CalendarAgenda extends Component{
 	state = {
+		message: null
+	};
 
+	static propTypes = {
+		error: PropTypes.object.isRequired,
+		fetchClasses: PropTypes.func.isRequired,
+		editClass: PropTypes.func.isRequired,
+		clearErrors: PropTypes.func.isRequired
 	};
 	
 	async componentDidMount() {
-		
-	}
+		const { clearErrors } = this.props;
+		await clearErrors();		
+	};
 
 	componentDidUpdate(prevProps, prevState) {
-
+		const { error } = this.props;
+		
+		if(error !== prevProps.error) {
+			if(error.id === "") {
+				this.setState({ message: error.message.message });
+			} else {
+				this.setState({ message: null });
+			};
+		};
 	};
 
 	render() {
+		const { message } = this.state;
+
 		return (
 			<Col id="agenda">
 			
@@ -32,3 +50,11 @@ export default class CalendarAgenda extends Component{
 		);
 	};
 };
+
+const mapStateToProps = state => ({
+	error: state.error
+});
+
+const mapDispatchToProps = { fetchClasses, editClass, clearErrors };
+
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarAgenda);

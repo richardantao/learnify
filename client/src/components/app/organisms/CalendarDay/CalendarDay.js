@@ -45,6 +45,6 @@ const mapStateToProps = state => ({
 	classes: state.classes
 });
 
-const mapDispatchToProps = { clearErrors };
+const mapDispatchToProps = { fetchClasses, editClass, clearErrors };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalendarDay);
