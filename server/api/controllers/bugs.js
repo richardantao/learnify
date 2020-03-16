@@ -11,7 +11,7 @@ const sendGridKey = process.env.SENDGRID_API_KEY;
 const Bug = require("../models/Bugs");
 const User = require("../models/User");
 
-exports.create = (req, res) => {
+exports.submit = (req, res) => {
     // const _id = req.user;
     const _id = ObjectId("5deb33a40039c4286179c4f1"); // testing
     const { where, type, message } = req.body;
@@ -28,9 +28,7 @@ exports.create = (req, res) => {
             return callback(null, bug);
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -47,15 +45,12 @@ exports.create = (req, res) => {
             return callback(null, report);
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         }); 
     };  
 
     const emailAdmin = (report, callback) => {
         sgMail.setApiKey(sendGridKey);
-        return res.json(report);
 
         const mailOptions = {
             from: report.user,
@@ -79,7 +74,10 @@ exports.create = (req, res) => {
         };
 
         sgMail.send(mailOptions);
-        return callback(null, mailOptions);
+        return callback(
+            null, { 
+            message: "Thank you for reporting this bug. We will be tending to this issue immediately"
+        });
     };
 
     async.waterfall([
@@ -88,113 +86,9 @@ exports.create = (req, res) => {
         emailAdmin
     ], (err, results) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
-            return res.status(201).json({
-                message: "Thank you for reporting this bug. We will be tending to this issue immediately"
-            });
+            return res.status(201).json(results);
         };  
-    });
-};
-
-exports.read = (req, res) => {
-    // const _id = req.user;
-    const _id = ObjectId("5deb33a40039c4286179c4f1"); // testing
-
-    Bug.find({ user: _id })
-    .sort({ "updatedAt": -1 })
-    .then(bugs => {
-        if(bugs.length === 0) {
-            return res.status(404).json({
-                message: "No bugs found"
-            });
-        } else {
-            return res.status(200).json(bugs);
-        };
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
-    });
-};
-
-exports.edit = (req, res) => {
-    const { bugId } = req.params;
-
-    Bug.find({ _id: bugId })
-    .limit(1)
-    .then(bug => {
-        if(bug.length === 0) {
-            return res.status(404).json({
-                message: "No bug found"
-            });
-        } else {
-            return res.status(200).json(bug[0]);
-        };
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
-    });
-};
-
-exports.update = (req, res) => {
-    // const _id = req.user;
-    const _id = ObjectId("5deb33a40039c4286179c4f1"); // testing
-    const { bugId } = req.params;
-    const { where, type, message, resolved } = req.body;
-
-    const update = {
-        where,
-        type,
-        message,
-        updatedAt: moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm"),
-        resolved
-    };  
-
-    Bug.findOneandUpdate({ _id: bugId }, {
-        $set: update
-    })
-    .then(bug => {
-        if(!bug) {
-            return res.status(404).json({
-                message: "No bug found"
-            });
-        } else {
-            return res.status(200).json({
-                message: "Bug updated"
-            });
-        };
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
-    });
-};
-
-exports.delete = (req, res) => {
-    const { bugId } = req.params;
-
-    Bug.deleteOne({ _id: bugId })
-    .then(bug => {
-        if(!bug) {
-            return res.status(404).json({
-                message: "Bug not found"
-            });
-        } else {
-            return res.status(200).json({
-                message: "Bug deleted"
-            });
-        };
-    })
-    .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
     });
 };
