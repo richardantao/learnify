@@ -6,13 +6,11 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import * as serviceWorker from "./serviceWorker";
 
-const Index = () => <App/>
-
 const customHistory = createBrowserHistory();
 
 render (
 	<Router history={customHistory}>
-		<Index />
+		<App/>
 	</Router>,
 	document.querySelector("#learnify")
 );
