@@ -1,4 +1,6 @@
 import React from "react";
-import Moment from "react-moment";
+import moment from "moment";
 
-export default () => { return <h4><Moment format="dddd, MMMM Do"></Moment></h4> };
+export default () => { 
+    return <h4>{moment().format("dddd, MMMM Do")}</h4>
+};
