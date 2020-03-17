@@ -1,0 +1,118 @@
+/* --- AuthNav.css --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$nav-background: #313A46;
+$nav-content: #8391A3;
+$column-background: #FAFBFE;
+
+#beta {
+    #auth-nav {
+        
+        /* ---  Portait Mobile --- */
+        #search {
+                margin: 1rem;
+
+            input {
+                width: 80%;
+            }
+
+            button {
+                background-color: $primary-color;
+                margin: 0.25rem;
+            }
+        }
+
+        .auth-links {
+            a {
+                float: right;
+                font-size: 1rem;
+            }
+        }
+    
+        /* ---  Landscape Mobile --- */
+        @media (min-width: 576px) {
+            #search {
+                margin: 1rem;
+
+                input {
+                    width: 80%;
+                }
+
+                button {
+                    background-color: $primary-color;
+                    margin: 0.25rem;
+                }
+            }
+
+            .auth-links {
+                a {
+                    float: right;
+                    font-size: 1.33rem;
+                }
+            }
+        }
+
+        /* ---  Portait Tablets --- */
+        @media (min-width: 768px) {
+            #search {
+                margin: 1rem;
+
+                input {
+                    width: 80%;
+                }
+
+                button {
+                    margin: 0.25rem;
+                }
+            }
+
+            .auth-links {
+                a {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        /* ---  Landscape Tablets --- */
+        @media (min-width: 992px) {
+            .auth-links {
+                a {
+                    font-size: 1.75rem;
+                }
+            }
+        }
+
+        /* ---  Small Laptops --- */
+        @media (min-width: 1200px) {
+            .auth-links {
+                a {
+                    font-size: 2rem;
+                }
+            }
+        }
+
+        /* ---  Large Laptops --- */
+        @media (min-width: 1440px) {
+            .auth-links {
+                a {
+                    font-size: 2.33rem;
+                }
+            }
+        }
+
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+            #search {
+                input, button {
+                    font-size: 2rem;
+                }
+            }
+
+            .auth-links {
+                a {
+                    font-size: 2.67rem;
+                }
+            }
+        }
+    }
+}

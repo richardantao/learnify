@@ -1,0 +1,93 @@
+/* --- AppNav.css --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$nav-background: #313A46;
+$nav-content: white;
+$column-background: #FAFBFE;
+
+#beta {
+    #app-nav {
+        /* ---  Portait Mobile --- */
+        background-color: $nav-background;
+        float: left;
+        height: 100%;
+        text-align: center;
+        width: 6.25rem;
+
+        .logo {
+            float: left;
+            height: 6.25rem;
+            width: 6.25rem;
+        }
+
+        .btn {
+            display: grid;
+                grid-template-columns: 100%;
+                grid-template-rows: 5% 5% 5% 5% 5%;
+            font-size: 2em;
+            height: 2.5rem;
+            margin: 1.75rem;
+            width: 2.5rem;
+        }
+    
+        .btn-secondary { 
+            background-color: transparent;
+            border-color: transparent;
+        }
+        
+        a {
+            position: relative; 
+        }
+    
+        svg {
+            align-content: center;
+            color: $nav-content;
+            position: absolute;
+                left: 50%;
+                top: 50%; 
+            transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+    
+            &:hover {
+                color: white;
+            }
+        }
+    
+        .active-link {
+            background-color: $secondary-color;
+        }
+    }
+
+
+    /* ---  Landscape Mobile --- */
+    @media (min-width: 576px) {
+
+    }
+
+    /* ---  Portait Tablets --- */
+    @media (min-width: 768px) {
+
+    }
+
+    /* ---  Landscape Tablets --- */
+    @media (min-width: 992px) {
+
+    }
+
+    /* ---  Small Laptops --- */
+    @media (min-width: 1200px) {
+
+    }
+
+    /* ---  Large Laptops --- */
+    @media (min-width: 1440px) {
+
+    }
+
+    /* --- Desktops --- */
+    @media (min-width: 2100px) {
+        
+    }
+}
+
