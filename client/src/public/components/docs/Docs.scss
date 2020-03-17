@@ -1,0 +1,270 @@
+/* --- Colour Palette --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background: #FAFAFA;
+$form-background: #F1F1F1;
+$border-line: #E1E1E1;
+
+#public {
+    /* Docs styles */
+    .docs {
+        /* --- Portrait Mobile --- */
+        background-color: $background;
+        border-bottom: $border-line 1px solid;
+        border-top: $border-line 1px solid;
+        min-height: 825px;
+
+        > * {
+            margin-left: 4.33rem;
+            margin-right: 2.5rem;
+        }
+
+        #filters {
+            > * {
+                display: none;
+            }
+        }
+
+        hr {
+            width: 50%;
+        }
+        
+        .active {
+            text-decoration: underline;
+        }
+
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
+            > * {
+                margin-left: 6.33rem;
+            }            
+        }
+
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
+            > * {
+                margin-left: 12rem;
+                margin-right: 2.25rem;
+            }
+
+            #filters {
+                > * {
+                    display: block;
+                    float: right;
+                    margin-right: 1.9rem;
+                }
+            }
+        }
+
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
+            > * {
+                margin-left: 15rem;
+            }
+        }
+
+        /* --- Small Laptops --- */
+        @media (min-width: 1200px) {
+            > * {
+                margin-left: 19rem;
+            }
+        }
+
+        /* --- Large Laptops --- */
+        @media (min-width: 1440px) {
+            > * {
+                margin-left: 21rem;
+            }
+
+            #filters {
+                margin-bottom: 1rem;
+
+                > * {
+                    font-size: 1.25rem;
+                }
+
+                input {
+                    position: relative;
+                    top: 100%;
+                }
+            }
+
+            h1 {
+                font-size: 3.25rem;
+            }
+
+            h2 {
+                font-size: 2.5rem;
+            }
+
+            h3 {
+                font-size: 2.2rem;
+            }
+
+            h5 {
+                font-size: 1.67rem;
+            }
+
+            p, li {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* --- Intermediate breakpoint ---*/
+        @media (min-width: 1725px) {
+            > * {
+                margin-left: 26rem;
+            }
+
+            #filters {           
+                > * {
+                    font-size: 2rem;
+                    margin-right: 3rem;
+                }
+
+                input {
+                    -ms-transform: scale(2); /* IE */
+                    -moz-transform: scale(2); /* FF */
+                    -webkit-transform: scale(2); /* Safari and Chrome */
+                    -o-transform: scale(2); /* Opera */
+                    padding: 10px;
+                    transform: scale(2);
+                }
+            }
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            h2 {
+                font-size: 2.75rem;
+            }
+
+            h3 {
+                font-size: 2.33rem;
+            }
+
+            h5 {
+                font-size: 2.25rem;
+            }
+
+            p, li {
+                font-size: 1.67rem;
+            }
+        }
+
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+            > * {
+                margin-left: 28rem;
+            }
+
+            h1 {
+                font-size: 4.75rem;
+            }
+
+            h2 {
+                font-size: 3.67rem;
+            }
+
+            h3 {
+                font-size: 3rem;
+            }
+
+            h5 {
+                font-size: 2.5rem;
+            }
+
+            p, li {
+                font-size: 2.2rem;
+            }
+        }
+    }
+
+    
+    /* Side nav styles */
+    .side-nav {
+        /* --- Portrait Mobile --- */
+        border-right: $border-line 1px solid;
+        float: left;
+        margin-right: 1rem;
+        width: 15%;
+
+        .hamburger {
+            margin: 0 auto;
+        }
+        
+        div {
+            position: -webkit-sticky;
+            position: sticky;
+                top: 0;
+        }
+        
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
+
+        }
+
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
+            width: 20%;
+
+            h3 {
+                display: block;
+                font-size: 1.75rem;
+                margin: 1rem;
+            }
+
+            a {
+                display: block;
+                font-size: 1.33rem;
+                margin: 1rem;
+            }
+        }
+
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
+        
+        }
+
+        /* --- Small Laptops --- */
+        @media (min-width: 1200px) {
+            
+        }
+
+        /* --- Large Laptops --- */
+        @media (min-width: 1440px) {
+            h3 {
+                font-size: 2rem;
+            }
+
+            a {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* --- Intermediate breakpoint --- */
+        @media (min-width: 1700px) {
+            h3 {
+                font-size: 2.5rem;
+            }
+            
+            a {
+                font-size: 2rem;
+            }
+        }
+
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+            width: 15%;
+
+            h3 {
+                font-size: 3.5rem;
+            }
+
+            a {
+                font-size: 2.5rem;
+            }
+        }
+    }
+}
