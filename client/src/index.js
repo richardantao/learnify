@@ -17,8 +17,8 @@ const customHistory = createBrowserHistory();
 render (
 	<Router history={customHistory}>
 		<Provider store={store}>
-			<App/>
 			<Public/>
+			<App/>
 			<Team/>
 		</Provider>
 		<App/>
