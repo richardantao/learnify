@@ -1,0 +1,8 @@
+/* --- Public styles --- */
+a {
+    color: $primary-color;
+
+    &:hover, &:focus, &:active {
+      color: $secondary-color;
+    }
+}
