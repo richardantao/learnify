@@ -18,7 +18,7 @@ class Team extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { } =this.props; 
+        const { } = this.props; 
     };
 
     render() {
