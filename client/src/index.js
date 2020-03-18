@@ -1,7 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { createBrowserHistory } from "history";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import * as serviceWorker from "./serviceWorker";
