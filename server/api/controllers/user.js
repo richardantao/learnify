@@ -173,33 +173,87 @@ exports.updatePassword = (req, res) => {
 // GET request to retrieve user's preferences 
 exports.editPreferences = (req, res) => {
 	const { _id } = req.user;
+	const { time, day, duration, calendar } = req.query;
 
-	User.find({ _id }, {
-		_id: 1,
-		preferences: 1,
-		meta: 1
-	})
-	.limit(1)
-	.then(preferences => {
-		if(preferences.length === 0) {
-			return res.status(404).json({
-				message: "The server was unable to find your preferences"
+	switch(true) {
+		case time:
+			User.find({ _id }, {
+				"preferences.startTime": 1
+			})
+			.then(time => {
+				if(!time) {
+					return res.status(404).json({ message: "Your preferred starting time was not found" });
+				} else {
+					return res.status(200).json(time);
+				};
+			})
+			.catch(err => {
+				return res.status(500).json({ message: err.message });
 			});
-		} else {
-			return callback(null, preferences[0]);
-		};
-	})
-	.catch(err => {
-		if(err.kind === "ObjectId") {
-			return res.status(404).json({
-				message: "The server was unable to find your preferences"
+		case day:
+			User.find({ _id }, {
+				"preferences.startDay": 1
+			})
+			.then(day => {
+				if(!day) {
+					return res.status(404).json({ message: "Your preferred default start day was not found" });
+				} else {
+					return res.status(200).json(day);
+				};
+			})
+			.catch(err => {
+				return res.status(500).json({ message: err.message });
 			});
-		} else {
-			return res.status(500).json({
-				message: err.message
+		case duration:
+			User.find({ _id }, {
+				"preferences.defaultDuration": 1
+			})
+			.then(duration => {
+				if(!duration) {
+					return res.status(404).json({ message: "Your preferred default class duration was not found" });
+				} else {
+					return res.status(200).json(duration);
+				};
+			})
+			.catch(err => {
+				return res.status(500).json({ message: err.message });
 			});
-		};
-	});
+		case calendar:
+			User.find({ _id }, {
+				"preferences.defaultCalendar": 1
+			})
+			.then(calendar => {
+				if(!calendar) {
+					return res.status(404).json({ message: "Your preferred starting day was not found" });
+				} else {
+					return res.status(200).json(calendar);
+				};
+			})
+			.catch(err => {
+				return res.status(500).json({ message: err.message });
+			});
+		default: 
+			User.find({ _id }, {
+				_id: 1,
+				preferences: 1,
+				meta: 1
+			})
+			.limit(1)
+			.then(preferences => {
+				if(preferences.length === 0) {
+					return res.status(404).json({ message: "The server was unable to find your preferences" });
+				} else {
+					return callback(null, preferences[0]);
+				};
+			})
+			.catch(err => {
+				if(err.kind === "ObjectId") {
+					return res.status(404).json({ message: "The server was unable to find your preferences" });
+				} else {
+					return res.status(500).json({ message: err.message });
+				};
+			});
+	};
 };
 
 // POST request to update user's personal app preferences
