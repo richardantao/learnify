@@ -19,8 +19,6 @@ import Header from "../../atoms/Header";
 import Switch from "../../atoms/Switch";
 
 /* Organisms */
-import AuthNav from "../../organisms/AuthNav";
-import AppNav from "../../organisms/AppNav";
 import List from "../../organisms/List";
 
 import Loadable from "react-loadable";
@@ -124,25 +122,8 @@ class Planner extends Component {
                     <meta name="keywords" content="Learnify, Planner, Tasks, Assessments"/>
                     <title>My Learnify | Planner</title>
                 </Helmet>
-                <Row id="beta">
-                    <Col
-                        xs="1"
-                        sm="1"
-                        md="1"
-                        lg="1"
-                        xl="1"
-                    >
-                        <AppNav/>
-                    </Col>
-                    <Col 
-                        id="planner"
-                        xs="11"
-                        sm="11"
-                        md="11"
-                        lg="11"
-                        xl="11"
-                    >
-                        <AuthNav/>
+                <Row id="planner">
+                    <Col>
                         <Row className="header">
                             <Col
                                 xs="4"

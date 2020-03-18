@@ -7,10 +7,7 @@ import PropTypes from "prop-types";
 
 import { Alert, Button, Col, Row } from "reactstrap";
 
-import AuthNav from "../../organisms/AuthNav";
-import AppNav from "../../organisms/AppNav";
 import Header from "../../atoms/Header";
-import HelpHeader from "../../organisms/help/HelpHeader";
 
 import Loadable from "react-loadable";
 
@@ -36,25 +33,8 @@ class Help extends Component {
 					<meta name="keywords" content="Help, FAQ"/>
 					<title>My Learnify | Help</title>
 				</Helmet>
-				<Row id="beta">
-					<Col 
-						xs="2"
-						sm="2"
-						md="1"
-						lg="1"
-						xl="1"	
-					>
-						<AppNav />
-					</Col>
-					<Col 
-						id="help"
-						xs="10"
-						sm="10"
-						md="11"
-						lg="11"
-						xl="11"
-					>
-						<AuthNav/>
+				<Row id="help">
+					<Col>
 						<Row className="header">
 							<Col>
 								<Header header="Help"/> 

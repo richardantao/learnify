@@ -20,8 +20,6 @@ import Header from "../../atoms/Header";
 import Icon from "../../atoms/Icon";
 
 /* Organisms */
-import AuthNav from "../../organisms/AuthNav";
-import AppNav from "../../organisms/AppNav";
 import List from "../../organisms/List";
 
 import "./Academics.scss";
@@ -87,25 +85,8 @@ class Academics extends Component {
 					<meta name="keywords" content="Learnify, Academics, Years, Terms, Semester, Course, Courses, Class, Classes"/>
 					<title>My Learnify | Academics</title>
 				</Helmet>
-				<Row id="beta">
-					<Col
-						xs="1"
-						sm="1"
-						md="1"
-						lg="1"
-						xl="1"
-					>
-						<AppNav/>
-					</Col>
-					<Col 
-						id="academics"
-						xs="11"
-						sm="11"
-						md="11"
-						lg="11"
-						xl="11"
-					>
-						<AuthNav/>
+				<Row id="academics">
+					<Col>
 						<Row className="header">
 							<Col>
 								<Header header="Academics"/>

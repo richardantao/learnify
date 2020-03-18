@@ -15,8 +15,6 @@ import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
 
 /* Organisms */
-import AuthNav from "../../organisms/AuthNav";
-import AppNav from "../../organisms/AppNav";
 import CalendarHeader from "../../organisms/CalendarHeader";
 
 import "./Calendar.scss";
@@ -79,25 +77,8 @@ class Calendar extends Component {
 					<meta name="description" content=""/>
 					<title>My Learnify | Calendar</title>
 				</Helmet>
-				<Row id="beta">
-					<Col
-						xs="1"
-						sm="1"
-						md="1"
-						lg="1"
-						xl="1"
-					>
-						<AppNav />
-					</Col>
-					<Col 
-						id="calendar"
-						xs="11"
-						sm="11"
-						md="11"
-						lg="11"
-						xl="11"
-					>
-						<AuthNav/>
+				<Row id="calendar">
+					<Col>
 						<Row className="header">
 							<CalendarHeader/> 
 						</Row>

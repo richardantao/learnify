@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
-import { logout } from "../../../../actions/auth/auth";
+import { logout } from "../../../actions/auth/auth";
 import PropTypes from "prop-types";
 
 import { Button, Container, Col, Row } from "reactstrap";
@@ -13,8 +13,6 @@ import Header from "../../atoms/Header";
 import Icon from "../../atoms/Icon";
 
 // Organisms
-import AuthNav from "../../organisms/AuthNav";
-import AppNav from "../../organisms/AppNav";
 
 import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
@@ -66,25 +64,8 @@ class Settings extends Component {
 					<meta name="keywords" content=""/>
 					<title>My Learnify | Settings</title>
 				</Helmet>
-				<Row id="beta">
-					<Col
-						xs="1"
-						sm="1"
-						md="1"
-						lg="1"
-						xl="1"
-					>				
-						<AppNav/>
-					</Col>
-					<Col 
-						id="settings"
-						xs="11"
-						sm="11"
-						md="11"
-						lg="11"
-						xl="11"
-					>
-						<AuthNav/>
+				<Row id="settings">
+					<Col>
 						<Row className="header">
 							<Col>
 								<Header header="Settings"/> 
