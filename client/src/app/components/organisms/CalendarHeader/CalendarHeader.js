@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { clearErrors } from "../../../../actions/auth/errors";
+import { clearErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
 import { Button, Col } from "reactstrap";

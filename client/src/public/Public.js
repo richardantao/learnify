@@ -7,7 +7,7 @@ import {
 import { connect } from "react-redux";
 
 import Loadable from "react-loadable";
-import Loading from "./components/atoms/Loading";
+import Loading from "./components/global/organisms/Loading";
 
 import "./Public.scss";
 
@@ -55,8 +55,6 @@ class Public extends Component {
                 <Route path="/team/roles" component={Roles}/>
                 <Route path="/team/register" component={TeamRegister}/>
                 <Route path="/team" component={Team}/>
-
-                <Route path="*" component={NotFound}/>
             </Switch>
         );
     };
@@ -208,12 +206,6 @@ const Roles = Loadable({
 
 const TeamRegister = Loadable({
 	loader: () => import(/* webpackChunkName: "TeamRegister" */ "./components/team/pages/TeamRegister"),
-	loading: Loading,
-	delay: 300
-});
-
-const NotFound = Loadable({
-	loader: () => import(/* webpackChunkName: "NotFound" */ "./components/global/pages/NotFound/NotFound"),
 	loading: Loading,
 	delay: 300
 });

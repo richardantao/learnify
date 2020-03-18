@@ -21,7 +21,6 @@ render (
 			<App/>
 			<Team/>
 		</Provider>
-		<App/>
 	</Router>,
 	document.querySelector("#learnify")
 );

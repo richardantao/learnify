@@ -1,0 +1,710 @@
+/* --- Colour Palette --- */ 
+$primary-color: #00A6FF;
+$secondary-color: #0091FF;
+$background: #FAFAFA;
+$form-background: #F9F9F9;
+$border-line: #E1E1E1;
+
+/* --- Portrait Mobile --- */
+
+/* Root styles */
+.root {
+    position: relative;
+
+    form {
+        background-color: $form-background;
+        z-index: 1;
+    }
+}
+
+/* Home styles */
+.home {
+    &-background {
+        height: 620px;
+        object-fit: cover;
+        opacity: 0.75;
+        position: relative;
+        width: auto;
+        z-index: 0;
+    }
+
+    &-pitch {
+        position: absolute;
+        left: 6%;
+        top: 5%;
+        width: 90%;
+
+        h1 {
+            font-size: 1.25rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+        }
+    }
+
+    &-form {
+        border: $border-line 0.1rem solid;
+        border-radius: 2%;
+        min-height: 250px;
+        padding: 1.5rem 1.5rem 2rem 1.5rem;
+        position: absolute;
+            left: 6%;
+            top: 35%;
+        width: 80%;
+    }
+
+    &-reset, &-submit {
+        font-size: 0.65rem;
+        margin: 1% 4% 0 0;
+        padding: 4px 10px;
+        position: absolute;
+            bottom: 0.67rem;
+    }
+
+    &-reset {
+        background-color: red;
+        border-color: red;
+        right: 6.5rem;
+
+        &:hover, &:focus, &:active {
+            background-color: red;
+            border-color: red;
+        }
+    }
+
+    &-submit {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        right: 0.67rem;
+
+        &:hover, &:focus, &:active {
+            background-color: $secondary-color;
+            border-color: $secondary-color;
+        }
+    }
+    
+    form {
+        background-color: $form-background;
+        z-index: 1;
+    }
+    
+    form label:after {
+        color: red;
+        content: "*";
+    }
+    
+    .warning {
+        color: red;
+    }
+    
+    .form-group .disabled {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        opacity: 0.6;
+    }
+    
+    .emailHelp {
+        font-size: 0.65rem;
+    }
+}
+
+/* About styles */
+.about {
+    background: $background;
+    border-bottom: $border-line 1px solid;
+    border-top: $border-line 1px solid;
+
+    > * {
+        margin: 0 1rem;
+    }
+
+    .banner {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    p {
+        font-size: 1.1rem;
+    }
+
+    &-mission, &-values, &-team {
+        margin: 1rem 2.5rem 1.33rem 2.5rem;
+    }
+
+    &-team {
+        display: grid;
+            grid-template-columns: 100%;
+            grid-template-rows: 50px 550px;
+            grid-gap: 0;
+    }
+}
+
+/* Contact styles */
+.contact {
+    &-background {
+        height: 620px;
+        object-fit: cover;
+        opacity: 0.67;
+        position: relative;
+        width: auto;
+        z-index: 0; 
+    }
+
+    &-pitch {
+        position: absolute;
+            left: 10%;
+            top: 10%;
+        width: 80%;
+
+        h1 {
+            font-size: 1.5rem;
+        }
+    }
+
+    &-form {
+        border: $border-line 0.1rem solid;
+        border-radius: 2%;
+        padding: 1.5rem 1.5rem 2.25rem 1.5rem;
+        position: absolute;
+            left: 10%;
+            top: 22%;
+        width: 80%;
+    }
+
+    &-reset, &-submit {
+        font-size: 0.65rem;
+        margin: 1% 4% 0 0;
+        padding: 4px 10px;
+        position: absolute;
+            bottom: 0.67rem;
+    }
+
+    &-reset {
+        background-color: red;
+        border-color: red;
+        right: 7rem;
+
+        &:hover {
+            background-color: red;
+            border-color: red;
+        }
+    }
+
+    &-submit {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        right: 0.67rem;
+
+        &:hover, &:focus, &:active {
+            background-color: $secondary-color;
+            border-color: $secondary-color;
+        }
+    }
+    
+    form {
+        background-color: $form-background;
+        z-index: 1;
+    }
+    
+    form label:after {
+        color: red;
+        content: "*";
+    }
+    
+    .warning {
+        color: red;
+    }
+
+    .buffer {
+        color: transparent;
+    }
+    
+    .form-group .disabled {
+        background-color: $primary-color;
+        border-color: $primary-color;
+        opacity: 0.6;
+    }
+    
+    .emailHelp {
+        font-size: 0.65rem;
+    }
+}
+
+/* --- Landscape Mobile --- */
+@media (min-width: 576px) {
+    /* Home styles */
+    .home {
+        &-pitch {
+            top: 9.5%;
+            width: 90%;
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 1.2em;
+            }
+        }
+
+        &-form {
+            top: 35%;
+        }
+
+        &-reset {
+            right: 6rem;
+        }
+    
+        &-submit {
+            right: 0;
+        }
+
+        .emailHelp {
+            font-size: 0.75rem;
+        }
+    }
+
+    /* About styles */
+    .about {
+        &-mission, &-values, &-team {
+            margin: 1rem 3rem 1.33rem 3rem;
+        }
+
+        &-team {        
+            grid-template-rows: 50px 520px;
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        &-background {
+            height: auto; 
+            object-fit: contain;
+            width: 100%;
+        }
+
+        &-pitch {
+            font-size: 2rem;    
+            left: 10%;
+            top: 25%;
+            width: 35%;
+
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        &-form {
+            left: 50%;
+            top: 2%;
+            width: 40%;
+        }
+    }
+}
+
+/* --- Portrait Tablets --- */
+@media (min-width: 768px) {
+    /* Home styles */
+    .home {
+        &-background {
+            height: auto;
+            object-fit: contain;
+            width: 100%;
+        }
+
+        &-pitch {
+            left: 15%;
+            top: 25%;
+            width: 30%;
+        }
+
+        &-form {
+            left: 50%;
+            top: 20%;
+            width: 40%;
+        }
+
+        &-reset, &-submit {
+            font-size: 0.85rem;
+        }
+
+        &-reset {
+            right: 8rem;
+        }
+
+        &-submit {
+            right: 0.75rem;
+        }
+    }
+
+    /* About styles */
+    .about {
+        &-mission, &-values, &-team {
+            margin: 1rem 4rem 1.67rem 4rem;
+        }
+
+        &-team {
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 50px 520px;
+
+            h2 {
+                grid-column-end: span 2;
+            }
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        &-pitch {
+            left: 10%;
+            top: 30%;
+            width: 35%;
+
+            h1 {
+                font-size: 3rem;
+            }
+        }
+
+        &-form {
+            left: 50%;
+            top: 15%;
+            width: 40%;
+        }
+
+        &-reset, &-submit {
+            font-size: 0.85rem;
+        }
+
+        &-reset {
+            right: 8rem;
+        }
+
+        &-submit {
+            right: 0.5rem;
+        }
+    }
+}
+
+/* --- Landscape Tablets --- */
+@media (min-width: 992px) {
+    /* Home styles */
+    .home {
+        &-pitch {
+            top: 22%;        
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            p {
+                font-size: 1.25rem;
+            }
+        }
+
+        &-reset {
+            right: 7.5rem;
+        }
+
+        &-submit {
+            right: 0.5rem;
+        }
+    }
+
+    /* About styles */
+    .about {
+        .banner {
+            margin-top: 2.5rem;
+        }
+        
+        &-mission, &-values, &-team {
+            margin: 1rem 5rem 2rem 5rem;
+        }
+
+        &-team {
+            grid-template-rows: 50px 525px;
+
+            h2 {
+                grid-column-end: span 3;
+            }
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        &-pitch {
+            left: 15%;
+            top: 28%;
+            width: 28%;
+        }
+
+        &-form {
+            left: 50%;
+            top: 18%;
+        }
+
+        &-reset {
+            right: 8rem;
+        }
+
+        &-submit {
+            right: 0.5rem;
+        }
+    }
+}
+
+/* --- Small Laptops --- */
+@media (min-width: 1200px) {
+    /* Home styles */
+    .home {
+        small {
+            margin-bottom: 1.5rem;
+        }
+
+        &-pitch {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1.5rem;
+            }
+        }
+
+        &-reset, &-submit {
+            font-size: 1rem;
+            padding: 6px 12px;
+        }
+
+        &-reset {
+            right: 9rem;
+        }
+
+        &-submit {
+            right: 0.5rem;
+        }
+    }
+
+    /* About styles */
+    .about {
+        &-team {
+            grid-template-columns: 33% 33% 33%;
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        &-pitch {
+            left: 20%;
+            top: 22%;
+            width: 22%;
+
+            h1 {
+                font-size: 3.75rem;
+            }
+        }
+
+        &-form {
+            top: 20%;
+        }
+
+        &-reset, &-submit {
+            font-size: 1rem;
+            margin-top: 2rem;
+            padding: 6px 12px;
+        }
+
+        &-reset {
+            right: 9rem;
+        }
+
+        &-submit {
+            right: 0.25rem;
+        }
+    }
+
+}
+
+/* --- Large Laptops --- */
+@media (min-width: 1440px) {
+    /* Home styles */
+    .home {
+        &-pitch {
+            left: 15%;
+            top: 25%;
+            width: 33%;
+
+            h1 {
+                font-size: 2.30rem;
+            }
+
+            p {
+                font-size: 1.8rem;
+            }
+        }
+        &-form {
+            left: 55%;
+            top: 25%;
+            width: 35%;
+        }
+    
+        &-reset, &-submit {
+            font-size: 1rem;
+        }
+
+        &-reset {
+            right: 8.5rem;
+        }
+
+        &-submit {
+            right: 0;
+        }
+    }
+
+    /* About styles */
+    .about {
+        h1 {
+            font-size: 3.5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+        }
+
+        h4 {
+            font-size: 2rem;
+        }
+
+        p {
+            font-size: 1.5rem;
+        }
+
+        &-team {
+            grid-template-columns: 33% 33% 33%;
+            grid-template-rows: 75px 700px;
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        &-pitch {
+            left: 10%;
+            top: 28%;
+            width: 40%;
+
+            h1 {
+                font-size: 3.75rem;
+            }
+        }
+
+        &-form {
+            left: 50%;
+            top: 15%;
+        }
+    }
+}
+
+/* --- Desktops --- */
+@media (min-width: 2100px) {
+    /* Home styles */
+    .home {
+        &-pitch {
+
+            h1 {
+                font-size: 4rem;
+            }
+
+            p {
+                font-size: 2.5rem;
+            }
+        }
+
+        &-form {
+            left: 52.5%;
+            min-height: 400px;
+            padding: 1.75rem 1.75rem 2.25rem 1.75rem;
+            top: 23.5%;
+            width: 40%;
+        }
+
+        .form-group label, .form-group input, .alert {
+            font-size: 1.8rem;
+        }
+
+        .emailHelp, small {
+            font-size: 1.33rem;
+        }
+    
+        &-reset, &-submit {
+            font-size: 1.5rem;
+        }
+
+        &-reset {
+            right: 12rem;
+        }    
+    }
+
+    /* About styles */
+    .about {
+        h1 {
+            font-size: 4.5rem;
+        }
+
+        h2 {
+            font-size: 3.33rem;
+        }
+
+        h4 {
+            font-size: 2.5rem;
+        }
+
+        p {
+            font-size: 2.25rem;
+        }
+
+        &-team {
+            grid-template-columns: 33% 33% 33%;
+            grid-template-rows: 75px 975px;
+        }
+    }
+
+    /* Contact styles */
+    .contact {
+        &-pitch {
+            font-size: 2rem;    
+            left: 10%;
+            top: 25%;
+            width: 35%;
+
+            h1 {
+                font-size: 6rem;
+            }
+        }
+
+        &-form {
+            min-height: 400px;
+            top: 18%;
+            width: 40%;
+        }
+
+        .form-group label, .form-group input, .form-group textarea, .alert {
+            font-size: 1.8rem;
+        }
+
+        .emailHelp, small {
+            font-size: 1.33rem;
+        }
+    
+        &-reset, &-submit {
+            font-size: 1.5rem;
+        }
+
+        &-reset {
+            right: 12rem;
+        }
+
+        &-submit {
+            right: 0;
+        }
+    }
+}

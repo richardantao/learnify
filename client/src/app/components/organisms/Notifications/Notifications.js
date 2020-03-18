@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 import { connect } from "react-redux";
-import { fetchNotifications, } from "../../../../actions/app/notifications";
-import { clearErrors } from "../../../../actions/auth/errors";
+import { fetchNotifications, } from "../../../actions/data/notifications";
+import { clearErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
 import { Collapse } from "reactstrap";

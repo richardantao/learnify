@@ -17,11 +17,14 @@ import store from "../store";
 
 import { Row, Col } from "reactstrap";
 
+import AppNav from "./components/organisms/AppNav";
+import AuthNav from "./components/organisms/AuthNav";
+
 import "./App.scss";
 
 class App extends Component {
     static propTypes = {
-        isAuthenticated: PropTypes.object.isRequired,
+        // isAuthenticated: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
 		location: PropTypes.object.isRequired,
 		match: PropTypes.object.isRequired
@@ -36,11 +39,11 @@ class App extends Component {
     };
 
     render () {
-        const { isAuthenticated } = this.props;
+        // const { isAuthenticated } = this.props;
 
         return (
-            <Row>
-                { isAuthenticated ? 
+            <Row id="app">
+                { true ? 
                     <>
                         <Col
                             xs="1"
@@ -49,7 +52,7 @@ class App extends Component {
                             lg="1"
                             xl="1"
                         >
-
+                            <AppNav/>
                         </Col>
                         <Col
                             xs="11"
@@ -58,6 +61,7 @@ class App extends Component {
                             lg="11"
                             xl="11"
                         >
+                            <AuthNav/>
                             <Switch>
                                 <Route path="/beta/dashboard" component={Dashboard}/>
                                 <Route path="/beta/calendar" component={Calendar}/>
@@ -151,7 +155,7 @@ const Help = Loadable({
 });
 
 const mapStateToProps = state => ({
-    isAuthenticated: state.auth.isAuthenticated
+    // isAuthenticated: state.auth.isAuthenticated
 });
 
 const mapDispatchToProps = {};
