@@ -3,18 +3,18 @@ const auth = require("../middleware/auth");
 const validation = require("../middleware/validation/user");
 const controller = require("../controllers/user");
 
-router.get("/profile", /*auth,*/ controller.editProfile);
+router.get("/users/profile", /*auth,*/ controller.editProfile);
 
-router.put("/profile", /*auth,*/ validation.profile, controller.updateProfile);
+router.put("/users/profile", /*auth,*/ validation.profile, controller.updateProfile);
 
-router.delete("/profile", /*auth,*/ controller.deleteProfile); 
+router.delete("/users/profile", /*auth,*/ controller.deleteProfile); 
 
-router.get("/password", /*auth,*/ controller.editPassword);
+router.get("/users/password", /*auth,*/ controller.editPassword);
 
-router.put("/password", /*auth,*/ validation.password, controller.updatePassword);
+router.put("/users/password", /*auth,*/ validation.password, controller.updatePassword);
 
-router.get("/preferences", /*auth,*/ controller.editPreferences);
+router.get("/users/preferences", /*auth,*/ controller.editPreferences);
 
-router.put("/preferences", /*auth,*/ validation.preferences, controller.updatePreferences);
+router.put("/users/preferences", /*auth,*/ validation.preferences, controller.updatePreferences);
 
 module.exports = router;
