@@ -32,7 +32,19 @@ export const initiailizeNotification = notification => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => {
-        dispatch(returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR"));
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "NOTIFICATIONS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "NOTIFICATIONS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "NOTIFICATIONS_ERROR")
+            );
+        };
     });
 };
 
@@ -50,7 +62,19 @@ export const fetchNotifications = () => (dispatch, getState) => {
         payload: res.data
     }))
     .catch(err => {
-        dispatch(returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR"));
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "NOTIFICATIONS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "NOTIFICATIONS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "NOTIFICATIONS_ERROR")
+            );
+        };
     });
 };
 
@@ -70,7 +94,19 @@ export const toggleNotification = (id, notification) => (dispatch, getState) => 
         payload: res.data
     }))
     .catch(err => {
-        dispatch(returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR"));
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "NOTIFICATIONS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "NOTIFICATIONS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "NOTIFICATIONS_ERROR")
+            );
+        };
     });
 };
 /**
@@ -88,6 +124,18 @@ export const deleteNotification = id => (dispatch, getState) => {
         payload: id
     }))
     .catch(err => {
-        dispatch(returnErrors(err.res.data, err.res.status, "NOTIFCATIONS_ERROR"));
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "NOTIFICATIONS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "NOTIFICATIONS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "NOTIFICATIONS_ERROR")
+            );
+        };
     });
 };

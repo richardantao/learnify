@@ -35,9 +35,21 @@ export const updateProfile = profile => (dispatch, getState) => {
         type: PROFILE_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "SETTINGS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "SETTINGS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "SETTINGS_ERROR")
+            );
+        };
+    });
 };
 
 export const updatePassword = password => (dispatch, getState) => {
@@ -48,9 +60,21 @@ export const updatePassword = password => (dispatch, getState) => {
         type: PASSWORD_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "SETTINGS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "SETTINGS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "SETTINGS_ERROR")
+            );
+        };
+    });
 };
 
 export const editPreferences = () => (dispatch, getState) => {
@@ -61,9 +85,21 @@ export const editPreferences = () => (dispatch, getState) => {
         type: PREFERENCES_RETURNED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "SETTINGS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "SETTINGS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "SETTINGS_ERROR")
+            );
+        };
+    });
 };
 
 export const updatePreferences = preferences => (dispatch, getState) => {
@@ -74,7 +110,19 @@ export const updatePreferences = preferences => (dispatch, getState) => {
         type: PREFERENCES_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "SETTINGS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "SETTINGS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "SETTINGS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "SETTINGS_ERROR")
+            );
+        };
+    });
 };

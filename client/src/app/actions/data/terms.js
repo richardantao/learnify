@@ -26,9 +26,21 @@ export const newTerm = () => (dispatch, getState) => {
         type: YEARS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TERMS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TERMS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TERMS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -44,9 +56,21 @@ export const createTerm = term => (dispatch, getState) => {
         type: TERM_CREATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TERMS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TERMS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TERMS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -63,9 +87,21 @@ export const fetchTerms = yearId => (dispatch, getState) => {
         type: TERMS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TERMS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TERMS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TERMS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -82,9 +118,21 @@ export const editTerm = id => (dispatch, getState) => {
         type: TERM_RETURNED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TERMS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TERMS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TERMS_ERROR")
+            );
+        };
+    });
 };
 
 // @path /api/v1/terms/:termId
@@ -97,9 +145,21 @@ export const updateTerm = (id, term) => (dispatch, getState) => {
         type: TERM_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TERMS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TERMS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TERMS_ERROR")
+            );
+        };
+    });
 };
 
 // @path /api/v1/terms/:termId
@@ -112,7 +172,19 @@ export const deleteTerm = id => (dispatch, getState) => {
         type: TERM_DELETED,
         payload: id
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TERMS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TERMS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TERMS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TERMS_ERROR")
+            );
+        };
+    });
 };

@@ -1,6 +1,6 @@
 import { 
     TASKS_REQUESTED,
-    COURSES_FETCHED, TASK_CREATED,
+    TASKS_FETCHED, TASK_CREATED,
     TASK_RETURNED, TASK_UPDATED, TASK_DELETED, TASKS_FETCHED
 } from "../types";
 import { tokenConfig } from "../auth/auth";
@@ -23,14 +23,26 @@ export const setLoading = () => {
 export const newTask = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/courses`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/terms/${termId}/TASKS`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
-        type: COURSES_FETCHED,
+        type: TASKS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TASKS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TASKS_ERROR")
+            );
+        };
+    });
 };
 /**
  * @param  {string} task - object containing form data
@@ -45,12 +57,24 @@ export const createTask = task => (dispatch, getState) => {
         type: TASK_CREATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TASKS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TASKS_ERROR")
+            );
+        };
+    });
 };
 /**
- * @param  {string} parent - resource to filter the query by; either 'terms' or 'courses'
+ * @param  {string} parent - resource to filter the query by; either 'terms' or 'TASKS'
  * @param  {string} parentId - ObjectId of the resource to filter query by
  * @param  {string} query - optional query parameters
  * @param  {function} dispatch - function that returns an action to the reducer
@@ -65,9 +89,21 @@ export const fetchTasks = (parent, parentId, query) => (dispatch, getState) => {
         type: TASKS_FETCHED, 
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
-    ));
+    .catch(err =>  {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TASKS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TASKS_ERROR")
+            );
+        };
+    });
 };
 /**
  * @param  {string} id - ObjectId belonging to the task to return
@@ -85,9 +121,21 @@ export const editTask = id => (dispatch, getState) => {
             payload: res.data
         });
     })
-    .catch(err => dispatch(
-        returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TASKS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TASKS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -104,9 +152,21 @@ export const updateTask = (id, task) => (dispatch, getState) => {
         type: TASK_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TASKS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TASKS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -125,7 +185,19 @@ export const deleteTask = id => (dispatch, getState) => {
             payload: id
         });
     })
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "TASKS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TASKS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TASKS_ERROR")
+            );
+        };
+    });
 };

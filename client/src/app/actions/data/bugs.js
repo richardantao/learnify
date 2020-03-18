@@ -28,7 +28,19 @@ export const submitBug = bug => (dispatch, getState) => {
         type: BUG_SUBMITTED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "BUGS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "BUGS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "BUGS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "BUGS_ERROR")
+            );
+        };
+    });
 };

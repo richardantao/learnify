@@ -22,17 +22,41 @@ export const setActiveTerm = () => (dispatch, getState) => {
     axios.get("/api/v1/years?setActiveTerm=true"/*, tokenConfig(getState)*/) // retrieve the yearId of the current year
     .then(res => {
         return axios.get(`/api/v1/years/${res.data}/terms?setActiveTerm=true`)
-        .catch(err => dispatch(
-            returnErrors(err.res.data, err.res.status, "ACTIVE_TERM_FAILED")
-        ));
+        .catch(err => {
+            if(err.response) {
+                dispatch(
+                    returnErrors(err.response.data, err.response.status, "ACTIVE_TERM_ERROR")
+                );
+            } else if(err.request) {
+                dispatch(
+                    returnErrors(err.request.data, err.request.status, "ACTIVE_TERM_ERROR")
+                );
+            } else {
+                dispatch(
+                    returnErrors("An error occurred", 500, "ACTIVE_TERM_ERROR")
+                );
+            };
+        });
     })
     .then(res => dispatch({
         type: ACTIVE_TERM_SET,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ACTIVE_TERM_FAILED")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ACTIVE_TERM_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ACTIVE_TERM_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ACTIVE_TERM_ERROR")
+            );
+        };
+    });
 };
 
 export const getStartTime = () => (dispatch, getState) => {
@@ -43,9 +67,21 @@ export const getStartTime = () => (dispatch, getState) => {
         type: START_TIME_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.response.data, err.response.status, "")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ACTIVE_TERM_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ACTIVE_TERM_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ACTIVE_TERM_ERROR")
+            );
+        };
+    });
 };
 
 export const getStartDay = () => (dispatch, getState) => {
@@ -56,9 +92,21 @@ export const getStartDay = () => (dispatch, getState) => {
         type: START_DAY_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.response.data, err.response.status, "")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ACTIVE_TERM_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ACTIVE_TERM_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ACTIVE_TERM_ERROR")
+            );
+        };
+    });
 };
 
 export const getDefaultDuration = () => (dispatch, getState) => {
@@ -69,9 +117,21 @@ export const getDefaultDuration = () => (dispatch, getState) => {
         type: DEFAULT_DURATION_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.response.data, err.response.status, "")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ACTIVE_TERM_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ACTIVE_TERM_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ACTIVE_TERM_ERROR")
+            );
+        };
+    });
 };
 
 export const getDefaultCalendar = () => (dispatch, getState) => {
@@ -82,7 +142,19 @@ export const getDefaultCalendar = () => (dispatch, getState) => {
         type: DEFAULT_CALENDAR_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.response.data, err.response.status, "")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ACTIVE_TERM_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ACTIVE_TERM_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ACTIVE_TERM_ERROR")
+            );
+        };
+    });
 };

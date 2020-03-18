@@ -25,9 +25,21 @@ export const newCourse = yearId => (dispatch, getState) => {
         type: TERMS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "COURSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "COURSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "COURSES_ERROR")
+            );
+        };
+    });
 };
 
 // @path /api/v1/courses
@@ -40,9 +52,21 @@ export const createCourse = course => (dispatch, getState) => {
         type: COURSE_CREATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "COURSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "COURSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "COURSES_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -59,9 +83,21 @@ export const fetchCourses = termId => (dispatch, getState) => {
         type: COURSES_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "COURSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "COURSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "COURSES_ERROR")
+            );
+        };
+    });
 };
 
 // @path /api/v1/courses/:courseId
@@ -74,9 +110,21 @@ export const editCourse = id => (dispatch, getState) => {
         type: COURSE_RETURNED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "COURSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "COURSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "COURSES_ERROR")
+            );
+        };
+    });
 };
 
 // @path /api/v1/courses/:courseId
@@ -89,9 +137,21 @@ export const updateCourse = (id, course) => (dispatch, getState) => {
         type: COURSE_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "COURSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "COURSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "COURSES_ERROR")
+            );
+        };
+    });
 };
 
 // @path /api/v1/courses/:courseId
@@ -105,7 +165,19 @@ export const deleteCourse = id => (dispatch, getState) => {
         type: COURSE_DELETED,
         payload: id
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "COURSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "COURSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "COURSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "COURSES_ERROR")
+            );
+        };
+    });
 };

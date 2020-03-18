@@ -30,9 +30,21 @@ export const createYear = year => (dispatch, getState) => {
         type: YEAR_CREATED, 
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "YEARS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "YEARS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "YEARS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -48,9 +60,21 @@ export const fetchYears = () => (dispatch, getState) => {
         type: YEARS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "YEARS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "YEARS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "YEARS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -67,9 +91,21 @@ export const editYear = id => (dispatch, getState) => {
         type: YEAR_RETURNED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "YEARS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "YEARS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "YEARS_ERROR")
+            );
+        };
+    });
 };
 /**
  * @param  {string} id - id of the year to uppate
@@ -86,9 +122,21 @@ export const updateYear = (id, year) => (dispatch, getState) => {
         type: YEAR_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "YEARS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "YEARS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "YEARS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -103,7 +151,19 @@ export const deleteYear = id => (dispatch, getState) => {
         type: YEAR_DELETED,
         payload: id
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "YEARS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "YEARS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "YEARS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "YEARS_ERROR")
+            );
+        };
+    });
 };

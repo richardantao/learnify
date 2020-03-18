@@ -17,7 +17,19 @@ export const submitFeedback = feedback => (dispatch, getState) => {
         type: FEEDBACK_SUBMITTED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "FEEDBACK_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "FEEDBACK_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "FEEDBACK_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "FEEDBACK_ERROR")
+            );
+        };
+    });
 };

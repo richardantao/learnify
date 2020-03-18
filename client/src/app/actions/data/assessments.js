@@ -31,9 +31,21 @@ export const newAssessment = termId => (dispatch, getState) => {
         type: COURSES_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ASSESSMENTS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ASSESSMENTS_ERROR")
+            );
+        };
+    });
 };
 
 
@@ -51,9 +63,21 @@ export const createAssessment = assessment => (dispatch, getState) => {
         type: ASSESSMENT_CREATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ASSESSMENTS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ASSESSMENTS_ERROR")
+            );
+        };
+    });
 };
 /**
  * @param  {string} parent - the parent resource with which to filter the assessments by; either 'terms' of 'courses'
@@ -71,9 +95,21 @@ export const fetchAssessments = (parent, parentId, query) => (dispatch, getState
         type: ASSESSMENTS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
-    ));
+    .catch(err => { 
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ASSESSMENTS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ASSESSMENTS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -90,9 +126,21 @@ export const editAssessment = id => (dispatch, getState) => {
         type: ASSESSMENT_RETURNED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ASSESSMENTS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ASSESSMENTS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -109,9 +157,21 @@ export const updateAssessment = (id, assessment) => (dispatch, getState) => {
         type: ASSESSMENT_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ASSESSMENTS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ASSESSMENTS_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -127,7 +187,19 @@ export const deleteAssessment = id => (dispatch, getState) => {
         type: ASSESSMENT_DELETED,
         payload: id
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "ASSESSMENTS_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ASSESSMENTS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ASSESSMENTS_ERROR")
+            );
+        };
+    });
 };

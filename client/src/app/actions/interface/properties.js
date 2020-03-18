@@ -23,9 +23,21 @@ export const fetchCountries = () => (dispatch, getState) => {
         type: COUNTRIES_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR")   
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "PROPERTIES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "PROPERTIES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "PROPERTIES_ERROR")
+            );
+        };
+    });
 };
 
 export const fetchRegions = country => (dispatch, getState) => {
@@ -36,9 +48,21 @@ export const fetchRegions = country => (dispatch, getState) => {
         type: REGIONS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR")   
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "PROPERTIES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "PROPERTIES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "PROPERTIES_ERROR")
+            );
+        };
+    });
 };
 
 export const fetchInstitutions = region => (dispatch, getState) => {
@@ -49,9 +73,21 @@ export const fetchInstitutions = region => (dispatch, getState) => {
         type: INSTITUTIONS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR")   
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "PROPERTIES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "PROPERTIES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "PROPERTIES_ERROR")
+            );
+        };
+    });
 };
 
 export const fetchSchools = institution => (dispatch, getState) => {
@@ -62,7 +98,19 @@ export const fetchSchools = institution => (dispatch, getState) => {
         type: SCHOOLS_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "PROPERTIES_ERROR")   
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "PROPERTIES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "PROPERTIES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "PROPERTIES_ERROR")
+            );
+        };
+    });
 };

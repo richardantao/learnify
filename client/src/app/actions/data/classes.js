@@ -29,9 +29,21 @@ export const newClass = termId => (dispatch, getState) => {
         type: COURSES_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "CLASSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "CLASSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "CLASSES_ERROR")
+            );
+        };
+    });
 };
 
 export const createClass = newClass => (dispatch, getState) => {
@@ -42,9 +54,21 @@ export const createClass = newClass => (dispatch, getState) => {
         type: CLASS_CREATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "CLASSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "CLASSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "CLASSES_ERROR")
+            );
+        };
+    });
 };
 
 /**
@@ -62,9 +86,21 @@ export const fetchClasses = (parent, parentId, query) => (dispatch, getState) =>
         type: CLASSES_FETCHED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "CLASSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "CLASSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "CLASSES_ERROR")
+            );
+        };
+    });
 };
 /**
  * @param  {string} id - 
@@ -80,9 +116,21 @@ export const editClass = id => (dispatch, getState) => {
         type: CLASS_RETURNED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "CLASSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "CLASSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "CLASSES_ERROR")
+            );
+        };
+    });
 };
 /**
  * @param  {string} id - 
@@ -99,9 +147,21 @@ export const updateClass = (id, body) => (dispatch, getState) => {
         type: CLASS_UPDATED,
         payload: res.data
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "CLASSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "CLASSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "CLASSES_ERROR")
+            );
+        };
+    });
 };
 
 export const deleteClass = id => (dispatch, getState) => {
@@ -112,7 +172,19 @@ export const deleteClass = id => (dispatch, getState) => {
         type: CLASS_DELETED,
         payload: id
     }))
-    .catch(err => dispatch(
-        returnErrors(err.res.data, err.res.status, "CLASSES_ERROR")
-    ));
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "CLASSES_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "CLASSES_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "CLASSES_ERROR")
+            );
+        };
+    });
 };
