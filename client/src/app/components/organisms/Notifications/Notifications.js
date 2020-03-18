@@ -17,7 +17,7 @@ class Notifications extends Component {
     };
 
     static propTypes = {
-        error: PropTypes.object.isRequired,
+        error: PropTypes.object,
         fetchNotifications: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
     };

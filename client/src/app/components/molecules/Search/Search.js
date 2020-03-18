@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
-import { Form, Input, Button, Row, Col } from "reactstrap"; 
+import { Form, Input, Button } from "reactstrap"; 
 
 class Search extends Component {
     state = {
@@ -11,7 +11,7 @@ class Search extends Component {
     };
 
     static propTypes = {
-        error: PropTypes.object.isRequired
+        error: PropTypes.object
     };
 
     componentDidUpdate(prevProps) {
