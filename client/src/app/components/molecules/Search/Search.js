@@ -14,6 +14,18 @@ class Search extends Component {
         error: PropTypes.object.isRequired
     };
 
+    componentDidUpdate(prevProps) {
+        const { error } = this.props;
+
+        if(error !== prevProps.error) {
+            if(error.id === "") {
+                this.setState({ message: error.message.message });
+            } else {
+                this.setState({ message: null });  
+            };
+        };
+    };
+
     handleChange = e => {
         this.setState({ [e.target.name]: e.target.value });
     };
