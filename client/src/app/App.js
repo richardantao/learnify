@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { 
     Switch,
     Route,
+    Redirect,
     withRouter,
     useHistory,
 	useLocation
@@ -21,6 +22,27 @@ import AppNav from "./components/organisms/AppNav";
 import AuthNav from "./components/organisms/AuthNav";
 
 import "./App.scss";
+
+const PrivateRoute = ({ children, ...rest }) => {
+    return (
+        <Route
+            {...rest}
+            render={({ location }) => 
+                true ? (
+                    children
+                ): (
+                <Redirect
+                    to={{
+                        pathname: "/beta/login",
+                        state: { from: location }
+                    }}
+                />
+              )
+            }
+        
+        />
+    );
+};  
 
 class App extends Component {
     static propTypes = {
