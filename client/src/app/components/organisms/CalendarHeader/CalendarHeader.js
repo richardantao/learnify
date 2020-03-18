@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import "./CalendarHeader.scss";
 
+import Dropdown from "../../molecules/Dropdown";
+
 class CalendarHeader extends Component {
     state = {
 
@@ -19,12 +21,21 @@ class CalendarHeader extends Component {
         clearErrors: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
-
+    async componentDidMount() {
+        const { clearErrors } = this.props;
+        await clearErrors();
     };
 
     componentDidUpdate(prevProps) {
         const { error } = this.props;
+
+        if(error !== prevProps) {
+            if(error.id === "") {
+
+            } else {
+
+            };
+        };
     };
 
     prevPeriod = () => {
@@ -36,6 +47,8 @@ class CalendarHeader extends Component {
 	};
     
     render() {
+        const { display } = this.state;
+
         return (
             <>
                 <Col>
@@ -51,7 +64,7 @@ class CalendarHeader extends Component {
                     </Button>
                 </Col>
                 <Col className="calendar-selector">
-                    <Button>{this.props.display}</Button>
+                    <Dropdown/>
                 </Col>
             </>
         );
