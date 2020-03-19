@@ -1,7 +1,7 @@
 import { 
     TASKS_REQUESTED,
     TASKS_FETCHED, TASK_CREATED,
-    TASK_RETURNED, TASK_UPDATED, TASK_DELETED, TASKS_FETCHED
+    TASK_RETURNED, TASK_UPDATED, TASK_DELETED
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
