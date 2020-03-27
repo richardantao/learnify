@@ -6,12 +6,18 @@ import moment from "moment";
 /* Redux Operations */
 import { connect } from "react-redux";
 import { setActiveTerm } from "../../../actions/interface/meta";
-import { fetchClasses, editClass } from "../../../actions/data/classes";
-import { fetchTasks, editTask } from "../../../actions/data/tasks";
-import { fetchAssessments, editAssessment } from "../../../actions/data/assessments";
+import { 
+	fetchClasses, editClass, updateClass, deleteClass 
+} from "../../../actions/data/classes";
+import { 
+	fetchTasks, editTask, toggleTaskCompletion, deleteTask 
+} from "../../../actions/data/tasks";
+import { 
+	fetchAssessments, editAssessment, toggleAssessmentCompletion, deleteAssessment 
+} from "../../../actions/data/assessments";
 import PropTypes from "prop-types";
 
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col, Button, Input } from "reactstrap";
 
 import Loadable from "react-loadable";
 
@@ -34,18 +40,24 @@ class Dashboard extends Component {
 
 	static propTypes = {
 		// isAuthenticated: PropTypes.bool,
-		meta: PropTypes.object.isRequired,
-		error: PropTypes.object.isRequired,
-		classes: PropTypes.object.isRequired,
-		task: PropTypes.object.isRequired,
-		assessment: PropTypes.object.isRequired,
+		meta: PropTypes.object,
+		error: PropTypes.object,
+		classes: PropTypes.object,
+		task: PropTypes.object,
+		assessment: PropTypes.object,
 		setActiveTerm: PropTypes.func.isRequired,
 		fetchClasses: PropTypes.func.isRequired,
 		editClass: PropTypes.func.isRequired,
+		toggleTaskCompletion: PropTypes.func.isRequired,
+		deleteClass: PropTypes.func.isRequired,
 		fetchTasks: PropTypes.func.isRequired,
 		editTask: PropTypes.func.isRequired,
+		updateTask: PropTypes.func.isRequired,
+		deleteTask: PropTypes.func.isRequired,
 		fetchAssessments: PropTypes.func.isRequired,
 		editAssessment: PropTypes.func.isRequired,
+		toggleAssessmentCompletion: PropTypes.func.isRequired,
+		deleteAssessment: PropTypes.func.isRequired
 	};
 
 	async componentDidMount() {		
@@ -57,7 +69,7 @@ class Dashboard extends Component {
 		const { error, 
 			meta: { activeTerm }, 
 			fetchClasses,
-			fetchTasks, 
+			fetchTasks,
 			fetchAssessments 
 		} = this.props;
 		
@@ -72,9 +84,9 @@ class Dashboard extends Component {
 		if(activeTerm !== prevProps.meta.activeTerm) {
 			this.setState({ activeTerm });
 
-			fetchClasses("terms", activeTerm._id, "limit=true");
-			fetchTasks("terms", activeTerm._id, "limit=true");
-			fetchAssessments("terms", activeTerm._id, "limit=true");
+			fetchClasses("terms", activeTerm._id, "?limit=true");
+			fetchTasks("terms", activeTerm._id, "?limit=true");
+			fetchAssessments("terms", activeTerm._id, "?limit=true");
 		};
 	};
 
@@ -83,16 +95,16 @@ class Dashboard extends Component {
 			classes: { classes },
 			task: { tasks },
 			assessment: { assessments },
-			editClass,
-			editTask,
-			editAssessment
+			editClass, deleteClass,
+			editTask, toggleTaskCompletion, deleteTask,
+			editAssessment, toggleAssessmentCompletion, deleteAssessment
 		} = this.props;
-	
+
 		return (
 			<>
 				<Helmet>
 					<meta name="description" content="User's My Learnify Dashboard."/>
-					<meta name="keywords" content="dashboard, Learnify, classes, today, tasks, assessments, overdue"/>
+					<meta name="keywords" content="Dashboard, Learnify, Classes, Today, Tasks, Assessments, Overdue, Left"/>
 					<title>My Learnify | Dashboard</title>
 				</Helmet>
 				<Row id="dashboard">
@@ -123,6 +135,9 @@ class Dashboard extends Component {
 											</Col>
 											<Col>
 												<ClassEdit onClick={editClass(_id)}/>
+												<Button onClick={deleteClass(_id)}>
+													icon
+												</Button>
 											</Col>
 										</Row>
 									);
@@ -131,19 +146,30 @@ class Dashboard extends Component {
 							<List 
 								id="tasks" 
                                 className="tasks-list"
-								data={tasks.map(({ _id, title, course, type, deadline }) => {
+								data={tasks.map(({ _id, title, course, type, deadline, completed }) => {
 									return (
 										<Row key={_id}>
-											<Col>
+											<Col xs="1" sm="1" md="1" lg="1" xl="1">
+												<Input	
+													name="completed"
+													type="checkbox"
+													checked={completed}
+													onChange={toggleTaskCompletion(_id)}
+												/>
+											</Col>
+											<Col xs="5" sm="5" md="5" lg="5" xl="5">
 												<h4>{title}</h4>
 												<h5>{course.title}</h5>
 											</Col>
-											<Col>
+											<Col xs="4" sm="4" md="4" lg="4" xl="4">
 												<p>{type}</p>
 												<p>{moment(deadline, "MMMM Do, h:mm a")}</p>
 											</Col>
-											<Col>
+											<Col xs="2" sm="2" md="2" lg="2" xl="2">
 												<TaskEdit onClick={editTask(_id)}/>
+												<Button onClick={deleteTask(_id)}>
+													icon
+												</Button>
 											</Col>
 										</Row>
 									);
@@ -152,14 +178,22 @@ class Dashboard extends Component {
 							<List 
 								id="assessments" 
                                 className="assessments-list"
-								data={assessments.map(({ _id, title, course, type, date: { start, end } }) => {
+								data={assessments.map(({ _id, title, course, type, date: { start, end }, completed }) => {
 									return (
 										<Row key={_id}>
-											<Col>
+											<Col xs="1" sm="1" md="1" lg="1" xl="1">
+												<Input
+													name="completed"
+													type="checkbox"
+													checked={completed}
+													onChange={toggleAssessmentCompletion(_id)}
+												/>
+											</Col>
+											<Col xs="5" sm="5" md="5" lg="5" xl="5">
 												<h4>{title}</h4>
 												<h5>{course.title}</h5>
 											</Col>
-											<Col>
+											<Col xs="4" sm="4" md="4" lg="4" xl="4">
 												<p>{type}</p>
 												<p>
 													{ !end ?
@@ -170,8 +204,11 @@ class Dashboard extends Component {
 													}
 												</p>
 											</Col>
-											<Col>
+											<Col xs="2" sm="2" md="2" lg="2" xl="2">
 												<AssessmentEdit onClick={editAssessment(_id)}/>
+												<Button onClick={deleteAssessment(_id)}>
+													icon
+												</Button>
 											</Col>
 										</Row>
 									);
@@ -220,9 +257,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = { 
 	setActiveTerm,
-	fetchClasses, editClass, 
-	fetchTasks, editTask, 
-	fetchAssessments, editAssessment
- };
+	fetchClasses, editClass, updateClass, deleteClass,
+	fetchTasks, editTask, updateTask, deleteTask,
+	fetchAssessments, editAssessment, updateAssessment, deleteAssessment
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
