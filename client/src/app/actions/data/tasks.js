@@ -23,7 +23,7 @@ export const setLoading = () => {
 export const newTask = termId => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.get(`/api/v1/terms/${termId}/TASKS`/*, tokenConfig(getState)*/)
+    axios.get(`/api/v1/terms/${termId}/courses`/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: TASKS_FETCHED,
         payload: res.data
@@ -52,7 +52,7 @@ export const newTask = termId => (dispatch, getState) => {
 export const createTask = task => (dispatch, getState) => {
     dispatch(setLoading());
 
-    axios.post("/api/v1/task", task/*, tokenConfig(getState)*/)
+    axios.post("/api/v1/tasks", task/*, tokenConfig(getState)*/)
     .then(res => dispatch({
         type: TASK_CREATED,
         payload: res.data
