@@ -11,6 +11,8 @@ router.get("/courses/:courseId/tasks", /*auth,*/ controller.filter);
 
 router.get("/tasks/:taskId", /*auth,*/ controller.edit);
 
+router.patch("/tasks/:taskId", /*auth,*/ controller.patch);
+
 router.put("/tasks/:taskId", /*auth,*/ validation, controller.update);
 
 router.delete("/tasks/:taskId", /*auth,*/ controller.delete);
