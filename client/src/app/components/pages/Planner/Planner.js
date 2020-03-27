@@ -7,11 +7,16 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { setActiveTerm } from "../../../actions/interface/meta";
 import { fetchCourses } from "../../../actions/data/courses";
-import { fetchAssessments, editAssessment } from "../../../actions/data/assessments";
-import { fetchTasks, editTask } from "../../../actions/data/tasks";
+import { 
+    fetchTasks, editTask, toggleTaskCompletion, deleteTask 
+} from "../../../actions/data/tasks";
+import { 
+    fetchAssessments, editAssessment, toggleAssessmentCompletion, deleteAssessment 
+} from "../../../actions/data/assessments";
+
 import PropTypes from "prop-types";
 
-import { Col, Row, Button } from "reactstrap";
+import { Col, Row, Button, Input } from "reactstrap";
 import Select from "react-select";
 
 /* Atoms */
@@ -30,7 +35,7 @@ class Planner extends Component {
     state = {
         activeTerm: null,
         past: false,
-        filteredCourse: null,
+        filter: null,
         message: null
     };
 
@@ -45,17 +50,21 @@ class Planner extends Component {
         fetchCourses: PropTypes.func.isRequired,
         fetchTasks: PropTypes.func.isRequired,
         editTask: PropTypes.func.isRequired,
+        toggleTaskCompletion: PropTypes.func.isRequired,
+        deleteTask: PropTypes.func.isRequired,
         fetchAssessments: PropTypes.func.isRequired,
-        editAssessment: PropTypes.func.isRequired
+        editAssessment: PropTypes.func.isRequired,
+        toggleAssessmentCompletion: PropTypes.func.isRequired,
+        deleteAssessment: PropTypes.func.isRequired
     };
 
-    componentDidMount() {
+    async componentDidMount() {
         const { setActiveTerm } = this.props;
-        setActiveTerm();
+        await setActiveTerm();
     };
 
     componentDidUpdate(prevProps, prevState) {
-        const { past, filteredCourse } = this.state;
+        const { past, filter } = this.state;
         const { 
             error, 
             meta: { activeTerm }, 
@@ -76,43 +85,48 @@ class Planner extends Component {
             this.setState({ activeTerm });
 
             fetchCourses(activeTerm._id);
-            fetchTasks("terms", activeTerm._id, "?");
-            fetchAssessments("terms", activeTerm._id, "?");
+            fetchTasks("terms", activeTerm._id, "");
+            fetchAssessments("terms", activeTerm._id, "");
         };
 
-        if(past !== prevState.past || filteredCourse !== prevState.filteredCourse) {
+        if(past !== prevState.past || filter !== prevState.filter) {
             if(past) {
-                if(filteredCourse) {
-                    fetchTasks("courses", filteredCourse, "?past=true");
-                    fetchAssessments("courses", filteredCourse, "?past=true");
+                if(filter) {
+                    fetchTasks("courses", filter, "?past=true");
+                    fetchAssessments("courses", filter, "?past=true");
                 } else {
                     fetchTasks("terms", activeTerm._id, "?past=true");
                     fetchAssessments("terms", activeTerm._id, "?past=true");
                 };
             } else {
-                if(filteredCourse) {
-                    fetchTasks("courses", filteredCourse, "?");
-                    fetchAssessments("courses", filteredCourse, "?");
+                if(filter) {
+                    fetchTasks("courses", filter, "");
+                    fetchAssessments("courses", filter, "");
                 } else {
-                    fetchTasks("terms", activeTerm._id, "?");
-                    fetchAssessments("terms", activeTerm._id, "?");
+                    fetchTasks("terms", activeTerm._id, "");
+                    fetchAssessments("terms", activeTerm._id, "");
                 };
             };
         };
     };
 
-    handleChange = filteredCourse => {
-        this.setState({ filteredCourse });
+    togglePast = () => {
+        const { past } = this.state; 
+        this.setState({ past: !past});
+    };
+
+    handleFilter = filter => {
+        this.setState({ filter });
     };
 
     render() {
-        const { activeTerm, filteredCourse } = this.state;
+        const { activeTerm, filter, past } = this.state;
         const { 
             course: { courses },
             task: { tasks },
             assessment: { assessments },
-            editTask,
-            editAssessment
+            editTask, toggleTaskCompletion, deleteTask,
+            editAssessment, toggleAssessmentCompletion, deleteAssessment
         } = this.props;
         
         return (
@@ -125,41 +139,23 @@ class Planner extends Component {
                 <Row id="planner">
                     <Col>
                         <Row className="header">
-                            <Col
-                                xs="4"
-                                sm="4"
-                                md="4"
-                                lg="4"
-                                xl="4"
-                            >
+                            <Col xs="4" sm="4" md="4" lg="4" xl="4">
                                 <Header header="Planner"/>
                             </Col>
-                            <Col
-                                xs="2"
-                                sm="2"
-                                md="2"
-                                lg="2"
-                                xl="2"
-                            >
+                            <Col xs="2" sm="2" md="2" lg="2" xl="2">
                                 <Switch
                                     primaryRef="#current"
                                     primaryText="Current"
                                     secondaryRef="#past"
                                     secondaryText="Past"
-                                    onClick=""
+                                    past={past}
                                 />
                             </Col>
-                            <Col
-                                xs="6"
-                                sm="6"
-                                md="6"
-                                lg="6"
-                                xl="6"
-                            >
+                            <Col xs="6" sm="6" md="6" lg="6" xl="6">
                                 <Select 
-                                    value={filteredCourse}
+                                    value={filter}
                                     placeholder="Filter by Course.."
-                                    onChange={this.handleChange}
+                                    onChange={this.handleFilter}
                                     options={courses.map(({ _id, title }) => {
                                         return { value: _id, label: title }
                                     })}
@@ -175,16 +171,24 @@ class Planner extends Component {
                                 data={tasks.map(({ _id, title, course, type, deadline }) => {
                                     return (
                                         <Row key={_id}>
-                                            <Col>
+                                            <Col xs="5" sm="5" md="5" lg="5" xl="5">
+                                                <Button onClick={toggleTaskCompletion(_id)}>
+                                                    change to check mark
+                                                </Button>
+                                            </Col>
+                                            <Col xs="5" sm="5" md="5" lg="5" xl="5">
                                                 <h4>{title}</h4>
-                                                <h5>{course}</h5>
+                                                <h5>{course.title}</h5>
                                             </Col>
-                                            <Col>
+                                            <Col xs="4" sm="4" md="4" lg="4" xl="4">
                                                 <p>{type}</p>
-                                                <p>{moment(deadline, "MMMM Do, h:mm a")}</p>
+                                                <p>{deadline ? moment(deadline, "MMMM Do, h:mm a"): null}</p>
                                             </Col>
-                                            <Col>
+                                            <Col xs="2" sm="2" md="2" lg="2" xl="2">
                                                 <TaskEdit onClick={editTask(_id)}/>
+                                                <Button onClick={deleteTask(_id)}>
+                                                    pass in icon
+                                                </Button>
                                             </Col>
                                         </Row>
                                     );
@@ -196,14 +200,22 @@ class Planner extends Component {
                                 className="list"
                                 header="Assessments"
                                 action={<AssessmentNew/>}
-                                data={assessments.map(({ _id, title, course, type, date: { start, end } }) => {
+                                data={assessments.map(({ _id, title, course, type, date: { start, end }, completion }) => {
                                     return (
                                         <Row>
-                                            <Col>
-                                                <h4>{title}</h4>
-                                                <h5>{course}</h5>
+                                            <Col xs="1" sm="1" md="1" lg="1" xl="1">
+                                                <Input
+                                                    name="completion"
+                                                    type="checkbox"
+                                                    value={completion} // change to proper rendering
+                                                    onChange={toggleAssessmentCompletion(_id)}
+                                                />
                                             </Col>
-                                            <Col>
+                                            <Col xs="5" sm="5" md="5" lg="5" xl="5">
+                                                <h4>{title}</h4>
+                                                <h5>{course.title}</h5>
+                                            </Col>
+                                            <Col xs="4" sm="4" md="4" lg="4" xl="4">
                                                 <p>{type}</p>
                                                 <p>
                                                     { !end ?
@@ -213,8 +225,11 @@ class Planner extends Component {
                                                     : `${moment(start, "MMMM Do, h:mm a")} - ${moment(end, "h:mm a")}`}
                                                 </p>
                                             </Col>
-                                            <Col>
+                                            <Col xs="2" sm="2" md="2" lg="2" xl="2">
                                                 <AssessmentEdit onClick={editAssessment(_id)}/>
+                                                <Button onClick={deleteAssessment(_id)}>
+                                                        icons
+                                                </Button>
                                             </Col>
                                         </Row>
                                     );
@@ -265,8 +280,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { 
     setActiveTerm, 
     fetchCourses,
-    fetchAssessments, editAssessment, 
-    fetchTasks, editTask 
+    fetchAssessments, editAssessment, toggleTaskCompletion, deleteAssessment, 
+    fetchTasks, editTask, toggleAssessmentCompletion, deleteTask
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Planner);
