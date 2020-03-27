@@ -258,8 +258,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { 
 	setActiveTerm,
 	fetchClasses, editClass, updateClass, deleteClass,
-	fetchTasks, editTask, updateTask, deleteTask,
-	fetchAssessments, editAssessment, updateAssessment, deleteAssessment
+	fetchTasks, editTask, toggleTaskCompletion, deleteTask,
+	fetchAssessments, editAssessment, toggleAssessmentCompletion, deleteAssessment
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
