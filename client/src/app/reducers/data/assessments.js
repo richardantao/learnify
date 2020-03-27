@@ -2,7 +2,7 @@ import {
     ASSESSMENTS_REQUESTED, ASSESSMENTS_ERROR,
     COURSES_FETCHED, ASSESSMENT_CREATED,
     ASSESSMENTS_FETCHED,
-    ASSESSMENT_RETURNED, ASSESSMENT_UPDATED, ASSESSMENT_DELETED 
+    ASSESSMENT_RETURNED, ASSESSMENT_COMPLETION_TOGGLED, ASSESSMENT_UPDATED, ASSESSMENT_DELETED 
 } from "../../actions/types";
 
 const initialState = {
@@ -55,6 +55,24 @@ export default (state = initialState, action) => {
                     };
                 })
             };
+        case ASSESSMENT_COMPLETION_TOGGLED:
+            return {
+                ...state,
+                loading: false,
+                assessments: state.assessments.map(assessment => {
+                    const { _id, completed } = action.payload;
+
+                    if(assessment._id !== _id) {
+                        return assessment;
+                    } else return {
+                        ...state.assessments,
+                        assessment: {
+                            _id,
+                            completed: !completed
+                        }
+                    }
+                })
+            }
         case ASSESSMENT_UPDATED:
             return {
                 ...state,
@@ -64,8 +82,7 @@ export default (state = initialState, action) => {
                     
                     if(assessment._id !== _id) {
                         return assessment;
-                    } else {
-                        return {
+                    } else return {
                             ...state.assessments,
                             assessment: {
                                 _id,
@@ -84,7 +101,6 @@ export default (state = initialState, action) => {
                                 }
                             }
                         };
-                    };  
                 })
             };
         case ASSESSMENT_DELETED:

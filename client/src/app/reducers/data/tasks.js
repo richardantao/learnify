@@ -1,7 +1,8 @@
 import { 
     TASKS_REQUESTED, TASKS_ERROR,
-    COURSES_FETCHED, TASK_CREATED,
-    TASK_RETURNED, TASK_UPDATED, TASK_DELETED, TASKS_FETCHED
+    COURSES_FETCHED, 
+    TASK_CREATED, TASKS_FETCHED,
+    TASK_RETURNED, TASK_COMPLETION_TOGGLED, TASK_UPDATED, TASK_DELETED 
 } from "../../actions/types";
 
 const initialState = {
@@ -51,6 +52,24 @@ export default (state = initialState, action) => {
                         return task;
                     } else return {
                         task: action.payload
+                    };
+                })
+            };
+        case TASK_COMPLETION_TOGGLED: 
+            return {
+                ...state,
+                loading: false,
+                tasks: state.tasks.map(task => {
+                    const { _id, completed } = action.payload;
+
+                    if(task._id != _id) {
+                        return task;
+                    } else return {
+                        ...state.tasks,
+                        task: {
+                            _id,
+                            completed: !completed
+                        }
                     };
                 })
             };
