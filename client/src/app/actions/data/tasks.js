@@ -1,7 +1,7 @@
 import { 
     TASKS_REQUESTED,
     TASKS_FETCHED, TASK_CREATED,
-    TASK_RETURNED, TASK_UPDATED, TASK_DELETED
+    TASK_RETURNED, TASK_COMPLETION_TOGGLED, TASK_UPDATED, TASK_DELETED
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -121,6 +121,31 @@ export const editTask = id => (dispatch, getState) => {
             payload: res.data
         });
     })
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "TASKS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "TASKS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "TASKS_ERROR")
+            );
+        };
+    });
+};
+
+export const toggleTaskCompletion = id => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.patch(`/api/v1/tasks/${id}`/*, tokenConfig(getState)*/)
+    .then(res => dispatch({
+        type: TASK_COMPLETION_TOGGLED,
+        payload: res.data
+    }))
     .catch(err => {
         if(err.response) {
             dispatch(

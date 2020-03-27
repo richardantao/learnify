@@ -2,7 +2,7 @@ import {
     ASSESSMENTS_REQUESTED,
     COURSES_FETCHED, ASSESSMENT_CREATED,
     ASSESSMENTS_FETCHED,
-    ASSESSMENT_RETURNED, ASSESSMENT_UPDATED, ASSESSMENT_DELETED 
+    ASSESSMENT_RETURNED, ASSESSMENT_COMPLETION_TOGGLED, ASSESSMENT_UPDATED, ASSESSMENT_DELETED 
 } from "../types";
 import { tokenConfig } from "../auth/auth";
 import { returnErrors } from "../auth/errors";
@@ -144,12 +144,44 @@ export const editAssessment = id => (dispatch, getState) => {
 };
 
 /**
+ * @summary
+ * @description
+ * @param  {String} id - 
+ * @param  {function} dispatch - 
+ * @param  {function} getState - 
+ */
+export const toggleAssessmentCompletion = id => (dispatch, getState) => {
+    dispatch(setLoading());
+
+    axios.patch(`/api/v1/assessments/${id}`/*, tokenConfig(getState)*/)
+    .then(res => dispatch({
+        type: ASSESSMENT_COMPLETION_TOGGLED,
+        payload: res.data
+    }))
+    .catch(err => {
+        if(err.response) {
+            dispatch(
+                returnErrors(err.response.data, err.response.status, "ASSESSMENTS_ERROR")
+            );
+        } else if(err.request) {
+            dispatch(
+                returnErrors(err.request.data, err.request.status, "ASSESSMENTS_ERROR")
+            );
+        } else {
+            dispatch(
+                returnErrors("An error occurred", 500, "ASSESSMENTS_ERROR")
+            );
+        };
+    });
+};
+
+/**
  * @param  {string} id - ObjectId of the
  * @param  {Object} assessment - object containing the form data that is to update the specified object
  * @param  {function} dispatch - 
  * @param  {function} getState - retrieves token configuration
  */
-export const updateAssessment = (id, assessment) => (dispatch, getState) => {
+export const updateAssessment = (id, query, assessment) => (dispatch, getState) => {
     dispatch(setLoading());
 
     axios.put(`/api/v1/assessments/${id}`, assessment/*, tokenConfig(getState)*/)
