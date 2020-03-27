@@ -7,7 +7,6 @@ import {
     useHistory,
 	useLocation
 } from "react-router-dom";
-import { connect } from "react-redux";
 import { loadUser } from "./actions/auth/auth";
 import PropTypes from "prop-types";
 
@@ -46,7 +45,6 @@ const PrivateRoute = ({ children, ...rest }) => {
 
 class App extends Component {
     static propTypes = {
-        // isAuthenticated: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired,
 		location: PropTypes.object.isRequired,
 		match: PropTypes.object.isRequired
@@ -61,8 +59,6 @@ class App extends Component {
     };
 
     render () {
-        // const { isAuthenticated } = this.props;
-
         return (
             <Row id="app">
                 { true ? 
@@ -176,10 +172,4 @@ const Help = Loadable({
 	delay: 300
 });
 
-const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated
-});
-
-const mapDispatchToProps = {};
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(App);
