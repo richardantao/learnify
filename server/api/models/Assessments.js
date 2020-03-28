@@ -15,7 +15,8 @@ module.exports = model("assessments", new Schema({
 	grade: {
 		weight: { type: Number, min: [0, ""], max: [100, ""] },
   		score: { type: Number, min: [0, ""], max: [100, ""] }
-	}
+	},
+	completed: { type: Boolean }
 }, {
 	versionKey: false
 }));
