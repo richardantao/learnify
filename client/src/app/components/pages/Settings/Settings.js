@@ -17,7 +17,7 @@ import Icon from "../../atoms/Icon";
 import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
 
-import "./Settings.scss";
+import { } from "./Settings.module.scss";
 
 class Settings extends Component {
 	state = {

@@ -13,7 +13,7 @@ import List from "../../organisms/List";
 
 import { Row, Col } from "reactstrap";
 
-import "./Pomodoro.scss";
+import { } from "./Pomodoro.module.scss";
 
 class Pomodoro extends Component {
     state = {

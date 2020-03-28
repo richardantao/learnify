@@ -7,9 +7,10 @@ import PropTypes from "prop-types";
 import { Button, Col } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
-import "./CalendarHeader.scss";
 
 import Dropdown from "../../molecules/Dropdown";
+
+import { } from "./CalendarHeader.module.scss";
 
 class CalendarHeader extends Component {
     state = {

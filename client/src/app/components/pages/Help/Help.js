@@ -11,7 +11,7 @@ import Header from "../../atoms/Header";
 
 import Loadable from "react-loadable";
 
-import "./Help.scss";
+import { } from "./Help.module.scss";
 
 class Help extends Component {
 	state = {

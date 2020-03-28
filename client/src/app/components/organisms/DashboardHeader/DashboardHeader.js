@@ -2,7 +2,7 @@ import React from "react";
 import { Col } from "reactstrap";
 import Counter from "../../molecules/Counter";
 
-import "./DashboardHeader.scss";
+import { } from "./DashboardHeader.module.scss";
 
 export default ({ heading, extra, type, count }) => { 
     return (

@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 
 import { Col } from "reactstrap";
 
-import "./CalendarMonth.scss";
+import { } from "./CalendarMonth.module.scss";
 
 class CalendarMonth extends Component {
 	state = {

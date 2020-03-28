@@ -6,6 +6,7 @@ import moment from "moment";
 /* Redux Operations */
 import { connect } from "react-redux";
 import { setActiveTerm } from "../../../actions/interface/meta";
+import { fetchTerms } from "../../../actions/data/terms";
 import { fetchCourses } from "../../../actions/data/courses";
 import { 
     fetchTasks, editTask, toggleTaskCompletion, deleteTask 
@@ -21,6 +22,7 @@ import Select from "react-select";
 
 /* Atoms */
 import Header from "../../atoms/Header";
+import Active from "../../atoms/Active";
 import Switch from "../../atoms/Switch";
 
 /* Organisms */
@@ -29,7 +31,7 @@ import List from "../../organisms/List";
 import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
 
-import "./Planner.scss";
+import { } from "./Planner.module.scss";
 
 class Planner extends Component {
     state = {
@@ -43,6 +45,7 @@ class Planner extends Component {
         // isAuthenticated: PropTypes.bool,
         meta: PropTypes.object.isRequired,
         error: PropTypes.object.isRequired,
+        term: PropTypes.object.isRequired,
         course: PropTypes.object.isRequired,
         task: PropTypes.object.isRequired,
         assessment: PropTypes.object.isRequired,
@@ -84,6 +87,7 @@ class Planner extends Component {
         if(activeTerm !== prevProps.meta.activeTerm) {
             this.setState({ activeTerm });
 
+            
             fetchCourses(activeTerm._id);
             fetchTasks("terms", activeTerm._id, "");
             fetchAssessments("terms", activeTerm._id, "");
@@ -122,6 +126,7 @@ class Planner extends Component {
     render() {
         const { activeTerm, filter, past } = this.state;
         const { 
+            term: { terms },
             course: { courses },
             task: { tasks },
             assessment: { assessments },
@@ -141,6 +146,11 @@ class Planner extends Component {
                         <Row className="header">
                             <Col xs="4" sm="4" md="4" lg="4" xl="4">
                                 <Header header="Planner"/>
+                                <Active 
+                                    options={terms.map(({ _id, title }) => {
+                                        return { value: _id, label: title }
+                                    })}
+                                />
                             </Col>
                             <Col xs="2" sm="2" md="2" lg="2" xl="2">
                                 <Switch
@@ -272,6 +282,7 @@ const mapStateToProps = state => ({
     // isAuthenticated: state.auth.isAuthenticated,
     meta: state.meta,
     error: state.error,
+    term: state.term,
     course: state.course,
     task: state.task,
     assessment: state.assessment

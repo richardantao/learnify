@@ -13,7 +13,7 @@ import Logo from "../../atoms/Logo";
 
 import logo from "./learnify-min.png";
 
-import "./AppNav.scss";
+import { } from "./AppNav.module.scss";
 
 export default class AppNav extends Component {
 	state = {

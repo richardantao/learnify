@@ -17,7 +17,7 @@ import Loading from "../../atoms/Loading";
 /* Organisms */
 import CalendarHeader from "../../organisms/CalendarHeader";
 
-import "./Calendar.scss";
+import { } from "./Calendar.module.scss";
 
 class Calendar extends Component {
 	state = {
