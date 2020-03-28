@@ -266,6 +266,66 @@ exports.edit = (req, res) => {
     });    
 };
 
+exports.patch = (req, res) => {
+    const { assessmentId } = req.params;
+
+    const getStatus = callback => {
+        Assessment.find({ _id: assessmentId }, {
+            _id: 0,
+            completed: 1
+        })
+        .then(status => {
+            if(!status) {
+                return callback(null, { status: false});
+            } else {
+                return callback(null, { status: true });
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    const toggleStatus = (status, callback) => {
+        if(!status) {
+            Assessment.updateOne({ _id: assessmentId }, {
+                $set: {
+                    completed: false
+                }
+            })
+            .then(() => {
+                return callback(null, { message: "Changing assessment to complete in " }); 
+            })
+            .catch(err => {
+                return res.status(500).json({ message: err.message });
+            });
+        } else {
+            Assessment.updateOne({ _id: assessmentId }, {
+                $set: {
+                    completed: true
+                }
+            })
+            .then(() => {
+                return callback(null, { message: "Changing assessment to incomplete in " }); 
+            })
+            .catch(err => {
+                return res.status(500).json({ message: err.message });
+            });
+        };
+    };
+
+    async.waterfall([
+        getStatus,
+        toggleStatus
+    ], (err, results) => {
+        if(err) {
+            return res.status(500).json({ message: err.message });
+        } else {
+            return res.status(200).json(results);
+        };
+    });
+};
+
 exports.update = (req, res) => {
     const { assessmentId } = req.params;
     const { course, title, type, start, end, location, weight, score } = req.body;

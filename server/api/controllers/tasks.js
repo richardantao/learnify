@@ -257,6 +257,66 @@ exports.edit = (req, res) => {
     });   
 };
 
+exports.patch = (req, res) => {
+    const { taskId } = req.params;
+
+    const getStatus = callback => {
+        Task.find({ _id: taskId }, {
+            _id: 0,
+            completed: 1
+        })
+        .then(status => {
+            if(!status) {
+                return callback(null, { status: false});
+            } else {
+                return callback(null, { status: true });
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    const toggleStatus = (status, callback) => {
+        if(!status) {
+            Task.updateOne({ _id: taskId }, {
+                $set: {
+                    completed: false
+                }
+            })
+            .then(() => {
+                return callback(null, { message: "Changing task to complete in " }); 
+            })
+            .catch(err => {
+                return res.status(500).json({ message: err.message });
+            });
+        } else {
+            Task.updateOne({ _id: taskId }, {
+                $set: {
+                    completed: true
+                }
+            })
+            .then(() => {
+                return callback(null, { message: "Changing task to incomplete in " }); 
+            })
+            .catch(err => {
+                return res.status(500).json({ message: err.message });
+            });
+        };
+    };
+
+    async.waterfall([
+        getStatus,
+        toggleStatus
+    ], (err, results) => {
+        if(err) {
+            return res.status(500).json({ message: err.message });
+        } else {
+            return res.status(200).json(results);
+        };
+    });
+};
+
 exports.update = (req, res) => {
     const { taskId } = req.params;
     const { course, title, type, deadline, completion, description } = req.body;
