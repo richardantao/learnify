@@ -1,8 +1,9 @@
 /* --- Pomodoro.css --- */
+
+@import "../../../../variables.scss";
+
 #app {
     #pomodoro {
-
-
         /* --- Landscape Mobile --- */
         @media (min-width: 576px) {
             

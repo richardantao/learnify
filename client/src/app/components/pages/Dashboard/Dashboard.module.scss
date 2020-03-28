@@ -1,13 +1,5 @@
 /* --- Dashboard.css --- */
-$primary-color: #00A6FF;
-$secondary-color: #0091FF;
-$background-color: #FAFAFA;
-$form-background: #F9F9F9;
-$dark-border-line: #E1E1E1;
-$light-border-line: #E5E5E5;
-$text: #212529;
-
-$column-background: #FAFBFE;
+@import "../../../../variables.scss";
 
 #app {
 	/* --- Portrait Mobile --- */
