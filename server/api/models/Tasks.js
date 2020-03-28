@@ -8,7 +8,7 @@ module.exports = model("tasks", new Schema({
 	title: { type: String, required: true },
 	type: { type: String, required: true },
 	deadline: { type: Date, required: true },
-	completion: { type: Number, default: 0, min: [ 0, "Task completion cannot be less than 0" ], max: [ 100, "Task completion cannot be greater than 100%" ] },
+	completion: Boolean,
 	description: String
 }, {
 	versionKey: false
