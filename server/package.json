@@ -28,7 +28,7 @@
   "dependencies": {
     "@google-cloud/logging-winston": "^3.0.6",
     "@google-cloud/storage": "^4.7.0",
-    "@sendgrid/mail": "^6.5.5",
+    "@sendgrid/mail": "^7.0.0",
     "async": "^3.2.0",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
