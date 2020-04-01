@@ -8,7 +8,7 @@ module.exports = model("tasks", new Schema({
 	title: { type: String, required: true },
 	type: { type: String, required: true },
 	deadline: { type: Date, required: true },
-	completion: Boolean,
+	completed: Boolean,
 	description: String
 }, {
 	versionKey: false
