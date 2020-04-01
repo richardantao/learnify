@@ -5,6 +5,9 @@ const helmet = require("helmet");
 const logger = require("morgan");
 const path = require("path");
 const cors = require("cors");
+const rateLimit = require("express-rate-limit");
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require("xss-clean");
 const compression = require("compression");
 
 /* --- Configurations --- */
@@ -13,6 +16,11 @@ const host = process.env.HOST || "http://localhost";
 const port = process.env.PORT;
 const env = process.env.NODE_ENV || "development";
 // const corsOptions = ["https://learnify.ca", "https://www.learnify.ca", "http://localhost"];
+const reqLimit = rateLimit({
+	max: 100,
+	windowMs: 60*1000,
+	message: "Too many requests made from this IP, please try again in 1 minute"
+});
 require("./config/db");
 
 /* --- Middleware --- */
@@ -28,6 +36,9 @@ app.use(cors(/*{
 	}
 }*/));
 app.use(express.json({ limit: "100kb" }));
+app.use(xss());
+app.use(mongoSanitize);
+app.use(reqLimit);
 app.use(express.urlencoded({ extended: false }));
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "../client/build")));
