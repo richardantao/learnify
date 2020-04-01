@@ -17,15 +17,16 @@ const port = process.env.PORT;
 const env = process.env.NODE_ENV || "development";
 // const corsOptions = ["https://learnify.ca", "https://www.learnify.ca", "http://localhost"];
 const reqLimit = rateLimit({
-	max: 100,
-	windowMs: 60*1000,
-	message: "Too many requests made from this IP, please try again in 1 minute"
+  max: 100,
+  windowMs: 60 * 1000,
+  message: "Too many requests made from this IP, please try again in 1 minute",
 });
 require("./config/db");
 
 /* --- Middleware --- */
 app.use(helmet());
-app.use(cors(/*{ 
+app.use(
+  cors(/*{ 
 	origin: (origin, callback) => {
 		if(corsOptions.indexOf(origin) !== -1) {
 			callback(null, true);
@@ -34,7 +35,8 @@ app.use(cors(/*{
 			callback(new Error("Not allowed by CORS"));
 		};
 	}
-}*/));
+}*/)
+);
 app.use(express.json({ limit: "100kb" }));
 app.use(xss());
 app.use(mongoSanitize);
@@ -44,13 +46,15 @@ app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.use(compression());
 logger((tokens, req, res) => {
-	return [
-		tokens.method(req, res),
-		tokens.url(req, res),
-		tokens.status(req, res),
-		tokens.res(req, res, "content-length"), "-",
-		tokens["response-time"](req, res), "ms"
-	].join(" ")
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, "content-length"),
+    "-",
+    tokens["response-time"](req, res),
+    "ms",
+  ].join(" ");
 });
 
 /* --- Routes --- */
@@ -82,13 +86,13 @@ app.use("", require("./api/routes/team"));
 
 /* Fetch Client Side Rendering */
 app.get("*", (req, res) => {
-	res.set("Cache-Control", "no-cache");
-	res.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.set("Cache-Control", "no-cache");
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 /* --- Bootup --- */
 app.listen(port, () => {
-	console.log(`Server running at ${host}:${port}/`);
+  console.log(`Server running at ${host}:${port}/`);
 });
 
 module.exports = app;
