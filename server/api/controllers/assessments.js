@@ -66,12 +66,12 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
-    const { termId } = req.params;
+    const { term } = req.params;
     const { limit, past } = req.query;
 
     if(limit) {
         Assessment.find({ 
-            term: termId,
+            term,
             "date.start": {
                 $gt: moment().startOf("day"),
                 $lt: moment().endOf("day").add(7, "days")
@@ -98,7 +98,7 @@ exports.read = (req, res) => {
         });
     } else if (past) {
         Assessment.find({ 
-            term: termId,
+            term: term,
             "date.start": {
                 $lt: moment()
             } 
@@ -124,7 +124,7 @@ exports.read = (req, res) => {
         });
     } else {
         Assessment.find({ 
-            term: termId,
+            term: term,
             "date.start": {
                 $gt: moment()
             } 
@@ -152,12 +152,12 @@ exports.read = (req, res) => {
 };
 
 exports.filter = (req, res) => {
-    const { courseId } = req.params;
+    const { course } = req.params;
     const { past } = req.query;
 
     if(past) {
         Assessment.find({ 
-            course: courseId,
+            course,
             "date.start": {
                 $lt: moment()
             }
@@ -183,7 +183,7 @@ exports.filter = (req, res) => {
         });
     } else {
         Assessment.find({ 
-            course: courseId,
+            course,
             "date.start": {
                 $gte: moment()
             }
@@ -211,11 +211,11 @@ exports.filter = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-    const { assessmentId } = req.params;
+    const { assessment } = req.params;
 
     async.waterfall([
         callback => {
-            Assessment.find({ _id: assessmentId }, {
+            Assessment.find({ _id }, {
                 course: 1,
                 title: 1,
                 type: 1,
@@ -267,10 +267,10 @@ exports.edit = (req, res) => {
 };
 
 exports.patch = (req, res) => {
-    const { assessmentId } = req.params;
+    const { _id } = req.params;
 
     const getStatus = callback => {
-        Assessment.find({ _id: assessmentId }, {
+        Assessment.find({ _id }, {
             _id: 0,
             completed: 1
         })
@@ -327,7 +327,7 @@ exports.patch = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const { assessmentId } = req.params;
+    const { _id } = req.params;
     const { course, title, type, start, end, location, weight, score } = req.body;
 
     async.waterfall([
@@ -349,7 +349,7 @@ exports.update = (req, res) => {
             });
         },
         (term, callback) => {
-            Assessment.updateOne({ _id: assessmentId }, {
+            Assessment.updateOne({ _id }, {
                 $set: {
                     term,
                     course,
@@ -387,9 +387,9 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    const { assessmentId } = req.params;
+    const { _id } = req.params;
 
-    Assessment.deleteOne({ _id: assessmentId })
+    Assessment.deleteOne({ _id })
     .then(assessment => {
         if(assessment.deletedCount === 1) {
             return res.status(200).json({ message: "Assessment deleted" });

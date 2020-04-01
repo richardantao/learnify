@@ -7,15 +7,15 @@ const auth = require("../middleware/auth");
 router.post("/courses", /*auth,*/ validation, controller.create);
 
 // get all the courses for a specific term
-router.get("/terms/:termId/courses", /*auth,*/ controller.read);
+router.get("/terms/:term/courses", /*auth,*/ controller.read);
 
 // get one course
-router.get("/courses/:courseId", /*auth,*/ controller.edit);
+router.get("/courses/:_id", /*auth,*/ controller.edit);
 
 // update a course
-router.put("/courses/:courseId", /*auth,*/ validation, controller.update);
+router.put("/courses/:_id", /*auth,*/ validation, controller.update);
 
 // delete a course
-router.delete("/courses/:courseId", /*auth,*/ controller.delete);
+router.delete("/courses/:_id", /*auth,*/ controller.delete);
 
 module.exports = router;

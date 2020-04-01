@@ -60,9 +60,9 @@ exports.create = (req, res) => {
 
 // will get all the classes in a specified term
 exports.read = (req, res) => {
-    const { termId } = req.params;
+    const { term } = req.params;
 
-    Class.find({ term: termId }, {
+    Class.find({ term }, {
         _id: 1,
         course: 1,
         title: 1,
@@ -81,9 +81,9 @@ exports.read = (req, res) => {
 };
 
 exports.filter = (req, res) => {
-    const { courseId }  = req.params;
+    const { course }  = req.params;
    
-    Class.find({ course: courseId }, {
+    Class.find({ course }, {
         _id: 1,
         course: 1,
         title: 1,
@@ -102,11 +102,11 @@ exports.filter = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-    const { classId }  = req.params;
+    const { _id }  = req.params;
 
     async.waterfall({
         getClass: callback => {
-            Class.find({ _id: classId }, {
+            Class.find({ _id }, {
                 _id: 1,
                 term: 1,
                 course: 1,
@@ -130,7 +130,7 @@ exports.edit = (req, res) => {
             });
         },
         fetchCourseOptions: (classes, callback) => {
-            Course.find({ term: termId }, {
+            Course.find({ term }, {
                 _id: 1,
                 course: 1
             })
@@ -155,7 +155,7 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const { classId } = req.params;
+    const { _id } = req.params;
     const { course, title, start, end, frequency, by, interval, location, description } = req.body;
 
     async.waterfall([
@@ -177,7 +177,7 @@ exports.update = (req, res) => {
             }); 
         },
         (term, callback) => {
-            Class.findOneandUpdate({ _id: classId }, {
+            Class.findOneandUpdate({ _id }, {
                 $set: {
                     term,
                     course,
@@ -214,9 +214,9 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    const classId = req.params;
+    const { _id } = req.params;
     
-    Class.deleteOne({ _id: classId })
+    Class.deleteOne({ _id })
     .then(classe => {
         if(classe.deletedCount === 1) {
             return res.status(200).json({ message: "Class deleted" });

@@ -5,16 +5,16 @@ const controller = require("../controllers/tasks");
 
 router.post("/tasks", /*auth,*/ validation, controller.create);
 
-router.get("/terms/:termId/tasks", /*auth,*/ controller.read);
+router.get("/terms/:term/tasks", /*auth,*/ controller.read);
 
-router.get("/courses/:courseId/tasks", /*auth,*/ controller.filter);
+router.get("/courses/:course/tasks", /*auth,*/ controller.filter);
 
-router.get("/tasks/:taskId", /*auth,*/ controller.edit);
+router.get("/tasks/:_id", /*auth,*/ controller.edit);
 
-router.patch("/tasks/:taskId", /*auth,*/ controller.patch);
+router.patch("/tasks/:_id", /*auth,*/ controller.patch);
 
-router.put("/tasks/:taskId", /*auth,*/ validation, controller.update);
+router.put("/tasks/:_id", /*auth,*/ validation, controller.update);
 
-router.delete("/tasks/:taskId", /*auth,*/ controller.delete);
+router.delete("/tasks/:_id", /*auth,*/ controller.delete);
 
 module.exports = router;

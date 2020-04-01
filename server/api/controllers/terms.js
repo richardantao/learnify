@@ -30,12 +30,12 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
-	const { yearId } = req.params;
+	const { year } = req.params;
 	const { setActiveTerm } = req.query;
 
 	if(setActiveTerm) {
 		Term.find({
-			year: yearId,
+			year,
 			"date.start": {
 				$lt: moment()
 			},
@@ -58,7 +58,7 @@ exports.read = (req, res) => {
 			return res.status(500).json({ message: err.message });
 		});
 	} else {
-		Term.find({ year: yearId })
+		Term.find({ year })
 		.sort({ "date.start": -1 }) 
 		.then(terms => {
 			if(terms.length === 0) {
@@ -76,10 +76,9 @@ exports.read = (req, res) => {
 exports.edit = (req, res) => {
 	// const { _id } = req.user; 
 	const _id = ObjectId("5deb33a40039c4286179c4f1"); // testing
-	const { termId } = req.params;
 
 	const getTerm = callback => {
-		Term.find({ _id: termId })
+		Term.find({ _id: req.params._id }) // use req.params._id
 		.populate("year", [ "title" ])
 		.limit(1)
 		.then(term => {
@@ -134,10 +133,10 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
-	const { termId } = req.params;
+	const { _id } = req.params;
 	const { year, title, start, end } = req.body;
 
-	Term.findOneandUpdate({ _id: termId }, {
+	Term.findOneandUpdate({ _id }, {
 		$set: {
 			year,
 			title,
@@ -168,9 +167,9 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-	const { termId } = req.params;
+	const { _id } = req.params;
 
-	Term.findOneAndDelete({ _id: termId })
+	Term.findOneAndDelete({ _id })
 	.then(term => {
 		if(!term) {
 			return res.status(404).json({ message: "Term not found" });

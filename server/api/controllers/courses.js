@@ -29,9 +29,9 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
-	const { termId } = req.params;
+	const { term } = req.params;
 
-	Course.find({ term: termId }, {
+	Course.find({ term }, {
 		code: 1,
 		title: 1,
 		instructor: 1,
@@ -51,10 +51,10 @@ exports.read = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-	const { courseId } = req.params;
+	const { _id } = req.params;
 
 	const getCourse = callback => {
-		Course.find({ _id: courseId }, {
+		Course.find({ _id }, {
 			term: 1,
 			code: 1,
 			title: 1,
@@ -112,10 +112,10 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
-	const { courseId } = req.params;
+	const { _id } = req.params;
 	const { term, code, title, credit, instructor, theme } = req.body;
 	
-	Course.findOneAndUpdate({ _id: courseId }, {
+	Course.findOneAndUpdate({ _id }, {
 		$set: {
 			term,
 			code,
@@ -141,9 +141,9 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-	const { courseId } = req.params;
+	const { _id } = req.params;
 
-	Course.findOneAndDelete({ _id: courseId })
+	Course.findOneAndDelete({ _id })
 	.then(course => {
 		if(!course) {
 			return res.status(404).json({ message: "Course not found" });

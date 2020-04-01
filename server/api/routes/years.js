@@ -10,13 +10,13 @@ router.post("", /*auth,*/ validation, controller.create);
 router.get("", /*auth,*/ controller.read);
 
 // fetch specific year
-router.get("/:yearId", /*auth,*/ controller.edit);
+router.get("/:_id", /*auth,*/ controller.edit);
 
 // update year
-router.put("/:yearId", /*auth,*/ validation, controller.update);
+router.put("/:_id", /*auth,*/ validation, controller.update);
 
 // delete year
-router.delete("/:yearId", /*auth,*/ controller.delete);
+router.delete("/:_id", /*auth,*/ controller.delete);
 
 module.exports = router;
 

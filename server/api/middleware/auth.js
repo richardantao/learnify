@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
         
             return next();
         } catch (err) {
-            res.status(400).json({ message: "Token is not valid" });
+            return es.status(400).json({ message: "Token is not valid" });
         };
     };    
 };

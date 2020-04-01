@@ -5,14 +5,14 @@ const controller = require("../controllers/classes");
 
 router.post("/classes", /*auth,*/ validation, controller.create);
 
-router.get("/terms/:termId/classes", /*auth,*/ controller.read);
+router.get("/terms/:term/classes", /*auth,*/ controller.read);
 
-router.get("/courses/:courseId/classes", /*auth,*/ controller.filter);
+router.get("/courses/:course/classes", /*auth,*/ controller.filter);
 
-router.get("/classes/:classId", /*auth,*/ controller.edit);
+router.get("/classes/:_id", /*auth,*/ controller.edit);
 
-router.put("/classes/:classId", /*auth,*/ validation, controller.delete);
+router.put("/classes/:_id", /*auth,*/ validation, controller.delete);
 
-router.delete("/classes/:classId", /*auth,*/ controller.delete);
+router.delete("/classes/:_id", /*auth,*/ controller.delete);
 
 module.exports = router;

@@ -51,12 +51,12 @@ exports.create = (req, res) => {
 };
 
 exports.read = (req, res) => {
-    const { termId } = req.params;
+    const { term } = req.params;
     const { limit, past } = req.query;
 
     if(limit) {
         Task.find({ 
-            term: termId,
+            term,
             deadline: {
                 $gte: moment().startOf("day"),
                 $lt: moment().endOf("day").add(7, "days")
@@ -84,7 +84,7 @@ exports.read = (req, res) => {
         });
     } else if(past) {
         Task.find({ 
-            term: termId,
+            term,
             deadline: {
                 $lt: moment()
             } 
@@ -111,7 +111,7 @@ exports.read = (req, res) => {
         });
     } else {
         Task.find({ 
-            term: termId,
+            term,
             deadline: {
                 $gt: moment()
             } 
@@ -139,12 +139,12 @@ exports.read = (req, res) => {
 };
 
 exports.filter = (req, res) => {
-    const { courseId } = req.params;
+    const { course } = req.params;
     const { past } = req.query;
 
     if(past) {
         Task.find({ 
-            course: courseId,
+            course,
             deadline: {
                 $lt: moment()
             }
@@ -170,7 +170,7 @@ exports.filter = (req, res) => {
         });
     } else {
         Task.find({ 
-            course: courseId,
+            course,
             deadline: {
                 $gte: moment()
             }
@@ -198,11 +198,11 @@ exports.filter = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-    const { taskId } = req.params;
+    const { _id } = req.params;
 
     async.waterfall([
         callback => {
-            Task.find({ _id: taskId }, {
+            Task.find({ _id }, {
                 course: 1,
                 title: 1,
                 type: 1,
@@ -258,10 +258,10 @@ exports.edit = (req, res) => {
 };
 
 exports.patch = (req, res) => {
-    const { taskId } = req.params;
+    const { _id } = req.params;
 
     const getStatus = callback => {
-        Task.find({ _id: taskId }, {
+        Task.find({ _id }, {
             _id: 0,
             completed: 1
         })
@@ -279,7 +279,7 @@ exports.patch = (req, res) => {
 
     const toggleStatus = (status, callback) => {
         if(!status) {
-            Task.updateOne({ _id: taskId }, {
+            Task.updateOne({ _id }, {
                 $set: {
                     completed: false
                 }
@@ -291,7 +291,7 @@ exports.patch = (req, res) => {
                 return res.status(500).json({ message: err.message });
             });
         } else {
-            Task.updateOne({ _id: taskId }, {
+            Task.updateOne({ _id }, {
                 $set: {
                     completed: true
                 }
@@ -318,7 +318,7 @@ exports.patch = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const { taskId } = req.params;
+    const { _id } = req.params;
     const { course, title, type, deadline, completion, description } = req.body;
 
     async.waterfall([
@@ -340,7 +340,7 @@ exports.update = (req, res) => {
             });
         },
         (term, callback) => {
-            Task.updateOne({ _id: taskId }, {
+            Task.updateOne({ _id }, {
                 $set: {
                     term,
                     course,
@@ -372,9 +372,9 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    const { taskId } = req.params;
+    const { _id } = req.params;
 
-    Task.deleteOne({ _id: taskId })
+    Task.deleteOne({ _id })
     .then(task => {
         if(task.deletedCount === 1) {
             return res.status(200).json({ message: "Task deleted" });

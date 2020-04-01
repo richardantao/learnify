@@ -75,9 +75,9 @@ exports.read = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-	const { yearId } = req.params;
+	const { _id } = req.params;
 		
-	Year.find({ _id: yearId }, {
+	Year.find({ _id }, {
 		_id: 1,
 		title: 1,
 		date: 1
@@ -100,10 +100,10 @@ exports.edit = (req, res) => {
 };
 
 exports.update = (req, res) => {
-	const { yearId } = req.params;
+	const { _id } = req.params;
 	const { title, start, end } = req.body;
 
-	Year.findOneAndUpdate({ _id: yearId }, {
+	Year.findOneAndUpdate({ _id }, {
 		$set: {
 			title,
 			date: {
@@ -134,9 +134,9 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-	const { yearId } = req.params;
+	const { _id } = req.params;
 
-	Year.findOneAndDelete({ _id: yearId })
+	Year.findOneAndDelete({ _id })
 	.then(year => {
 		if(!year) {
 			return res.status(404).json({ message: "Year not found" });
