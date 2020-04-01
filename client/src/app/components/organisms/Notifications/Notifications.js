@@ -11,7 +11,7 @@ import { faBell } from "@fortawesome/free-solid-svg-icons";
 
 import Icon from "../../atoms/Icon";
 
-// import { } from "Notifications.module.scss";
+import "./Notifications.scss";
 
 class Notifications extends Component {
     state = {

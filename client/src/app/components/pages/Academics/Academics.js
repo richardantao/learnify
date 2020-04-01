@@ -22,7 +22,7 @@ import Icon from "../../atoms/Icon";
 /* Organisms */
 import List from "../../organisms/List";
 
-import { } from "./Academics.module.scss";
+import "./Academics.scss";
 
 class Academics extends Component {
 	state = {

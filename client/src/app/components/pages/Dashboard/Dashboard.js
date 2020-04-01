@@ -31,7 +31,7 @@ import Today from "../../atoms/Today";
 import DashboardHeader from "../../organisms/DashboardHeader";
 import List from "../../organisms/List";
 
-import { } from "./Dashboard.module.scss";
+import "./Dashboard.scss";
 
 class Dashboard extends Component {
 	state = {

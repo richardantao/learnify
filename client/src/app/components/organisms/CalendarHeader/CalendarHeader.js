@@ -10,7 +10,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 
 import Dropdown from "../../molecules/Dropdown";
 
-import { } from "./CalendarHeader.module.scss";
+import "./CalendarHeader.scss";
 
 class CalendarHeader extends Component {
     state = {

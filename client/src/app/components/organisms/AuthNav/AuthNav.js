@@ -13,7 +13,7 @@ import Search from "../../molecules/Search";
 /* --- Organisms --- */
 import Notifications from "../Notifications";
 
-import { } from "./AuthNav.module.scss";
+import "./AuthNav.scss";
 
 export default ({ userName }) => {
     return (

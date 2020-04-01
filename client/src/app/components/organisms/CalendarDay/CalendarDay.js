@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 import { Col } from "reactstrap";
 
-import { } from "./CalendarDay.module.scss";
+import "./CalendarDay.scss";
 
 class CalendarDay extends Component {	
 	state = {

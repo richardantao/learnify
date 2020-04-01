@@ -8,7 +8,7 @@ import Empty from "../../atoms/Empty";
 import ListHeader from "../../molecules/ListHeader";
 import ListBody from "../../molecules/ListBody";
 
-import "./List.module.scss";
+import "./List.scss";
 
 export default ({ id, className, header, action, data, empty }) => {
     return (

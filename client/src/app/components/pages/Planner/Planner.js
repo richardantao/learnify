@@ -31,7 +31,7 @@ import List from "../../organisms/List";
 import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
 
-import { } from "./Planner.module.scss";
+import "./Planner.scss";
 
 class Planner extends Component {
     state = {
