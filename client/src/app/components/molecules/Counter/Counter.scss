@@ -2,16 +2,16 @@
 @import "../../../../variables.scss";
 
 #app {
-	/* --- Portrait Mobile --- */
-	.counter {
-		color: #C3C5C9;
-			right: 3%;
-			top: 10%;
-	}
-
 	circle {
 		fill: transparent;
 		stroke: #C3C5C9;
+	}
+
+	.counter {
+		color: #C3C5C9;
+		position: absolute;
+			right: 5%;
+			top: 10%;
 	}
 
 	.counter-index {
@@ -21,14 +21,10 @@
 		transform: translateX(-50%) translateY(-50%);
 		-moz-transform: translateX(-50%) translateY(-50%);
 		-webkit-transform: translateX(-50%) translateY(-50%);
-	}
 
-	.counter-index h6:first-child {
-		font-size: 2.75em;
-	}
-
-	.counter-type h6:first-child {
-		font-size: 0.9em;
+		h6:first-child {
+			font-size: 2.75em;
+		}
 	}
 
 	.counter-type {
@@ -38,35 +34,9 @@
 		transform: translateX(-50%) translateY(-50%);
 		-moz-transform: translateX(-50%) translateY(-50%);
 		-webkit-transform: translateX(-50%) translateY(-50%);
-	}
 
-	/* --- Landscape Mobile --- */
-	@media (min-width: 576px) {
-
-	};
-
-	/* --- Portrait Tablets --- */
-	@media (min-width: 768px) {
-
-	}
-
-	/* --- Landscape Tablets --- */
-	@media (min-width: 992px) {
-
-	}
-
-	/* --- Small Laptops --- */
-	@media (min-width: 1200px) {
-
-	}
-
-	/* --- Large Laptops --- */
-	@media (min-width: 1440px) {
-
-	}
-
-	/* --- Desktops --- */
-	@media (min-width: 2100px) {
-
+		h6:first-child {
+			font-size: 0.8em;
+		}
 	}
 }
