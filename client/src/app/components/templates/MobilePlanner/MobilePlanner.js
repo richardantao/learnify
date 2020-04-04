@@ -20,7 +20,7 @@ import Loading from "../../atoms/Loading";
 import "./MobilePlanner.scss";
 
 export default ({
-    past, filter,
+    past, filter, handleFilter,
     terms, courses, tasks, assessments,
     editTask, toggleTaskCompletion, deleteTask,
     editAssessment, toggleAssessmentCompletion, deleteAssessment
@@ -49,7 +49,7 @@ export default ({
                     <Select 
                         value={filter}
                         placeholder="Filter by Course.."
-                        onChange={this.handleFilter}
+                        onChange={handleFilter}
                         options={courses.map(({ _id, title }) => {
                             return { value: _id, label: title }
                         })}
