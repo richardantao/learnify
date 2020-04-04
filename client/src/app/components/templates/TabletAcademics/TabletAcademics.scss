@@ -1,0 +1,26 @@
+/* --- Academics.css --- */
+@import "../../../../variables.scss";
+
+#app {
+    #academics {
+         /* --- Portrait Mobile --- */
+        background-color: $column-background;
+        height: 100%;
+
+
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
+
+        };
+
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
+
+        }
+
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
+
+        }
+    }
+}

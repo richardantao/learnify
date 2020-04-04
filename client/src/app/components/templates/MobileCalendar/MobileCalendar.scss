@@ -1,0 +1,14 @@
+/* --- Calendar.css --- */
+@import "../../../../variables.scss";
+
+#app {
+    #calendar {
+        /* --- Portrait Mobile --- */
+        height: 100%;
+
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
+
+        };
+    }
+}

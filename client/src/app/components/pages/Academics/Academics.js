@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-
-import { Button, Col, Row } from "reactstrap";
-import Select from "react-select";
-
-import moment from "moment";
+import { isMobile, isTablet } from "react-device-detect"; 
 
 import { connect } from "react-redux";
 import { fetchYears, editYear } from "../../../actions/data/years";
@@ -12,15 +8,10 @@ import { fetchTerms, editTerm } from "../../../actions/data/terms";
 import { fetchCourses, editCourse } from "../../../actions/data/courses";
 import { fetchClasses, editClass } from "../../../actions/data/classes";
 
+import { Row } from "reactstrap";
+
 import PropTypes from "prop-types";
 import Loadable from "react-loadable";
-
-/* Atoms */
-import Header from "../../atoms/Header";
-import Icon from "../../atoms/Icon";
-
-/* Organisms */
-import List from "../../organisms/List";
 
 import "./Academics.scss";
 
@@ -30,7 +21,6 @@ class Academics extends Component {
 	};
 
 	static propTypes = {
-		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
 		year: PropTypes.object.isRequired,
 		term: PropTypes.object.isRequired,
@@ -64,18 +54,16 @@ class Academics extends Component {
 	};
 
 	render() {
-		const { activeTerm } = this.state;
+		const { activeTerm } = this.state; // need to pull meta to templates
 		const { 
 			year: { years },
 			term: { terms },
 			course: { courses },
 			classes: { classes },
-			fetchTerms,
-			editTerm,
-			fetchCourses,
-			editCourse,
-			fetchClasses,
-			editClass
+			editYear,
+			fetchTerms, editTerm,
+			fetchCourses, editCourse,
+			fetchClasses, editClass
 		} = this.props;
 
 		return (
@@ -86,207 +74,74 @@ class Academics extends Component {
 					<title>My Learnify | Academics</title>
 				</Helmet>
 				<Row id="academics">
-					<Col>
-						<Row className="header">
-							<Col>
-								<Header header="Academics"/>
-							</Col>
-							<Col>
-								<Select 
-									options={years.map(({ _id, title }) => {
-										return ({ 
-											value: JSON.stringify(_id), 
-											label: title 
-										});
-									})}	
-								/>
-								<YearEdit onClick={editYear()}/>
-								<YearNew/>
-							</Col>
-						</Row>
-						<Row className="body academics-body">
-							<Col>
-								<Row className="terms-header">
-									<Col>
-										<h4>Terms</h4>
-									</Col>
-									<Col>
-										<TermNew/>
-									</Col>
-								</Row>
-							</Col>
-							<Col>
-								<Row className="courses-header">
-									<Col>	
-										<h4>Courses</h4>
-									</Col>
-									<Col>
-										<CourseNew/>
-									</Col>
-								</Row>
-							</Col>
-							<Col>
-								<Row className="classes-header">
-									<Col>
-										<h4>Classes</h4>
-									</Col>
-									<Col>
-										<ClassNew/>
-									</Col>
-								</Row>
-							</Col>
-						</Row>
-						<Row>
-							<List 
-								id="terms"
-								className="terms-list"
-								data={years.map(year => {
-									return (
-										<Row key={year._id} className="academics-data" onClick={fetchTerms(year._id)}>
-											<Col>
-												<ul>
-													<li>
-														<Row className="years-data">
-															<Col>
-																{year.title}
-															</Col>
-															<Col>
-																{ moment(year.date.start).startOf("year") !== moment(year.date.end).startOf("year") ? (
-																	`${moment(year.date.start, "MMMM YYYY")} - ${moment(year.start.end, "MMMM YYYY, h:mm a")}` 
-																): null }
-
-																{year.date.start} - {year.date.end}
-															</Col>
-														</Row>
-														<ul>
-															{terms.map(term => {
-																return (
-																	<Row key={term._id} className="term-data" onClick={fetchCourses(term._id)}>
-																		<Col>
-																			<h4>{term.title}</h4>
-																		</Col>
-																		<Col>
-																			<p>{term.date.start}</p>
-																			<p>{term.date.end}</p>
-																		</Col>
-																		<Col>
-																			<TermEdit onClick={editTerm(term._id)}/>
-																		</Col>
-																	</Row>
-																);
-															})}
-														</ul>
-													</li>
-												</ul>
-											</Col>
-										</Row>
-									);
-								})}
-								empty="There are no existing terms"
-							/>
-							<List 
-								id="courses"
-								className="courses-list"
-								data={courses.map(({ _id, title, term, code, instructor }) => {
-									return (
-										<Row key={_id} className="course-data" onClick={fetchClasses("courses", _id, null)}>
-											<Col>
-												<h4>{title}</h4>
-												<h5>{term.title}</h5>
-											</Col>
-											<Col>
-												<p>{code}</p>
-												<p>{instructor}</p>
-											</Col>
-											<Col>
-												<CourseEdit onClick={editCourse(_id)}/>
-											</Col>
-										</Row>
-									);
-								})}
-								empty="There are no existing courses"
-							/>
-							<List 
-								id="classes"
-								className="classes-list"
-								data={classes.map(({ _id, title, course, location, date }) => {
-									return (
-										<Row key={_id} className="class-data">
-											<Col>
-												<h4>{title}</h4>
-												<h5>{course.title}</h5>
-											</Col>
-											<Col>
-												<p>{date}</p>
-												<p>{location}</p>
-											</Col>	
-											<Col>
-												<ClassEdit onClick={editClass(_id)}/>
-											</Col>
-										</Row>
-									);
-								})}
-								empty="There are no existing classes"
-							/>
-							<List/>
-						</Row>
-					</Col>
+					{ isMobile ? 
+						<MobileAcademics
+							years={years}
+							terms={terms}
+							courses={courses}
+							classes={classes}
+							editYear={editYear}
+							fetchTerms={fetchTerms}
+							editTerm={editTerm}
+							fetchCourses={fetchCourses}
+							editCourse={editCourse}
+							fetchClasses={fetchClasses}
+							editClass={editClass}
+						/>
+					: isTablet ? 
+						<TabletAcademics
+							years={years}
+							terms={terms}
+							courses={courses}
+							classes={classes}
+							editYear={editYear}
+							fetchTerms={fetchTerms}
+							editTerm={editTerm}
+							fetchCourses={fetchCourses}
+							editCourse={editCourse}
+							fetchClasses={fetchClasses}
+							editClass={editClass}
+						/>
+					: 
+						<DesktopAcademics
+							years={years}
+							terms={terms}
+							courses={courses}
+							classes={classes}
+							editYear={editYear}
+							fetchTerms={fetchTerms}
+							editTerm={editTerm}
+							fetchCourses={fetchCourses}
+							editCourse={editCourse}
+							fetchClasses={fetchClasses}
+							editClass={editClass}
+						/>
+					}
 				</Row>
 			</>
 		);
 	};
 };
 
-const YearNew = Loadable({
-	loader: () => import(/* webpackChunkName: "YearNew" */ "../../reactors/YearNew"),
-	loading: () => <div></div>,
+const DesktopAcademics = Loadable({
+	loader: () => import(/* webpackChunkName: "DesktopAcademics" */ "../../templates/DesktopAcademics"),
+	loading: () => <></>,
 	delay: 300
 });
 
-const YearEdit = Loadable({
-	loader: () => import(/* webpackChunkName: "YearEdit" */ "../../reactors/YearEdit"),
-	loading: () => <div></div>,
+const MobileAcademics = Loadable({
+	loader: () => import(/* webpackChunkName: "MobileAcademics" */ "../../templates/MobileAcademics"),
+	loading: () => <></>,
 	delay: 300
 });
 
-const TermNew = Loadable({
-	loader: () => import(/* webpackChunkName: "TermNew" */ "../../reactors/TermNew"),
-	loading: () => <div></div>,
-	delay: 300
-});
-
-const TermEdit = Loadable({
-	loader: () => import(/* webpackChunkName: "TermEdit"*/ "../../reactors/TermEdit"),
-	loading: () => <div></div>,
-	delay: 300
-});
-
-const CourseNew = Loadable({
-	loader: () => import(/* webpackChunkName: "CourseNew" */ "../../reactors/CourseNew"),
-	loading: () => <div></div>,
-	delay: 300
-});
-
-const CourseEdit = Loadable({
-	loader: () => import(/* webpackChunkName: "CourseEdit" */ "../../reactors/CourseEdit"),
-	loading: () => <div></div>,
-	delay: 300
-});
-
-const ClassNew = Loadable({
-	loader: () => import(/* webpackChunkName: "ClassNew" */ "../../reactors/ClassNew"),
-	loading: () => <div></div>,
-	delay: 300
-});
-
-const ClassEdit = Loadable({
-	loader: () => import(/* webpackChunkName: "ClassEdit" */ "../../reactors/ClassEdit"),
-	loading: () => <div></div>,
+const TabletAcademics = Loadable({
+	loader: () => import(/* webpackChunkName: "TabletAcademics" */ "../../templates/TabletAcademics"),
+	loading: () => <></>,
 	delay: 300
 });
 
 const mapStateToProps = state => ({
-	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
 	year: state.year,
 	term: state.term,

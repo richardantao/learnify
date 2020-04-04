@@ -1,0 +1,81 @@
+/* --- DesktopDashboard.css --- */
+@import "../../../../variables.scss";
+
+#app {
+    #dashboard {
+		/* --- Portrait Mobile --- */
+		background-color: $column-background;
+		height: 100%;
+		
+		.dashboard-header {
+			height: 120px;
+		}
+
+		#dashboard-columns {
+			height: 550px;
+			position: relative;
+
+			:nth-child(-n+2) {
+				border-right: $light-border-line 1px solid;
+			}
+
+			svg {
+				position: absolute; /* empty column is minizimies so svgs are not positioned properly */
+					left: 50%;
+					top: 50%;  
+				transform: translateX(-50%) translateY(-50%);
+				-moz-transform: translateX(-50%) translateY(-50%);
+				-webkit-transform: translateX(-50%) translateY(-50%);
+			}
+		}
+
+		#dashboard-columns > * {
+		
+		}
+	
+		/* --- Landscape Mobile --- */
+		@media (min-width: 576px) {
+			.dashboard-header {
+				
+			}
+
+			#dashboard-columns {
+				
+			}
+
+			#dashboard-columns > * {
+				
+			}
+		}
+
+        /* --- Portrait Tablets --- */
+		@media (min-width: 768px) {
+			.dashboard-header {
+				
+			}
+
+			#dashboard-columns {
+				
+			}
+
+			#dashboard-columns > * {
+				
+			}
+		}
+
+		/* --- Landscape Tablets --- */
+		@media (min-width: 992px) {
+			.dashboard-header {
+				
+			}
+
+			#dashboard-columns {
+				
+			}
+
+			#dashboard-columns > * {
+				
+			}
+		}
+    }
+}

@@ -1,17 +1,11 @@
 import React, { Component } from "react";
 import Helmet from "react-helmet";
-
-import moment from "moment";
+import { isMobile, isTablet } from "react-device-detect"; 
 
 /* Redux Operations */
 import { connect } from "react-redux";
 import { clearErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
-
-// Organisms
-import List from "../../organisms/List";
-
-import { Row, Col } from "reactstrap";
 
 import "./Pomodoro.scss";
 
@@ -55,9 +49,12 @@ class Pomodoro extends Component {
                     <title>Learnify | Pomodoro</title>
                 </Helmet>
                 <Row id="pomodoro">
-                    <Col>
-                
-                    </Col>
+                    { isMobile ? 
+                        <MobilePomodoro/>
+                    : isTablet ? 
+                        <TabletPomodoro/>
+                    :   <DesktopPomodoro/>    
+                }
                 </Row>
             </>
         );

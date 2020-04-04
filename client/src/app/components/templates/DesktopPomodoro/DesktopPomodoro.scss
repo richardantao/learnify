@@ -1,0 +1,39 @@
+/* --- Pomodoro.css --- */
+
+@import "../../../../variables.scss";
+
+#app {
+    #pomodoro {
+        height: 100%;
+        
+        /* --- Landscape Mobile --- */
+        @media (min-width: 576px) {
+            
+        };
+
+        /* --- Portrait Tablets --- */
+        @media (min-width: 768px) {
+            
+        }
+
+        /* --- Landscape Tablets --- */
+        @media (min-width: 992px) {
+            
+        }
+
+        /* --- Small Laptops --- */
+        @media (min-width: 1200px) {
+            
+        }
+
+        /* --- Large Laptops --- */
+        @media (min-width: 1440px) {
+
+        }
+
+        /* --- Desktops --- */
+        @media (min-width: 2100px) {
+
+        }
+    }
+}

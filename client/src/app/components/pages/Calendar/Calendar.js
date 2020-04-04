@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
-
-import moment from "moment";
+import { isMobile, isTablet } from "react-device-detect"; 
 
 /* Redux Operations */
 import { connect } from "react-redux";
@@ -9,13 +8,10 @@ import { newClass, fetchClasses, editClass,  } from "../../../actions/data/class
 import { clearErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
-import { Row, Col } from "reactstrap";
+import { Row } from "reactstrap";
 
 import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
-
-/* Organisms */
-import CalendarHeader from "../../organisms/CalendarHeader";
 
 import "./Calendar.scss";
 
@@ -26,7 +22,6 @@ class Calendar extends Component {
 	};
 
 	static propTypes = {
-		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
 		classes: PropTypes.object.isRequired,
 		newClass: PropTypes.func.isRequired,
@@ -78,19 +73,41 @@ class Calendar extends Component {
 					<title>My Learnify | Calendar</title>
 				</Helmet>
 				<Row id="calendar">
-					<Col>
-						<Row className="header">
-							<CalendarHeader/> 
-						</Row>
-						<Row className="body">
-							{display}
-						</Row>
-					</Col>
+					{ isMobile ? 
+						<MobileCalendar
+							display={display}
+						/>
+					: isTablet ? 
+						<TabletCalendar
+							display={display}
+						/>
+					:	<DesktopCalendar
+							display={display}
+						/>	 
+					}
 				</Row>
 			</>
 		);
 	};
 };
+
+const DesktopCalendar = Loadable({
+	loader: () => import(/* webpackChunkName: "DesktopCalendar" */ "../../templates/DesktopCalendar"),
+	loading: Loading, 
+	delay: 300
+});
+
+const MobileCalendar = Loadable({
+	loader: () => import(/* webpackChunkName: "MobileCalendar" */ "../../templates/MobileCalendar"),
+	loading: Loading, 
+	delay: 300
+});
+
+const TabletCalendar = Loadable({
+	loader: () => import(/* webpackChunkName: "TabletCalendar" */ "../../templates/TabletCalendar"),
+	loading: Loading, 
+	delay: 300
+});
 
 const CalendarMonth = Loadable({
 	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../../organisms/CalendarMonth"),
@@ -100,36 +117,23 @@ const CalendarMonth = Loadable({
 
 const CalendarWeek = Loadable({
 	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../../organisms/CalendarWeek"),
-	loading: Loading,
+	loading: <Loading/>,
 	delay: 300
 });
 
 const CalendarDay = Loadable({
 	loader: () => import(/* webpackChunkName: "CalendarDay" */ "../../organisms/CalendarDay"),
-	loading: Loading,
+	loading: <Loading/>,
 	delay: 300
 });
 
 const CalendarAgenda = Loadable({
 	loader: () => import(/* webpackChunkName: "CalendarAgenda" */ "../../organisms/CalendarAgenda"),
-	loading: Loading,
-	delay: 300
-});
-
-const ClassEdit = Loadable({
-	loader: () => import(/* webpackChunkName: "ClassEdit" */ "../../reactors/ClassEdit"),
-	loading: Loading,
-	delay: 300
-});
-
-const ClassNew = Loadable({
-	loader: () => import(/* webpackChunkName: "ClassNew" */ "../../reactors/ClassNew"),
-	loading: Loading,
+	loading: <Loading/>,
 	delay: 300
 });
 
 const mapStateToProps = state => ({
-	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error,
 	classes: state.classes
 });

@@ -1,0 +1,39 @@
+/* --- DesktopDashboard.css --- */
+@import "../../../../variables.scss";
+
+#app {
+    #not-found {
+		/* --- Portrait Mobile --- */
+		height: 100%;
+		
+		/* --- Landscape Mobile --- */
+		@media (min-width: 576px) {
+			
+        }
+        
+        /* --- Portrait Tablet --- */
+		@media (min-width: 768px) {
+			
+        }
+        
+        /* --- Landscape Tablet --- */
+		@media (min-width: 992px) {
+			
+        }
+        
+        /* --- Small Laptop --- */
+		@media (min-width: 1200px) {
+			
+        }
+        
+        /* --- Large Laptop --- */
+		@media (min-width: 1440px) {
+			
+        }
+        
+        /* --- Desktop --- */
+		@media (min-width: 2100px) {
+			
+		}
+    }
+}

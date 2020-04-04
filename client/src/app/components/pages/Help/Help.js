@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { isMobile, isTablet } from "react-device-detect"; 
 
 import { connect } from "react-redux";
 import { clearErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
-import { Alert, Button, Col, Row } from "reactstrap";
-
-import Header from "../../atoms/Header";
+import { Row } from "reactstrap";
 
 import Loadable from "react-loadable";
 
@@ -19,7 +18,6 @@ class Help extends Component {
 	};
 
 	static propTypes = {
-		// isAuthenticated: PropTypes.bool,
 		clearErrors: PropTypes.func.isRequired
 	};
 
@@ -34,44 +32,37 @@ class Help extends Component {
 					<title>My Learnify | Help</title>
 				</Helmet>
 				<Row id="help">
-					<Col>
-						<Row className="header">
-							<Col>
-								<Header header="Help"/> 
-							</Col>
-							<Col>
-								
-							</Col>
-						</Row>
-						<Row className="body">
-							<Col>
-								<div>
-									<h2>Frequently Asked Questions</h2>
-									
-								</div>
-							</Col>
-						</Row>
-					</Col>
+					{ isMobile ? 
+						<MobileHelp/>
+					: isTablet ? 
+						<TabletHelp/>
+					: 	<DesktopHelp/>
+					}
 				</Row>
 			</>
 		);
 	};
 };
 
-const BugSubmit = Loadable({
-	loader: () => import(/* webpackChunkName: "BugSubmit" */ "../../reactors/BugSubmit"),
+const DesktopHelp = Loadable({
+	loader: () => import(/* webpackChunkName: "DesktopHelp" */ "../../templates/DesktopHelp"),
 	loading: () => <div></div>,
 	delay: 300
 });
 
-const FeedbackSubmit = Loadable({
-	loader: () => import(/* webpackChunkName: "FeedbackSubmit" */ "../../reactors/FeedbackSubmit"),
+const MobileHelp = Loadable({
+	loader: () => import(/* webpackChunkName: "MobileHelp" */ "../../templates/MobileHelp"),
 	loading: () => <div></div>,
 	delay: 300
-})
+});
+
+const TabletHelp = Loadable({
+	loader: () => import(/* webpackChunkName: "TabletHelp" */ "../../templates/TabletHelp"),
+	loading: () => <div></div>,
+	delay: 300
+});
 
 const mapStateToProps = state => ({
-	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error
 });
 

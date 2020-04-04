@@ -1,0 +1,24 @@
+@import "../../../../variable.scss";
+
+#app {
+    #not-found {
+        height: 100%;
+
+		/* --- Portrait Mobile --- */
+
+        /* --- Landscape Mobile --- */
+		@media (min-width: 576px) {
+
+        }
+
+        /* --- Portrait Tablets --- */
+		@media (min-width: 768px) {
+
+        }
+
+        /* --- Landscape Tablets --- */
+		@media (min-width: 992px) {
+
+        }
+    }
+}

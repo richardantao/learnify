@@ -1,19 +1,14 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet";
+import { isMobile, isTablet } from "react-device-detect"; 
 
 import { connect } from "react-redux";
 import { logout } from "../../../actions/auth/auth";
 import PropTypes from "prop-types";
 
-import { Button, Container, Col, Row } from "reactstrap";
-import { faFacebookSquare, faLinkedin, faInstagram, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
-
-// Atoms
-import Header from "../../atoms/Header";
-import Icon from "../../atoms/Icon";
+import { Row } from "reactstrap";
 
 // Organisms
-
 import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
 
@@ -25,7 +20,6 @@ class Settings extends Component {
 	};
 
 	static propTypes = {
-		// isAuthenticated: PropTypes.bool,
 		error: PropTypes.object.isRequired,
         logout: PropTypes.func.isRequired
 	};
@@ -47,15 +41,13 @@ class Settings extends Component {
 	};
 
 	handleLogout = () => {
-
-		const { logout } = this.props;
-		
-		// logout user
+		const { logout } = this.props;		
 		logout();
 	};
 
 	render() {
 		const { form } = this.state;
+		const { logout } = this.props;
 
 		return (
 			<>
@@ -65,62 +57,49 @@ class Settings extends Component {
 					<title>My Learnify | Settings</title>
 				</Helmet>
 				<Row id="settings">
-					<Col>
-						<Row className="header">
-							<Col>
-								<Header header="Settings"/> 
-							</Col>
-							<Col>
-								<Button onClick={this.handleLogout}>Sign Out</Button>
-							</Col>
-						</Row>
-						<Row>
-							<Col className="settings-nav">
-								<Button onClick={this.handleProfile} block>Profile</Button>
-								<Button onClick={this.handlePassword} block>Password</Button>	
-								<Button onClick={this.handlePreferences} block>Preferences</Button>
-							</Col>
-						</Row>
-						<Container>
-							<Row className="body settings-body">
-								<Col>
-									{form}
-								</Col>		
-							</Row>
-						</Container>
-						<Row className="footer settings-footer">
-							<Col>
-								<Button href="https://www.facebook.com/learnify.ca" target="_blank" rel="noopener noreferrer" className="social"><Icon icon={faFacebookSquare}/></Button>
-								<Button href="https://www.linkedin.com/company/learnify" target="_blank" rel="noopener noreferrer" className="social"><Icon icon={faLinkedin}/></Button>
-								<Button href="https://www.instagram.com/learnify" target="_blank" rel="noopener noreferrer" className="social"><Icon icon={faInstagram}/></Button>
-								{/* <Button href="https://twitter.com/learnify" target="_blank" rel="noopener noreferrer" className="social"><Icon icon={faTwitterSquare}/></Button> */}
-							</Col>
-							<Col>
-								<p>Copyright {year} Learnify. All rights reserved. </p>
-									<a href="/docs/changelog" target="_blank" rel="noopener noreferrer">{version}</a>
-							</Col>
-						</Row>
-					</Col>
+					{ isMobile ? 
+						<MobileSettings
+							error={error}
+							form={form}
+							logout={logout}
+							version={version}
+							year={year}
+						/>
+					: isTablet ? 
+						<TabletSettings
+							error={error}
+							form={form}
+							version={version}
+							year={year}	
+						/>
+					: 
+						<DesktopSettings
+							error={error}
+							form={form}
+							version={version}
+							year={year}
+						/>
+					}
 				</Row>
 			</>
 		);
 	};
 };
 
-const Profile = Loadable({
-	loader: () => import(/* webpackChunkName: "Profile" */ "../../reactors/Profile"),
+const DesktopSettings = Loadable({
+	loader: () => import(/* webpackChunkName: "DesktopSettings" */ "../../templates/DesktopSettings"),
 	loading: Loading,
 	delay: 300
 });
 
-const Password = Loadable({
-	loader: () => import(/* webpackChunkName: "Password" */ "../../reactors/Password"),
+const MobileSettings = Loadable({
+	loader: () => import(/* webpackChunkName: "MobileSettings" */ "../../templates/MobileSettings"),
 	loading: Loading,
 	delay: 300
 });
 
-const Preference = Loadable({
-	loader: () => import(/* webpackChunkName: "Preference" */ "../../reactors/Preferences"),
+const TabletSettings = Loadable({
+	loader: () => import(/* webpackChunkName: "TabletSettings" */ "../../templates/TabletSettings"),
 	loading: Loading,
 	delay: 300
 });
@@ -129,7 +108,6 @@ const year = new Date().getFullYear();
 const version = "Version 1.0.0-beta";
 
 const mapStateToProps = state => ({
-	// isAuthenticated: state.auth.isAuthenticated,
 	error: state.error
 });
 
