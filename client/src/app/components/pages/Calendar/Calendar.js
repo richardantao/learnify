@@ -115,19 +115,19 @@ const CalendarMonth = Loadable({
 
 const CalendarWeek = Loadable({
 	loader: () => import(/* webpackChunkName: "CalendarMonth" */ "../../organisms/CalendarWeek"),
-	loading: <Loading/>,
+	loading: Loading,
 	delay: 300
 });
 
 const CalendarDay = Loadable({
 	loader: () => import(/* webpackChunkName: "CalendarDay" */ "../../organisms/CalendarDay"),
-	loading: <Loading/>,
+	loading: Loading,
 	delay: 300
 });
 
 const CalendarAgenda = Loadable({
 	loader: () => import(/* webpackChunkName: "CalendarAgenda" */ "../../organisms/CalendarAgenda"),
-	loading: <Loading/>,
+	loading: Loading,
 	delay: 300
 });
 
