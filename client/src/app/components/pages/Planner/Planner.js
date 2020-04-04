@@ -128,6 +128,9 @@ class Planner extends Component {
                 <Row id="planner">
                     { isMobile ? 
                         <MobilePlanner
+                            past={past}
+                            filter={filter}
+                            handleFilter={this.handleFilter}
                             terms={terms}
                             courses={courses}
                             tasks={tasks}
@@ -141,6 +144,9 @@ class Planner extends Component {
                         />
                     : isTablet ? 
                         <TabletPlanner
+                            past={past}
+                            filter={filter}
+                            handleFilter={this.handleFilter}
                             terms={terms}
                             courses={courses}
                             tasks={tasks}
@@ -153,6 +159,9 @@ class Planner extends Component {
                             deleteAssessment={deleteAssessment}
                         />
                     :   <DesktopPlanner
+                            past={past}
+                            filter={filter}
+                            handleFilter={this.handleFilter}    
                             terms={terms}
                             courses={courses}
                             tasks={tasks}
