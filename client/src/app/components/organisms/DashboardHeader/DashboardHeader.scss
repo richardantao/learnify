@@ -4,10 +4,10 @@
 #app {
     .dashboard-header {
         /* --- Portrait Mobile --- */
-        border-bottom: #E5E5E5 1px solid;
-        // -moz-box-shadow:    3px 3px 5px 6px #E5E5E5;
-        // -webkit-box-shadow: 3px 3px 5px 6px #ccc;
-        // box-shadow:         3px 3px 4px 1px #E5E5E5;
+        border-bottom: $light-border-line 1px solid;
+        // -moz-box-shadow:    3px 3px 5px 6px $light-border-line;
+        // -webkit-box-shadow: 3px 3px 5px 6px #CCC;
+        // box-shadow:         3px 3px 4px 1px $light-border-line;
         height: 130px;
         z-index: 1;
 
@@ -28,12 +28,6 @@
             border-right: #F2F2F2 1px solid;
         }
 
-        figure {
-            position: absolute;
-                right: 0;
-                top: 50%;
-        }
-
         /* --- Landscape Mobile --- */
         @media (min-width: 576px) {
 
@@ -51,7 +45,7 @@
 
         /* --- Small Laptops --- */
         @media (min-width: 1200px) {
-            height: 130px;
+            min-height: 150px;
         
             // a {
             //     left: 5%;
