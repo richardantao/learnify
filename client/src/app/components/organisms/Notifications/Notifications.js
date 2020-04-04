@@ -15,6 +15,7 @@ import "./Notifications.scss";
 
 class Notifications extends Component {
     state = {
+        isOpen: false,
         message: null
     };
 
@@ -25,9 +26,8 @@ class Notifications extends Component {
     };
 
     async componentDidMount() {
-        const { fetchNotifications, clearErrors } = this.props;
+        const { clearErrors } = this.props;
         await clearErrors();
-        await fetchNotifications();
     };
 
     componentDidUpdate(prevProps) {
@@ -42,16 +42,33 @@ class Notifications extends Component {
         };
     };
 
+    toggle = () => {
+        const { isOpen } = this.state;
+        const { fetchNotifications } = this.props;
+
+        if(isOpen) { 
+            fetchNotifications();
+        };
+
+        this.setState({ isOpen: !isOpen });
+    };
+
     render() {
-        const { } = this.state;
+        const { isOpen, message } = this.state;
         const { } = this.props;
 
         return (
             <>
                 <Icon icon={faBell}/>
 
-                <Collapse>
-                
+                <Collapse isOpen={isOpen}>
+                    { message ? 
+                      <div>{message}</div> 
+                    : 
+                      <>
+                          {/* define notifications here */}
+                      </> 
+                    }
                 </Collapse>
             </>
         );
