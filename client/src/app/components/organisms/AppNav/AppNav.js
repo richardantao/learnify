@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom"; 
 
-import { Col } from "reactstrap";
-
 import { 
 	faTachometerAlt, faCalendarAlt, faTasks, faUniversity
 } from "@fortawesome/free-solid-svg-icons";
