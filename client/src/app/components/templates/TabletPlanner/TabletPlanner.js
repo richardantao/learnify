@@ -20,6 +20,7 @@ import Loading from "../../atoms/Loading";
 import "./TabletPlanner.scss";
 
 export default ({
+    past, filter,
     terms, courses, tasks, assessments,
     editTask, toggleTaskCompletion, deleteTask,
     editAssessment, toggleAssessmentCompletion, deleteAssessment

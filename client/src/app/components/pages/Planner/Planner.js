@@ -18,8 +18,6 @@ import { Row } from "reactstrap";
 
 import Loadable from "react-loadable";
 
-import "./Planner.scss";
-
 class Planner extends Component {
     state = {
         activeTerm: null,

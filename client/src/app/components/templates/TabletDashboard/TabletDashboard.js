@@ -2,7 +2,7 @@ import React from "react";
 
 import moment from "moment";
 
-import { Col, Button, Input } from "reactstrap";
+import { Row, Col, Button, Input } from "reactstrap";
 
 import Loadable from "react-loadable";
 
@@ -15,7 +15,12 @@ import List from "../../organisms/List";
 
 import "./TabletDashboard.scss";
 
-export default () => {
+export default ({
+    meta, error, classes, tasks, assessments, 
+    editClass, deleteClass,
+    editTask, toggleTaskCompletion, deleteTask,
+    editAssessment, toggleAssessmentCompletion, deleteAssessment
+}) => {
     return (
 		<Col>
 			<Row>

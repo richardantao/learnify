@@ -4,12 +4,15 @@ import moment from "moment";
 
 import { Row, Col } from "reactstrap";
 
+import Loadable from "react-loadable";
+import Loading from "../../atoms/Loading";
+
 /* Organisms */
 import CalendarHeader from "../../organisms/CalendarHeader";
 
 import "./MobileCalendar.scss";
 
-export default () => {
+export default ({ display }) => {
     return (
         <Col>
             <Row className="header">

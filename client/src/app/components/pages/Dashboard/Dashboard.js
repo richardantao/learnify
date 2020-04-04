@@ -20,8 +20,6 @@ import { Row } from "reactstrap";
 
 import Loadable from "react-loadable";
 
-import "./Dashboard.scss"; // distribute to templates
-
 class Dashboard extends Component {
 	state = {
 		activeTerm: null

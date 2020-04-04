@@ -6,6 +6,8 @@ import { Row, Col } from "reactstrap";
 
 import Select from "react-select";
 
+import Loadable from "react-loadable";
+
 /* Atoms */
 import Header from "../../atoms/Header";
 import Icon from "../../atoms/Icon";

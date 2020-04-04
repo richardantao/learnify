@@ -3,6 +3,9 @@ import React from "react";
 import { Button, Container, Col, Row } from "reactstrap";
 import { faFacebookSquare, faLinkedin, faInstagram, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
+import Loadable from "react-loadable";
+import Loading from "../../atoms/Loading";
+
 // Atoms
 import Header from "../../atoms/Header";
 import Icon from "../../atoms/Icon";
@@ -10,7 +13,7 @@ import Icon from "../../atoms/Icon";
 import "./TabletSettings.scss";
 
 export default ({
-    year, version
+    form, year, version
 }) => {
     return (
         <Col>

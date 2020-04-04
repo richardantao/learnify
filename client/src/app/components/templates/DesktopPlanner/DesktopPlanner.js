@@ -20,6 +20,7 @@ import Loading from "../../atoms/Loading";
 import "./DesktopPlanner.scss";
 
 export default ({
+    past, filter,
     terms, courses, tasks, assessments,
     editTask, toggleTaskCompletion, deleteTask,
     editAssessment, toggleAssessmentCompletion, deleteAssessment

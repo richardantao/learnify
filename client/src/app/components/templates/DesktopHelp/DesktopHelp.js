@@ -2,6 +2,8 @@ import React from "react";
 
 import { Row, Col, Alert, Button } from "reactstrap"; 
 
+import Loadable from "react-loadable";
+
 import Header from "../../atoms/Header";
 
 import "./DesktopHelp.scss";

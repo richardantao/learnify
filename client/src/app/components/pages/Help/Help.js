@@ -10,8 +10,6 @@ import { Row } from "reactstrap";
 
 import Loadable from "react-loadable";
 
-import "./Help.scss";
-
 class Help extends Component {
 	state = {
 		message: null

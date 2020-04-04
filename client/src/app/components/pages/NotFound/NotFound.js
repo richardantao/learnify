@@ -2,8 +2,6 @@ import React from "react";
 import Helmet from "react-helmet";
 import { isMobile, isTablet } from "react-device-detect"; 
 
-import "./NotFound.scss";
-
 export default () => {
     return (
         <>

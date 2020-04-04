@@ -15,7 +15,12 @@ import List from "../../organisms/List";
 
 import "./MobileDashboard.scss";
 
-export default () => {
+export default ({
+    meta, error, classes, tasks, assessments, 
+    editClass, deleteClass,
+    editTask, toggleTaskCompletion, deleteTask,
+    editAssessment, toggleAssessmentCompletion, deleteAssessment
+}) => {
     return (
 		<Col>
 			<Row>

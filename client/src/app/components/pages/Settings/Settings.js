@@ -12,8 +12,6 @@ import { Row } from "reactstrap";
 import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
 
-import "./Settings.scss";
-
 class Settings extends Component {
 	state = {
 		form: null
@@ -47,7 +45,7 @@ class Settings extends Component {
 
 	render() {
 		const { form } = this.state;
-		const { logout } = this.props;
+		const { error, logout } = this.props;
 
 		return (
 			<>
@@ -100,6 +98,24 @@ const MobileSettings = Loadable({
 
 const TabletSettings = Loadable({
 	loader: () => import(/* webpackChunkName: "TabletSettings" */ "../../templates/TabletSettings"),
+	loading: Loading,
+	delay: 300
+});
+
+const Profile = Loadable({
+	loader: () => import(/* webpackChunkName: "Profile" */ "../../reactors/Profile"),
+	loading: Loading,
+	delay: 300
+});
+
+const Password = Loadable({
+	loader: () => import(/* webpackChunkName: "Password" */ "../../reactors/Password"),
+	loading: Loading,
+	delay: 300
+});
+
+const Preference = Loadable({
+	loader: () => import(/* webpackChunkName: "Preference" */ "../../reactors/Preferences"),
 	loading: Loading,
 	delay: 300
 });

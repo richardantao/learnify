@@ -13,8 +13,6 @@ import { Row } from "reactstrap";
 import Loadable from "react-loadable";
 import Loading from "../../atoms/Loading";
 
-import "./Calendar.scss";
-
 class Calendar extends Component {
 	state = {
 		display: <CalendarWeek/>,

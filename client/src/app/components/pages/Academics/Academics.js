@@ -13,8 +13,6 @@ import { Row } from "reactstrap";
 import PropTypes from "prop-types";
 import Loadable from "react-loadable";
 
-import "./Academics.scss";
-
 class Academics extends Component {
 	state = {
 		activeTerm: null
