@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.6.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
