@@ -1,6 +1,6 @@
 const async = require("async");
 const moment = require("moment");
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId } = require("mongodb");
 
 // models
 const Course = require("../models/Courses");
@@ -53,10 +53,7 @@ exports.create = (req, res) => {
         });
     };
 
-    async.waterfall([
-        matchTerm,
-        createAssessment
-    ], (err, results) => {
+    async.waterfall([ matchTerm, createAssessment ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });
         } else {
@@ -211,53 +208,54 @@ exports.filter = (req, res) => {
 };
 
 exports.edit = (req, res) => {
-    const { assessment } = req.params;
+    const { _id } = req.params;
 
-    async.waterfall([
-        callback => {
-            Assessment.find({ _id }, {
-                course: 1,
-                title: 1,
-                type: 1,
-                date: 1,
-                location: 1,
-                grade: 1
-            })
-            .populate("course", [ "title", "term" ])
-            .limit(1)
-            .then(assessment => {
-                if(!assessment) {
-                    return res.status(404).json({ message: "Assessment not found" });
-                } else {
-                    return callback(null, assessment[0]);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        },
-        (assessment, callback) => {
-            Course.find({ 
-                term: assessment.course.term,
-                title: {
-                    $ne: assessment.course.title
-                }
-            }, {
-                title: 1
-            })
-            .sort({ title: 1 })
-            .then(options => {
-                if(!options) {
-                    return res.status(404).json({ message: "Course options not found" });
-                } else {
-                    return callback(null, { assessment, options });
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        }
-    ], (err, results) => {
+    const getAssessment = callback => {
+        Assessment.find({ _id }, {
+            course: 1,
+            title: 1,
+            type: 1,
+            date: 1,
+            location: 1,
+            grade: 1
+        })
+        .populate("course", [ "title", "term" ])
+        .limit(1)
+        .then(assessment => {
+            if(!assessment) {
+                return res.status(404).json({ message: "Assessment not found" });
+            } else {
+                return callback(null, assessment[0]);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    const fetchCourseOptions = (assessment, callback) => {
+        Course.find({ 
+            term: assessment.course.term,
+            title: {
+                $ne: assessment.course.title
+            }
+        }, {
+            title: 1
+        })
+        .sort({ title: 1 })
+        .then(options => {
+            if(!options) {
+                return res.status(404).json({ message: "Course options not found" });
+            } else {
+                return callback(null, { assessment, options });
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    async.waterfall([ getAssessment, fetchCourseOptions ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });
         } else {
@@ -314,10 +312,7 @@ exports.patch = (req, res) => {
         };
     };
 
-    async.waterfall([
-        getStatus,
-        toggleStatus
-    ], (err, results) => {
+    async.waterfall([ getStatus, toggleStatus ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });
         } else {
@@ -330,54 +325,55 @@ exports.update = (req, res) => {
     const { _id } = req.params;
     const { course, title, type, start, end, location, weight, score } = req.body;
 
-    async.waterfall([
-        callback => {
-            Course.find({ _id: course }, {
-                term: 1,
-                _id: 0
-            })
-            .limit(1)
-            .then(term => {
-                if(!term) {
-                    return res.status(404).json({ message: "Terms not found" });
-                } else {
-                    return callback(null, term[0].term);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        },
-        (term, callback) => {
-            Assessment.updateOne({ _id }, {
-                $set: {
-                    term,
-                    course,
-                    title,
-                    type,
-                    date: {
-                        start: moment(start, "YYYY-MM-DD, hh:mm"),
-                        end: (end ? moment(end, "YYYY-MM-DD, hh:mm"): null)
-                    }, 
-                    location,
-                    grade: {
-                        weight,
-                        score
-                    }
+    const matchTerm = callback => {
+        Course.find({ _id: course }, {
+            term: 1,
+            _id: 0
+        })
+        .limit(1)
+        .then(term => {
+            if(!term) {
+                return res.status(404).json({ message: "Terms not found" });
+            } else {
+                return callback(null, term[0].term);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    const updateAssessment = (term, callback) => {
+        Assessment.updateOne({ _id }, {
+            $set: {
+                term,
+                course,
+                title,
+                type,
+                date: {
+                    start: moment(start, "YYYY-MM-DD, hh:mm"),
+                    end: (end ? moment(end, "YYYY-MM-DD, hh:mm"): null)
+                }, 
+                location,
+                grade: {
+                    weight,
+                    score
                 }
-            })
-            .then(assessment => {     
-                if(assessment.n === 1) {
-                    return callback(null, { message: "Assessment updated" });
-                } else {
-                    return res.status(404).json({ message: "Assessment not found" });
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        }
-    ], (err, results) => {
+            }
+        })
+        .then(assessment => {     
+            if(assessment.n === 1) {
+                return callback(null, { message: "Assessment updated" });
+            } else {
+                return res.status(404).json({ message: "Assessment not found" });
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    async.waterfall([ matchTerm, updateAssessment ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });
         } else {

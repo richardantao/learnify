@@ -1,6 +1,6 @@
 const async = require("async");
 const moment = require("moment");
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId } = require("mongodb");
 
 // models
 const Task = require("../models/Tasks");
@@ -9,39 +9,40 @@ const Course = require("../models/Courses");
 exports.create = (req, res) => {
     const { course, title, type, deadline, completion, description } = req.body;
 
-    async.waterfall([
-        callback => {
-            Course.find({ _id: course }, {
-                _id: 0,
-                term: 1
-            })
-            .limit(1)
-            .then(term => {
-                return callback(null, term[0].term);
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        },
-        (term, callback) => {
-            Task.create({
-                _id: ObjectId(),
-                term,
-                course,
-                title,
-                type,
-                deadline: moment(deadline, "YYYY-MM-DD, hh:mm"),
-                completion,
-                description
-            })
-            .then(task => {
-                return callback(null, task);
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        }
-    ], (err, results) => {
+    const matchTerm = callback => {
+        Course.find({ _id: course }, {
+            _id: 0,
+            term: 1
+        })
+        .limit(1)
+        .then(term => {
+            return callback(null, term[0].term);
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    const createTask = (term, callback) => {
+        Task.create({
+            _id: ObjectId(),
+            term,
+            course,
+            title,
+            type,
+            deadline: moment(deadline, "YYYY-MM-DD, hh:mm"),
+            completion,
+            description
+        })
+        .then(task => {
+            return callback(null, task);
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    async.waterfall([ matchTerm, createTask ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });
         } else {
@@ -200,55 +201,56 @@ exports.filter = (req, res) => {
 exports.edit = (req, res) => {
     const { _id } = req.params;
 
-    async.waterfall([
-        callback => {
-            Task.find({ _id }, {
-                course: 1,
-                title: 1,
-                type: 1,
-                deadline: 1,
-                completion: 1,
-                description: 1
-            })
-            .populate("course", [ "title", "term" ])
-            .limit(1)
-            .then(task => {
-                if(!task) {
-                    return res.status(404).json({ message: "Task not found" });
-                } else {                
-                    return callback(null, task[0]);
-                };
-            })
-            .catch(err => {
-                if(err.kind === "ObjectId") {
-                    return res.status(404).json({ message: "Task not found" });
-                } else {
-                    return res.status(500).json({ message: err.message });
-                };
-            });
-        },
-        (task, callback) => {
-            Course.find({ 
-                term: task.course.term,
-                title: {
-                    $ne: task.course.title
-                }
-            }, {
-                title: 1
-            })
-            .sort({ title: 1 })
-            .then(options => {
-                if(!options) {
-                    return res.status(404).json({ message: "No task options found" });
-                } else {
-                    return callback(null, { task, options });
-                };
-            })
-            .catch(err => {
+    const getTask = callback => {
+        Task.find({ _id }, {
+            course: 1,
+            title: 1,
+            type: 1,
+            deadline: 1,
+            completion: 1,
+            description: 1
+        })
+        .populate("course", [ "title", "term" ])
+        .limit(1)
+        .then(task => {
+            if(!task) {
+                return res.status(404).json({ message: "Task not found" });
+            } else {                
+                return callback(null, task[0]);
+            };
+        })
+        .catch(err => {
+            if(err.kind === "ObjectId") {
+                return res.status(404).json({ message: "Task not found" });
+            } else {
                 return res.status(500).json({ message: err.message });
-            });
-        }
-    ], (err, results) => {
+            };
+        });
+    };
+
+    const fetchCourseOptions = (task, callback) => {
+        Course.find({ 
+            term: task.course.term,
+            title: {
+                $ne: task.course.title
+            }
+        }, {
+            title: 1
+        })
+        .sort({ title: 1 })
+        .then(options => {
+            if(!options) {
+                return res.status(404).json({ message: "No task options found" });
+            } else {
+                return callback(null, { task, options });
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    async.waterfall([ getTask, fetchCourseOptions ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });
         } else {
@@ -305,10 +307,7 @@ exports.patch = (req, res) => {
         };
     };
 
-    async.waterfall([
-        getStatus,
-        toggleStatus
-    ], (err, results) => {
+    async.waterfall([ getStatus, toggleStatus ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });
         } else {
