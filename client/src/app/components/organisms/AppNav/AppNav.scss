@@ -4,11 +4,19 @@
 #app {
     #app-nav {
         /* ---  Portait Mobile --- */
-        background-color: $nav-background;
+        // background-color: $nav-background;
+        border-right: $border-line 1px solid;
         float: left;
         height: 100%;
         text-align: center;
         width: 6.25rem;
+
+        &:hover {
+            -webkit-box-shadow: 1px 0px 5px 0px rgba(225, 225, 225, 0.75);
+            -moz-box-shadow: 1px 0px 5px 0px rgba(225, 225, 225, 0.75);
+            box-shadow: 1px 0px 5px 0px rgba(225, 225, 225, 0.75);
+            transition: box-shadow 0.25s ease-in-out;
+        }
 
         .logo {
             float: left;
@@ -46,12 +54,16 @@
             -webkit-transform: translateX(-50%) translateY(-50%);
     
             &:hover {
-                color: white;
+                color: $nav-content-pop;
             }
         }
     
-        .active-link {
-            background-color: $secondary-color;
+        .active-link svg {
+            color: $primary-color;
+
+            &:hover {
+                color: $secondary-color;
+            }
         }
     }
 
