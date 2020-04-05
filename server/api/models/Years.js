@@ -1,9 +1,14 @@
 require("dotenv").config();
 const { model, Schema } = require("mongoose");
 
+// helpers
 const async = require("async");
 const moment = require("moment");
 
+// logger
+const logger = require("../../config/logger");
+
+// model
 const Term = require("./Terms");
 
 const YearSchema = new Schema({
