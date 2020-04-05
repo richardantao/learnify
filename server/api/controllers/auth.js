@@ -228,9 +228,7 @@ exports.verifyEmail = (req, res) => {
             };
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -246,9 +244,7 @@ exports.verifyEmail = (req, res) => {
             return callback(null, { message: "Your account has been verified. Please login." })
         })
         .catch(err => {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         });
     };
 
@@ -257,9 +253,7 @@ exports.verifyEmail = (req, res) => {
         setToVerified
     ], (err, message) => {
         if(err) {
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
             return res.status(200).json(message);
         };
@@ -320,9 +314,7 @@ exports.resendEmailVerification = (req, res) => {
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     }); 
 };
 
@@ -373,9 +365,7 @@ exports.forgotPassword = (req, res) => {
         };
     })
     .catch(err => {
-        return res.status(500).json({
-            message: err.message
-        });
+        return res.status(500).json({ message: err.message });
     }); 
 };
 
@@ -388,9 +378,7 @@ exports.changePassword = (req, res) => {
     .limit(1)
     .then(matchedToken => {
         if(matchedToken.length === 0) {
-            return res.status(404).json({
-                message: "Token not found. Please reset password again."
-            });
+            return res.status(404).json({ message: "Token not found. Please reset password again" });
         } else {
             return res.status(200).json({
                 message: "Token successfully activated. Please set your new password."
@@ -408,9 +396,7 @@ exports.resetPassword = (req, res) => {
     const { password, confirm, token } = req.body; 
 
     if(password !== confirm) {
-        return res.status(400).json({
-            message: "The password fields do not match. Please try again."
-        });
+        return res.status(400).json({ message: "The password fields do not match. Please try again" });
     } else {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash("", salt, (err, hash) => {
@@ -432,9 +418,7 @@ exports.resetPassword = (req, res) => {
                         });
                     })
                     .catch(err => {
-                        return res.status(500).json({
-                            message: err.message
-                        });
+                        return res.status(500).json({ message: err.message });
                     });
                 };
             });

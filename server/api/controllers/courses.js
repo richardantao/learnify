@@ -39,7 +39,7 @@ exports.read = (req, res) => {
 	})
 	.sort({ code: 1 })
 	.then(courses => {
-		if(courses.length === 0) {
+		if(!courses) {
 			return res.status(404).json({ message: "Courses not found" });
 		} else {
 			return res.status(200).json(courses);
@@ -65,7 +65,7 @@ exports.edit = (req, res) => {
 		.populate("term", [ "title", "year" ])
 		.limit(1)
 		.then(course => {
-			if(course.length === 0) {
+			if(!course) {
 				return res.status(404).json({ message: "Course not found" });
 			} else {
 				return callback(null, course[0]);
@@ -88,7 +88,7 @@ exports.edit = (req, res) => {
 		})
 		.sort({ "date.start": -1 })
 		.then(options => {
-			if(options.length === 0) {
+			if(!options) {
 				return res.status(404).json({ message: "Could not find terms" });
 			} else {
 				return callback(null, { course, options });

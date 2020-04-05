@@ -16,7 +16,7 @@ exports.create = (req, res) => {
         })
         .limit(1)
         .then(term => {
-            if(term.length === 0) {
+            if(!term) {
                 return res.status(404).json({ message: "Term not found" });
             } else {
                 return callback(null, term[0].term);
@@ -87,7 +87,7 @@ exports.read = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ "date.start": 1 })
         .then(assessments => {
-            if(assessments.length === 0) {
+            if(!assessments) {
                 return res.status(404).json({ message: "Assessments not found" });
             } else {
                 return res.status(200).json(assessments);
@@ -113,7 +113,7 @@ exports.read = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ "date.start": 1 })
         .then(assessments => {
-            if(assessments.length === 0) {
+            if(!assessments) {
                 return res.status(404).json({ message: err.message });
             } else {
                 return res.status(200).json(assessments);
@@ -139,7 +139,7 @@ exports.read = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ "date.start": 1 })
         .then(assessments => {
-            if(assessments.length === 0) {
+            if(!assessments) {
                 return res.status(404).json({ message: "Assessments not found" });
             } else {
                 return res.status(200).json(assessments);
@@ -172,7 +172,7 @@ exports.filter = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ "date.start": 1 })
         .then(assessments => {
-            if(assessments.length === 0) {
+            if(!assessments) {
                 return res.status(404).json({ message: "Assessments not found" });
             } else {
                 return res.status(200).json(assessments);
@@ -198,7 +198,7 @@ exports.filter = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ "date.start": 1 })
         .then(assessments => {
-            if(assessments.length === 0) {
+            if(!assessments) {
                 return res.status(404).json({ message: "Assessments not found" });
             } else {
                 return res.status(200).json(assessments);
@@ -226,7 +226,7 @@ exports.edit = (req, res) => {
             .populate("course", [ "title", "term" ])
             .limit(1)
             .then(assessment => {
-                if(assessment.length === 0) {
+                if(!assessment) {
                     return res.status(404).json({ message: "Assessment not found" });
                 } else {
                     return callback(null, assessment[0]);
@@ -247,7 +247,7 @@ exports.edit = (req, res) => {
             })
             .sort({ title: 1 })
             .then(options => {
-                if(options.length === 0) {
+                if(!options) {
                     return res.status(404).json({ message: "Course options not found" });
                 } else {
                     return callback(null, { assessment, options });
@@ -338,7 +338,7 @@ exports.update = (req, res) => {
             })
             .limit(1)
             .then(term => {
-                if(term.length === 0) {
+                if(!term) {
                     return res.status(404).json({ message: "Terms not found" });
                 } else {
                     return callback(null, term[0].term);

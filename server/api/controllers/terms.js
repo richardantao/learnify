@@ -61,7 +61,7 @@ exports.read = (req, res) => {
 		Term.find({ year })
 		.sort({ "date.start": -1 }) 
 		.then(terms => {
-			if(terms.length === 0) {
+			if(!terms) {
 				return res.status(404).json({ message: "No terms found" });
 			} else {
 				return res.status(200).json(terms);
@@ -82,7 +82,7 @@ exports.edit = (req, res) => {
 		.populate("year", [ "title" ])
 		.limit(1)
 		.then(term => {
-			if(term.length === 0) {
+			if(!terms) {
 				return res.status(404).json({ message: "Term not found" });
 			} else {
 				return callback(null, term[0]);
@@ -109,7 +109,7 @@ exports.edit = (req, res) => {
 		})
 		.sort({ "date.start": -1 })
 		.then(options => {
-			if(options.length === 0) {
+			if(!options) {
 				return res.status(404).json({ message: "Years not found" });
 			} else {
 				return callback(null, { term, options });

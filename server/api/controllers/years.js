@@ -1,7 +1,7 @@
 const moment = require("moment");
 
 const Year = require("../models/Years");
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId }  = require("mongodb");
 
 exports.create = (req, res) => {
 	// const { _id } = req.user; // prod after auth
@@ -62,8 +62,8 @@ exports.read = (req, res) => {
 		})
 		.sort({ "date.start": -1 })
 		.then(years => {
-			if(years.length === 0) {
-				return res.status(404).json({ message: "No years found" });
+			if(!years) {
+				return res.status(404).json({ message: "Years not found" });
 			} else {
 				return res.status(200).json(years);
 			};
@@ -84,7 +84,7 @@ exports.edit = (req, res) => {
 	})
 	.limit(1)
 	.then(year => {
-		if(year.length === 0) {
+		if(!year) {
 			return res.status(404).json({ message: "Year not found" });
 		} else {
 			return res.status(200).json(year[0]);

@@ -20,17 +20,13 @@ exports.invite = (req, res) => {
             .limit(1)
             .then(beta => {
                 if(beta.length > 0) {
-                    return res.status(400).json({
-                        message: "This email has already received a beta invite"
-                    });
+                    return res.status(400).json({ message: "This email has already received a beta invite" });
                 } else {
-                    callback(null, beta);
+                    return callback(null, beta);
                 };
             })
             .catch(err => {
-                return res.status(500).json({
-                    message: err.message
-                });
+                return res.status(500).json({ message: err.message });
             }); 
         },
         callback => {
@@ -40,12 +36,10 @@ exports.invite = (req, res) => {
                 email
             })
             .then(beta => {
-                callback(null, beta);
+                return callback(null, beta);
             })
             .catch(err => {
-                return res.status(500).json({
-                    message: err.message
-                });
+                return res.status(500).json({ message: err.message });
             });
         }, 
         callback => {
@@ -72,7 +66,7 @@ exports.invite = (req, res) => {
 
             sgMail.send(adminMail);
 
-            callback(null, adminMail);
+            return callback(null, adminMail);
         },
         callback => {
             const betaMail = {
@@ -111,16 +105,13 @@ exports.invite = (req, res) => {
 
             sgMail.send(betaMail);
 
-            callback(null, { message: `Your invite has been sent to ${email}` })
+            return callback(null, { message: `Your invite has been sent to ${email}` })
         }
     ], (err, results) => {
         if(err) {
             console.log(err);
-            return res.status(500).json({
-                message: err.message
-            });
+            return res.status(500).json({ message: err.message });
         } else {
-            console.log(results[3]);
             return res.status(201).json(results[3]);
         };
     });
@@ -155,7 +146,5 @@ exports.contact = (req, res) => {
 
     sgMail.send(mailOptions);
 
-    return res.status(200).json({
-        message: "Your message has been sent. You will receive a reply within 24 hours"
-    });
+    return res.status(200).json({ message: "Your message has been sent. You will receive a reply within 24 hours" });
 };

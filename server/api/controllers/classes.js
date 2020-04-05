@@ -16,7 +16,7 @@ exports.create = (req, res) => {
             })
             .limit(1)
             .then(term => {
-                if(term.length === 0) {
+                if(!term) {
                     return res.status(404).json({ message: "Could not find term" });
                 } else {
                     return callback(null, term[0].term);
@@ -69,7 +69,7 @@ exports.read = (req, res) => {
         date: 1
     })
     .then(classes => {
-        if(classes.length === 0) {
+        if(!classes) {
             return res.status(404).json({ message: "Classes not found" }); 
         } else {
             return callback(null, classes);
@@ -90,8 +90,8 @@ exports.filter = (req, res) => {
         date: 1,
     })
     .then(classes => {
-        if(classes.length > 0) {
-            return res.status(404).json({ message: "No classes found" });
+        if(!classes) {
+            return res.status(404).json({ message: "Classes not found" });
         } else {
             return callback(null, classes);
         };
@@ -119,7 +119,7 @@ exports.edit = (req, res) => {
                 description: 1
             })
             .then(classes => {
-                if(classes.length === 0) {
+                if(!classes) {
                     return res.status(404).json({ message: "Class not found" });
                 } else {
                     return callback(null, classes);
@@ -135,7 +135,7 @@ exports.edit = (req, res) => {
                 course: 1
             })
             .then(options => {
-                if(options.length === 0) {
+                if(!options) {
                     return res.status(404).json({ message: "No course options found" }); 
                 } else {
                     return callback(null, { classes, options });

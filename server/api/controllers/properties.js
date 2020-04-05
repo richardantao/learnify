@@ -27,8 +27,8 @@ exports.institutions = (req, res) => {
 
     Property.find({ parent: region, type: "institution" })
     .then()
-    .catch(err => {
-        return res.status(500).json({ message: err.message });
+    .catch(err => { 
+        return res.status(500).json({ message: err.message }) 
     });
 };
 

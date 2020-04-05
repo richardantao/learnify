@@ -73,7 +73,7 @@ exports.read = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ deadline: -1 })
         .then(tasks => {
-            if(tasks.length === 0) {
+            if(!tasks) {
                 return res.status(404).json({ message: "Tasks not found" });
             } else {
                 return res.status(200).json(tasks);
@@ -100,7 +100,7 @@ exports.read = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ deadline: -1 })
         .then(tasks => {
-            if(tasks.length === 0) {
+            if(!tasks) {
                 return res.status(404).json({ message: "Tasks not found" });
             } else {
                 return res.status(200).json(tasks);
@@ -126,7 +126,7 @@ exports.read = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ deadline: -1 })
         .then(tasks => {
-            if(tasks.length === 0) {
+            if(!tasks) {
                 return res.status(404).json({ message: "Tasks not found" });
             } else {
                 return res.status(200).json(tasks);
@@ -159,7 +159,7 @@ exports.filter = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ deadline: 1 })
         .then(tasks => {
-            if(tasks.length === 0) {
+            if(!tasks) {
                 return res.status(404).json({ message: "Tasks not found" });
             } else {
                 return res.status(200).json(tasks);
@@ -185,7 +185,7 @@ exports.filter = (req, res) => {
         .populate("course", [ "title" ])
         .sort({ deadline: 1 })
         .then(tasks => {
-            if(tasks.length === 0) {
+            if(!tasks) {
                 return res.status(404).json({ message: "Tasks not found" });
             } else {
                 return res.status(200).json(tasks);
@@ -213,7 +213,7 @@ exports.edit = (req, res) => {
             .populate("course", [ "title", "term" ])
             .limit(1)
             .then(task => {
-                if(task.length === 0) {
+                if(!task) {
                     return res.status(404).json({ message: "Task not found" });
                 } else {                
                     return callback(null, task[0]);
@@ -238,7 +238,7 @@ exports.edit = (req, res) => {
             })
             .sort({ title: 1 })
             .then(options => {
-                if(options.length === 0) {
+                if(!options) {
                     return res.status(404).json({ message: "No task options found" });
                 } else {
                     return callback(null, { task, options });
@@ -321,47 +321,51 @@ exports.update = (req, res) => {
     const { _id } = req.params;
     const { course, title, type, deadline, completion, description } = req.body;
 
+    const matchTerm = callback => {
+        Course.find({ _id: course }, {
+            _id: 0,
+            term: 1
+        })
+        .limit(1)
+        .then(term => {
+            if(!term) {
+                return res.status(404).json({ message: "Term not found" });
+            } else {
+                return callback(null, term[0].term);
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    };
+
+    const updateTask = (term, callback) => {
+        Task.updateOne({ _id }, {
+            $set: {
+                term,
+                course,
+                title, 
+                type, 
+                deadline: moment(deadline, "YYYY-MM-DD, hh:mm"), 
+                completion, 
+                description
+            }
+        })
+        .then(task => {
+            if(task.n === 1) {
+                return callback(null, { message: "Task updated" });
+            } else {
+                return res.status(404).json({ message: "Task not found" }); 
+            };
+        })
+        .catch(err => {
+            return res.status(500).json({ message: err.message });
+        });
+    }
+
     async.waterfall([
-        callback => {
-            Course.find({ _id: course }, {
-                _id: 0,
-                term: 1
-            })
-            .limit(1)
-            .then(term => {
-                if(term.length === 0) {
-                    return res.status(404).json({ message: "Term not found" });
-                } else {
-                    return callback(null, term[0].term);
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        },
-        (term, callback) => {
-            Task.updateOne({ _id }, {
-                $set: {
-                    term,
-                    course,
-                    title, 
-                    type, 
-                    deadline: moment(deadline, "YYYY-MM-DD, hh:mm"), 
-                    completion, 
-                    description
-                }
-            })
-            .then(task => {
-                if(task.n === 1) {
-                    return callback(null, { message: "Task updated" });
-                } else {
-                    return res.status(404).json({ message: "Task not found" }); 
-                };
-            })
-            .catch(err => {
-                return res.status(500).json({ message: err.message });
-            });
-        }
+        matchTerm,
+        updateTask
     ], (err, results) => {
         if(err) {
             return res.status(500).json({ message: err.message });

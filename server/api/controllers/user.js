@@ -112,7 +112,7 @@ exports.editPassword = (req, res) => {
 	})
 	.limit(1)
 	.then(password => {
-		if(password.length === 0) {
+		if(!password) {
 			return res.status(404).json({ message: "Your current password was not found by the server" });
 		} else {
 			return res.status(200).json(password[0]);
@@ -240,7 +240,7 @@ exports.editPreferences = (req, res) => {
 			})
 			.limit(1)
 			.then(preferences => {
-				if(preferences.length === 0) {
+				if(!preferences) {
 					return res.status(404).json({ message: "The server was unable to find your preferences" });
 				} else {
 					return callback(null, preferences[0]);
