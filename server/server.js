@@ -15,7 +15,6 @@ const app = express();
 const host = process.env.HOST || "http://localhost";
 const port = process.env.PORT;
 const env = process.env.NODE_ENV || "development";
-// const corsOptions = ["https://learnify.ca", "https://www.learnify.ca", "http://localhost"];
 const reqLimit = rateLimit({
   max: 100,
   windowMs: 60 * 1000,
@@ -24,27 +23,16 @@ const reqLimit = rateLimit({
 require("./config/db");
 
 /* --- Middleware --- */
-app.use(helmet());
-app.use(
-  cors(/*{ 
-	origin: (origin, callback) => {
-		if(corsOptions.indexOf(origin) !== -1) {
-			callback(null, true);
-		} else {
-			console.log("Not allowed by CORS");
-			callback(new Error("Not allowed by CORS"));
-		};
-	}
-}*/)
-);
-app.use(express.json({ limit: "100kb" }));
-app.use(xss());
-app.use(mongoSanitize);
-app.use(reqLimit);
+// app.use(helmet());
+app.use(cors());
+app.use(express.json()); // add limit in production
+// app.use(xss());
+// app.use(mongoSanitize);
+// app.use(reqLimit);
 app.use(express.urlencoded({ extended: false }));
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "../client/build")));
-app.use(compression());
+// app.use(compression());
 logger((tokens, req, res) => {
   return [
     tokens.method(req, res),
@@ -60,6 +48,7 @@ logger((tokens, req, res) => {
 /* --- Routes --- */
 /* Beta  */
 app.use("/api/v1", require("./api/routes/auth"));
+app.use("/api/v1/errors", require("./api/routes/errors"));
 app.use("/api/v1", require("./api/routes/users"));
 
 app.use("/api/v1/years", require("./api/routes/years"));
@@ -91,8 +80,6 @@ app.get("*", (req, res) => {
 });
 
 /* --- Bootup --- */
-app.listen(port, () => {
-  console.log(`Server running at ${host}:${port}/`);
-});
+app.listen(port, () => console.log(`${env} Server running at ${host}:${port}/`));
 
 module.exports = app;
