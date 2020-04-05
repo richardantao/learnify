@@ -7,7 +7,7 @@ sgMail.setApiKey(sendGridKey);
 
 // model and schema
 const Applicant = require("../models/Applicant");
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId } = require("mongodb");
 
 exports.backend = (req, res) => {
     const { first, last, email, city, strategy, help, importance, resume, portfolio, linkedin, other } = req.body;

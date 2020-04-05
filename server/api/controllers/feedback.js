@@ -1,7 +1,7 @@
 // helpers
 const async = require("async");
 const moment = require("moment");
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId } = require("mongodb");
 
 // logger
 const logger = require("../../config/logger");

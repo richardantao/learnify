@@ -1,7 +1,7 @@
 // helper dependencies
 const async = require("async");
 const moment = require("moment");
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId } = require("mongodb");
 const sgMail = require("@sendgrid/mail");
 
 // import env variables

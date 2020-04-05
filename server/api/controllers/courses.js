@@ -1,5 +1,5 @@
 const async = require("async");
-const ObjectId = require("mongodb").ObjectId;
+const { ObjectId } = require("mongodb");
 
 // model
 const Course = require("../models/Courses");
