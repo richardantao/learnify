@@ -1,5 +1,5 @@
-const Schema = require("mongoose").Schema;
-const model = require("mongoose").model;
+require("dotenv").config();
+const { model, Schema } = require("mongoose");
 
 const async = require("async");
 const moment = require("moment");

@@ -1,8 +1,7 @@
 require("dotenv").config();
 
 // database
-const Schema = require("mongoose").Schema;
-const model = require("mongoose").model;
+const { model, Schema } = require("mongoose");
 
 // helpers
 const crypto = require("crypto");
