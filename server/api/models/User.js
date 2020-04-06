@@ -42,11 +42,13 @@ const UserSchema = new Schema({
     },
     meta: {
         app: {
+            lastActiveAt: { type: Date, default: null },
             membership: { type: String, default: "Basic", enum: ["Admin", "Alpha", "Basic", "Beta", "Delta", "Premium"] },
-            sessions: { type: Number, default: 0, min: 0 },
-            lastActiveAt: { type: Date, default: null }
+            sessions: { type: Number, default: 0, min: 0 }
         },
         user: {
+            assessmentTypes: { type: String, default: [ "Assignment", "Case Study", "Essay", "Final Exam", "Laboratory Assessment", "Midterm Exam", "Presentation", "Project", "Proposal", "Report", "Quiz" ] },
+            taskTypes: { type: String, default: [ "Notes", "Practice Problems" ] },
             createdAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") },
             updatedAt: { type: Date, default: () => moment().utc(moment.utc().format()).local().format("YYYY MM DD, hh:mm") }
         }
