@@ -1,8 +1,16 @@
 import React, { Component } from "react";
 
-export default class ErrorBoundary extends Component {
+import { connect } from "react-redux";
+import { logErrors } from "../../../actions/auth/errors";
+import PropTypes from "prop-types";
+
+class ErrorBoundary extends Component {
     state = {
         hasError: false
+    };
+
+    static propTypes = {
+        logErrors: PropTypes.func.isRequired
     };
 
     static getDerivedStateFromError(error) {
@@ -10,7 +18,7 @@ export default class ErrorBoundary extends Component {
     };
 
     componentDidCatch(error, errorInfo) {
-        // logErrorToMyService(error, errorInfo); // define service to send to  
+       logErrors(error, errorInfo);
     };
 
     render() {
@@ -18,7 +26,19 @@ export default class ErrorBoundary extends Component {
         const { children } = this.props;
         
         if(hasError) {
-            return 
+            return (
+                <main role="main">
+                    
+                </main>
+            );
         } else return children;
     };
 };
+
+const mapStateToProps = state => ({
+    
+});
+
+const mapDispatchProps = { logErrors };
+
+export default connect(mapStateToProps, mapDispatchProps)(ErrorBoundary);

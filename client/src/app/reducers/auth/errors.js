@@ -1,4 +1,4 @@
-import { ERRORS_RETURNED, ERRORS_CLEARED } from "../../actions/types";
+import { ERRORS_RETURNED, ERRORS_LOGGED, ERRORS_CLEARED } from "../../actions/types";
 
 const initialState = {
     message: {},
@@ -13,6 +13,10 @@ export default (state = initialState, action) => {
                 message: action.payload.message,
                 status: action.payload.status,
                 id: action.payload.id
+            };
+        case ERRORS_LOGGED:
+            return {
+                message: action.payload
             };
         case ERRORS_CLEARED:
             return {
