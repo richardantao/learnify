@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const auth = require("../middleware/auth");
-const controller = require("../controllers/properties");
+const controller = require("../controllers/geodata");
 
 router.get("/countries", auth, controller.countries);
 

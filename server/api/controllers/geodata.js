@@ -1,7 +1,7 @@
-const Property = require("../models/Property");
+const Geodata = require("../models/Geodata");
 
 exports.countries = (req, res) => {
-    Property.find({ type: "country" })
+    Geodata.find({ type: "country" })
     .then(countries => {
         return res.status(200).json(countries);
     })
@@ -13,7 +13,7 @@ exports.countries = (req, res) => {
 exports.regions = (req, res) => {
     const { country } = req.params;
 
-    Property.find({ parent: country, type: "region" })
+    Geodata.find({ parent: country, type: "region" })
     .then(regions => {
         return res.status(200).json(regions);
     })
@@ -25,7 +25,7 @@ exports.regions = (req, res) => {
 exports.institutions = (req, res) => {
     const { region } = req.params;
 
-    Property.find({ parent: region, type: "institution" })
+    Geodata.find({ parent: region, type: "institution" })
     .then()
     .catch(err => { 
         return res.status(500).json({ message: err.message }) 
@@ -35,7 +35,7 @@ exports.institutions = (req, res) => {
 exports.schools = (req, res) => {
     const { institution } = req.params;
 
-    Property.find({ parent: institution, type: "school" })
+    Geodata.find({ parent: institution, type: "school" })
     .then(schools => {
         return res.status(200).json(schools);
     })

@@ -1,6 +1,6 @@
 const { model, Schema } = require("mongoose");
 
-module.exports = model("properties", new Schema({
+module.exports = model("geodata", new Schema({
     _id: Schema.Types.ObjectId,
     parent: String,
     title: { type: String, required: true },
