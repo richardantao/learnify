@@ -9,14 +9,14 @@ import { clearErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
 import { 
-    Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input
+    Row, Col,
+    Form, FormGroup, Alert, Label, Input, Button
 } from "reactstrap";
 
 class YearEdit extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         _id: "",
         title: "",
         start: "",
@@ -25,7 +25,6 @@ class YearEdit extends Component {
     };
 
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         year: PropTypes.object.isRequired,
         updateYear: PropTypes.func.isRequired,
@@ -59,11 +58,11 @@ class YearEdit extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
 
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => {
@@ -105,15 +104,10 @@ class YearEdit extends Component {
         };
 
         updateYear(_id, year);
-
-        // close modal and sending confirmation message
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
     };
 
     render() {
-        const { modal, _id, title, start, end, message } = this.state;
+        const { isOpen, _id, title, start, end, message } = this.state;
 
         const isEnabled = title && start && end && moment(start) < moment(end);
 
@@ -123,46 +117,51 @@ class YearEdit extends Component {
                     Manage Academics
                 </Button>
 
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Edit Year</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            {  message === "Year updated" || message === "Year deleted" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null}
+                            { message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup>
-                                <Label for="title">Title</Label>
-                                <Input
-                                    name="title"
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input
+                                            name="title"
+                                            type="text"
+                                            value={title}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="start">Start Date</Label>
-                                <Input
-                                    name="start"
-                                    type="date"
-                                    value={start}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="end">End Date</Label>
-                                <Input
-                                    name="end"
-                                    type="date"
-                                    value={end}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="start">Start Date</Label>
+                                        <Input
+                                            name="start"
+                                            type="date"
+                                            value={start}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="end">End Date</Label>
+                                        <Input
+                                            name="end"
+                                            type="date"
+                                            value={end}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Year</Button>
+                                <Button type="button" onClick={this.handleDelete(_id)}>Delete Year</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                                 <Button type="submit" disabled={!isEnabled}>Update Year</Button>
                             </ModalFooter>
@@ -175,7 +174,6 @@ class YearEdit extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     year: state.year
 });

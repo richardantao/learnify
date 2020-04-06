@@ -11,26 +11,26 @@ import Icon from '../../atoms/Icon';
 import { 
     Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter, 
+    Row, Col,
     Form, FormGroup, Label, Input
 } from "reactstrap";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
-class TaskEditModal extends Component {
+class TaskEdit extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         _id: "",
         course: {},
         title: "",
         type: "",
         deadline: "",
-        completion: 0,
+        completed: 0,
         description: "",
         courses: [],
         message: null
     };
 
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         task: PropTypes.object.isRequired,
         editTask: PropTypes.func.isRequired,
@@ -40,7 +40,7 @@ class TaskEditModal extends Component {
     };
     
     componentDidUpdate(prevProps, prevState) {
-        const{ modal } = this.state;
+        const{ isOpen } = this.state;
         const { 
             error,
             task: { tasks, courses }
@@ -54,14 +54,14 @@ class TaskEditModal extends Component {
             };
         };
 
-        if(modal && !prevState.modal) {
+        if(isOpen && !prevState.isOpen) {
             this.setState({
                 _id: tasks._id,
                 course: tasks.course,
                 title: tasks.title,
                 type: tasks.type,
                 deadline: tasks.deadline,
-                completion: tasks.completion,
+                completed: tasks.completed,
                 description: tasks.description,
                 courses
             });
@@ -70,10 +70,10 @@ class TaskEditModal extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => {
@@ -87,7 +87,7 @@ class TaskEditModal extends Component {
             title: "",
             type: "",
             deadline: "",
-            completion: 0,
+            completed: 0,
             description: "",
             courses: [],
             message: null
@@ -98,7 +98,6 @@ class TaskEditModal extends Component {
 
     handleDelete = id => {
         const { deleteTask } = this.props; 
-
         deleteTask(id);
 
         this.toggle();
@@ -108,21 +107,17 @@ class TaskEditModal extends Component {
         e.preventDefault();
 
         const { updateTask } = this.props;
-        const { _id, title, course, type, deadline, completion, note } = this.state;
+        const { _id, title, course, type, deadline, completed, note } = this.state;
 
-        const task = { title, course, type, deadline, completion, note };
+        const task = { title, course, type, deadline, completed, note };
 
         updateTask(_id, task);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
     };
     
     render() {
-        const { modal, _id, course, title, type, deadline, completion, description, courses, message } = this.state;
+        const { isOpen, _id, course, title, type, deadline, completed, description, courses, message } = this.state;
 
-        const isEnabled = course && title && type && deadline && completion;
+        const isEnabled = course && title && type && deadline && completed;
 
         return (
             <>
@@ -130,80 +125,93 @@ class TaskEditModal extends Component {
                     <Icon icon={faEdit}/>
                 </Button>
 
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Edit Task</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody> 
-                            { message === "Task updated" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null }
+                            { message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup>
-                                <Label for="title">Title</Label>
-                                <Input 
-                                    name="title" 
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="course">Course</Label>
-                                <Input 
-                                    nam="course"
-                                    type="select"
-                                    value={course}
-                                    onChange={this.handleChange}
-                                    required
-                                >
-                                    <option key={course._id} value={JSON.stringify(course.title)} selected="selected">
-                                        {course.title}
-                                    </option>
-                                    {courses.map(({ _id, course }) => (
-                                        <option key={_id} value={JSON.stringify(course)}>
-                                            {course}
-                                        </option>
-                                    ))}
-                                </Input>
-
-                                <Label for="type">Type</Label>
-                                <Input 
-                                    name="type" 
-                                    type="select" 
-                                    value={type}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="deadline">Deadline</Label>
-                                <Input 
-                                    name="deadline" 
-                                    type="date" 
-                                    value={deadline} 
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="completion">Completion</Label>
-                                <Input 
-                                    name="completion" 
-                                    type="range" 
-                                    value={completion} 
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="description">Description</Label>
-                                <Input 
-                                    name="description" 
-                                    type="textarea" 
-                                    value={description}
-                                    onChange={this.handleChange}
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input 
+                                            name="title" 
+                                            type="text"
+                                            value={title}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="course">Course</Label>
+                                        <Input 
+                                            name="course"
+                                            type="select"
+                                            value={course}
+                                            onChange={this.handleChange}
+                                            required
+                                        >
+                                            <option key={course._id} value={JSON.stringify(course.title)} selected="selected">
+                                                {course.title}
+                                            </option>
+                                            {courses.map(({ _id, course }) => (
+                                                <option key={_id} value={JSON.stringify(course)}>
+                                                    {course}
+                                                </option>
+                                            ))}
+                                        </Input>
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            <FormGroup>
+                                <Row>
+                                    <Col>
+                                        <Label for="type">Type</Label>
+                                        <Input 
+                                            name="type" 
+                                            type="select" 
+                                            value={type}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="deadline">Deadline</Label>
+                                        <Input 
+                                            name="deadline" 
+                                            type="date" 
+                                            value={deadline} 
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row> 
+                            </FormGroup>
+                            <FormGroup>
+                                <Row>
+                                    <Col>
+                                        <Label for="completed">Completed</Label>
+                                        <Input 
+                                            name="completed" 
+                                            type="checkbox" 
+                                            value={completed} 
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="description">Description</Label>
+                                        <Input 
+                                            name="description" 
+                                            type="textarea" 
+                                            value={description}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete</Button>
+                                <Button type="button" onClick={this.handleDelete(_id)}>Delete</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                                 <Button type="submit" disabled={!isEnabled}>Update</Button>
                             </ModalFooter>    
@@ -216,11 +224,10 @@ class TaskEditModal extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     task: state.task
 });
 
 const mapDispatchToProps = { editTask, updateTask, deleteTask, clearErrors };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TaskEditModal);
+export default connect(mapStateToProps, mapDispatchToProps)(TaskEdit);

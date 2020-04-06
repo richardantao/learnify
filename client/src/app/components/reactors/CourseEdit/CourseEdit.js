@@ -10,14 +10,14 @@ import Icon from "../../atoms/Icon";
 import { 
     Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter, 
+    Row, Col,
     Form, FormGroup, Label, Input
 } from "reactstrap";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
-
 class CourseEdit extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         _id: "", 
         term: {},
         code: "",
@@ -30,7 +30,6 @@ class CourseEdit extends Component {
     };
     
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         course: PropTypes.object.isRequired,
         updateCourse: PropTypes.func.isRequired,
@@ -57,7 +56,7 @@ class CourseEdit extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { error/*, isAuthenticated*/ } = this.props;
+        const { error } = this.props;
 
         if(error !== prevProps.error) {
             if(error._id === "COURSES_ERROR") {
@@ -70,11 +69,11 @@ class CourseEdit extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
 
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => {
@@ -121,14 +120,10 @@ class CourseEdit extends Component {
         };
 
         updateCourse(_id, course);
-
-        setTimeout(() => {
-            this.toggle();            
-        }, 2000);
     };
 
     render() {
-        const { modal, _id, code, term, title, credit, instructor, theme, terms, message } = this.state;
+        const { isOpen, _id, code, term, title, credit, instructor, theme, terms, message } = this.state;
 
         const isEnabled = code && term && title && credit && theme;
 
@@ -138,86 +133,99 @@ class CourseEdit extends Component {
                     <Icon icon={faEdit}/>
                 </Button>
 
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Edit Course</ModalHeader>
                     <Form onSubmit={this.handleSubmit} className="">
                         <ModalBody>  
-                            {  message === "Course updated" || message === "Course deleted" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null}
+                            {  message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup>
-                                <Label for="code">Code</Label>
-                                <Input
-                                    name="code"
-                                    type="text"
-                                    value={code}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="term">Term</Label>
-                                <Input
-                                    name="term"
-                                    type="select"
-                                    onChange={this.handleChange}
-                                    required
-                                >
-                                    <option key={term._id} value={JSON.stringify(term.title)} selected="selected">
-                                        {term.title}
-                                    </option>
-                                    {terms.map(({ _id, title }) => {
-                                        return (
-                                            <option key={_id} value={JSON.stringify(title)}>
-                                                {title}
+                                <Row>
+                                    <Col>
+                                        <Label for="code">Code</Label>
+                                        <Input
+                                            name="code"
+                                            type="text"
+                                            value={code}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="term">Term</Label>
+                                        <Input
+                                            name="term"
+                                            type="select"
+                                            onChange={this.handleChange}
+                                            required
+                                        >
+                                            <option key={term._id} value={JSON.stringify(term.title)} selected="selected">
+                                                {term.title}
                                             </option>
-                                        );
-                                    })}
-                                </Input>
-
+                                            {terms.map(({ _id, title }) => {
+                                                return (
+                                                    <option key={_id} value={JSON.stringify(title)}>
+                                                        {title}
+                                                    </option>
+                                                );
+                                            })}
+                                        </Input>
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="title">Title</Label>
-                                <Input
-                                    name="title"
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                    required
-                                />  
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input
+                                            name="title"
+                                            type="text"
+                                            value={title}
+                                            onChange={this.handleChange}
+                                            required
+                                        />  
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="credit">Credit</Label>
-                                <Input
-                                    name="credit"
-                                    type="number"
-                                    value={credit}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="instructor">Instructor</Label>
-                                <Input
-                                    name="instructor"
-                                    type="text"
-                                    value={instructor}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col xs="" sm="" md="" lg="" xl="">
+                                        <Label for="credit">Credit</Label>
+                                        <Input
+                                            name="credit"
+                                            type="number"
+                                            value={credit}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col xs="" sm="" md="" lg="" xl="">
+                                        <Label for="instructor">Instructor</Label>
+                                        <Input
+                                            name="instructor"
+                                            type="text"
+                                            value={instructor}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="theme">Theme</Label>
-                                <Input
-                                    name="theme"
-                                    type=""
-                                    value={theme}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="theme">Theme</Label>
+                                        <Input
+                                            name="theme"
+                                            type="color"
+                                            value={theme}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <ModalFooter>
-                                <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Course</Button>
+                                <Button type="button" onClick={this.handleDelete(_id)}>Delete Course</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                                 <Button type="submit" disabled={!isEnabled}>Update Course</Button>
                             </ModalFooter>
@@ -230,7 +238,6 @@ class CourseEdit extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     course: state.course
 });

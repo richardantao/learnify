@@ -13,15 +13,15 @@ import Icon from "../../atoms/Icon";
 
 /* */
 import { 
-    Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter,
-    Form, FormGroup, Label, Input
+    Row, Col,
+    Form, FormGroup, Alert, Label, Input, Button
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class YearNew extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         title: "",
         start: "",
         end: "",
@@ -29,7 +29,6 @@ class YearNew extends Component {
     };
 
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         year: PropTypes.object.isRequired,
         createYear: PropTypes.func.isRequired,
@@ -37,7 +36,7 @@ class YearNew extends Component {
     };
 
     componentDidUpdate(prevProps) {
-        const { error, /* isAuthenticated */ } = this.props;
+        const { error } = this.props;
 
         if(error !== prevProps.error) {
             if(error.id === "YEARS_ERROR") {
@@ -50,10 +49,10 @@ class YearNew extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => {
@@ -62,7 +61,7 @@ class YearNew extends Component {
 
     handleCancel = () => {
         this.setState({
-            modal: false,
+            isOpen: false,
             title: "",
             start: "",
             end: "",
@@ -87,14 +86,10 @@ class YearNew extends Component {
         };
 
         createYear(year);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
     };
 
     render() {
-        const { modal, title, start, end, message } = this.state;
+        const { isOpen, title, start, end, message } = this.state;
 
         const isEnabled = title && start && end && moment(start) < moment(end);
 
@@ -104,42 +99,53 @@ class YearNew extends Component {
                     <Icon icon={faPlus}/> New Academic Year
                 </Button>
 
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>
                         Create Year
                     </ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            { message === "Year created" ? <Alert color="success">{message}</Alert>
-                            : message ? <Alert color="danger">{message}</Alert>
-                            : null }
+                            { message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup>
-                                <Label for="title">Title</Label>
-                                <Input
-                                    name="title"
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="start">Start Date</Label>
-                                <Input
-                                    name="start"
-                                    type="date"
-                                    value={start}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="end">End Date</Label>
-                                <Input
-                                    name="end"
-                                    type="date"
-                                    value={end}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input
+                                            name="title"
+                                            type="text"
+                                            value={title}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                    
+                                    </Col>
+                                </Row>
+                            </FormGroup>
+                            <FormGroup>
+                                <Row>
+                                    <Col>
+                                        <Label for="start">Start Date</Label>
+                                        <Input
+                                            name="start"
+                                            type="date"
+                                            value={start}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="end">End Date</Label>
+                                        <Input
+                                            name="end"
+                                            type="date"
+                                            value={end}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
@@ -158,7 +164,6 @@ class YearNew extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error
 });
 

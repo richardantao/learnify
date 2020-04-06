@@ -7,14 +7,15 @@ import PropTypes from "prop-types";
 
 import { 
     Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input, Button, Alert 
+    Row, Col,
+    Form, FormGroup, Alert, Label, Input, Button, 
 } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 class AssessmentEdit extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         _id: "", 
         course: {},
         title: "",
@@ -25,11 +26,11 @@ class AssessmentEdit extends Component {
         score: "",
         weight: "",
         courses: [],
+        completed: false,
         message: null
     };
     
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         assessment: PropTypes.object.isRequired,
         updateAssessment: PropTypes.func.isRequired,
@@ -38,7 +39,7 @@ class AssessmentEdit extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        const { modal } = this.state;
+        const { isOpen } = this.state;
         const { 
             error,
             assessment: { assessments, courses }
@@ -52,7 +53,7 @@ class AssessmentEdit extends Component {
             };
         };
 
-        if(modal && !prevState.modal) {
+        if(isOpen && !prevState.isOpen) {
             this.setState({
                 _id: assessments._id,
                 course: assessments.course,
@@ -63,6 +64,7 @@ class AssessmentEdit extends Component {
                 end: assessments.date.end,
                 score: assessments.grade.score,
                 weight: assessments.grade.weight,
+                completed: assessments.completed,
                 courses
             });
         };
@@ -70,10 +72,10 @@ class AssessmentEdit extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => {
@@ -91,6 +93,7 @@ class AssessmentEdit extends Component {
             end: "",
             score: "",
             weight: "",
+            completed: false,
             courses: [],
             message: null
         });
@@ -110,7 +113,7 @@ class AssessmentEdit extends Component {
         e.preventDefault();
 
         const { updateAssessment } = this.props;
-        const { _id, course, title, type, location, start, end, score, weight } = this.state;
+        const { _id, course, title, type, location, start, end, score, weight, completed } = this.state;
 
         const assessment = {
             course,
@@ -124,18 +127,15 @@ class AssessmentEdit extends Component {
             grade: {
                 score,
                 weight
-            }
+            },
+            completed
         };
 
         updateAssessment(_id, assessment);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
     };
 
     render() {
-        const { modal, _id, title, course, type, location, start, end, weight, score, courses, message } = this.state;
+        const { isOpen, _id, title, course, type, location, start, end, weight, score, completed, courses, message } = this.state;
 
         const isEnabled = title && course && type & location & start;
 
@@ -145,77 +145,90 @@ class AssessmentEdit extends Component {
                     <FontAwesomeIcon icon={faEdit}/>
                 </Button>
             
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>Edit Assessment</ModalHeader>
                     <ModalBody>
                         <Form onSubmit={this.handleSubmit}>
-                            { message === "Assessment Updated" ? <Alert color="success">{message}</Alert>
-                            : message ? <Alert color="danger">{message}</Alert>
-                            : null}
+                            { message ? <Alert color="danger">{message}</Alert> : null}
                             <FormGroup>
-                                <Label for="title">Title</Label>
-                                <Input
-                                    name="title"
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                />
-
-                                <Label for="course"></Label>
-                                <Input
-                                    name="course"
-                                    type="select"
-                                    onChange={this.handleChange}
-                                >
-                                    <option key={course._id} value={JSON.stringify(course._id)} selected="selected">
-                                        {course.title}
-                                    </option>
-                                    {courses.map(({ _id, title }) => {
-                                        return (
-                                            <option key={_id} value={JSON.stringify(title)}>
-                                                {title}
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input
+                                            name="title"
+                                            type="text"
+                                            value={title}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="course"></Label>
+                                        <Input
+                                            name="course"
+                                            type="select"
+                                            onChange={this.handleChange}
+                                        >
+                                            <option key={course._id} value={JSON.stringify(course._id)} selected="selected">
+                                                {course.title}
                                             </option>
-                                        );
-                                    })}    
-                                </Input>
+                                            {courses.map(({ _id, title }) => {
+                                                return (
+                                                    <option key={_id} value={JSON.stringify(title)}>
+                                                        {title}
+                                                    </option>
+                                                );
+                                            })}    
+                                        </Input>
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="type">Type</Label>
-                                <Input
-                                    name="type"
-                                    type="select"
-                                    onChange={this.handleChange}
-                                    required
-                                >
-                                    <option value={JSON.stringify(type)}>{type}</option>
-                                input option types
-                                </Input>
-
-                                <Label for="location">Location</Label>
-                                <Input
-                                    name="location"
-                                    type="text"
-                                    value={location}
-                                    onChange={this.handleChange}
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="type">Type</Label>
+                                        <Input
+                                            name="type"
+                                            type="select"
+                                            onChange={this.handleChange}
+                                            required
+                                        >
+                                            <option value={JSON.stringify(type)}>{type}</option>
+                                        input option types
+                                        </Input>
+                                    </Col>
+                                    <Col>
+                                        <Label for="location">Location</Label>
+                                        <Input
+                                            name="location"
+                                            type="text"
+                                            value={location}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                    <Label for="start">Start-</Label>
-                                    <Input
-                                        name="start"
-                                        type="date"
-                                        value={start}
-                                        onChange={this.handleChange}
-                                        required
-                                    />
-
-                                    <Label for="end">End Date</Label>
-                                    <Input
-                                        name="end"
-                                        type="date"
-                                        value={end}
-                                        onChange={this.handleChange}
-                                    />
+                                <Row>
+                                    <Col>
+                                        <Label for="start">Start-</Label>
+                                        <Input
+                                            name="start"
+                                            type="date"
+                                            value={start}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="end">End Date</Label>
+                                        <Input
+                                            name="end"
+                                            type="date"
+                                            value={end}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Row>    
                             </FormGroup>
                             <FormGroup>
                                 <Label for="score">Score</Label>
@@ -234,6 +247,15 @@ class AssessmentEdit extends Component {
                                     onChange={this.handleChange}
                                 />
                             </FormGroup>
+                            <FormGroup>
+                                <Label for="completed">Completed</Label>
+                                <Input
+                                    name="completed"
+                                    type="checkbox"
+                                    checked={completed}
+                                    onChange={this.handleChange}
+                                />
+                            </FormGroup>
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleDelete.bind(_id)}>Delete Assessment</Button>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>
@@ -248,7 +270,6 @@ class AssessmentEdit extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     assessment: state.assessment
 });

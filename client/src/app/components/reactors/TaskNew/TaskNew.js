@@ -10,26 +10,25 @@ import Icon from "../../atoms/Icon";
 
 import { 
     Alert, Button,
-    Modal, ModalHeader, ModalBody, ModalFooter, 
+    Modal, ModalHeader, ModalBody, ModalFooter,
+    Row, Col, 
     Form, FormGroup, Label, Input
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class TaskNew extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         course: "",
         title: "",
         type: "",
         deadline: "",
-        completion: 0,
         description: "",
         courses: [],
         message: null
     }
 
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         task: PropTypes.object.isRequired,
         newTask: PropTypes.func.isRequired,
@@ -38,7 +37,7 @@ class TaskNew extends Component {
     };
     
     componentDidUpdate(prevProps, prevState) {
-        const { modal } = this.state;
+        const { isOpen } = this.state;
         const { 
             error,
             task: { courses },
@@ -53,7 +52,7 @@ class TaskNew extends Component {
             };
         };
 
-        if(modal && !prevState.modal) {
+        if(isOpen && !prevState.isOpen) {
             newTask();
 
             if(courses !== prevProps.task.courses) {
@@ -64,10 +63,10 @@ class TaskNew extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => {
@@ -80,7 +79,6 @@ class TaskNew extends Component {
             title: "",
             type: "",
             deadline: "",
-            completion: 0,
             description: "",
             courses: [],
             message: null
@@ -92,10 +90,10 @@ class TaskNew extends Component {
     handleSubmit = e => {
         e.preventDefault();
 
-        const { title, course, type, deadline, completion, description } = this.state;
+        const { title, course, type, deadline, description } = this.state;
         const { createTask } = this.props;
 
-        const task = { title, course, type, deadline, completion, description };
+        const task = { title, course, type, deadline, description };
       
         createTask(task);
       
@@ -105,7 +103,7 @@ class TaskNew extends Component {
     };
     
     render() {
-        const { modal, title, course, type, deadline, completion, description, courses, message } = this.state;
+        const { isOpen, title, course, type, deadline, description, courses, message } = this.state;
 
         const isEnabled = title && course && type && deadline;
 
@@ -115,7 +113,7 @@ class TaskNew extends Component {
                     <Icon icon={faPlus}/> New Task
                 </Button>
 
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>New Task</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>    
@@ -123,60 +121,63 @@ class TaskNew extends Component {
                             : message ? <Alert color="danger">{message}</Alert>
                             : null }
                             <FormGroup className="modal-body">
-                                <Label for="title">Title</Label>
-                                <Input 
-                                    name="title"
-                                    type="text" 
-                                    value={title}
-                                    onChange={this.handleChange}
-                                />
-
-                                <Label for="course">Course</Label>
-                                <Input
-                                    name="course" 
-                                    type="select" 
-                                    value={course}
-                                    onChange={this.handleChange}
-                                    required
-                                >
-                                    {courses.map(({ _id, title }) => {
-                                        return (
-                                            <option key={_id} value={JSON.stringify(_id)}>
-                                                {title}
-                                            </option>
-                                        );
-                                    })}
-                                </Input>
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input 
+                                            name="title"
+                                            type="text" 
+                                            value={title}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="course">Course</Label>
+                                        <Input
+                                            name="course" 
+                                            type="select" 
+                                            value={course}
+                                            onChange={this.handleChange}
+                                            required
+                                        >
+                                            {courses.map(({ _id, title }) => {
+                                                return (
+                                                    <option key={_id} value={JSON.stringify(_id)}>
+                                                        {title}
+                                                    </option>
+                                                );
+                                            })}
+                                        </Input>
+                                    </Col>
+                                </Row>
+                                
                             </FormGroup>
                             <FormGroup className="modal-body">
-                                <Label for="type">Type</Label>
-                                <Input 
-                                    name="type" 
-                                    type="select" 
-                                    value={type} 
-                                    onChange={this.handleChange}
-                                >
-                                    type options here
-                                </Input>
-
-                                <Label for="deadline">Deadline</Label>
-                                <Input 
-                                    name="deadline"
-                                    type="date"
-                                    value={deadline}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="type">Type</Label>
+                                        <Input 
+                                            name="type" 
+                                            type="select" 
+                                            value={type} 
+                                            onChange={this.handleChange}
+                                        >
+                                        type options here
+                                        </Input>
+                                    </Col>
+                                    <Col>
+                                        <Label for="deadline">Deadline</Label>
+                                        <Input 
+                                            name="deadline"
+                                            type="date"
+                                            value={deadline}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>    
                             </FormGroup>
                             <FormGroup className="modal-body">
-                                <Label>Completion</Label>
-                                <Input
-                                    name="completion"
-                                    type="range"
-                                    value={completion}
-                                    onChange={this.handleChange}
-                                />
-
                                 <Label>Description</Label>
                                 <Input
                                     name="description"
@@ -198,7 +199,6 @@ class TaskNew extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     task: state.task
 });

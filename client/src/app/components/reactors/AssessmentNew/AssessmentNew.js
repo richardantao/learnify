@@ -11,13 +11,14 @@ import Icon from "../../atoms/Icon";
 import { 
     Alert, Button,
     Modal, ModalHeader, ModalBody, ModalFooter,
+    Row, Col,
     Form, FormGroup, Label, Input, 
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class AssessmentNew extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         _id: "",
         course: "",
         title: "",
@@ -41,7 +42,7 @@ class AssessmentNew extends Component {
     };
 
     componentDidUpdate (prevProps, prevState) {
-        const { modal } = this.state;
+        const { isOpen } = this.state;
         const { 
             error,
             assessment: { courses },
@@ -56,7 +57,7 @@ class AssessmentNew extends Component {
             };
         };
 
-        if(modal && !prevState.modal) {
+        if(isOpen && !prevState.isOpen) {
             newAssessment();
 
             if(courses !== prevProps.assessment.courses) {
@@ -67,10 +68,10 @@ class AssessmentNew extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => {
@@ -117,14 +118,10 @@ class AssessmentNew extends Component {
         };
 
         createAssessment(assessment);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
     };  
 
     render() {
-        const { modal, title, course, type, location, start, end, score, weight, courses, message } = this.state;
+        const { isOpen, title, course, type, location, start, end, score, weight, courses, message } = this.state;
 
         const isEnabled = title && course && type & location & start;
 
@@ -134,96 +131,114 @@ class AssessmentNew extends Component {
                     <Icon icon={faPlus}/> New Assessment
                 </Button>
 
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>New Assessment</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            { message === "Assessment created" ? <Alert color="success">{message}</Alert>
-                            : message ? <Alert color="danger">{message}</Alert>
-                            : null }
+                            { message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup>
-                                <Label for="title">Title</Label>
-                                <Input
-                                    name="title"
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="course">Course</Label>
-                                <Input 
-                                    name="course"
-                                    type="select"
-                                    value={course}
-                                    onChange={this.handleChange}
-                                    required
-                                >
-                                    {courses.map(({ _id, title }) => {
-                                        return (
-                                            <option key={_id} value={JSON.stringify(_id)}>
-                                                {title}
-                                            </option>
-                                        );
-                                    })}    
-                                </Input>
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input
+                                            name="title"
+                                            type="text"
+                                            value={title}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="course">Course</Label>
+                                        <Input 
+                                            name="course"
+                                            type="select"
+                                            value={course}
+                                            onChange={this.handleChange}
+                                            required
+                                        >
+                                            {courses.map(({ _id, title }) => {
+                                                return (
+                                                    <option key={_id} value={JSON.stringify(_id)}>
+                                                        {title}
+                                                    </option>
+                                                );
+                                            })}    
+                                        </Input>
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="type">Type</Label>
-                                <Input
-                                    name="type"
-                                    type="select"
-                                    value={type}
-                                    onChange={this.handleChange}
-                                    required
-                                >
-                                    {/* populate options here */}
-                                </Input>
-
-                                <Label for="location">Location</Label>
-                                <Input
-                                    name="location"
-                                    type="text"
-                                    value={location}
-                                    onChange={this.handleChange}
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="type">Type</Label>
+                                        <Input
+                                            name="type"
+                                            type="select"
+                                            value={type}
+                                            onChange={this.handleChange}
+                                            required
+                                        >
+                                            {/* populate options here */}
+                                        </Input>
+                                    </Col>
+                                    <Col>
+                                        <Label for="location">Location</Label>
+                                        <Input
+                                            name="location"
+                                            type="text"
+                                            value={location}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="start">Start-</Label>
-                                <Input
-                                    name="start"
-                                    type="date"
-                                    value={start}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="end">End Date</Label>
-                                <Input
-                                    name="end"
-                                    type="date"
-                                    value={end}
-                                    onChange={this.handleChange}
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="start">Start-</Label>
+                                        <Input
+                                            name="start"
+                                            type="date"
+                                            value={start}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="end">End Date</Label>
+                                        <Input
+                                            name="end"
+                                            type="date"
+                                            value={end}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Row>                                
                             </FormGroup>
                             <FormGroup>
-                                <Label for="weight">Weight</Label>
-                                <Input
-                                    name="weight"
-                                    type="number"
-                                    value={weight}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="score">Score/Grade/Mark</Label>
-                                <Input
-                                    name="score"
-                                    type="number"
-                                    value={score}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="weight">Weight</Label>
+                                        <Input
+                                            name="weight"
+                                            type="number"
+                                            value={weight}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="score">Score/Grade/Mark</Label>
+                                        <Input
+                                            name="score"
+                                            type="number"
+                                            value={score}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleCancel}>Cancel</Button>

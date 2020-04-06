@@ -9,13 +9,14 @@ import Icon from "../../atoms/Icon";
 
 import { 
     Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input, Button, Alert 
+    Row, Col,
+    Form, FormGroup, Alert, Label, Input, Button
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class CourseNew extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         term: "",
         code: "",
         title: "",
@@ -27,7 +28,6 @@ class CourseNew extends Component {
     };
 
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         course: PropTypes.object.isRequired,
         newCourse: PropTypes.func.isRequired,
@@ -36,7 +36,7 @@ class CourseNew extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        const { modal } = this.state;
+        const { isOpen } = this.state;
         const { 
             error,
             course: { terms },
@@ -51,7 +51,7 @@ class CourseNew extends Component {
             };
         };
 
-        if(modal && !prevState.modal) {
+        if(isOpen && !prevState.isOpen) {
             newCourse();
 
             if(terms !== prevProps.course.terms) {
@@ -62,10 +62,10 @@ class CourseNew extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => {
@@ -103,14 +103,10 @@ class CourseNew extends Component {
         };
 
         createCourse(course);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
     };
     
     render() {
-        const { modal, term, code, title, credit, instructor, theme, terms, message } = this.state;
+        const { isOpen, term, code, title, credit, instructor, theme, terms, message } = this.state;
 
         const isEnabled = term && code && title && credit && theme;
 
@@ -120,79 +116,93 @@ class CourseNew extends Component {
                     <Icon icon={faPlus}/> New Course
                 </Button>
 
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>New Course</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>    
-                            { message === "Course created" ? (
-                                <Alert color="success">{message}</Alert>
-                            ): message ? (
-                                <Alert color="danger">{message}</Alert>
-                            ): null }
+                            { message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup>
-                                <Label for="term">Term</Label>
-                                <Input
-                                    name="term"
-                                    type="select"
-                                    onChange={this.handleChange}
-                                    required
-                                >
-                                    {terms.map(({ _id, title }) => {
-                                        return (
-                                            <option key={_id} value={JSON.stringify(_id)}>
-                                                {title}
-                                            </option>
-                                        );
-                                    })}
-                                </Input>
-
-                                <Label for="code">Code</Label>
-                                <Input
-                                    name="code"
-                                    type="text"
-                                    value={code}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="code">Code</Label>
+                                        <Input
+                                            name="code"
+                                            type="text"
+                                            value={code}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="term">Term</Label>
+                                        <Input
+                                            name="term"
+                                            type="select"
+                                            onChange={this.handleChange}
+                                            required
+                                        >
+                                            {terms.map(({ _id, title }) => {
+                                                return (
+                                                    <option key={_id} value={JSON.stringify(_id)}>
+                                                        {title}
+                                                    </option>
+                                                );
+                                            })}
+                                        </Input>
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="title">Title</Label>
-                                <Input
-                                    name="title"
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input
+                                            name="title"
+                                            type="text"
+                                            value={title}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <FormGroup>
-                                <Label for="credit">Credit</Label>
-                                <Input
-                                    name="credit"
-                                    type="number"
-                                    value={credit}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="instructor">Instructor</Label>
-                                <Input
-                                    name="instructor"
-                                    type="text"
-                                    value={instructor}
-                                    onChange={this.handleChange}
-                                />
+                                <Row>
+                                    <Col xs="" sm="" md="" lg="" xl=""> 
+                                        <Label for="credit">Credit</Label>
+                                        <Input
+                                            name="credit"
+                                            type="number"
+                                            value={credit}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col xs="" sm="" md="" lg="" xl=""> 
+                                        <Label for="instructor">Instructor</Label>
+                                        <Input
+                                            name="instructor"
+                                            type="text"
+                                            value={instructor}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Row>    
                             </FormGroup>
                             <FormGroup>
-                                <Label for="theme">Theme</Label>
-                                <Input
-                                    name="theme"
-                                    type="text"
-                                    value={theme}
-                                    onChange={this.handleChange}
-                                    required
-                                /> {/* Use selected options */}
+                                <Row>
+                                    <Col>
+                                        <Label for="theme">Theme</Label>
+
+                                        <Input
+                                            name="theme"
+                                            type="color"
+                                            value={theme}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                             <ModalFooter>
                                 <Button type="button" onClick={this.handleCancel} className="">Cancel</Button>
@@ -207,7 +217,6 @@ class CourseNew extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     course: state.course
 });

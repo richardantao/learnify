@@ -12,15 +12,16 @@ import PropTypes from "prop-types";
 import Icon from "../../atoms/Icon";
 
 import { 
-    Alert, Button,
+    
     Modal, ModalHeader, ModalBody, ModalFooter, 
-    Form, FormGroup, Label, Input
+    Row, Col,
+    Form, FormGroup, Alert, Label, Input, Button
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 class TermNew extends Component {
     state = {
-        modal: false,
+        isOpen: false,
         year: "",
         title: "",
         start: "",
@@ -30,7 +31,6 @@ class TermNew extends Component {
     };
 
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         term: PropTypes.object.isRequired,
         newTerm: PropTypes.func.isRequired,
@@ -39,7 +39,7 @@ class TermNew extends Component {
     };
 
     componentDidUpdate(prevProps, prevState) {
-        const { modal } = this.state;
+        const { isOpen } = this.state;
         const { 
             error,
             term: { years },
@@ -54,7 +54,7 @@ class TermNew extends Component {
             };
         };
 
-        if(modal && !prevState.modal) {
+        if(isOpen && !prevState.isOpen) {
             newTerm();
             
             if(years !== prevProps.term.years) {
@@ -65,10 +65,10 @@ class TermNew extends Component {
 
     toggle = () => {
         const { clearErrors } = this.props;
-        const { modal } = this.state;
+        const { isOpen } = this.state;
 
         clearErrors();
-        this.setState({ modal: !modal });
+        this.setState({ isOpen: !isOpen });
     };
 
     handleChange = e => { this.setState({ [e.target.name]: e.target.value }) };
@@ -89,10 +89,6 @@ class TermNew extends Component {
         };
 
         createTerm(term);
-
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
     };
 
     handleCancel = () => {
@@ -107,7 +103,7 @@ class TermNew extends Component {
     };
 
     render() {
-        const { modal, year, title, start, end, years, message } = this.state;
+        const { isOpen, year, title, start, end, years, message } = this.state;
 
         const isEnabled = year && title && start && end
         && moment(start) < moment(end);
@@ -118,57 +114,65 @@ class TermNew extends Component {
                     <Icon icon={faPlus}/> New Term
                 </Button>
 
-                <Modal isOpen={modal} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle}>
                     <ModalHeader toggle={this.toggle}>New Term</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>
-                            { message === "Term created" ? <Alert color="success">{message}</Alert>
-                            : message ? <Alert color="danger">{message}</Alert>
-                            : null }
+                            { message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup>
-                                <Label for="year">Year</Label>
-                                <Input
-                                    name="year"
-                                    type="select"
-                                    onChange={this.handleChange}
-                                    required
-                                >
-                                    {years.map(({ _id, title }) => {
-                                        return (
-                                            <option key={_id} value={JSON.stringify(_id)}>
-                                                {title}
-                                            </option>
-                                        );
-                                    })}    
-                                </Input>
-
-                                <Label for="title">Title</Label>
-                                <Input
-                                    name="title"
-                                    type="text"
-                                    value={title}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="title">Title</Label>
+                                        <Input
+                                            name="title"
+                                            type="text"
+                                            value={title}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="year">Year</Label>
+                                        <Input
+                                            name="year"
+                                            type="select"
+                                            onChange={this.handleChange}
+                                            required
+                                        >
+                                            {years.map(({ _id, title }) => {
+                                                return (
+                                                    <option key={_id} value={JSON.stringify(_id)}>
+                                                        {title}
+                                                    </option>
+                                                );
+                                            })}    
+                                        </Input>
+                                    </Col>
+                                </Row>  
                             </FormGroup>
                             <FormGroup>
-                                <Label for="start">Start Date</Label>
-                                <Input
-                                    name="start"
-                                    type="date"
-                                    value={start}
-                                    onChange={this.handleChange}
-                                    required
-                                />
-
-                                <Label for="end">End Date</Label>
-                                <Input
-                                    name="end"
-                                    type="date"
-                                    value={end}
-                                    onChange={this.handleChange}
-                                    required
-                                />
+                                <Row>
+                                    <Col>
+                                        <Label for="start">Start - </Label>
+                                        <Input
+                                            name="start"
+                                            type="date"
+                                            value={start}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <Label for="end">End Date</Label>
+                                        <Input
+                                            name="end"
+                                            type="date"
+                                            value={end}
+                                            onChange={this.handleChange}
+                                            required
+                                        />
+                                    </Col>
+                                </Row>
                             </FormGroup>
                         </ModalBody>
                         <ModalFooter>
@@ -183,7 +187,6 @@ class TermNew extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     term: state.term
 });
