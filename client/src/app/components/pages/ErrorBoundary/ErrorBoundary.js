@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Helmet from "react-helmet";
 
 import { connect } from "react-redux";
 import { logErrors } from "../../../actions/auth/errors";
@@ -27,9 +28,16 @@ class ErrorBoundary extends Component {
         
         if(hasError) {
             return (
-                <main role="main">
-                    {message}
-                </main>
+                <>
+                    <Helmet>
+                        <meta name="" content=""/>
+                        <meta name="" content=""/>
+                        <title>Learnify | 400 Bar Request Error</title>
+                    </Helmet>
+                    <main role="main">
+                        {message}
+                    </main>
+                </>
             );
         } else return children;
     };

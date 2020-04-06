@@ -8,7 +8,7 @@ export default () => {
             <Helmet>
                 <meta name="description" content="Page could not be found."/>
                 <meta name="keywords" content="Not, Found, Page"/>
-                <title>Learnify | Page Not Found</title>
+                <title>Learnify | 404 Page Not Found</title>
             </Helmet>
             <main role="main" id="not-found">
                 { isMobile ? 
