@@ -60,39 +60,47 @@ class App extends Component {
 
     render () {
         return (
-            <Row id="app">
-                { true ? // change to isauthenticated for production
-                    <>
-                        <Col xs="1" sm="1" md="1" lg="1" xl="1">
-                            <AppNav/>
-                        </Col>
-                        <Col xs="11" sm="11" md="11" lg="11" xl="11">
-                            <AuthNav/>
+            <ErrorBoundary>
+                <Row id="app">
+                    { true ? // change to isauthenticated for production
+                        <>
+                            <Col xs="1" sm="1" md="1" lg="1" xl="1">
+                                <AppNav/>
+                            </Col>
+                            <Col xs="11" sm="11" md="11" lg="11" xl="11">
+                                <AuthNav/>
+                                <Switch>
+                                    <Route path="/beta/dashboard" component={Dashboard}/>
+                                    <Route path="/beta/calendar" component={Calendar}/>
+                                    <Route path="/beta/academics" component={Academics}/>
+                                    <Route path="/beta/planner" component={Planner}/>
+                                    <Route path="/beta/settings" component={Settings}/>
+                                    <Route path="/beta/help" component={Help}/>
+                                </Switch>
+                            </Col>
+                        </>
+                    : 
+                        <Col>
                             <Switch>
-                                <Route path="/beta/dashboard" component={Dashboard}/>
-                                <Route path="/beta/calendar" component={Calendar}/>
-                                <Route path="/beta/academics" component={Academics}/>
-                                <Route path="/beta/planner" component={Planner}/>
-                                <Route path="/beta/settings" component={Settings}/>
-                                <Route path="/beta/help" component={Help}/>
+                                <Route path="/beta/register" component={AppRegister}/>
+                                <Route path="/beta/signin" component={AppLogin}/>
+                                <Route path="/beta/verify-email" component={AppVerify}/>
+                                <Route path="/beta/forgot-password" component={AppForgot}/>
+                                <Route path="/beta/reset-password" component={AppReset}/>
                             </Switch>
-                        </Col>
-                    </>
-                : 
-                    <Col>
-                        <Switch>
-                            <Route path="/beta/register" component={AppRegister}/>
-                            <Route path="/beta/signin" component={AppLogin}/>
-                            <Route path="/beta/verify-email" component={AppVerify}/>
-                            <Route path="/beta/forgot-password" component={AppForgot}/>
-                            <Route path="/beta/reset-password" component={AppReset}/>
-                        </Switch>
-                    </Col>  
-                }
-            </Row>
+                        </Col>  
+                    }
+                </Row>
+            </ErrorBoundary>
         );
     };
 };
+
+const ErrorBoundary = Loadable({
+	loader: () => import(/* webpackChunkName: "ErrorBoundary" */ "./components/pages/ErrorBoundary"),
+	loading: Loading,
+	delay: 300
+});
 
 const AppRegister = Loadable({
 	loader: () => import(/* webpackChunkName: "AppRegister" */ "./components/reactors/AppRegister"),
