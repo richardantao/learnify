@@ -73,7 +73,7 @@ class TaskNew extends Component {
         this.setState({ [e.target.name]: e.target.value });
     };
 
-    handleCancel = e => {
+    handleCancel = () => {
         this.setState({
             course: "",
             title: "",
@@ -96,10 +96,6 @@ class TaskNew extends Component {
         const task = { title, course, type, deadline, description };
       
         createTask(task);
-      
-        setTimeout(() => {
-            this.toggle();
-        }, 2000);
     };
     
     render() {
@@ -117,9 +113,7 @@ class TaskNew extends Component {
                     <ModalHeader toggle={this.toggle}>New Task</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>    
-                            { message === "Task created" ? <Alert color="success">{message}</Alert>
-                            : message ? <Alert color="danger">{message}</Alert>
-                            : null }
+                            { message ? <Alert color="danger">{message}</Alert> : null }
                             <FormGroup className="modal-body">
                                 <Row>
                                     <Col>
@@ -187,7 +181,7 @@ class TaskNew extends Component {
                                 />
                             </FormGroup>
                             <ModalFooter className="modal-action">
-                                <Button type="button" onCancel={this.handleCancel}>Cancel</Button>
+                                <Button type="button" onClick={this.handleCancel}>Cancel</Button>
                                 <Button type="submit" disabled={!isEnabled}>Create Task</Button>
                             </ModalFooter>
                         </ModalBody>
