@@ -23,12 +23,12 @@ class ErrorBoundary extends Component {
 
     render() {
         const { hasError } = this.state;
-        const { children } = this.props;
+        const { children, message } = this.props;
         
         if(hasError) {
             return (
                 <main role="main">
-                    
+                    {message}
                 </main>
             );
         } else return children;
@@ -36,7 +36,7 @@ class ErrorBoundary extends Component {
 };
 
 const mapStateToProps = state => ({
-    
+    message: state.error.message.message
 });
 
 const mapDispatchProps = { logErrors };
