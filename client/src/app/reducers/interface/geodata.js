@@ -1,5 +1,5 @@
 import { 
-    PROPERTIES_REQUESTED, PROPERTIES_ERROR,
+    GEODATA_REQUESTED, GEODATA_ERROR,
     COUNTRIES_FETCHED, REGIONS_FETCHED, INSTITUTIONS_FETCHED, SCHOOLS_FETCHED
 } from "../../actions/types";
 
@@ -13,12 +13,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch(action.type) {
-        case PROPERTIES_REQUESTED:
+        case GEODATA_REQUESTED:
             return {
                 ...state,
                 loading: true
             };
-        case PROPERTIES_ERROR:
+        case GEODATA_ERROR:
             return {
                 ...state,
                 loading: false

@@ -19,7 +19,7 @@ import feedback from "./app/reducers/data/feedback";
 
 // Interface
 import meta from "./app/reducers/interface/meta";
-import property from "./app/reducers/interface/properties";
+import geodata from "./app/reducers/interface/geodata";
 
 // Public Form
 import form from "./public/reducers/form";
@@ -34,7 +34,7 @@ const rootReducer = combineReducers({
     // auth,
     meta,
     error,
-    property,
+    geodata,
     user,
     year,
     term,
