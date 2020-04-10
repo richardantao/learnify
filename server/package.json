@@ -1,5 +1,5 @@
 {
-  "name": "learnify-server",
+  "name": "learnify-api",
   "version": "0.1.0",
   "description": "Learnify's npm server",
   "main": "server.js",
@@ -26,8 +26,6 @@
   },
   "homepage": "https://github.com/richardantao/learnify#readme",
   "dependencies": {
-    "@google-cloud/logging-winston": "^3.0.6",
-    "@google-cloud/storage": "^4.7.0",
     "@sendgrid/mail": "^7.0.0",
     "async": "^3.2.0",
     "axios": "^0.19.2",
@@ -60,10 +58,10 @@
     "chai-http": "^4.3.0",
     "concurrently": "^5.1.0",
     "mocha": "^7.1.1",
-    "nodemon": "^2.0.2",
+    "nodemon": "^2.0.3",
     "nyc": "^15.0.1",
-    "prettier": "^2.0.2",
-    "sinon": "^9.0.1",
+    "prettier": "^2.0.4",
+    "sinon": "^9.0.2",
     "supertest": "^4.0.2"
   }
 }
