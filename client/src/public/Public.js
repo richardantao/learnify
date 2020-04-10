@@ -27,17 +27,8 @@ class Public extends Component {
     render() {
         return (
             <Switch>
-                <Route path="/blog/calling" component={Calling}/>
-                <Route path="/blog/change" component={Change}/>
-                <Route path="/blog/danger" component={Danger}/>
-                <Route path="/blog/emerging" component={Emerging}/>
-                <Route path="/blog/habits" component={Habits}/>
-                <Route path="/blog/history" component={History}/>
-                <Route path="/blog/leadership" component={Leadership}/>
-                <Route path="/blog/mission" component={Mission}/>
-                <Route path="/blog/pareto" component={Pareto}/>
-                <Route path="/blog/tips" component={Tips}/>
-                <Route path="/blog" component={Blog}/>
+                <Route exact path="/blog" component={Blog}/>
+                <Route path="/blog/:urlPath" component={Post}/>
 
                 <Route path="/docs/changelog" component={Changelog}/>
                 <Route path="/docs/cookies" component={Cookies}/>
@@ -67,61 +58,11 @@ const Blog = Loadable({
 	delay: 300
 });
 
-const Calling = Loadable({
-	loader: () => import(/* webpackChunkName: "Calling" */ "./components/blog/pages/Calling"),
+const Post = Loadable({
+	loader: () => import(/* webpackChunkName: "Post" */ "./components/blog/pages/Post"),
 	loading: Loading,
 	delay: 300
-});
-
-const Change = Loadable({
-	loader: () => import(/* webpackChunkName: "Change" */ "./components/blog/pages/Change"),
-	loading: Loading,
-	delay: 300
-});
-
-const Danger = Loadable({
-	loader: () => import(/* webpackChunkName: "Danger" */ "./components/blog/pages/Danger"),
-	loading: Loading,
-	delay: 300
-});
-
-const Emerging = Loadable({
-	loader: () => import(/* webpackChunkName: "Emerging" */ "./components/blog/pages/Emerging"),
-	loading: Loading,
-	delay: 300
-});
-
-const Habits = Loadable({
-	loader: () => import(/* webpackChunkName: "Habits" */ "./components/blog/pages/Habits"),
-	loading: Loading,
-	delay: 300
-});
-
-const History = Loadable({
-	loader: () => import(/* webpackChunkName: "History" */ "./components/blog/pages/History"),
-	loading: Loading,
-	delay: 300
-});
-const Leadership = Loadable({
-	loader: () => import(/* webpackChunkName: "Leadership" */ "./components/blog/pages/Leadership"),
-	loading: Loading,
-	delay: 300
-});
-const Mission = Loadable({
-	loader: () => import(/* webpackChunkName: "Mission" */ "./components/blog/pages/Mission"),
-	loading: Loading,
-	delay: 300
-});
-const Pareto = Loadable({
-	loader: () => import(/* webpackChunkName: "Pareto" */ "./components/blog/pages/Pareto"),
-	loading: Loading,
-	delay: 300
-});
-const Tips = Loadable({
-	loader: () => import(/* webpackChunkName: "Tips" */ "./components/blog/pages/Tips"),
-	loading: Loading,
-	delay: 300
-});
+})
 
 /* --- Docs components --- */
 const Docs = Loadable({

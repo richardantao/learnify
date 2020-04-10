@@ -23,6 +23,7 @@ import geodata from "./app/reducers/interface/geodata";
 
 // Public Form
 import form from "./public/reducers/form";
+import post from "./public/reducers/posts";
 
 const initialState = {};
 
@@ -44,7 +45,8 @@ const rootReducer = combineReducers({
     task,
     bug,
     feedback,
-    form
+    form,
+    post
 });
 
 const store = createStore(
