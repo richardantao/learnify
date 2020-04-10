@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import SideNav from "../../organisms/SideNav";
@@ -15,9 +15,7 @@ export default class Developers extends Component {
     componentDidMount() {
         const childHeight = this.mainElement.clientHeight;
 
-        this.setState({
-            childHeight
-        });
+        this.setState({ childHeight });
     };
 
     componentDidUpdate(prevProps, prevState) {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 
 import { connect } from "react-redux";
 import { postForm } from "../../../../actions/form";

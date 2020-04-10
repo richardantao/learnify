@@ -1,5 +1,5 @@
 import React from "react";
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 
 import Header from "../../../global/organisms/Header";
 import Footer from "../../../global/organisms/Footer";
