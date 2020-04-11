@@ -5,6 +5,10 @@ import { connect } from "react-redux";
 import { logErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
 
+import { Container } from "reactstrap";
+
+import "./ErrorBoundary.scss";
+
 class ErrorBoundary extends Component {
     state = {
         hasError: false
@@ -32,11 +36,11 @@ class ErrorBoundary extends Component {
                     <Helmet>
                         <meta name="" content=""/>
                         <meta name="" content=""/>
-                        <title>Learnify | 400 Bar Request Error</title>
+                        <title>Learnify | 400 Bad Request Error</title>
                     </Helmet>
-                    <main role="main">
-                        {message}
-                    </main>
+                    <Container id="error">
+                        An error occurred. Please reload the page.
+                    </Container>
                 </>
             );
         } else return children;
@@ -44,7 +48,7 @@ class ErrorBoundary extends Component {
 };
 
 const mapStateToProps = state => ({
-    message: state.error.message.message
+    error: state.error.message.message
 });
 
 const mapDispatchProps = { logErrors };
