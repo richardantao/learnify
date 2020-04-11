@@ -4,8 +4,13 @@
 #app {
     .list {
         background-color: white;
+        border-radius: 1rem;
+        margin: 0.5rem;
         width: 75%;
-        z-index: 1;
+
+        &:hover &:focus {
+            border: $border-line-pop 1px solid;
+        }
     }
     
     @media (min-width: 576px) {
