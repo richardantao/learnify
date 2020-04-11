@@ -61,13 +61,11 @@ class App extends Component {
     render () {
         return (
             <ErrorBoundary>
-                <Row id="app">
-                    { true ? // change to isauthenticated for production
-                        <>
-                            <Col xs="1" sm="1" md="1" lg="1" xl="1">
+                <Row>
+                    <Col id="app">
+                        { true ? // change to isauthenticated for production
+                            <>
                                 <AppNav/>
-                            </Col>
-                            <Col xs="11" sm="11" md="11" lg="11" xl="11">
                                 <AuthNav/>
                                 <Switch>
                                     <Route path="/beta/dashboard" component={Dashboard}/>
@@ -77,10 +75,8 @@ class App extends Component {
                                     <Route path="/beta/settings" component={Settings}/>
                                     <Route path="/beta/help" component={Help}/>
                                 </Switch>
-                            </Col>
-                        </>
-                    : 
-                        <Col>
+                            </>
+                        : 
                             <Switch>
                                 <Route path="/beta/register" component={AppRegister}/>
                                 <Route path="/beta/signin" component={AppLogin}/>
@@ -88,8 +84,8 @@ class App extends Component {
                                 <Route path="/beta/forgot-password" component={AppForgot}/>
                                 <Route path="/beta/reset-password" component={AppReset}/>
                             </Switch>
-                        </Col>  
-                    }
+                        }
+                    </Col>  
                 </Row>
             </ErrorBoundary>
         );
