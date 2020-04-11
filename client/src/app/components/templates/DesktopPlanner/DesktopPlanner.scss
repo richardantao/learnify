@@ -3,19 +3,35 @@
 
 #app {
     #planner {
-        height: 100%;
-        
         /* --- Portrait Mobile --- */
         background-color: $column-background;
-
+        clear: right;
+        height: 100%;
+        
         #tasks, #assessments {
+            border: $border-line 1px solid; // testing
+            min-height: 550px;
             width: 80%;
 
             hr {
                 width: 95%;
             }
+        }
 
-            min-height: 300px;
+        .header { // subject to change
+            margin: 1rem 0;
+        }
+
+        .body {
+            width: 100%;
+        }
+
+        .active-select { // subject to change
+            margin-top: 0.33rem;
+        }
+
+        .class-filter { // fill in
+
         }
 
         /* --- Landscape Mobile --- */
@@ -35,7 +51,49 @@
 
         /* --- Small Laptops --- */
         @media (min-width: 1200px) {
+            .header {
+                margin: 1rem 0;
+
+                > * {
+                    position: relative;
+                        left: 1rem;
+                }
+            }
+
+            .list {
+                position: relative;
+                    left: 1rem;
+            }
+
+            .active-select {
+                margin-top: 0.5rem;
+            }
+
+            .white-space {
+                min-height: 59.33%;
+            }
+
+            .title {
+                &-container {
+                    padding-left: 0.4rem;
+                }
+            }
             
+            .filter {
+                padding: 0 1.25rem 0 0.4rem;
+
+                &-container {
+                    padding-left: 0;
+                }
+            }
+
+            .toggle {
+                padding-left: 0.4rem;
+
+                &-container {
+                    padding-left: 0;
+                }
+            }
         }
 
         /* --- Large Laptops --- */
