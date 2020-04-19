@@ -3,7 +3,6 @@ const { model, Schema } = require("mongoose");
 const moment = require("moment");
 
 module.exports = model("feedback", new Schema({
-    _id: Schema.Types.ObjectId,
     user: { type: Schema.Types.ObjectId, ref: "users" },
     subject: { type: String, required: true },
     description: { type: String, required: true },

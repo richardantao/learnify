@@ -3,7 +3,6 @@ const { model, Schema } = require("mongoose");
 const moment = require("moment");
 
 module.exports = model("applicants", new Schema({
-  _id: Schema.Types.ObjectId,
   first: { type: String, required: true },
   last: { type: String, required: true },
   email: { type: String, required: true },

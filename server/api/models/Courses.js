@@ -16,7 +16,6 @@ const Assessment = require("./Assessments");
 const Task = require("./Tasks");
 
 const CourseSchema = new Schema({
-	_id: Schema.Types.ObjectId,
 	term: [ { type: Schema.Types.ObjectId, ref: "terms", required: true } ],
 	code: { type: String, required: true },
 	title: { type: String, required: true },

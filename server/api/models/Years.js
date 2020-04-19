@@ -12,7 +12,6 @@ const logger = require("../../config/logger");
 const Term = require("./Terms");
 
 const YearSchema = new Schema({
-	_id: Schema.Types.ObjectId,
 	user: { type: Schema.Types.ObjectId, ref: "users", required: true },
 	title: { type: String, required: true },
 	date: {

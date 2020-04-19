@@ -13,7 +13,6 @@ const Group = require("./Groups");
 const Course = require("./Courses");
 
 const OrganizationSchema = new Schema({
-    _id: Schema.Types.ObjectId,
     title: { type: String, required: true },
     type: { type: String, required: true },
     verified: { type: Boolean, default: false },

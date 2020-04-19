@@ -3,7 +3,6 @@ const { model, Schema } = require("mongoose");
 const moment = require("moment");
 
 module.exports = model("groups", new Schema({
-    _id: Schema.Types.ObjectId,
     organization: { type: Schema.Types.ObjectId, required: true, ref: "organizations" },
     title: { type: String, required: true },
     meta: {
