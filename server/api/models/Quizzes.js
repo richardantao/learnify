@@ -5,7 +5,8 @@ module.exports = model("quizzes", new Schema({
     questions: { 
         prompt: { type: String, required: true },
         type: { type: String, required: true },
-        answer: { type: String, required: true }
+        answer: { type: String, required: true },
+        hasPassed: { type: Boolean, default: false }
     }
 }, {
     timestamps: false,

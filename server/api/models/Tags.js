@@ -5,7 +5,7 @@ module.exports = model("tags", new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     date: { type: String, required: true },
-    isResolved: Boolean
+    isResolved: { type: Boolean, default: false }
 }, {
     timestamps: true
 }));
