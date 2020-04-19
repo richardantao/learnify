@@ -4,7 +4,7 @@ import { isMobile, isTablet } from "react-device-detect";
 
 /* Redux Operations */
 import { connect } from "react-redux";
-import { newClass, fetchClasses, editClass,  } from "../../../actions/data/classes";
+import { newClass, fetchClasses, editClass } from "../../../actions/data/classes";
 import { clearErrors } from "../../../actions/auth/errors";
 import PropTypes from "prop-types";
 

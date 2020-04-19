@@ -1,44 +1,52 @@
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import { ButtonGroup, Button } from "reactstrap";
 
-export default class Switch extends Component {
-    state = {
-        past: false
+export default ({ priRef, priTxt, secRef, secTxt, className }) => {
+    const [showDefault, toggleSwitch ] = useState(false);
+
+    const globalStateHandler = () => {
+
     };
 
-    componentDidUpdate(prevProps) {
-        const { past } = this.props;
+    return (
+        <ButtonGroup className={className}>
+            { showDefault ? 
+                <>
+                    <Button href={priRef} className="active-switch" onClick={() => toggleSwitch(true)}>
+                        {priTxt}
+                    </Button>
+                    <Button href={secRef} onClick={() => toggleSwitch(false)}>
+                        {secTxt}
+                    </Button>
+                </>
+                : 
+                <>
+                    <Button href={priRef} onClick={() => toggleSwitch(true)}>
+                        {priTxt}
+                    </Button>
+                    <Button href={secRef} className="active-switch" onClick={() => toggleSwitch(false)}>
+                        {secTxt}
+                    </Button>
+                </>
+            }
+        </ButtonGroup>
+    );
+};  
 
-        if(past !== prevProps.past) {
-            this.setState({ past });
-        };
-    };
-
-    render() {
-        const { primaryRef, primaryText, secondaryRef, secondaryText, past } = this.props;
+// export default class Switch extends Component {
+//     static propTypes = {
         
-        return (
-            <ButtonGroup>
-                { past ? 
-                    <>
-                        <Button href={primaryRef}>
-                            {primaryText}
-                        </Button>
-                        <Button href={secondaryRef} className="active-switch">
-                            {secondaryText}
-                        </Button>
-                    </>
-                    : 
-                    <>
-                        <Button href={primaryRef}  className="active-switch">
-                            {primaryText}
-                        </Button>
-                        <Button href={secondaryRef}>
-                            {secondaryText}
-                        </Button>
-                    </>
-                }
-            </ButtonGroup>
-        );
-    };
-};
+//     };
+
+//     componentDidUpdate(prevProps) {
+//         const { meta } = this.props;
+
+//         if(meta.tense !== prevProps.meta.tense) {
+            
+//         };
+//     };
+
+//     render() {
+//         return null;
+//     };
+// };

@@ -16,6 +16,8 @@ import {
 } from "reactstrap";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
+import "../Modal.scss";
+
 class TaskNew extends Component {
     state = {
         isOpen: false,
@@ -109,7 +111,7 @@ class TaskNew extends Component {
                     <Icon icon={faPlus}/> New Task
                 </Button>
 
-                <Modal isOpen={isOpen} toggle={this.toggle}>
+                <Modal isOpen={isOpen} toggle={this.toggle} className="reactor">
                     <ModalHeader toggle={this.toggle}>New Task</ModalHeader>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalBody>    

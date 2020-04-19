@@ -15,7 +15,7 @@ import Loadable from "react-loadable";
 
 class Academics extends Component {
 	state = {
-		activeTerm: null
+		
 	};
 
 	static propTypes = {
@@ -35,8 +35,8 @@ class Academics extends Component {
 	};
 
 	async componentDidMount() {
-		const { fetchYears } = this.props;
-		await fetchYears();
+		// const { fetchYears } = this.props;
+		// await fetchYears();
 	};
 
 	componentDidUpdate(prevProps) {
@@ -52,7 +52,6 @@ class Academics extends Component {
 	};
 
 	render() {
-		const { activeTerm } = this.state; // need to pull meta to templates
 		const { 
 			year: { years },
 			term: { terms },
@@ -73,33 +72,37 @@ class Academics extends Component {
 				</Helmet>
 				<Row id="academics">
 					{ isMobile ? 
-						<MobileAcademics
-							years={years}
-							terms={terms}
-							courses={courses}
-							classes={classes}
-							editYear={editYear}
-							fetchTerms={fetchTerms}
-							editTerm={editTerm}
-							fetchCourses={fetchCourses}
-							editCourse={editCourse}
-							fetchClasses={fetchClasses}
-							editClass={editClass}
-						/>
+						<>
+						</>
+						// <MobileAcademics
+						// 	years={years}
+						// 	terms={terms}
+						// 	courses={courses}
+						// 	classes={classes}
+						// 	editYear={editYear}
+						// 	fetchTerms={fetchTerms}
+						// 	editTerm={editTerm}
+						// 	fetchCourses={fetchCourses}
+						// 	editCourse={editCourse}
+						// 	fetchClasses={fetchClasses}
+						// 	editClass={editClass}
+						// />
 					: isTablet ? 
-						<TabletAcademics
-							years={years}
-							terms={terms}
-							courses={courses}
-							classes={classes}
-							editYear={editYear}
-							fetchTerms={fetchTerms}
-							editTerm={editTerm}
-							fetchCourses={fetchCourses}
-							editCourse={editCourse}
-							fetchClasses={fetchClasses}
-							editClass={editClass}
-						/>
+						<>
+						</>
+						// <TabletAcademics
+						// 	years={years}
+						// 	terms={terms}
+						// 	courses={courses}
+						// 	classes={classes}
+						// 	editYear={editYear}
+						// 	fetchTerms={fetchTerms}
+						// 	editTerm={editTerm}
+						// 	fetchCourses={fetchCourses}
+						// 	editCourse={editCourse}
+						// 	fetchClasses={fetchClasses}
+						// 	editClass={editClass}
+						// />
 					: 
 						<DesktopAcademics
 							years={years}

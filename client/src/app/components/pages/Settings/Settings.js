@@ -59,6 +59,10 @@ class Settings extends Component {
 						<MobileSettings
 							error={error}
 							form={form}
+							handleProfile={this.handleProfile}
+							handlePassword={this.handlePassword}
+							handlePreferences={this.handlePreferences}
+							handleLogout={this.handleLogout}
 							logout={logout}
 							version={version}
 							year={year}
@@ -67,6 +71,11 @@ class Settings extends Component {
 						<TabletSettings
 							error={error}
 							form={form}
+							handleProfile={this.handleProfile}
+							handlePassword={this.handlePassword}
+							handlePreferences={this.handlePreferences}
+							handleLogout={this.handleLogout}
+							logout={logout}
 							version={version}
 							year={year}	
 						/>
@@ -74,6 +83,11 @@ class Settings extends Component {
 						<DesktopSettings
 							error={error}
 							form={form}
+							handleProfile={this.handleProfile}
+							handlePassword={this.handlePassword}
+							handlePreferences={this.handlePreferences}
+							handleLogout={this.handleLogout}
+							logout={logout}
 							version={version}
 							year={year}
 						/>

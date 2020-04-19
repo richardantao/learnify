@@ -3,14 +3,20 @@ import React from "react";
 import { Button, Container, Col, Row } from "reactstrap";
 import { faFacebookSquare, faLinkedin, faInstagram, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
+import Loadable from "react-loadable";
+
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
 // Atoms
 import Header from "../../atoms/Header";
+import Loading from "../../atoms/Loading";
 import Icon from "../../atoms/Icon";
 
 import "./DesktopSettings.scss";
 
 export default ({
-    year, version
+    handleLogout, handleProfile, handlePassword, handlePreferences,
+    form, year, version
 }) => {
     return (
         <Col>
@@ -19,14 +25,27 @@ export default ({
                     <Header header="Settings"/> 
                 </Col>
                 <Col>
-                    <Button onClick={this.handleLogout}>Sign Out</Button>
+                    <Button onClick={handleLogout}>Sign Out</Button>
                 </Col>
             </Row>
+            <Tabs>
+                <TabList>
+                    <Tab>Title 1</Tab>
+                    <Tab>Title 2</Tab>
+                </TabList>
+
+                <TabPanel>
+                    <h2>Any content 1</h2>
+                    </TabPanel>
+                    <TabPanel>
+                    <h2>Any content 2</h2>
+                </TabPanel>
+            </Tabs>
             <Row>
                 <Col className="settings-nav">
-                    <Button onClick={this.handleProfile} block>Profile</Button>
-                    <Button onClick={this.handlePassword} block>Password</Button>	
-                    <Button onClick={this.handlePreferences} block>Preferences</Button>
+                    <Button onClick={handleProfile} block>Profile</Button>
+                    <Button onClick={handlePassword} block>Password</Button>	
+                    <Button onClick={handlePreferences} block>Preferences</Button>
                 </Col>
             </Row>
             <Container>

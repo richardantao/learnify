@@ -2,16 +2,11 @@ import React, { Component } from "react";
 import { Helmet } from "react-helmet";
 import { isMobile, isTablet } from "react-device-detect"; 
 
-/* Redux Operations */
 import { connect } from "react-redux";
 import { setActiveTerm } from "../../../actions/interface/meta";
 import { fetchCourses } from "../../../actions/data/courses";
-import { 
-    fetchTasks, editTask, toggleTaskCompletion, deleteTask 
-} from "../../../actions/data/tasks";
-import { 
-    fetchAssessments, editAssessment, toggleAssessmentCompletion, deleteAssessment 
-} from "../../../actions/data/assessments";
+import { fetchTasks, editTask, toggleTaskCompletion, deleteTask } from "../../../actions/data/tasks";
+import { fetchAssessments, editAssessment, toggleAssessmentCompletion, deleteAssessment } from "../../../actions/data/assessments";
 import PropTypes from "prop-types";
 
 import { Row } from "reactstrap";
@@ -70,7 +65,6 @@ class Planner extends Component {
 
         if(activeTerm !== prevProps.meta.activeTerm) {
             this.setState({ activeTerm });
-
             
             fetchCourses(activeTerm._id);
             fetchTasks("terms", activeTerm._id, "");
@@ -108,8 +102,9 @@ class Planner extends Component {
     };
 
     render() {
-        const { activeTerm, filter, past } = this.state;
+        const { filter, past, message } = this.state;
         const { 
+            meta: { activeTerm },
             term: { terms },
             course: { courses },
             task: { tasks },
@@ -128,9 +123,11 @@ class Planner extends Component {
                 <Row id="planner">
                     { isMobile ? 
                         <MobilePlanner
-                            past={past}
                             filter={filter}
-                            handleFilter={this.handleFilter}
+                            past={past}
+                            handleFilter={this.handleFilter}    
+                            error={message}
+                            activeTerm={activeTerm}
                             terms={terms}
                             courses={courses}
                             tasks={tasks}
@@ -144,9 +141,11 @@ class Planner extends Component {
                         />
                     : isTablet ? 
                         <TabletPlanner
-                            past={past}
                             filter={filter}
-                            handleFilter={this.handleFilter}
+                            past={past}
+                            handleFilter={this.handleFilter}    
+                            error={message}
+                            activeTerm={activeTerm}
                             terms={terms}
                             courses={courses}
                             tasks={tasks}
@@ -158,10 +157,13 @@ class Planner extends Component {
                             toggleAssessmentCompletion={toggleAssessmentCompletion}
                             deleteAssessment={deleteAssessment}
                         />
-                    :   <DesktopPlanner
-                            past={past}
+                    :
+                        <DesktopPlanner
                             filter={filter}
+                            past={past}
                             handleFilter={this.handleFilter}    
+                            error={message}
+                            activeTerm={activeTerm}
                             terms={terms}
                             courses={courses}
                             tasks={tasks}

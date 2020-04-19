@@ -23,7 +23,6 @@ class Profile extends Component {
     };
 
     static propTypes = {
-        // isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         user: PropTypes.object.isRequired,
         editProfile: PropTypes.func.isRequired,
@@ -205,13 +204,12 @@ class Profile extends Component {
 };
 
 const mapStateToProps = state => ({
-    // isAuthenticated: state.auth.isAuthenticated,
     error: state.error,
     user: state.user,
-    countries: state.property.countries,
-    regions: state.property.regions,
-    institutions: state.property.institutions,
-    schools: state.property.schools
+    countries: state.geodata.countries,
+    regions: state.geodata.regions,
+    institutions: state.geodata.institutions,
+    schools: state.geodata.schools
 });
 
 const mapDispatchToProps = { editProfile, updateProfile, clearErrors };
